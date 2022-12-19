@@ -1,3 +1,31 @@
+/*! @import */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .tw-btn-primary {
+        @apply tw-py-2 tw-px-4 tw-bg-slate-200 tw-text-black tw-font-semibold tw-rounded-lg tw-shadow-dark hover:tw-text-white hover:tw-bg-slate-700 tw-border-2 tw-border-black focus:tw-outline-none active:tw-shadow-none;
+    }
+
+
+    .tw-btn-primary-outline {
+        @apply tw-py-2 tw-px-4 tw-bg-slate-200 tw-text-black tw-font-semibold tw-rounded-lg hover:tw-text-white hover:tw-bg-slate-700 tw-border-2 tw-border-black focus:tw-outline-none;
+    }
+
+    .tw-btn-primary-fill {
+        @apply tw-py-2 tw-px-4 tw-bg-slate-700 tw-text-white tw-font-semibold tw-rounded-lg hover:tw-text-black hover:tw-bg-slate-200 tw-border-2 tw-border-black focus:tw-outline-none;
+    }
+
+    .tw-btn-primary-flat {
+        @apply tw-py-2 tw-px-4 tw-bg-slate-200 tw-text-black tw-font-semibold tw-rounded-lg hover:tw-text-white hover:tw-bg-slate-700 focus:tw-outline-none;
+    }
+}
+
+@layer utilities {
+    
+}
+
 html {
   font-size: 14px;
 }
@@ -13,6 +41,42 @@ html {
   min-height: 100%;
 }
 
+a,p {
+  color: black;
+}
+
+button.active, a.active {
+    background-color: black;
+    color: white !important;
+}
+
 body {
   margin-bottom: 60px;
+  font-weight: 600;
+}
+
+.hover-underline-animation {
+  display: inline-block;
+  position: relative;
+}
+
+.hover-underline-animation:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: black;
+  transform-origin: center;
+  transition: transform 0.25s ease-out;
+}
+
+.hover-underline-animation:hover:after {
+  transform: scaleX(1);
+}
+
+.hover-underline-animation.active:after {
+  transform: scaleX(1);
 }

@@ -1,0 +1,28 @@
+{
+  "name": "spoonful",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "cross-env NODE_ENV=development ./node_modules/tailwindcss/lib/cli.js -i ./wwwroot/css/site.css -o ./wwwroot/css/output.css",
+    "watch": "cross-env NODE_ENV=development ./node_modules/tailwindcss/lib/cli.js -i ./wwwroot/css/site.css -o ./wwwroot/css/output.css --watch",
+    "release": "cross-env NODE_ENV=production ./node_modules/tailwindcss/lib/cli.js -i ./wwwroot/css/site.css -o ./wwwroot/css/output.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PMerilo/Spoonful.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PMerilo/Spoonful/issues"
+  },
+  "homepage": "https://github.com/PMerilo/Spoonful#readme",
+  "devDependencies": {
+    "autoprefixer": "^10.4.13",
+    "cross-env": "^7.0.3",
+    "postcss": "^8.4.20",
+    "tailwindcss": "^3.2.4"
+  }
+}
