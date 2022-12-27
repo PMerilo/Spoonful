@@ -67,6 +67,8 @@
             <span class="text-danger" asp-validation-for="RModel.ConfirmPassword"></span>
         </div>
 
+        <span class="text-danger">@Html.ValidationSummary(true)</span>
+
         <!-- Checkbox -->
         <div class="form-check d-flex justify-content-start mb-4">
             <input class="form-check-input me-2" type="checkbox" value="" id="registerCheck" checked
