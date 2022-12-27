@@ -1,7 +1,17 @@
+using Microsoft.AspNetCore.Identity;
+using Spoonful.Models;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddDbContext<AuthDbContext>();
+builder.Services.AddIdentity<CustomerUser, IdentityRole>().AddEntityFrameworkStores<AuthDbContext>();
+builder.Services.ConfigureApplicationCookie(config =>
+{
+    config.LoginPath = "/User/Login";
+});
 
 var app = builder.Build();
 
@@ -17,6 +27,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

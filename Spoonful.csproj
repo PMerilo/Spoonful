@@ -23,4 +23,20 @@
 		<Exec Command="npm run build" Condition=" '$(Configuration)' == 'Debug' " />
 		<Exec Command="npm run release" Condition=" '$(Configuration)' == 'Release' " />
 	</Target>
+
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.12" />
+	  <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.12" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.1" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.1" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.1">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+	  <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.11" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Services\" />
+	</ItemGroup>
 </Project>
