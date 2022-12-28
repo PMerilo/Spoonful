@@ -1,0 +1,276 @@
+﻿/* Fonts */
+:root {
+    --font-default: "Open Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-primary: "Amatic SC", sans-serif;
+    --font-secondary: "Inter", sans-serif;
+}
+
+/* Colors */
+:root {
+    --color-default: #212529;
+    --color-primary: #ce1212;
+    --color-secondary: #37373f;
+}
+
+/* Smooth scroll behavior */
+:root {
+    scroll-behavior: smooth;
+}
+
+/*--------------------------------------------------------------
+# Hero Section
+--------------------------------------------------------------*/
+.hero {
+    width: 100%;
+    background-size: cover;
+    position: relative;
+    min-height: 60vh;
+    padding: 160px 0 60px 0;
+}
+
+    .hero h2 {
+        font-size: 64px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        color: var(--color-secondary);
+        font-family: var(--font-primary);
+    }
+
+        .hero h2 span {
+            color: var(--color-primary);
+        }
+
+    .hero p {
+        color: #4f4f5a;
+        font-weight: 400;
+        margin-bottom: 30px;
+    }
+
+    .hero .btn-book-a-table {
+        font-weight: 500;
+        font-size: 14px;
+        letter-spacing: 1px;
+        display: inline-block;
+        padding: 12px 36px;
+        border-radius: 50px;
+        transition: 0.5s;
+        color: #fff;
+        background: var(--color-primary);
+        box-shadow: 0 8px 28px rgba(206, 18, 18, 0.2);
+    }
+
+        .hero .btn-book-a-table:hover {
+            background: rgba(206, 18, 18, 0.8);
+            box-shadow: 0 8px 28px rgba(206, 18, 18, 0.45);
+        }
+
+    .hero .btn-watch-video {
+        font-size: 16px;
+        transition: 0.5s;
+        margin-left: 25px;
+        color: var(--font-secondary);
+        font-weight: 600;
+    }
+
+        .hero .btn-watch-video i {
+            color: var(--color-primary);
+            font-size: 32px;
+            transition: 0.3s;
+            line-height: 0;
+            margin-right: 8px;
+        }
+
+        .hero .btn-watch-video:hover {
+            color: var(--color-primary);
+        }
+
+            .hero .btn-watch-video:hover i {
+                color: rgba(206, 18, 18, 0.8);
+            }
+
+@media (max-width: 640px) {
+    .hero h2 {
+        font-size: 36px;
+    }
+
+    .hero .btn-get-started,
+    .hero .btn-watch-video {
+        font-size: 14px;
+    }
+}
+
+
+/*--------------------------------------------------------------
+# About Section
+--------------------------------------------------------------*/
+.about .about-img {
+    min-height: 500px;
+}
+
+.about h3 {
+    font-weight: 700;
+    font-size: 36px;
+    margin-bottom: 30px;
+    font-family: var(--font-secondary);
+}
+
+.about .call-us {
+    left: 10%;
+    right: 10%;
+    bottom: 10%;
+    background-color: #fff;
+    box-shadow: 0px 2px 25px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+    text-align: center;
+}
+
+    .about .call-us h4 {
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 5px;
+        font-family: var(--font-default);
+    }
+
+    .about .call-us p {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--color-primary);
+    }
+
+.about .content ul {
+    list-style: none;
+    padding: 0;
+}
+
+    .about .content ul li {
+        padding: 0 0 8px 26px;
+        position: relative;
+    }
+
+    .about .content ul i {
+        position: absolute;
+        font-size: 20px;
+        left: 0;
+        top: -3px;
+        color: var(--color-primary);
+    }
+
+.about .content p:last-child {
+    margin-bottom: 0;
+}
+
+.about .play-btn {
+    width: 94px;
+    height: 94px;
+    background: radial-gradient(var(--color-primary) 50%, rgba(206, 18, 18, 0.4) 52%);
+    border-radius: 50%;
+    display: block;
+    position: absolute;
+    left: calc(50% - 47px);
+    top: calc(50% - 47px);
+    overflow: hidden;
+}
+
+/*--------------------------------------------------------------
+# Menu Section
+--------------------------------------------------------------*/
+.menu .nav-tabs {
+    border: 0;
+}
+
+.menu .nav-link {
+    margin: 0 10px;
+    padding: 10px 5px;
+    transition: 0.3s;
+    color: var(--color-secondary);
+    border-radius: 0;
+    cursor: pointer;
+    height: 100%;
+    border: 0;
+    border-bottom: 2px solid #b6b6bf;
+}
+
+@media (max-width: 575px) {
+    .menu .nav-link {
+        margin: 0 10px;
+        padding: 10px 0;
+    }
+}
+
+.menu .nav-link i {
+    padding-right: 15px;
+    font-size: 48px;
+}
+
+.menu .nav-link h4 {
+    font-size: 18px;
+    font-weight: 400;
+    margin: 0;
+    font-family: var(--font-secondary);
+}
+
+@media (max-width: 575px) {
+    .menu .nav-link h4 {
+        font-size: 16px;
+    }
+}
+
+.menu .nav-link:hover {
+    color: var(--color-primary);
+}
+
+.menu .nav-link.active {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.menu .tab-content .tab-header {
+    padding: 30px 0;
+}
+
+    .menu .tab-content .tab-header p {
+        font-size: 14px;
+        text-transform: uppercase;
+        color: #676775;
+        margin-bottom: 0;
+    }
+
+    .menu .tab-content .tab-header h3 {
+        font-size: 36px;
+        font-weight: 600;
+        color: var(--color-primary);
+    }
+
+.menu .tab-content .menu-item {
+    -moz-text-align-last: center;
+    text-align-last: center;
+}
+
+    .menu .tab-content .menu-item .menu-img {
+        padding: 0 60px;
+        margin-bottom: 15px;
+    }
+
+    .menu .tab-content .menu-item h4 {
+        font-size: 22px;
+        font-weight: 500;
+        color: var(--color-secondary);
+        font-family: var(--font-secondary);
+        font-weight: 30px;
+        margin-bottom: 5px;
+    }
+
+    .menu .tab-content .menu-item .ingredients {
+        font-family: var(--font-secondary);
+        color: #8d8d9b;
+        margin-bottom: 5px;
+    }
+
+    .menu .tab-content .menu-item .price {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--color-primary);
+    }
+
+
+
