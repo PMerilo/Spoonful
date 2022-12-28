@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using Spoonful.Models
+@inject SignInManager<CustomerUser> SignInManager
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -33,7 +37,8 @@
                                 {
                             new string[] {"Our Plans", "/Index"},
                             new string[] {"How it works", "/Privacy"},
-                            new string[] {"Menus", "0"}
+                            new string[] {"Menus", "0"},
+                            new string[] {"Menu2", "1"}
                                                                                         };
 
                                 string[,,] dropdownLinks = new string[,,]
@@ -41,6 +46,10 @@
                                     {
                                         {"Recipes", "/Privacy"},
                                         {"Menu 2", "/Privacy"}
+                                    },
+                                    {
+                                        {"Recipes", "/Privacy"},
+                                        {"Menu 3", "/Privacy"}
                                     }
                                 };
                                 for (int i = 0; i < navLinks.Length; i++)
@@ -75,8 +84,17 @@
                         </ul>
                     </div>
                 </div>
-                <a class="tw-btn-primary" asp-page="/user/login">Login</a>
-                <button class="tw-btn-primary">Get your first meal!</button>
+                @{
+                    if (SignInManager.IsSignedIn(User))
+                    {
+                        <a class="tw-btn-primary" asp-page="/user/Logout">Logout</a>
+                    } else
+                    {
+                        <a class="tw-btn-primary" asp-page="/user/Login">Login</a>
+                        <button class="tw-btn-primary">Get your first meal!</button>
+                    }
+                }
+                
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
                         data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                     <span class="navbar-toggler-icon">
