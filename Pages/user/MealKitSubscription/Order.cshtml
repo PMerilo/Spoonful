@@ -13,12 +13,71 @@
 		<div class="container margin_60_20">
 		    <div class="row justify-content-center">
 		        <div class="col-xl-6 col-lg-8">
+				<div class="box_order_form">
+					<div class="head">
+						<div class="title">
+							<h3>Personalise your Plan</h3>
+						</div>
+					</div>
+
+					<!-- /head -->
+					<div class="main">
+						<div class="form-group">
+							<label>Menu Preferences</label>
+							<select class="form-control" id="mealPreferences" name="mealPreferences">
+								<option value="Meat&Veggie">Meat & Veggies</option>
+								<option value="Vegetarian">Vegetarian</option>
+								<option value="Quick&Easy">Quick and Easy</option>
+							</select>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Number of Recipes Per Week</label>
+									<select class="form-control" id="numberOfRecipes" name="numberOfRecipes">
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+										<option value="6">6</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Number of People Per Week</label>
+									<select class="form-control" id="numberOfPeople" name="numberOfPeople">
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+										<option value="6">6</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Number of Servings Per Person</label>
+									<select class="form-control" id="numberOfServings" name="numberOfServings">
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						
+					</div>
+				</div>
 		        	<div class="box_order_form">
 					    <div class="head">
 					        <div class="title">
 					            <h3>Personal Details</h3>
 					        </div>
 					    </div>
+
 					    <!-- /head -->
 					    <div class="main">
 					        <div class="form-group">
@@ -68,13 +127,7 @@
 					    </div>
 					    <!-- /head -->
 					    <div class="main">
-					        <div class="payment_select">
-					            <label class="container_radio">Credit Card
-					                <input type="radio" value="" checked name="payment_method">
-					                <span class="checkmark"></span>
-					            </label>
-					            <i class="icon_creditcard"></i>
-					        </div>
+					        
 					        <div class="form-group">
 					            <label>Name on card</label>
 					            <input type="text" class="form-control" id="name_card_order" name="name_card_order" placeholder="First and last name">
@@ -116,19 +169,7 @@
 					            </div>
 					        </div>
 					        <!--End row -->
-					        <div class="payment_select" id="paypal">
-					            <label class="container_radio">Pay with Paypal
-					                <input type="radio" value="" name="payment_method">
-					                <span class="checkmark"></span>
-					            </label>
-					        </div>
-					        <div class="payment_select">
-					            <label class="container_radio">Pay with Cash
-					                <input type="radio" value="" name="payment_method">
-					                <span class="checkmark"></span>
-					            </label>
-					            <i class="icon_wallet"></i>
-					        </div>
+					        
 					    </div>
 					</div>
 					<!-- /box_order_form -->
@@ -138,30 +179,27 @@
 		            <div class="box_order">
 		                <div class="head">
 		                    <h3>Order Summary</h3>
-		                    <div>Pizzeria da Alfredo</div>
+		                  
 		                </div>
 		                <!-- /head -->
 		                <div class="main">
 		                	<ul>
-		                		<li>Date<span>Today 23/11/2019</span></li>
-		                		<li>Hour<span>08.30pm</span></li>
-		                		<li>Type<span>Delivery</span></li>
+		                		<li>Meat & Veggies Plan</li>
+		                		<li>3 Recipes Per Week</li>
+		                		<li>2 People</li>
+								<li>3 Servings Per Person</li>
+								<li>18 Total Servings</li>
 		                	</ul>
 		                	<hr>
-		                	<ul class="clearfix">
-		                		<li><a href="#0">1x Enchiladas</a><span>$11</span></li>
-		                		<li><a href="#0">2x Burrito</a><span>$14</span></li>
-		                		<li><a href="#0">1x Chicken</a><span>$18</span></li>
-		                		<li><a href="#0">2x Corona Beer</a><span>$9</span></li>
-		                		<li><a href="#0">2x Cheese Cake</a><span>$11</span></li>
-		                	</ul>
+		                	
 		                	
 		                	<ul class="clearfix">
-		                		<li>Subtotal<span>$56</span></li>
+		                		<li>Subtotal<span>$90</span></li>
 		                		<li>Delivery fee<span>$10</span></li>
-		                		<li class="total">Total<span>$66</span></li>
+								<li>Price Per Serving<span>$5</span></li>
+		                		<li class="total">Total<span>$100</span></li>
 		                	</ul>
-		                    <a href="confirm.html" class="btn_1 gradient full-width mb_5">Order Now</a>
+		                    <a href="confirm.html" class="btn btn-success" style="width:100%">Order Now</a>
 		                    <div class="text-center"><small>Or Call Us at <strong>0432 48432854</strong></small></div>
 		                </div>
 		            </div>
