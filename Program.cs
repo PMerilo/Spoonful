@@ -1,12 +1,17 @@
 using Microsoft.AspNetCore.Identity;
 using Spoonful.Models;
 using Microsoft.EntityFrameworkCore;
+using Spoonful.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<AuthDbContext>();
+
+//Services
+builder.Services.AddScoped<CategoryService>();
+
 builder.Services.AddIdentity<CustomerUser, IdentityRole>().AddEntityFrameworkStores<AuthDbContext>();
 builder.Services.ConfigureApplicationCookie(config =>
 {

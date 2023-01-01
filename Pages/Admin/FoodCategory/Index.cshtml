@@ -1,0 +1,117 @@
+﻿@page
+@model Spoonful.Pages.Admin.FoodCategory.IndexModel
+@{
+}
+<div class="container p-3">
+	<div class="row pt-4">
+		<div class="col-6">
+			<h2 class="text-primary display-3">Category List</h2>
+
+		</div>
+		<div class="col-6 text-end">
+            
+			<a asp-page="/Admin/FoodCategory/AddCategory" class="btn btn-primary">
+				<i class="bi bi-plus-square"></i>
+				&nbsp;
+				Create New Category
+			</a>
+		</div>
+	</div>
+	<br /><br />
+	<table class="table table-bordered table-striped" style="width:100%">
+		<thead>
+			<tr>
+				<th>
+					Category Name
+				</th>
+				
+				
+			</tr>
+		</thead>
+		<tbody>
+			@foreach(var obj in Model.Categories)
+			{
+				<tr>
+					<td width="50%">@obj.name</td>
+					
+					<td width="50%">
+						<div class="w-75 btn-group" role="group">
+						<a asp-page="/Admin/FoodCategory/UpdateCategory" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
+							<i class="bi bi-pencil-square"></i>
+						</a>
+						
+					
+						<a asp-page="Delete" asp-route-id="@obj.Id" class="btn btn-danger mx-2">
+							<i class="bi bi-trash-fill"></i>
+						</a>
+						</div>
+					</td>
+				</tr>
+			}
+			
+		</tbody>
+	</table>
+</div>
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+    <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+        For more information about DataTables, please visit the <a target="_blank"
+            href="https://datatables.net">official DataTables documentation</a>.</p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="admin-table" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Category Name</th>
+                                            
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>ID/th>
+                            <th>Category Name</th>
+                                            
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        <tr>
+                            <td>Tiger Nixon</td>
+                            <td>System Architect</td>
+                        </tr>
+                                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+
+<script>
+  window.addEventListener('DOMContentLoaded', event => {
+                      
+    const customersTable = document.getElementById('customers-table');
+    if (customersTable) {
+        new simpleDatatables.DataTable(customersTable);
+    }
+
+    const adminTable = document.getElementById('admin-table');
+    if (adminTable) {
+        new simpleDatatables.DataTable(adminTable);
+    }
+
+
+  });
+</script>

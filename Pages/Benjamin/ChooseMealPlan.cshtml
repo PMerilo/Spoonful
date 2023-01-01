@@ -1,0 +1,381 @@
+﻿@page
+@model Spoonful.Pages.Benjamin.ChooseMealPlanModel
+@{
+}
+<style>
+    #mealform{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background: rgb(255 255 255);
+        
+    }
+
+
+    .form-title {
+        color: #00c5b2;
+        font-size: 22px;
+        font-weight: 500;
+        text-transform: uppercase;
+        text-align: center;
+        margin: 15px 0px 30px 0px;
+    }
+
+    .form-title-sc {
+        color: #2c3638;
+        font-size: 18px;
+        font-weight: 500;
+        text-transform: uppercase;
+        text-align: center;
+        margin: 15px 0px 30px 0px;
+    }
+
+    .form {
+        position: relative;
+        width: 100%;
+        max-width: 550px;
+        padding: 15px 30px;
+        background: white;
+        box-shadow: 0px 0px 3px rgb(208 208 208 / 30%);
+        border-radius: 4px;
+    }
+
+    .form-controll {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+        .form-controll:not(:last-of-type) {
+            margin-bottom: 33px;
+        }
+
+    .form-input {
+        position: relative;
+        width: 100%;
+    }
+
+        .form-input input,
+        .form-input textarea {
+            position: relative;
+            width: 100%;
+            padding: 8px 0px;
+            outline: 1px solid transparent;
+            border: 1px solid transparent;
+            border-bottom: 1px solid #c2c2c2;
+            background: transparent !important;
+            z-index: 9;
+            color: #2c3638;
+        }
+
+    
+
+    textarea {
+        resize: none;
+        min-height: 50px;
+    }
+
+    input:focus {
+        border-bottom: 1px solid #00c5b2;
+    }
+
+
+
+    .form-submit {
+        position: relative;
+        width: 100%;
+        margin: 14px 0px;
+    }
+
+        .form-submit .form-btn {
+            width: 100%;
+            padding: 8px;
+            background: #00c5b191;
+            font-weight: 500;
+            font-size: 14px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid transparent;
+            text-transform: uppercase;
+            transition: all 0.2s ease;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0.5px;
+            color: #FFF;
+            cursor: pointer;
+        }
+
+            .form-submit .form-btn:hover {
+                background: #00c5b2;
+                transition: all 0.2s ease-out;
+            }
+
+    .grid-2 {
+        position: relative;
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 30px;
+    }
+
+    
+
+    /*Steps*/
+
+    .step-tab-items {
+        position: relative;
+        display: flex;
+        align-items: center;
+        margin-bottom: 25px;
+        justify-content: center;
+    }
+
+        .step-tab-items .step-item {
+            position: relative;
+            list-style: none;
+            width: 85px;
+            height: 85px;
+            background: #e2e2e2;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFF;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+            .step-tab-items .step-item.active {
+                background: #00c5b2;
+            }
+
+
+            .step-tab-items .step-item:not(:last-child) {
+                margin-right: 45px;
+            }
+
+            .step-tab-items .step-item:not(:last-of-type)::before {
+                position: absolute;
+                content: "";
+                width: 100%;
+                height: 2px;
+                background: rgb(241, 239, 239);
+                left: calc(100%);
+            }
+
+            .step-tab-items .step-item.active::before {
+                background: #00c5b2;
+            }
+
+    .step-tabs .step-tab {
+        display: none;
+    }
+
+        .step-tabs .step-tab.active {
+            display: block;
+        }
+</style>
+
+<div id="mealform">
+
+ <form action="#" method="POST" class="form">
+        <h3 class="form-title">Personalise your plan</h3>
+        <div class="steps">
+            <ul class="step-tab-items">
+                <li class="step-item active">Select Plan</li>
+                <li class="step-item">Address</li>
+                <li class="step-item">Checkout</li>
+            </ul>
+            <div class="step-tabs">
+                <div class="step-tab active" id="step-01">
+                    <h4 class="form-title-sc">Select Your Meal Preferences</h4>
+
+                    <div class="form-controll">
+                        <div class="form-input">
+                            <label for="mealPreferences">Menu Preferences</label>
+                            <br/>
+                            <select class="form-control" id="mealPreferences" name="mealPreferences">
+                                <option value="Meat&Veggie">Meat & Veggies</option>
+                                <option value="Vegetarian">Vegetarian</option>
+                                <option value="Quick&Easy">Quick and Easy</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-controll">
+                        <div class="form-input">
+                            <label for="numberOfPeople">Number Of People Per week</label>
+                            <select class="form-control" id="numberOfPeople" name="numberOfPeople">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                            </select>
+                            
+                           
+
+                        </div>
+                    </div>
+
+                    <div class="form-controll">
+                        <div class="form-input">
+                            <label for="password">Number Of Recipes Per Week</label>
+                            <select class="form-control" id="mealPreferences" name="mealPreferences">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                            </select>
+                            
+
+                        </div>
+                    </div>
+            
+                    <div class="form-submit">
+                        <button class="form-btn" type="button" tab-target="step-02">Next</button>
+                    </div>
+                </div>
+                <div class="step-tab" id="step-02">
+                    <h4 class="form-title-sc">Shipping Info</h4>
+
+                   
+                    <div class="grid-2">
+                        <div class="form-controll">
+                            <div class="form-input">
+                                <label for="first_name">First Name</label>
+                                <input type="text" name="first_name" id="first_name" required>
+                                
+                            </div>
+                        </div>
+                        <div class="form-controll">
+                            <div class="form-input">
+                                <label for="last_name">Last Name</label>
+                                <input type="text" name="last_name" id="last_name" required>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-controll">
+                        <div class="form-input">
+                            <label for="address">Address</label>
+                            <input type="text" name="address" id="address" required>
+                            
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-controll">
+                            <div class="form-input">
+                                <label for="phone">Phone Number</label>
+                                <input type="text" name="phone" id="phone" required>
+
+                            </div>
+                        </div>
+                        <div class="form-controll">
+                            <div class="form-input">
+                                <label for="zipcode">Zip Code</label>
+                                <input type="text" name="zipcode" id="zipcode" required max="7" min="7"> 
+
+                            </div>
+                        </div>
+                    </div>
+                    
+            
+                    <div class="form-submit grid-2">
+                        <button type="button" class="form-btn" tab-target="step-01">Previous</button>
+                        <button type="button" class="form-btn" tab-target="step-03">Next</button>
+                    </div>
+                </div>
+                <div class="step-tab" id="step-03">
+                    <h4 class="form-title-sc">Professional Info</h4>
+                    
+                    <div class="form-controll">
+                        <div class="form-input">
+                            <input type="text" name="company" id="company" required>
+                            <label for="company">Current Company</label>
+                        </div>
+                    </div>
+
+                    <div class="form-controll">
+                        <div class="form-input">
+                            <input type="text" name="experience" id="experience" required>
+                            <label for="experience">Total Experience</label>
+                        </div>
+                    </div>
+
+
+                    <div class="form-controll">
+                        <div class="form-input">
+                            <input type="text" name="designation" id="designation" required>
+                            <label for="designation">Designation</label>
+                        </div>
+                    </div>
+
+
+                    <div class="form-submit grid-2">
+                        <button type="button" class="form-btn" tab-target="step-02">Previous</button>
+                        <button type="submit" class="form-btn">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+
+<script>
+    // for password hide and show option
+
+    let allShowHidePassword = document.querySelectorAll('.password-showHide')
+
+    allShowHidePassword.forEach(item => {
+        item.addEventListener('click', () => {
+            item.classList.toggle('hide')
+            if (item.closest('.form-input').querySelector('input').type === 'password') {
+                item.closest('.form-input').querySelector('input').type = 'text'
+            } else {
+                item.closest('.form-input').querySelector('input').type = 'password'
+            }
+        })
+    })
+
+
+    // for form steps
+    const allStepBtn = document.querySelectorAll('[tab-target]')
+    const allStepItem = document.querySelectorAll('.step-item')
+    const allTabs = document.querySelectorAll('.step-tab')
+    allStepBtn.forEach(item => {
+        item.addEventListener('click', () => {
+            let currentTabId = item.getAttribute('tab-target')
+            let currentTab = document.getElementById(`${currentTabId}`)
+
+            allStepItem.forEach(item => {
+                item.classList.remove('active')
+            })
+
+            allTabs.forEach((tab, i) => {
+                if (tab.id === currentTab.id) {
+                    for (let l = 0; i >= 0; i--) {
+                        allStepItem[i].classList.add('active')
+                    }
+
+                }
+            })
+
+            allTabs.forEach(item => {
+                item.classList.remove('active')
+            })
+
+            currentTab.classList.add('active')
+            item.classList.add('active')
+        })
+    })
+</script>
