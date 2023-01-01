@@ -17,6 +17,17 @@ builder.Services.ConfigureApplicationCookie(config =>
 {
     config.LoginPath = "/User/Login";
 });
+builder.Services.AddAuthentication("MyCookieAuth").AddCookie("MyCookieAuth", options =>
+{
+    options.Cookie.Name = "MyCookieAuth";
+});
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); // TODO: CHECK IF REQUIRED
+builder.Services.AddDistributedMemoryCache(); 
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromSeconds(30);
+});
 
 var app = builder.Build();
 
@@ -36,6 +47,10 @@ app.UseRouting();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseSession();
+
+app.UseStatusCodePagesWithReExecute("/Error");
 
 app.MapRazorPages();
 
