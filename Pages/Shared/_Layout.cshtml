@@ -53,26 +53,26 @@
                                 {
                                     if (!Int32.TryParse(navLinks[i][1], out int Indexvalue))
                                     {
-                                                    <li class="nav-item tw-px-2">
-                                                        <a class="nav-link hover-underline-animation tw-text-black" asp-page="@navLinks[i][1]">@navLinks[i][0]</a>
-                                                    </li>
+                                        <li class="nav-item tw-px-2">
+                                            <a class="nav-link hover-underline-animation tw-text-black" asp-page="@navLinks[i][1]">@navLinks[i][0]</a>
+                                        </li>
                                     }
                                     else
                                     {
-                                                    <li class="nav-item tw-px-2 dropdown">
-                                                        <a class="nav-link hover-underline-animation tw-text-black" href="#" id="@navLinks[i][0]Dropdown" role="button"
-                                                   data-bs-toggle="dropdown" aria-expanded="false">
-                                                            @navLinks[i][0]
-                                                        </a>
-                                                        <ul class="dropdown-menu" aria-labelledby="@navLinks[i][0]Dropdown">
-                                                            @{
-                                                    for (int k = 0; k < dropdownLinks.GetLength(1); k++)
-                                                    {
-                                                                                <li><a class="dropdown-item tw-text-black" asp-page="@dropdownLinks[Int32.Parse(navLinks[i][1]), k, 1]">@dropdownLinks[Int32.Parse(navLinks[i][1]), k, 0]</a></li>
-                                                    }
-                                                            }
-                                                        </ul>
-                                                    </li>
+                                        <li class="nav-item tw-px-2 dropdown">
+                                            <a class="nav-link hover-underline-animation tw-text-black" href="#" id="@navLinks[i][0]Dropdown" role="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                                @navLinks[i][0]
+                                            </a>
+                                            <ul class="dropdown-menu" aria-labelledby="@navLinks[i][0]Dropdown">
+                                                @{
+                                        for (int k = 0; k < dropdownLinks.GetLength(1); k++)
+                                        {
+                                            <li><a class="dropdown-item tw-text-black" asp-page="@dropdownLinks[Int32.Parse(navLinks[i][1]), k, 1]">@dropdownLinks[Int32.Parse(navLinks[i][1]), k, 0]</a></li>
+                                        }
+                                                }
+                                            </ul>
+                                        </li>
                                     }
 
                                 }
@@ -122,6 +122,8 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

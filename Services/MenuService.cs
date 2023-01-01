@@ -4,6 +4,12 @@ namespace Spoonful.Services
 {
 	public class MenuService
 	{
+		private readonly AuthDbContext _authDbContext;
+
+		public MenuService(AuthDbContext authDbContext)
+		{
+			_authDbContext = authDbContext;
+		}
 	}
 
 	public class CategoryService
@@ -22,11 +28,17 @@ namespace Spoonful.Services
 
 		public Category? GetCategoryByName(string name)
 		{
-            Category? category = _context.Category.FirstOrDefault(x => x.name.Equals(name));
-            return category;
+			Category? category = _context.Category.FirstOrDefault(x => x.name.Equals(name));
+			return category;
 		}
 
-		public void AddCategory(Category category)
+        public Category? GetCategoryById(int id)
+        {
+            Category? category = _context.Category.FirstOrDefault(x => x.Id.Equals(id));
+            return category;
+        }
+
+        public void AddCategory(Category category)
 		{
 			_context.Category.Add(category);
 			_context.SaveChanges();
