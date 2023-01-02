@@ -43,25 +43,32 @@
 		<tbody>
 			@foreach(var obj in Model.MenuItems)
 			{
+			<form method="post">
 			<tr>
+				<td>@obj.ImageURL</td>
 				<td>@obj.Id</td>
 				<td>@obj.Category</td>
 				<td>@obj.Name</td>
 				<td>@obj.Description</td>
 				<td>@obj.Tags</td>
 				<td width="50%">
-						<div class="w-75 btn-group" role="group">
-						<a asp-page="/Admin/MealManagement/UpdateMeal" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
-							<i class="bi bi-pencil-square"></i>
-						</a>
-						
-					
-						<a asp-page="Delete" asp-route-id="@obj.Id" class="btn btn-danger mx-2">
-							<i class="bi bi-trash-fill"></i>
-						</a>
-						</div>
-					</td>
+					<div class="w-75 btn-group" role="group">
+					<a asp-page="/Admin/MealManagement/UpdateMeal" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
+						<i class="bi bi-pencil-square"></i>
+					</a>
+					<input asp-for="MyMenuItem.Id" class="form-control" hidden value="@obj.Id">
+					<input asp-for="MyMenuItem.Category" class="form-control" hidden value="@obj.Category">
+					<input asp-for="MyMenuItem.Name" class="form-control" hidden value="@obj.Name">
+					<input asp-for="MyMenuItem.Description" class="form-control" hidden value="@obj.Description">
+					<input asp-for="MyMenuItem.Tags" class="form-control" hidden value="@obj.Tags">
+
+					<button class="btn btn-danger mx-2" type="submit">
+						<i class="bi bi-trash-fill"></i>
+					</button>
+					</div>
+				</td>
 			</tr>
+			</form>
 			}
 		</tbody>
 

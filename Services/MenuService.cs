@@ -38,6 +38,12 @@ namespace Spoonful.Services
 			_context.Update(menuItem);
 			_context.SaveChanges();
 		}
+
+        public void DeleteMenuItem(MenuItem menuItem)
+        {
+            _context.Remove(menuItem);
+            _context.SaveChanges();
+        }
     }
 
 	public class CategoryService
@@ -75,6 +81,12 @@ namespace Spoonful.Services
 		public void UpdateCategory(Category category)
 		{
 			_context.Category.Update(category);
+			_context.SaveChanges();
+		}
+
+		public void DeleteCategory(Category category)
+		{
+			_context.Category.Remove(category);
 			_context.SaveChanges();
 		}
 	}

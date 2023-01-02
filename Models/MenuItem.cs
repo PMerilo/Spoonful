@@ -22,5 +22,8 @@ namespace Spoonful.Models
         public string? MenuPreference { get; set; }
         [Required]
         public string? Category { get; set; }
+
+        [MaxLength(50)]
+        public string ImageURL { get; set; } = "/uploads/user.png";
     }
 }

@@ -21,8 +21,6 @@ namespace Spoonful.Pages.Admin.FoodCategory
 
         [BindProperty]
         public Category MyCategory { get; set; }
-
-        
         
         public async Task<IActionResult> OnPostAsync()
         {
