@@ -25,8 +25,6 @@ namespace Spoonful.Pages.Admin.FoodCategory
             if (category != null)
             {
                 MyCategory = category;
-                
-
                 return Page();
             }
             else
