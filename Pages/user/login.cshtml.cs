@@ -40,6 +40,15 @@ namespace Spoonful.Pages.User
 
 				if (identityResult.Succeeded)
                 {
+                    //Create the security context
+                    var claims = new List<Claim> {
+                        //new Claim(ClaimTypes.Name, "c@c.com"),
+                        //new Claim(ClaimTypes.Email, "c@c.com")
+                    };
+                    var i = new ClaimsIdentity(claims, "MyCookieAuth");
+                    ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(i);
+                    await HttpContext.SignInAsync("MyCookieAuth", claimsPrincipal);
+
                     return RedirectToPage("/Index");
                 }
                 ModelState.AddModelError("", "Username or Password incorrect");
