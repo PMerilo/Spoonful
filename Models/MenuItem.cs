@@ -1,4 +1,4 @@
-﻿using Microsoft.Build.Framework;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Spoonful.Models
 {
@@ -8,15 +8,22 @@ namespace Spoonful.Models
         public int Id { get; set; }
 
         [Required]
-        public string Name { get; set; }
-        public string Description { get; set; }
+        [Display(Name = "Title")]
+        public string? Name { get; set; }
 
-        public string Tags { get; set; }
+        [Required]
+        public string? Description { get; set; }
 
-        public string Image { get; set; }
+        [Required]
+        public string? Tags { get; set; }
 
-        public int FoodTypeId { get; set; }
+        [Required]
+        [Display(Name = "Menu Preferences")]
+        public string? MenuPreference { get; set; }
+        [Required]
+        public string? Category { get; set; }
 
-        public int CategoryId { get; set; }
+        [MaxLength(50)]
+        public string ImageURL { get; set; } = "/uploads/user.png";
     }
 }

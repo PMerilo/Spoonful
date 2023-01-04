@@ -29,8 +29,10 @@
 			</tr>
 		</thead>
 		<tbody>
+            
 			@foreach(var obj in Model.Categories)
 			{
+                <form method="post">
 				<tr>
 					<td width="50%">@obj.name</td>
 					
@@ -39,15 +41,18 @@
 						<a asp-page="/Admin/FoodCategory/UpdateCategory" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
 							<i class="bi bi-pencil-square"></i>
 						</a>
-						
-					
-						<a asp-page="Delete" asp-route-id="@obj.Id" class="btn btn-danger mx-2">
-							<i class="bi bi-trash-fill"></i>
-						</a>
+                            <input asp-for="MyCategory.name" class="form-control" hidden value="@obj.name">
+                            <input asp-for="MyCategory.Id" class="form-control" hidden value="@obj.Id">
+                            <button class="btn btn-danger mx-2" type="submit">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>  
+                       
 						</div>
 					</td>
 				</tr>
+                </form>
 			}
+            
 			
 		</tbody>
 	</table>

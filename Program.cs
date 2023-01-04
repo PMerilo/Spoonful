@@ -11,6 +11,7 @@ builder.Services.AddDbContext<AuthDbContext>();
 
 //Services
 builder.Services.AddScoped<CategoryService>();
+builder.Services.AddScoped<MenuItemService>();
 
 builder.Services.AddIdentity<CustomerUser, IdentityRole>().AddEntityFrameworkStores<AuthDbContext>();
 builder.Services.ConfigureApplicationCookie(config =>

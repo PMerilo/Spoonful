@@ -1,0 +1,125 @@
+﻿
+@page
+@model Spoonful.Pages.user.CurrentMealKitPlanModel
+@{
+}
+@using Microsoft.AspNetCore.Identity
+@using Spoonful.Models
+@inject UserManager<CustomerUser> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+<section class="content-main">
+    <div class="content-header">
+        <h2 class="content-title">Current Meal Kit Plan</h2>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row gx-5">
+                <aside class="col-lg-3 border-end">
+                    <nav class="nav nav-pills flex-lg-column mb-4">
+                        <a class="nav-link" href="/user/@user.UserName">General</a>
+                        <a class="nav-link active" aria-current="page"  href="#">Plan Settings</a>
+                        <a class="nav-link" href="#">Admin account</a>
+                        <a class="nav-link" href="#">SEO settings</a>
+                        <a class="nav-link" href="#">Mail settings</a>
+                        <a class="nav-link" href="#">Newsletter</a>
+                    </nav>
+                </aside>
+                <div class="col-lg-9">
+                    <section class="content-body p-xl-4">
+                        <h1 class="tw-text-lg tw-mb-5">Plan Settings</h1>
+                        <form method="post">
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <div class="row gx-3">
+                                        <div class="form-group">
+                                            <label>Menu Preferences</label>
+                                            <select class="form-control" id="mealPreferences" name="mealPreferences">
+                                                <option value="Meat & Veggie">Meat & Veggies</option>
+                                                <option value="Vegetarian">Vegetarian</option>
+                                                <option value="Quick & Easy">Quick and Easy</option>
+                                                <option value="Family Friendly">Family Friendly</option>
+                                                <option value="Pescatarian">Pescatarian</option>
+                                                <option value="Fit & Wholesome">Fit & Wholesome</option>
+                                            </select>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Number of Recipes Per Week</label>
+                                                    <select class="form-control" id="numberOfRecipes" name="numberOfRecipes">
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Number of People Per Week</label>
+                                                    <select class="form-control" id="numberOfPeople" name="numberOfPeople">
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Number of Servings Per Person</label>
+                                                    <select class="form-control" id="numberOfServings" name="numberOfServings">
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- col.// -->
+                            </div>
+                            <!-- row.// -->
+                            <br />
+                            <button class="btn btn-success" type="submit">Save changes</button>
+                        </form>
+                        <hr class="my-5" />
+                        <div class="row" style="max-width: 920px">
+                            <div class="col-md">
+                                <article class="box mb-3 bg-light">
+                                    <a class="btn float-end btn-light btn-sm rounded font-md" href="#">Pause</a>
+                                    <h6>Pause Plan</h6>
+                                    <small class="text-muted d-block" style="width: 70%">You can pause your plan by clicking here</small>
+                                </article>
+                            </div>
+                            <!-- col.// -->
+                            <div class="col-md">
+                                <article class="box mb-3 bg-light">
+                                    <a class="btn float-end btn-light rounded btn-sm font-md" href="#">Cancel</a>
+                                    <h6>Cancel Plan</h6>
+                                    <small class="text-muted d-block" style="width: 70%">Once you cancel your plan, there is no going back.</small>
+                                </article>
+                            </div>
+                            <!-- col.// -->
+                        </div>
+                        <!-- row.// -->
+                    </section>
+                    <!-- content-body .// -->
+                </div>
+                <!-- col.// -->
+            </div>
+            <!-- row.// -->
+        </div>
+        <!-- card body end// -->
+    </div>
+    <!-- card end// -->
+</section>
