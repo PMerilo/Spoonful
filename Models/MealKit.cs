@@ -24,6 +24,8 @@ namespace Spoonful.Models
         [Required]
         public string? userId { get; set; }
 
+        public Boolean Status { get; set; } = true;
+
 
 
 
