@@ -21,6 +21,9 @@ namespace Spoonful.Models
         [Display(Name = "Number Of Servings Per Person")]
         public string? noOfServingsPerPerson { get; set; }
 
+        [Required]
+        public string? userId { get; set; }
+
 
 
 

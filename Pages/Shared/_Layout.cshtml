@@ -1,7 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Spoonful.Models
 @inject SignInManager<CustomerUser> SignInManager
+@inject UserManager<CustomerUser> UserManager
 
+@{var user = await UserManager.GetUserAsync(User);}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,44 +37,44 @@
                             new string[] {"Our Plans", "/Index"},
                             new string[] {"How it works", "/Privacy"},
                             new string[] {"Menus", "0"},
-                            new string[] {"Menu2", "1"}
+                            new string[] {"Services", "1"}
                                                                                         };
 
                                 string[,,] dropdownLinks = new string[,,]
                                 {
                                     {
                                         {"Recipes", "/Privacy"},
-                                        {"Menu 2", "/Privacy"}
+                                        {"Weekly Meals", "/Menu/Index"}
                                     },
                                     {
-                                        {"Recipes", "/Privacy"},
-                                        {"Menu 3", "/Privacy"}
+                                        {"Customer Service", "/Privacy"},
+                                        {"Newsletter", "/Blog/Index"}
                                     }
                                 };
                                 for (int i = 0; i < navLinks.Length; i++)
                                 {
                                     if (!Int32.TryParse(navLinks[i][1], out int Indexvalue))
                                     {
-                                        <li class="nav-item tw-px-2">
-                                            <a class="nav-link hover-underline-animation tw-text-black" asp-page="@navLinks[i][1]">@navLinks[i][0]</a>
-                                        </li>
+                                                        <li class="nav-item tw-px-2">
+                                                            <a class="nav-link hover-underline-animation tw-text-black" asp-page="@navLinks[i][1]">@navLinks[i][0]</a>
+                                                        </li>
                                     }
                                     else
                                     {
-                                        <li class="nav-item tw-px-2 dropdown">
-                                            <a class="nav-link hover-underline-animation tw-text-black" href="#" id="@navLinks[i][0]Dropdown" role="button"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                                @navLinks[i][0]
-                                            </a>
-                                            <ul class="dropdown-menu" aria-labelledby="@navLinks[i][0]Dropdown">
-                                                @{
+                                                        <li class="nav-item tw-px-2 dropdown">
+                                                            <a class="nav-link hover-underline-animation tw-text-black" href="#" id="@navLinks[i][0]Dropdown" role="button"
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                                                @navLinks[i][0]
+                                                            </a>
+                                                            <ul class="dropdown-menu" aria-labelledby="@navLinks[i][0]Dropdown">
+                                                                @{
                                         for (int k = 0; k < dropdownLinks.GetLength(1); k++)
                                         {
-                                            <li><a class="dropdown-item tw-text-black" asp-page="@dropdownLinks[Int32.Parse(navLinks[i][1]), k, 1]">@dropdownLinks[Int32.Parse(navLinks[i][1]), k, 0]</a></li>
+                                                                            <li><a class="dropdown-item tw-text-black" asp-page="@dropdownLinks[Int32.Parse(navLinks[i][1]), k, 1]">@dropdownLinks[Int32.Parse(navLinks[i][1]), k, 0]</a></li>
                                         }
-                                                }
-                                            </ul>
-                                        </li>
+                                                                }
+                                                            </ul>
+                                                        </li>
                                     }
 
                                 }
@@ -84,11 +86,14 @@
                 @{
                     if (SignInManager.IsSignedIn(User))
                     {
-                        <a class="tw-btn-primary" asp-page="/user/Logout">Logout</a>
+                            <a class="tw-btn-primary">@user.UserName</a>
+                            <a class="tw-btn-primary" href="/user/@user.UserName">Profile</a>
+                            <p>&nbsp;</p>
+                            <a class="tw-btn-primary" asp-page="/user/Logout">Logout</a>
                     } else
                     {
-                        <a class="tw-btn-primary" asp-page="/user/Login">Login</a>
-                        <button class="tw-btn-primary">Get your first meal!</button>
+                                        <a class="tw-btn-primary" asp-page="/user/Login">Login</a>
+                                        <button class="tw-btn-primary">Get your first meal!</button>
                     }
                 }
                 
