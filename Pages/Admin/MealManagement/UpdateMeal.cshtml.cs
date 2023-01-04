@@ -52,7 +52,7 @@ namespace Spoonful.Pages.Admin.MealManagement
         public async Task<IActionResult> OnPostAsync(int id)
         {
             var uploadsFolder = "uploads";
-            if (MyMenuItem.ImageURL != null)
+            if (MyMenuItem.ImageURL != null && Upload !=null)
             {
                 var oldImageFile = Path.GetFileName(MyMenuItem.ImageURL);
                 var oldImagePath = Path.Combine(

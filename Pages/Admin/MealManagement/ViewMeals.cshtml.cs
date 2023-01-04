@@ -15,8 +15,17 @@ namespace Spoonful.Pages.Admin.MealManagement
         public IEnumerable<MenuItem> MenuItems { get; set; }
 
         public MenuItem MyMenuItem { get; set; }
+
+        public ViewMealsModel(AuthDbContext db, MenuItemService menuItemService)
+        {
+            _db = db;
+            _menuItemService = menuItemService;
+            
+        }
+
         public void OnGet()
         {
+            MenuItems = _db.MenuItem;
         }
     }
 }
