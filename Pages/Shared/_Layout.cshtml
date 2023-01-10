@@ -86,7 +86,7 @@
                 @{
                     if (SignInManager.IsSignedIn(User))
                     {
-                            <a class="tw-btn-primary">@user.UserName</a>
+                            <a class="btn-main">@user.UserName</a>
                             <a class="tw-btn-primary" href="/user/@user.UserName">Profile</a>
                             <p>&nbsp;</p>
                             <a class="tw-btn-primary" asp-page="/user/Logout">Logout</a>
