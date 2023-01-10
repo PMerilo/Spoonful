@@ -2,93 +2,92 @@
 @model Spoonful.Pages.Admin.MealManagement.UpdateMealModel
 @{
 }
-<!-- Main styles -->
 <link href="~/css/admin.css" rel="stylesheet">
 <!-- /box_general-->
 <form method="post" enctype="multipart/form-data">
-    <div class="box_general padding_bottom">
-        <div class="header_box version_2">
-            <h2><i class="fa fa-list"></i>Update Menu Item</h2>
+<div class="box_general padding_bottom">
+    <div class="header_box version_2">
+        <h2><i class="fa fa-list"></i>Add item to Menu List</h2>
+    </div>
+    <div class="wrapper_indent">
+        <div class="form-group">
+            <label asp-for="MyMenuItem.Category"></label>
+            <select asp-for="MyMenuItem.Category"  class="form-control">
+            <option value="" disabled selected hidden>Select Category</option>
+            @foreach(var obj in Model.Categories)
+			{
+                <option value="@obj.name">@obj.name</option>
+            }
+          
+                       
+            </select>
         </div>
-        <div class="wrapper_indent">
-            <div class="form-group">
-                <label asp-for="MyMenuItem.Category"></label>
-                <select asp-for="MyMenuItem.Category" class="form-control">
-                    <option value="" disabled selected hidden>Select Category</option>
-                    @foreach (var obj in Model.Categories)
-                    {
-                        <option value="@obj.name">@obj.name</option>
-                    }
-
-
-                </select>
+        <div class="menu-item-section clearfix">
+            <h4>Menu item #1</h4>
+            <div>
+                <a href="#0"><i class="fa fa-plus-circle"></i></a><a href="#0"><i class="fa fa-minus-circle"></i></a>
             </div>
-            <div class="menu-item-section clearfix">
-                <h4>Menu item #1</h4>
-                <div>
-                    <a href="#0"><i class="fa fa-plus-circle"></i></a><a href="#0"><i class="fa fa-minus-circle"></i></a>
-                </div>
-            </div>
-            <div class="strip_menu_items">
-                <div class="row">
-                    <div class="col-xl-3">
-                        <input type="file" accept="image/*" asp-for="Upload" class="form-control" onchange="showImgPreview(this)" />
-                        <br />
-                        <img id="imgPreview" class="rounded-circle" style="height:300px;width:300px;object-fit:cover" src="@Model.MyMenuItem.ImageURL" onerror="this.src='/uploads/user.png'" />
+        </div>
+        <div class="strip_menu_items">
+            <div class="row">
+                <div class="col-xl-3">
+                        <input type="file" accept="image/*" asp-for="Upload" class="form-control" onchange="showImgPreview(this)" /><br />
+                        <img id="imgPreview" class="rounded-circle" style="height:300px;width:300px;object-fit:cover" src="@Model.MyMenuItem.ImageURL" onerror="this.src='/up-loads/user.png'" /> 
                         <input class="form-control d-none" asp-for="MyMenuItem.ImageURL" />
-
-                    <div class="col-xl-9">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <div class="form-group">
-                                    <label asp-for="MyMenuItem.Name"></label>
-                                    <input asp-for="MyMenuItem.Name" type="text" class="form-control">
-                                </div>
+                </div> 
+                
+                <div class="col-xl-9">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label asp-for="MyMenuItem.Name"></label>
+                                <input asp-for="MyMenuItem.Name" type="text" class="form-control">
                             </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label asp-for="MyMenuItem.Tags"></label>
-                                    <input asp-for="MyMenuItem.Tags" type="text" class="form-control">
-                                </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="MyMenuItem.Tags"></label>
+                                <input asp-for="MyMenuItem.Tags" type="text" class="form-control">
                             </div>
-
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="MyMenuItem.Description"></label>
-                            <input asp-for="MyMenuItem.Description" type="text" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="MyMenuItem.MenuPreference"></label>
-                            <select asp-for="MyMenuItem.MenuPreference" class="form-control">
-                                <option value="" disabled selected hidden>Select Menu Item's Meal Preference</option>
-                                <option value="Meat & Veggie">Meat & Veggies</option>
-                                <option value="Vegetarian">Vegetarian</option>
-                                <option value="Quick & Easy">Quick and Easy</option>
-                                <option value="Family Friendly">Family Friendly</option>
-                                <option value="Pescatarian">Pescatarian</option>
-                                <option value="Fit & Wholesome">Fit & Wholesome</option>
-                            </select>
                         </div>
 
                     </div>
-                    <!-- End form-group -->
+                    <div class="form-group">
+                        <label asp-for="MyMenuItem.Description"></label>
+                        <input asp-for="MyMenuItem.Description" type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MyMenuItem.MenuPreference"></label>
+                            <select asp-for="MyMenuItem.MenuPreference" class="form-control">
+                            <option value="" disabled selected hidden>Select Menu Item's Meal Preference</option>
+                            <option value="Meat & Veggie">Meat & Veggies</option>
+                            <option value="Vegetarian">Vegetarian</option>
+                            <option value="Quick & Easy">Quick and Easy</option>
+                            <option value="Family Friendly">Family Friendly</option>
+                            <option value="Pescatarian">Pescatarian</option>
+                            <option value="Fit & Wholesome">Fit & Wholesome</option>
+                        </select>
+                    </div>
+                    
+                        </div>
+                        <!-- End form-group -->
                     <div asp-validation-summary="All"></div>
-                </div>
-            </div><!-- End row -->
-        </div><!-- End strip_menu_items -->
+                    </div>
+                </div><!-- End row -->
+            </div><!-- End strip_menu_items -->
 
-    </div>
-    <!-- /box_general-->
+        </div>
+        <!-- /box_general-->
+    
     <!-- /.container-fluid-->
-    </div>
+
     <p>
-        <button type="submit" class="btn_1 medium">Save Changes</button>
-
+        <button type="submit" class="btn_1 medium">Save</button>
+        
         <a asp-page="Index" class="btn_1 medium gray">Back to Meal Mangement</a>
-
+        
 </form>
 <!-- /.container-wrapper-->
-
 <script>
     function showImgPreview(input) {
         if (input.files[0]) {
