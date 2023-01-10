@@ -384,6 +384,24 @@
         @apply tw-py-2 tw-px-4 tw-bg-slate-200 tw-text-black tw-font-semibold tw-rounded-lg tw-shadow-dark hover:tw-text-white hover:tw-bg-slate-700 tw-border-2 tw-border-black focus:tw-outline-none active:tw-shadow-none;
     }
 
+    .btn-main {
+        width: 7rem;
+        background: #2098ce;
+        font-weight: bold;
+        color: white;
+        border: 0 none;
+        border-radius: 25px;                
+        cursor: pointer;
+        padding: 10px 5px;
+        text-align:center;
+    }
+
+    .btn-main:hover,
+    .btn-main:focus {
+        color:white;
+        box-shadow: 0 0 0 2px white, 0 0 0 3px #2098ce;
+    }
+
 
     .tw-btn-primary-outline {
         @apply tw-py-2 tw-px-4 tw-bg-slate-200 tw-text-black tw-font-semibold tw-rounded-lg hover:tw-text-white hover:tw-bg-slate-700 tw-border-2 tw-border-black focus:tw-outline-none;

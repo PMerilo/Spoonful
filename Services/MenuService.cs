@@ -2,15 +2,49 @@
 
 namespace Spoonful.Services
 {
-	public class MenuService
+	public class MenuItemService
 	{
-		private readonly AuthDbContext _authDbContext;
-
-		public MenuService(AuthDbContext authDbContext)
+		private readonly AuthDbContext _context;
+		public MenuItemService(AuthDbContext context)
 		{
-			_authDbContext = authDbContext;
+			_context = context;
 		}
-	}
+
+		public List<MenuItem> GetAll()
+		{
+			return _context.MenuItem.OrderBy(x => x.Name).ToList();
+		}
+
+		public MenuItem? GetMenuByName(string name)
+		{
+			MenuItem? menuItem = _context.MenuItem.FirstOrDefault(x => x.Name.Equals(name));
+			return menuItem;
+		}
+
+        public MenuItem? GetMenuById(int id)
+        {
+            MenuItem? menuItem = _context.MenuItem.FirstOrDefault(x => x.Id.Equals(id));
+            return menuItem;
+        }
+
+		public void AddMealItem(MenuItem menuItem)
+		{
+			_context.MenuItem.Add(menuItem);
+			_context.SaveChanges();
+		}
+
+		public void UpdateMenuItem(MenuItem menuItem)
+		{
+			_context.Update(menuItem);
+			_context.SaveChanges();
+		}
+
+        public void DeleteMenuItem(MenuItem menuItem)
+        {
+            _context.Remove(menuItem);
+            _context.SaveChanges();
+        }
+    }
 
 	public class CategoryService
 	{
@@ -47,6 +81,12 @@ namespace Spoonful.Services
 		public void UpdateCategory(Category category)
 		{
 			_context.Category.Update(category);
+			_context.SaveChanges();
+		}
+
+		public void DeleteCategory(Category category)
+		{
+			_context.Category.Remove(category);
 			_context.SaveChanges();
 		}
 	}

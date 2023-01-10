@@ -1,8 +1,7 @@
 ﻿@page
-@model Spoonful.Pages.Admin.MealManagement.AddMealsModel
+@model Spoonful.Pages.Admin.MealManagement.UpdateMealModel
 @{
 }
-<!-- Main styles -->
 <link href="~/css/admin.css" rel="stylesheet">
 <!-- /box_general-->
 <form method="post" enctype="multipart/form-data">
@@ -32,11 +31,9 @@
         <div class="strip_menu_items">
             <div class="row">
                 <div class="col-xl-3">
-                    
-                    <input type="file" accept="image/*" asp-for="Upload" class="form-control" onchange="showImgPreview(this)" />
-                    <br />
-                    <img id="imgPreview" class="rounded-circle" style="height:300px;width:300px;object-fit:cover" src="/uploads/user.png" />
-                        
+                        <input type="file" accept="image/*" asp-for="Upload" class="form-control" onchange="showImgPreview(this)" /><br />
+                        <img id="imgPreview" class="rounded-circle" style="height:300px;width:300px;object-fit:cover" src="@Model.MyMenuItem.ImageURL" onerror="this.src='/up-loads/user.png'" /> 
+                        <input class="form-control d-none" asp-for="MyMenuItem.ImageURL" />
                 </div> 
                 
                 <div class="col-xl-9">

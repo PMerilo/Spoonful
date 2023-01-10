@@ -131,6 +131,24 @@
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
+.btn-main {
+  width: 7rem;
+  background: #2098ce;
+  font-weight: bold;
+  color: white;
+  border: 0 none;
+  border-radius: 25px;
+  cursor: pointer;
+  padding: 10px 5px;
+  text-align:center;
+}
+
+.btn-main:hover,
+    .btn-main:focus {
+  color:white;
+  box-shadow: 0 0 0 2px white, 0 0 0 3px #2098ce;
+}
+
 .tw-mx-32 {
   margin-left: 8rem !important;
   margin-right: 8rem !important;
