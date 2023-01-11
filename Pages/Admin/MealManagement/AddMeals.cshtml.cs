@@ -33,6 +33,13 @@ namespace Spoonful.Pages.Admin.MealManagement
         public void OnGet()
         {
             Categories = _db.Category;
+
+            //if (Categories == null && TempData["Categories"] !=null )
+            //{
+            //    Console.WriteLine("Categories Info Here");
+            //    Categories = TempData["Categories"] as IEnumerable<Category>;
+            //    Console.WriteLine(Categories);
+            //}
         
         }
 
@@ -66,7 +73,11 @@ namespace Spoonful.Pages.Admin.MealManagement
                 TempData["FlashMessage.Text"] = string.Format("Menu item {0} is added", MyMenuItem.Name);
                 return Redirect("/Admin/MealManagement");
             }
-            return Page();
+            //TempData["Categories"] = _db.Category;
+            TempData["error"] = "Missing Form Inputs";
+            TempData["FlashMessage.Type"] = "danger";
+            TempData["FlashMessage.Text"] = ("Missing Form Inputs");
+            return Redirect("/Admin/MealManagement/AddMeals");
         }
     }
 }

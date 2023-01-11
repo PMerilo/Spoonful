@@ -16,7 +16,13 @@ namespace Spoonful.Models
             string connectionString = _configuration.GetConnectionString("AuthConnectionString"); optionsBuilder.UseSqlServer(connectionString);
         }
         public DbSet<Category> Category { get; set; }
+
+        public DbSet<Notification> Notifications { get; set; }
+
         public DbSet<MenuItem> MenuItem { get; set; }
+
+        public DbSet<Vouchers> Rewards { get; set; }
+
     }
 }
 
