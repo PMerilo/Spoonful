@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -9,6 +10,7 @@ using System.Security.Claims;
 
 namespace Spoonful.Pages.User
 {
+    [Authorize()]
     [BindProperties]
     public class IndexModel : PageModel
     {
@@ -38,6 +40,10 @@ namespace Spoonful.Pages.User
 
         public async Task<IActionResult> OnGetAsync(string username)
         {
+            if (username.IsNullOrEmpty())
+            {
+                return Redirect($"/User/{User.Identity.Name}");
+            }
             var user = await userManager.FindByNameAsync(username);
             if (user != null)
             {
