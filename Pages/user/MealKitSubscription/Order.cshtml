@@ -1,7 +1,15 @@
 ﻿@page
+@using Microsoft.AspNetCore.Identity
+@using Spoonful.Models
+
+@inject UserManager<CustomerUser> UserManager
+@{
+	var user = await UserManager.GetUserAsync(User);
+}
 @model Spoonful.Pages.user.MealKitSubscription.OrderModel
 @{
 }
+
 
 
 <!-- SPECIFIC CSS -->
@@ -9,7 +17,7 @@
 <link href="~/css/detail-page.css" rel="stylesheet">
 
 <main class="bg_gray">
-		
+	<form method="post">
 		<div class="container margin_60_20">
 		    <div class="row justify-content-center">
 		        <div class="col-xl-6 col-lg-8">
@@ -19,61 +27,67 @@
 							<h3>Personalise your Plan</h3>
 						</div>
 					</div>
-
-					<!-- /head -->
-					<div class="main">
-						<div class="form-group">
-							<label>Menu Preferences</label>
-							<select class="form-control" id="mealPreferences" name="mealPreferences">
-							<option value="Meat & Veggie">Meat & Veggies</option>
-                            <option value="Vegetarian">Vegetarian</option>
-                            <option value="Quick & Easy">Quick and Easy</option>
-                            <option value="Family Friendly">Family Friendly</option>
-                            <option value="Pescatarian">Pescatarian</option>
-                            <option value="Fit & Wholesome">Fit & Wholesome</option>
-							</select>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group">
-									<label>Number of Recipes Per Week</label>
-									<select class="form-control" id="numberOfRecipes" name="numberOfRecipes">
-										<option value="1">1</option>
-										<option value="2">2</option>
-										<option value="3">3</option>
-										<option value="4">4</option>
-										<option value="5">5</option>
-										<option value="6">6</option>
-									</select>
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label>Number of People Per Week</label>
-									<select class="form-control" id="numberOfPeople" name="numberOfPeople">
-										<option value="1">1</option>
-										<option value="2">2</option>
-										<option value="3">3</option>
-										<option value="4">4</option>
-										<option value="5">5</option>
-										<option value="6">6</option>
-									</select>
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label>Number of Servings Per Person</label>
-									<select class="form-control" id="numberOfServings" name="numberOfServings">
-										<option value="1">1</option>
-										<option value="2">2</option>
-										<option value="3">3</option>
-									</select>
-								</div>
-							</div>
-						</div>
 						
+					<!-- /head -->
+					<input class="form-control" asp-for="MyMealKit.userId" value="@user.Id" hidden>
+						<div class="main">
+							<div class="form-group">
+								<label>Menu Preferences</label>
+								<select class="form-control" asp-for="MyMealKit.MenuPreference">
+									<option value="Meat & Veggie">Meat & Veggies</option>
+									<option value="Vegetarian">Vegetarian</option>
+									<option value="Quick & Easy">Quick and Easy</option>
+									<option value="Family Friendly">Family Friendly</option>
+									<option value="Pescatarian">Pescatarian</option>
+									<option value="Fit & Wholesome">Fit & Wholesome</option>
+								</select>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Number of Recipes Per Week</label>
+										<select class="form-control" asp-for="MyMealKit.noOfRecipesPerWeek">
+											<option value="1">1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
+											<option value="4">4</option>
+											<option value="5">5</option>
+											<option value="6">6</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Number of People Per Week</label>
+										<select class="form-control" asp-for="MyMealKit.noOfPeoplePerWeek">
+											<option value="1">1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
+											<option value="4">4</option>
+											<option value="5">5</option>
+											<option value="6">6</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Number of Servings Per Person</label>
+										<select class="form-control" asp-for="MyMealKit.noOfServingsPerPerson" >
+											<option value="1">1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
+										</select>
+									</div>
+								</div>
+							</div>
+
+						</div>
 					</div>
-				</div>
+					
+				
+					
+				
+				<!--
 		        	<div class="box_order_form">
 					    <div class="head">
 					        <div class="title">
@@ -81,7 +95,7 @@
 					        </div>
 					    </div>
 
-					    <!-- /head -->
+					    
 					    <div class="main">
 					        <div class="form-group">
 					            <label>First and Last Name</label>
@@ -121,14 +135,16 @@
 					        </div>
 					    </div>
 					</div>
+				-->
 					<!-- /box_order_form -->
+					<!--
 		            <div class="box_order_form">
 					    <div class="head">
 					        <div class="title">
 					            <h3>Payment Method</h3>
 					        </div>
 					    </div>
-					    <!-- /head -->
+					    
 					    <div class="main">
 					        
 					        <div class="form-group">
@@ -171,11 +187,13 @@
 					                </div>
 					            </div>
 					        </div>
-					        <!--End row -->
+					       
 					        
 					    </div>
 					</div>
+					-->
 					<!-- /box_order_form -->
+
 		        </div>
 		        <!-- /col -->
 		        <div class="col-xl-4 col-lg-4" id="sidebar_fixed">
@@ -202,7 +220,8 @@
 								<li>Price Per Serving<span>$5</span></li>
 		                		<li class="total">Total<span>$100</span></li>
 		                	</ul>
-		                    <a href="confirm.html" class="btn btn-success" style="width:100%">Order Now</a>
+							<button type="submit" class="btn btn-success" style="width:100%">Order Now</button>
+		                    
 		                    <div class="text-center"><small>Or Call Us at <strong>0432 48432854</strong></small></div>
 		                </div>
 		            </div>
@@ -213,6 +232,6 @@
 		    <!-- /row -->
 		</div>
 		<!-- /container -->
-		
+		</form>
 	</main>
 	<!-- /main -->
