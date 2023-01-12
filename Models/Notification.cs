@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Spoonful.Models
 {
@@ -18,10 +19,9 @@ namespace Spoonful.Models
         [DataType(DataType.DateTime)]
         public string? DateCreated { get; set; }
 
+        
         [Required]
-        public int UserId { get; set; }
-
-        [Required]
+        [ForeignKey("UserId")]
         public CustomerUser User { get; set; }
 
     }

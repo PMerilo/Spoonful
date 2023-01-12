@@ -23,15 +23,11 @@ namespace Spoonful.Services
             return _context.Notifications.Where(n => n.User.UserName == name).OrderBy(n => n.DateCreated).ToList();
         }
 
-        public void SendNotification(string title, string body, DateTime datecreated, CustomerUser user, )
+        public void SendNotification(Notification notification, String username)
         {
-            _context.Category.Add(category);
-            _context.SaveChanges();
-        }
-
-        public void UpdateCategory(Category category)
-        {
-            _context.Category.Update(category);
+            CustomerUser user = _context.Users.FirstOrDefault(x => x.UserName == username);
+            if (user == null) return;
+            user.Notifications.Add(notification);
             _context.SaveChanges();
         }
 

@@ -16,7 +16,7 @@ builder.Services.AddScoped<MenuItemService>();
 builder.Services.AddIdentity<CustomerUser, IdentityRole>().AddEntityFrameworkStores<AuthDbContext>();
 builder.Services.ConfigureApplicationCookie(config =>
 {
-    config.LoginPath = "/User/Login";
+    config.LoginPath = "/Account/Login";
 });
 builder.Services.AddAuthentication("MyCookieAuth").AddCookie("MyCookieAuth", options =>
 {
