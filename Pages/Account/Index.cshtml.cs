@@ -116,5 +116,7 @@ namespace Spoonful.Pages.Account
             TempData["FlashMessage.Type"] = "success";
             return RedirectToPage();
         }
+
+        
     }
 }
