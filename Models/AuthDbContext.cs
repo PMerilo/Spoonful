@@ -17,7 +17,8 @@ namespace Spoonful.Models
         }
         public DbSet<Category> Category { get; set; }
         public DbSet<MenuItem> MenuItem { get; set; }
-        public DbSet<MealKit> MealKit { get; set; }
+
+        public DbSet<Vouchers> Rewards { get; set; }
     }
 }
 
