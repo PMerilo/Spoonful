@@ -7,6 +7,7 @@ namespace Spoonful.Pages.Account
     {
         public void OnGet()
         {
+
         }
     }
 }

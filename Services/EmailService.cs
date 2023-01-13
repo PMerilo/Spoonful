@@ -43,7 +43,7 @@ namespace Spoonful.Services
             email.Body = builder.ToMessageBody();
             using var smtp = new SmtpClient();
             smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
-            smtp.Authenticate("pgmerilo@gmail.com", "yucilrkezweqmtby");
+            smtp.Authenticate("pgmerilo@gmail.com", "ooiwkizuyqhhrpau");
             await smtp.SendAsync(email);
             smtp.Disconnect(true);
         }
