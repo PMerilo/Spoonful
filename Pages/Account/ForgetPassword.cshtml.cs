@@ -44,18 +44,20 @@ namespace Spoonful.Pages.Account
                 TempData["FlashMessage.Type"] = "danger";
                 return Page();
             }
-            //var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-            //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            //var callbackUrl = Url.Page(
-            //"/Account/ResetPassword",
-            //    pageHandler: null,
-            //    values: new { code },
-            //    protocol: Request.Scheme);
+
+            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+            var callbackUrl = Url.Page(
+            "/Account/ResetPassword",
+                pageHandler: null,
+                values: new { code = code },
+                protocol: Request.Scheme);
 
             await _emailSender.SendEmailAsync(
                 Email,
                 "Reset Password",
-                $"Please reset your password by <a href=''>clicking here</a>.");
+                $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.",
+                null);
             TempData["FlashMessage.Type"] = "info";
             return Page();
         }

@@ -3,6 +3,8 @@ using Spoonful.Models;
 using Microsoft.EntityFrameworkCore;
 using Spoonful.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using System.Configuration;
+using Spoonful.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,11 +12,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<AuthDbContext>();
 
+
 //Services
 builder.Services.AddScoped<CategoryService>();
 builder.Services.AddScoped<MenuItemService>(); 
-builder.Services.AddTransient<IEmailSender, EmailService>();
-builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
+builder.Services.AddScoped<EmailService>();
 
 
 builder.Services.AddIdentity<CustomerUser, IdentityRole>().AddEntityFrameworkStores<AuthDbContext>().AddDefaultTokenProviders();

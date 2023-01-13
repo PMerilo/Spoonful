@@ -1,55 +1,51 @@
-﻿using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.Extensions.Options;
-using SendGrid;
-using SendGrid.Helpers.Mail;
-using Spoonful.Models;
-using System.Net.Mail;
-using System.Text;
+﻿using MailKit;
+using MailKit.Net.Smtp;
+using MailKit.Security;
+using MimeKit;
+using Spoonful.Settings;
 
 namespace Spoonful.Services
 {
-    public class EmailService : IEmailSender
+
+    public class EmailService
     {
-
-        private readonly ILogger _logger;
-
-        public EmailService(IOptions<AuthMessageSenderOptions> optionsAccessor,
-                           ILogger<EmailService> logger)
+        //private readonly EmailConfiguration _emailConfig;
+        public EmailService()
         {
-            Options = optionsAccessor.Value;
-            _logger = logger;
+            //_emailConfig = emailConfig;
         }
 
-        public AuthMessageSenderOptions Options { get; } //Set with Secret Manager.
 
-        public async Task SendEmailAsync(string toEmail, string subject, string message)
+        public async Task SendEmailAsync(string ToEmail, string Subject, string Body, List<IFormFile>? Attachments)
         {
-            if (string.IsNullOrEmpty(Options.SendGridKey))
+            var email = new MimeMessage();
+            email.Sender = MailboxAddress.Parse("noreply@spoonful.com");
+            email.To.Add(MailboxAddress.Parse(ToEmail));
+            email.Subject = Subject;
+            var builder = new BodyBuilder();
+            if (Attachments != null)
             {
-                throw new Exception("Null SendGridKey");
+                byte[] fileBytes;
+                foreach (var file in Attachments)
+                {
+                    if (file.Length > 0)
+                    {
+                        using (var ms = new MemoryStream())
+                        {
+                            file.CopyTo(ms);
+                            fileBytes = ms.ToArray();
+                        }
+                        builder.Attachments.Add(file.FileName, fileBytes, ContentType.Parse(file.ContentType));
+                    }
+                }
             }
-            await Execute(Options.SendGridKey, subject, message, toEmail);
-        }
-
-        public async Task Execute(string apiKey, string subject, string message, string toEmail)
-        {
-            var client = new SendGridClient(apiKey);
-            var msg = new SendGridMessage()
-            {
-                From = new EmailAddress("Joe@contoso.com", "Password Recovery"),
-                Subject = subject,
-                PlainTextContent = message,
-                HtmlContent = message
-            };
-            msg.AddTo(new EmailAddress(toEmail));
-
-            // Disable click tracking.
-            // See https://sendgrid.com/docs/User_Guide/Settings/tracking.html
-            msg.SetClickTracking(false, false);
-            var response = await client.SendEmailAsync(msg);
-            _logger.LogInformation(response.IsSuccessStatusCode
-                                   ? $"Email to {toEmail} queued successfully!"
-                                   : $"Failure Email to {toEmail}");
+            builder.HtmlBody = Body;
+            email.Body = builder.ToMessageBody();
+            using var smtp = new SmtpClient();
+            smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+            smtp.Authenticate("pgmerilo@gmail.com", "yucilrkezweqmtby");
+            await smtp.SendAsync(email);
+            smtp.Disconnect(true);
         }
 
     }
