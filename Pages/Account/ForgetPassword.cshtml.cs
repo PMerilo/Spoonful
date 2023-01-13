@@ -25,7 +25,7 @@ namespace Spoonful.Pages.Account
 
         [BindProperty]
         [Required]
-        public string? Email { get; set; }
+        public string Email { get; set; }
         public void OnGet()
         {
         }
@@ -50,7 +50,7 @@ namespace Spoonful.Pages.Account
             var callbackUrl = Url.Page(
             "/Account/ResetPassword",
                 pageHandler: null,
-                values: new { code = code },
+                values: new { code = code, username = user.UserName },
                 protocol: Request.Scheme);
 
             await _emailSender.SendEmailAsync(
