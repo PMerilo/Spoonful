@@ -81,5 +81,62 @@ namespace Spoonful.Pages.user
 
             return Page();
         }
+
+        public async Task<IActionResult> OnPostPauseAsync()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            MealKit? mealkit = _mealKitService.GetMealKitByUserId(user.Id);
+            Console.Write("Initialising Pause Plan");
+            if (mealkit != null)
+            {
+                if (mealkit.Status)
+                {
+                    mealkit.Status = false;
+                    mealkit.userId = user.Id;
+                    Console.WriteLine("Updated Meal Kit");
+
+                    _mealKitService.UpdateMealKit(mealkit);
+                    TempData["FlashMessage.Type"] = "success";
+                    TempData["FlashMessage.Text"] = ("Your Meal Kit Plan Has Been Paused Successfully");
+                    return Redirect("/user/CurrentMealKitPlan");
+                }
+                else
+                {
+                    mealkit.Status = true;
+                    mealkit.userId = user.Id;
+                    Console.WriteLine("Updated Meal Kit");
+
+                    _mealKitService.UpdateMealKit(mealkit);
+                    TempData["FlashMessage.Type"] = "success";
+                    TempData["FlashMessage.Text"] = ("Your Meal Kit Plan Has Been Unpaused Successfully");
+                    return Redirect("/user/CurrentMealKitPlan");
+                }
+                
+
+            }
+
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostCancelAsync()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            MealKit? mealkit = _mealKitService.GetMealKitByUserId(user.Id);
+
+            if (mealkit != null)
+            {         
+                   
+                Console.WriteLine("Deleting Meal Kit");
+
+                _mealKitService.DeleteMealKit(mealkit);
+                TempData["FlashMessage.Type"] = "success";
+                TempData["FlashMessage.Text"] = ("Your Meal Kit Plan Has Been Cancelled Successfully.");
+                return Redirect("/user/CurrentMealKitPlan");
+                
+
+            }
+
+            return Page();
+        }
     }
 }
