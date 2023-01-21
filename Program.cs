@@ -2,23 +2,30 @@ using Microsoft.AspNetCore.Identity;
 using Spoonful.Models;
 using Microsoft.EntityFrameworkCore;
 using Spoonful.Services;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using System.Configuration;
+using Spoonful.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<AuthDbContext>();
+builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
+   opt.TokenLifespan = TimeSpan.FromHours(2));
 
 //Services
 builder.Services.AddScoped<CategoryService>();
 builder.Services.AddScoped<MenuItemService>();
 builder.Services.AddScoped<MealKitService>();
 builder.Services.AddScoped<RecipeService>();
+builder.Services.AddScoped<EmailService>();
 
-builder.Services.AddIdentity<CustomerUser, IdentityRole>().AddEntityFrameworkStores<AuthDbContext>();
+
+builder.Services.AddIdentity<CustomerUser, IdentityRole>().AddEntityFrameworkStores<AuthDbContext>().AddDefaultTokenProviders();
 builder.Services.ConfigureApplicationCookie(config =>
 {
-    config.LoginPath = "/User/Login";
+    config.LoginPath = "/Account/Login";
 });
 builder.Services.AddAuthentication("MyCookieAuth").AddCookie("MyCookieAuth", options =>
 {

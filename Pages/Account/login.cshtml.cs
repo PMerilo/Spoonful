@@ -6,7 +6,7 @@ using Spoonful.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 
-namespace Spoonful.Pages.User
+namespace Spoonful.Pages.Account
 {
     public class LoginModel : PageModel
     {
@@ -15,17 +15,17 @@ namespace Spoonful.Pages.User
 
         private readonly SignInManager<CustomerUser> signInManager;
         private readonly UserManager<CustomerUser> userManager;
-		public LoginModel(SignInManager<CustomerUser> signInManager, UserManager<CustomerUser> userManager)
+        public LoginModel(SignInManager<CustomerUser> signInManager, UserManager<CustomerUser> userManager)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
 
-		}
+        }
         public void OnGet()
         {
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string? ReturnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -35,21 +35,23 @@ namespace Spoonful.Pages.User
                     if (user != null) LModel.Username = user.UserName;
                 }
 
-				var identityResult = await signInManager.PasswordSignInAsync(LModel.Username, LModel.Password,
+                var identityResult = await signInManager.PasswordSignInAsync(LModel.Username, LModel.Password,
                 LModel.RememberMe, false);
 
-				if (identityResult.Succeeded)
+                if (identityResult.Succeeded)
                 {
                     //Create the security context
-                    var claims = new List<Claim> {
+                    var claims = new List<Claim>
+                    {
                         //new Claim(ClaimTypes.Name, "c@c.com"),
                         //new Claim(ClaimTypes.Email, "c@c.com")
                     };
                     var i = new ClaimsIdentity(claims, "MyCookieAuth");
                     ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(i);
                     await HttpContext.SignInAsync("MyCookieAuth", claimsPrincipal);
-
-                    return RedirectToPage("/Index");
+                    TempData["FlashMessage.Text"] = $"Logged in successfully";
+                    TempData["FlashMessage.Type"] = "success";
+                    return Redirect(ReturnUrl ?? "/");
                 }
                 ModelState.AddModelError("", "Username or Password incorrect");
             }
@@ -67,7 +69,7 @@ namespace Spoonful.Pages.User
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-		[Required]
-		public bool RememberMe { get; set; }
+        [Required]
+        public bool RememberMe { get; set; }
     }
 }

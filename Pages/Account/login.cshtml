@@ -1,5 +1,5 @@
 ﻿@page
-@model Spoonful.Pages.User.LoginModel
+@model Spoonful.Pages.Account.LoginModel
 @{
 }
 <div class="col-6 mx-auto">
@@ -51,7 +51,7 @@
 
             <div class="col-md-6 d-flex justify-content-end">
                 <!-- Simple link -->
-                <a href="#!">Forgot password?</a>
+                <a asp-page="ForgetPassword">Forgot password?</a>
             </div>
         </div>
         <span class="text-danger">@Html.ValidationSummary(true)</span>
