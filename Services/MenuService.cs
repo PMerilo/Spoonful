@@ -90,4 +90,50 @@ namespace Spoonful.Services
 			_context.SaveChanges();
 		}
 	}
+
+	public class MealKitService
+	{
+        private readonly AuthDbContext _context;
+
+        public MealKitService(AuthDbContext context)
+        {
+            _context = context;
+        }
+
+        public List<MealKit> GetAll()
+        {
+            return _context.MealKit.OrderBy(m => m.Id).ToList();
+        }
+
+
+        public MealKit? GetMealKitById(int id)
+        {
+            MealKit? mealkit = _context.MealKit.FirstOrDefault(x => x.Id.Equals(id));
+            return mealkit;
+        }
+
+        public MealKit? GetMealKitByUserId(string id)
+        {
+            MealKit? mealkit = _context.MealKit.FirstOrDefault(x => x.userId.Equals(id));
+            return mealkit;
+        }
+
+        public void AddMealKit(MealKit mealkit)
+        {
+            _context.MealKit.Add(mealkit);
+            _context.SaveChanges();
+        }
+
+        public void UpdateMealKit(MealKit mealkit)
+        {
+            _context.MealKit.Update(mealkit);
+            _context.SaveChanges();
+        }
+
+        public void DeleteMealKit(MealKit mealkit)
+        {
+            _context.MealKit.Remove(mealkit);
+            _context.SaveChanges();
+        }
+    }
 }

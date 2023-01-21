@@ -45,6 +45,8 @@ namespace Spoonful.Pages.Admin.MealManagement
 
         public async Task<IActionResult> OnPostAsync()
         {
+            
+
             if (ModelState.IsValid)
             {
                 if (Upload != null)
@@ -65,12 +67,12 @@ namespace Spoonful.Pages.Admin.MealManagement
                 if (menuItem != null)
                 {
                     TempData["FlashMessage.Type"] = "danger";
-                    TempData["FlashMessage.Text"] = string.Format("Menu item {0} already exist!", MyMenuItem.Name);
+                    TempData["FlashMessage.Text"] = string.Format("Meal Item {0} already exist!", MyMenuItem.Name);
                     return Page();
                 }
                 _menuItemService.AddMealItem(MyMenuItem);
                 TempData["FlashMessage.Type"] = "success";
-                TempData["FlashMessage.Text"] = string.Format("Menu item {0} is added", MyMenuItem.Name);
+                TempData["FlashMessage.Text"] = string.Format("Meal Item {0} is added", MyMenuItem.Name);
                 return Redirect("/Admin/MealManagement");
             }
             //TempData["Categories"] = _db.Category;

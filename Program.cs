@@ -16,7 +16,9 @@ builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
 
 //Services
 builder.Services.AddScoped<CategoryService>();
-builder.Services.AddScoped<MenuItemService>(); 
+builder.Services.AddScoped<MenuItemService>();
+builder.Services.AddScoped<MealKitService>();
+builder.Services.AddScoped<RecipeService>();
 builder.Services.AddScoped<EmailService>();
 
 
@@ -47,6 +49,8 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseStatusCodePagesWithRedirects("/errors/{0}");
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -58,7 +62,7 @@ app.UseAuthorization();
 
 app.UseSession();
 
-app.UseStatusCodePagesWithReExecute("/Error");
+
 
 app.MapRazorPages();
 
