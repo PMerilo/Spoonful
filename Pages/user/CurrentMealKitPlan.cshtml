@@ -103,6 +103,68 @@
                                 <button class="btn btn-success" type="submit">Save changes</button>
                                 </form>
                                 <br />
+                                <hr />
+                                <br />
+                                <h1 class="tw-text-lg tw-mb-5">Order Details</h1>
+                                <form method="post">
+                                <div class="row">
+                                    <input class="form-control" asp-for="@Model.MyOrderDetails.userId" value="@user.Id" hidden>
+                                    <div class="col-lg-8">
+                                        <div class="row gx-3">
+                                            <div class="form-group">
+                                                <label>Delivery Address</label>
+                                                <input class="form-control" id="address" asp-for="@Model.MyOrderDetails.Address" value="@Model.MyOrderDetails.Address" >
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+
+                                        <div class="col-lg-8">
+                                            <div class="row gx-3">
+                                                <div class="form-group">
+                                                    <label>Weekly Delivery Date</label>
+                                                    <select class="form-control" asp-for="MyOrderDetails.OrderDate" value="@Model.MyOrderDetails.OrderDate">
+                                                        <option value="Monday">Monday</option>
+											        <option value="Tuesday">Tuesday</option>
+											        <option value="Wednesday">Wednesday</option>
+											        <option value="Thursday">Thursday</option>
+											        <option value="Friday">Friday</option>
+											        <option value="Saturday">Saturday</option>
+											        <option value="Sunday">Sunday</option>
+								                    </select>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-8">
+                                            <div class="row gx-3">
+                                                <div class="form-group">
+                                                    <label>Weekly Delivery Time</label>
+                                                    <input class="form-control" placeholder="Select Time of your recurring Orders" min="05:00" max="22:00" type="time" asp-for="@Model.MyOrderDetails.OrderTime" value="@Model.MyOrderDetails.OrderTime" required>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-8">
+                                            <div class="row gx-3">
+                                                <div class="form-group">
+                                                    <label>Additional Instructions</label>
+                                                    <input class="form-control" placeholder= "Any additional instructions" type="text" asp-for="@Model.MyOrderDetails.AdditionalInstructions" value="@Model.MyOrderDetails.AdditionalInstructions" required>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    
+                                    <!-- col.// -->
+                                    
+                                </div>
+                                <!-- row.// -->
+                                <br />
+                                    <button class="btn btn-success" type="submit" asp-page-handler="saveorderdetails">Save changes</button>
+                                </form>
+
                             
                             <hr class="my-5" />
                             <h1 class="tw-text-lg tw-mb-5">Status</h1>
@@ -168,5 +230,10 @@
                 <!-- card body end// -->
             </div>
             <!-- card end// -->
+
     
         </section>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhDW10Zt5sVkx2_sMzIqNKJBik-TuMwPY&libraries=places&callback=initMap"></script>
+
+<script src="/js/AddressAutoComplete.js"></script>

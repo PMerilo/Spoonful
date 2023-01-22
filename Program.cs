@@ -2,18 +2,21 @@ using Microsoft.AspNetCore.Identity;
 using Spoonful.Models;
 using Microsoft.EntityFrameworkCore;
 using Spoonful.Services;
+using Spoonful.Utility;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<AuthDbContext>();
-
+builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 //Services
 builder.Services.AddScoped<CategoryService>();
 builder.Services.AddScoped<MenuItemService>();
 builder.Services.AddScoped<MealKitService>();
 builder.Services.AddScoped<RecipeService>();
+builder.Services.AddScoped<OrderService>();
 
 builder.Services.AddIdentity<CustomerUser, IdentityRole>().AddEntityFrameworkStores<AuthDbContext>();
 builder.Services.ConfigureApplicationCookie(config =>
@@ -48,6 +51,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+string key = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
+StripeConfiguration.ApiKey = key;
 
 app.UseAuthentication();
 
