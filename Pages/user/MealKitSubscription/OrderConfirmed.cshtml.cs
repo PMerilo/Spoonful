@@ -12,19 +12,32 @@ namespace Spoonful.Pages.user.MealKitSubscription
         private readonly AuthDbContext _db;
 
         private readonly MealKitService _mealKitService;
+        private readonly OrderService _orderService;
 
-        public MealKit MyMealKit { get; set; }
+       
 
-        public OrderConfirmedModel(UserManager<CustomerUser> userManager, AuthDbContext db, MealKitService mealKitService)
+        public OrderConfirmedModel(UserManager<CustomerUser> userManager, AuthDbContext db, MealKitService mealKitService, OrderService orderService)
         {
             _userManager = userManager;
             _db = db;
             _mealKitService = mealKitService;
-            
+            _orderService = orderService;
         }
 
-        public void OnGet()
+        public async Task<IActionResult> OnGet()
         {
+            var user = await _userManager.GetUserAsync(User);
+            MealKit? mealkit = _mealKitService.GetMealKitByUserId(user.Id);
+            OrderDetails? orderDetails = _orderService.GetOrderDetailsByUserId(user.Id);
+            if (mealkit != null)
+            {
+                return Page();
+
+            }
+
+            return Redirect("/user/CurrentMealKitPlan");
+
+
         }
     }
 }

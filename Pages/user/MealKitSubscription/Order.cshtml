@@ -110,7 +110,9 @@
 					        
 					        <div class="form-group">
 					            <label>Order Pickup Date</label>
-								<select class="form-control" asp-for="MyOrderDetails.OrderDate" required>
+								<input type="date" asp-for="MyOrderDetails.OrderDate" class="form-control">
+								<!--
+									<select class="form-control" asp-for="MyOrderDetails.OrderDate" required>
 									<option value="Monday">Monday</option>
 											<option value="Tuesday">Tuesday</option>
 											<option value="Wednesday">Wednesday</option>
@@ -118,7 +120,9 @@
 											<option value="Friday">Friday</option>
 											<option value="Saturday">Saturday</option>
 											<option value="Sunday">Sunday</option>
-								</select>
+									</select>
+								-->
+								
 								
 					        </div>
 
@@ -203,15 +207,20 @@
 		                </div>
 		                <!-- /head -->
 		                <div class="main">
-		                	<ul>
+							<!--
+								<ul>
 		                		<li>Meat & Veggies Plan</li>
 		                		<li>3 Recipes Per Week</li>
 		                		<li>2 People</li>
 								<li>3 Servings Per Person</li>
 								<li>18 Total Servings</li>
 		                	</ul>
-		                	<hr>
+							-->
 		                	
+		                	<hr>
+							<div class="form-group">
+								<input type="text" name="name_detail_contact" id="name_detail_contact" class="form-control" placeholder="Enter Discount Code Here">
+							</div>
 		                	
 		                	<ul class="clearfix">
 								<li>Calculated at Checkout</li>

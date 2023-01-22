@@ -45,6 +45,10 @@ namespace Spoonful.Pages.user.MealKitSubscription
 
         public async Task<IActionResult> OnPostAsync()
         {
+            double serving = 5.00;
+            
+            int totalServings = (int)(MyMealKit.noOfPeoplePerWeek * MyMealKit.noOfServingsPerPerson * MyMealKit.noOfRecipesPerWeek);
+            double totalCost = (double)(serving * MyMealKit.noOfPeoplePerWeek * MyMealKit.noOfServingsPerPerson * MyMealKit.noOfRecipesPerWeek);
             MyMealKit.orderDetailsId = MyOrderDetails.Id;
             int quantity = 1;
             if (ModelState.IsValid && MyMealKit.orderDetailsId != null)
@@ -70,12 +74,14 @@ namespace Spoonful.Pages.user.MealKitSubscription
                   {
                     PriceData = new SessionLineItemPriceDataOptions
                     {
-                        UnitAmount = 100,
+                        UnitAmount = (long)totalCost * 100,
                         Currency = "usd",
                         ProductData = new SessionLineItemPriceDataProductDataOptions
                         {
                             Name = "Spoonful Meal Kit Subscription",
-                            Description = "Spoonful Description"
+                            Description = $"{MyMealKit.MenuPreference} Plan," +
+                            $" {MyMealKit.noOfServingsPerPerson} Servings for {MyMealKit.noOfPeoplePerWeek}," +
+                            $" {totalServings} Total Servings"
                         },
                     },
                     Quantity = quantity
@@ -87,9 +93,9 @@ namespace Spoonful.Pages.user.MealKitSubscription
                   "card"  
                 },
                     Mode = "payment",
-                    SuccessUrl = domain + "/OrderConfirmed",
+                    SuccessUrl = domain + $"/user/MealKitSubscription/OrderConfirmed",
                     //SuccessUrl = domain + "/OrderConfirmed.cshtml?session_id={CHECKOUT_SESSION_ID}",
-                    CancelUrl = domain + "/Order",
+                    CancelUrl = domain + "/user/MealKitSubscription/Order",
                 };
                 var service = new SessionService();
                 Session session = service.Create(options);
