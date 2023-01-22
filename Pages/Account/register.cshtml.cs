@@ -10,7 +10,7 @@ using System.Text;
 using Spoonful.Models;
 using Microsoft.Win32;
 
-namespace Spoonful.Pages.User
+namespace Spoonful.Pages.Account
 {
     public class RegisterModel : PageModel
     {
@@ -45,6 +45,8 @@ namespace Spoonful.Pages.User
                 if (result.Succeeded)
                 {
                     await signInManager.SignInAsync(user, false);
+                    TempData["FlashMessage.Text"] = "Created account successfully";
+                    TempData["FlashMessage.Type"] = "success";
                     return RedirectToPage("/Index");
                 }
                 foreach (var error in result.Errors)
@@ -63,13 +65,13 @@ namespace Spoonful.Pages.User
         [Display(Name = "Username")]
         public string UserName { get; set; }
 
-		//[Required]
-		[Display(Name = "First Name")]
-		public string FirstName { get; set; }
+        //[Required]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
 
-		//[Required]
-		[Display(Name = "Last Name")]
-		public string LastName { get; set; }
+        //[Required]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
 
         [Required]
         [DataType(DataType.EmailAddress)]

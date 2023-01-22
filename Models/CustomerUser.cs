@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace Spoonful.Models
 {
@@ -12,5 +13,10 @@ namespace Spoonful.Models
 
         [PersonalData]
         public DateTime DOB { get; set; }
+
+        [MaxLength(50)]
+        public string? ImageURL { get; set; }
+
+        public ICollection<Notification>? Notifications { get; set; }
     }
 }
