@@ -1,6 +1,7 @@
 ﻿@page
 @model Spoonful.Pages.user.MealKitSubscription.OrderConfirmedModel
 @{
+	
 }
 @using Microsoft.AspNetCore.Identity
 @using Spoonful.Models
@@ -44,7 +45,8 @@
 
 								<br />
 								<br />
-								<a href="" class="btn btn-success">See My Orders</a>
+							<a asp-page="/user/ViewOrders/Index" class="btn btn-success">See My Orders</a>
+							<a asp-page="/user/MealKitSubscription/Invoice" class="btn btn-success" target="_blank">View Invoice</a>
 							</div>
 		                </div>
 		            </div>

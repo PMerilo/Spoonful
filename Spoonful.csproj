@@ -25,6 +25,10 @@
 	</Target>
 
 	<ItemGroup>
+	  <_ContentIncludedByDefault Remove="wwwroot\css\listing.css" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.12" />
 	  <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.12" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.1" />
