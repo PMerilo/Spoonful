@@ -1,9 +1,9 @@
-﻿using MailKit;
-using MailKit.Net.Smtp;
-using MailKit.Security;
-using Microsoft.Extensions.Options;
-using MimeKit;
-using Spoonful.Settings;
+﻿using Spoonful.Settings;
+using System.Diagnostics;
+using sib_api_v3_sdk.Api;
+using sib_api_v3_sdk.Client;
+using sib_api_v3_sdk.Model;
+using NuGet.Protocol;
 
 namespace Spoonful.Services
 {
@@ -16,16 +16,30 @@ namespace Spoonful.Services
             _emailConfig = emailConfig;
         }
 
-        public Task SendEmailAsync(string ToEmail, string Subject, string Body, List<IFormFile>? Attachments)
+        public bool SendEmail(string ToEmail, string? Subject, string? HTMLContent, string? TextContent, List<IFormFile>? Attachments)
         {
-            var email = new MimeMessage();
-            email.From.Add(MailboxAddress.Parse(_emailConfig.From));
-            email.To.Add(MailboxAddress.Parse(ToEmail));
-            email.Subject = Subject;
-            var builder = new BodyBuilder();
+            if (!Configuration.Default.ApiKey.ContainsKey("api-key"))
+            {
+                Configuration.Default.ApiKey.Add("api-key", _emailConfig.API);
+            }
+            var apiInstance = new TransactionalEmailsApi();
+            string SenderName = "Spoonful";
+            string SenderEmail = "noreply@Spoonful.com";
+            SendSmtpEmailSender Email = new SendSmtpEmailSender(SenderName, SenderEmail);
+            SendSmtpEmailTo smtpEmailTo = new SendSmtpEmailTo(ToEmail);
+            List<SendSmtpEmailTo> To = new List<SendSmtpEmailTo>
+            {
+                smtpEmailTo
+            };
+            //string ReplyToName = "John Doe";
+            //string ReplyToEmail = "replyto@domain.com";
+            //SendSmtpEmailReplyTo ReplyTo = new SendSmtpEmailReplyTo(ReplyToEmail, ReplyToName);
+
+            List<SendSmtpEmailAttachment> Attachment = null;
             if (Attachments != null)
             {
                 byte[] fileBytes;
+                Attachment = new List<SendSmtpEmailAttachment>();
                 foreach (var file in Attachments)
                 {
                     if (file.Length > 0)
@@ -35,34 +49,28 @@ namespace Spoonful.Services
                             file.CopyTo(ms);
                             fileBytes = ms.ToArray();
                         }
-                        builder.Attachments.Add(file.FileName, fileBytes, ContentType.Parse(file.ContentType));
+                        string AttachmentUrl = null;
+                        string AttachmentName = file.FileName;
+                        SendSmtpEmailAttachment AttachmentContent = new SendSmtpEmailAttachment(AttachmentUrl, fileBytes, AttachmentName);
+                        Attachment.Add(AttachmentContent);
                     }
                 }
             }
-            builder.HtmlBody = Body;
-            email.Body = builder.ToMessageBody();
-            using (var client = new SmtpClient())
+            try
             {
-                try
-                {
-                    client.Connect(_emailConfig.Host, _emailConfig.Port, SecureSocketOptions.Auto);
-                    client.Authenticate(_emailConfig.UserName, _emailConfig.Password);
-                    client.Send(email);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                    //log an error message or throw an exception or both.
-                    throw;
-                }
-                finally
-                {
-                    client.Disconnect(true);
-                    client.Dispose();
-                }
+                var sendSmtpEmail = new SendSmtpEmail(Email, To, null, null, HTMLContent, TextContent, Subject, null, Attachment, null, null, null, null, null);
+                CreateSmtpEmail result = apiInstance.SendTransacEmail(sendSmtpEmail);
+                //Debug.WriteLine(result.ToJson());
+                //Console.WriteLine(result.ToJson());
+                return true;
             }
-
-            return Task.CompletedTask;
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                Console.WriteLine(e.Message);
+                return false;
+            }
+            
         }
     }
 }
