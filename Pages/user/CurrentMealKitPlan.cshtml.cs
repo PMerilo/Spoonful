@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Spoonful.Migrations;
 using Spoonful.Models;
 using Spoonful.Services;
 using Microsoft.AspNetCore.Identity;
@@ -17,16 +16,24 @@ namespace Spoonful.Pages.user
 
         private readonly UserManager<CustomerUser> _userManager;
 
+        private readonly OrderService _orderService;
 
-        public CurrentMealKitPlanModel(AuthDbContext db, MealKitService mealKitService, UserManager<CustomerUser> userManager)
+
+        public CurrentMealKitPlanModel(AuthDbContext db, MealKitService mealKitService, UserManager<CustomerUser> userManager, OrderService orderService)
         {
             _db = db;
             _mealKitService = mealKitService;
             _userManager = userManager;
+            _orderService = orderService;
         }
 
         [BindProperty]
         public MealKit MyMealKit { get; set; }
+
+
+        public OrderDetails MyOrderDetails { get; set; }
+
+
 
 
         public async Task<IActionResult> OnGet()
@@ -34,6 +41,7 @@ namespace Spoonful.Pages.user
 
             var user = await _userManager.GetUserAsync(User);
             MealKit? mealkit = _mealKitService.GetMealKitByUserId(user.Id);
+            OrderDetails? orderDetails = _orderService.GetOrderDetailsByUserId(user.Id);
             if (mealkit != null)
             {
 
@@ -42,6 +50,7 @@ namespace Spoonful.Pages.user
                 Console.WriteLine(mealkit.userId);
                 Console.WriteLine(mealkit.MenuPreference);
                 MyMealKit = mealkit;
+                MyOrderDetails = orderDetails;
             }
 
 
@@ -55,7 +64,7 @@ namespace Spoonful.Pages.user
             var user = await _userManager.GetUserAsync(User);
             MealKit? mealkit = _mealKitService.GetMealKitByUserId(user.Id);
 
-            if(mealkit != null)
+            if (mealkit != null)
             {
                 mealkit.noOfPeoplePerWeek = MyMealKit.noOfPeoplePerWeek;
                 mealkit.MenuPreference = MyMealKit.MenuPreference;
@@ -69,15 +78,15 @@ namespace Spoonful.Pages.user
                 MyMealKit.Id = mealkit.Id;
                 MyMealKit.userId = user.Id;
                 Console.WriteLine("Updated Meal Kit");
-                
+
                 _mealKitService.UpdateMealKit(mealkit);
                 TempData["FlashMessage.Type"] = "success";
                 TempData["FlashMessage.Text"] = ("Your Meal Kit Plan Has Been Updated Successfully");
                 return Redirect("/user/CurrentMealKitPlan");
             }
-            
-            
-            
+
+
+
 
             return Page();
         }
@@ -111,7 +120,7 @@ namespace Spoonful.Pages.user
                     TempData["FlashMessage.Text"] = ("Your Meal Kit Plan Has Been Unpaused Successfully");
                     return Redirect("/user/CurrentMealKitPlan");
                 }
-                
+
 
             }
 
@@ -122,20 +131,38 @@ namespace Spoonful.Pages.user
         {
             var user = await _userManager.GetUserAsync(User);
             MealKit? mealkit = _mealKitService.GetMealKitByUserId(user.Id);
-
+            OrderDetails orderDetails = _orderService.GetOrderDetailsByUserId(user.Id);
             if (mealkit != null)
-            {         
-                   
+            {
+
                 Console.WriteLine("Deleting Meal Kit");
 
                 _mealKitService.DeleteMealKit(mealkit);
+                _orderService.DeleteOrderDetails(orderDetails);
                 TempData["FlashMessage.Type"] = "success";
                 TempData["FlashMessage.Text"] = ("Your Meal Kit Plan Has Been Cancelled Successfully.");
                 return Redirect("/user/CurrentMealKitPlan");
-                
+
 
             }
 
+            return Page();
+        }
+        public async Task<IActionResult> OnPostSaveorderdetailsAsync()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            OrderDetails? orderDetails = _orderService.GetOrderDetailsByUserId(user.Id);
+            if (!ModelState.IsValid)
+            {
+                orderDetails.Address = MyOrderDetails.Address;
+                orderDetails.OrderDate = MyOrderDetails.OrderDate;
+                orderDetails.OrderTime = MyOrderDetails.OrderTime;
+                orderDetails.AdditionalInstructions = MyOrderDetails.AdditionalInstructions;
+                _orderService.UpdateOrderDetails(orderDetails);
+                TempData["FlashMessage.Type"] = "success";
+                TempData["FlashMessage.Text"] = ("Your Order Details Has Been Saved Successfully.");
+            }
+            
             return Page();
         }
     }
