@@ -1,32 +1,46 @@
-﻿using MailKit;
-using MailKit.Net.Smtp;
-using MailKit.Security;
-using MimeKit;
-using Spoonful.Settings;
+﻿using Spoonful.Settings;
+using System.Diagnostics;
+using sib_api_v3_sdk.Api;
+using sib_api_v3_sdk.Client;
+using sib_api_v3_sdk.Model;
+using NuGet.Protocol;
 
 
 namespace Spoonful.Services
 {
 
-    public class EmailService
+    public class EmailService : IEmailService
     {
-        //private readonly EmailConfiguration _emailConfig;
-        public EmailService()
+        private readonly EmailConfiguration _emailConfig;
+        public EmailService(EmailConfiguration emailConfig)
         {
-            //_emailConfig = emailConfig;
+            _emailConfig = emailConfig;
         }
 
-
-        public async Task SendEmailAsync(string ToEmail, string Subject, string Body, List<IFormFile>? Attachments)
+        public bool SendEmail(string ToEmail, string? Subject, string? HTMLContent, string? TextContent, List<IFormFile>? Attachments)
         {
-            var email = new MimeMessage();
-            email.Sender = MailboxAddress.Parse("noreply@spoonful.com");
-            email.To.Add(MailboxAddress.Parse(ToEmail));
-            email.Subject = Subject;
-            var builder = new BodyBuilder();
+            if (!Configuration.Default.ApiKey.ContainsKey("api-key"))
+            {
+                Configuration.Default.ApiKey.Add("api-key", _emailConfig.API);
+            }
+            var apiInstance = new TransactionalEmailsApi();
+            string SenderName = "Spoonful";
+            string SenderEmail = "noreply@Spoonful.com";
+            SendSmtpEmailSender Email = new SendSmtpEmailSender(SenderName, SenderEmail);
+            SendSmtpEmailTo smtpEmailTo = new SendSmtpEmailTo(ToEmail);
+            List<SendSmtpEmailTo> To = new List<SendSmtpEmailTo>
+            {
+                smtpEmailTo
+            };
+            //string ReplyToName = "John Doe";
+            //string ReplyToEmail = "replyto@domain.com";
+            //SendSmtpEmailReplyTo ReplyTo = new SendSmtpEmailReplyTo(ReplyToEmail, ReplyToName);
+
+            List<SendSmtpEmailAttachment> Attachment = null;
             if (Attachments != null)
             {
                 byte[] fileBytes;
+                Attachment = new List<SendSmtpEmailAttachment>();
                 foreach (var file in Attachments)
                 {
                     if (file.Length > 0)
@@ -36,18 +50,28 @@ namespace Spoonful.Services
                             file.CopyTo(ms);
                             fileBytes = ms.ToArray();
                         }
-                        builder.Attachments.Add(file.FileName, fileBytes, ContentType.Parse(file.ContentType));
+                        string AttachmentUrl = null;
+                        string AttachmentName = file.FileName;
+                        SendSmtpEmailAttachment AttachmentContent = new SendSmtpEmailAttachment(AttachmentUrl, fileBytes, AttachmentName);
+                        Attachment.Add(AttachmentContent);
                     }
                 }
             }
-            builder.HtmlBody = Body;
-            email.Body = builder.ToMessageBody();
-            using var smtp = new SmtpClient();
-            smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
-            smtp.Authenticate("pgmerilo@gmail.com", "ooiwkizuyqhhrpau");
-            await smtp.SendAsync(email);
-            smtp.Disconnect(true);
+            try
+            {
+                var sendSmtpEmail = new SendSmtpEmail(Email, To, null, null, HTMLContent, TextContent, Subject, null, Attachment, null, null, null, null, null);
+                CreateSmtpEmail result = apiInstance.SendTransacEmail(sendSmtpEmail);
+                //Debug.WriteLine(result.ToJson());
+                //Console.WriteLine(result.ToJson());
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                Console.WriteLine(e.Message);
+                return false;
+            }
+            
         }
-
     }
 }

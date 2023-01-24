@@ -31,8 +31,12 @@ builder.Services.AddScoped<MealKitService>();
 builder.Services.AddScoped<RecipeService>();
 builder.Services.AddScoped<OrderService>();
 
-builder.Services.AddScoped<EmailService>();
-
+//builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("EmailConfiguration"));
+var emailConfig = builder.Configuration
+        .GetSection("EmailConfiguration")
+        .Get<EmailConfiguration>();
+builder.Services.AddSingleton(emailConfig);
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 
 builder.Services.AddIdentity<CustomerUser, IdentityRole>().AddEntityFrameworkStores<AuthDbContext>().AddDefaultTokenProviders();

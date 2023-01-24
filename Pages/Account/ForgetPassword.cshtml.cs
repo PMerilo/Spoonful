@@ -13,10 +13,10 @@ namespace Spoonful.Pages.Account
 {
     public class ForgetPasswordModel : PageModel
     {
-        public readonly EmailService _emailSender;
+        public readonly IEmailService _emailSender;
         public readonly UserManager<CustomerUser> _userManager;
 
-        public ForgetPasswordModel(EmailService emailSender, UserManager<CustomerUser> userManager)
+        public ForgetPasswordModel(IEmailService emailSender, UserManager<CustomerUser> userManager)
         {
             _emailSender = emailSender;
             _userManager = userManager;
@@ -37,11 +37,12 @@ namespace Spoonful.Pages.Account
                 return Page();
             }
             var user = await _userManager.FindByEmailAsync(Email);
-            TempData["FlashMessage.Text"] = $"A reset password email will be sent to {user.Email} if it is valid" ;
-            
+
+            TempData["FlashMessage.Text"] = $"A reset password email will be sent to {user.Email} if it is valid";
+            TempData["FlashMessage.Type"] = "info";
+
             if (user == null)
             {
-                TempData["FlashMessage.Type"] = "danger";
                 return Page();
             }
 
@@ -53,12 +54,18 @@ namespace Spoonful.Pages.Account
                 values: new { code = code, username = user.UserName },
                 protocol: Request.Scheme);
 
-            await _emailSender.SendEmailAsync(
+            var result = _emailSender.SendEmail(
                 Email,
                 "Reset Password",
                 $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.",
+                null,
                 null);
-            TempData["FlashMessage.Type"] = "info";
+            
+            if (!result)
+            {
+                TempData["FlashMessage.Text"] = $"Failed to send email.";
+                TempData["FlashMessage.Type"] = "danger";
+            }
             return Page();
         }
     }
