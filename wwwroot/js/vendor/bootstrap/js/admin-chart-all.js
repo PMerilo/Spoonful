@@ -95,22 +95,22 @@ var myLineChart = new Chart(ctx, {
     }
 });
 // -- Pie Chart Example
-var getOccupationData = $.get('/Admin/charts')
-getOccupationData.done(function (data) {
+var getMenuPreferenceData = $.get('/Admin/charts')
+getMenuPreferenceData.done(function (data) {
     var ctx = document.getElementById("myPieChart");
     labels = [];
-
     let values = []
+
     data.forEach(element => {
         labels.push(element.menuPreference)
 
     });
 
-
     data.forEach(element => {
         values.push(element.count)
 
     });
+
     
     var myPieChart = new Chart(ctx, {
         type: 'pie',

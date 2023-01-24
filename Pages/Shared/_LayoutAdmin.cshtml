@@ -15,13 +15,15 @@
     
     <link rel="stylesheet" href="~/css/admin.css" />
     <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+    
 
     <!-- Icon fonts-->
     
     <link href="https://cdn.jsdelivr.net/gh/hung1001/font-awesome-pro-v6@44659d9/css/all.min.css" rel="stylesheet" type="text/css" />
     
     <!-- Plugin styles -->
-    <link href="~/js/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="~/js/vendor/bootstrap/datatables/dataTables.bootstrap4.css" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
     
@@ -67,9 +69,16 @@
                     </ul>
                 </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add listing + Menu List">
-                    <a class="nav-link" href="add-listing-with-menu-list.html">
+                    <a class="nav-link" asp-page="/Admin/MealManagement/Index" >
                         <i class="fa fa-fw fa-plus-circle"></i>
-                        <span class="nav-link-text">Add listing + Menu List</span>
+                        <span class="nav-link-text">Meal Management</span>
+                    </a>
+                </li>
+
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Edit Order">
+                    <a class="nav-link" asp-page="/Admin/FoodCategory/Index">
+                        <i class="fa fa-fw fa-pencil"></i>
+                        <span class="nav-link-text">Food Categories</span>
                     </a>
                 </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Orders Page">
@@ -78,16 +87,11 @@
                         <span class="nav-link-text">Orders Page</span>
                     </a>
                 </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Edit Order">
-                    <a class="nav-link" href="edit-order.html">
-                        <i class="fa fa-fw fa-pencil"></i>
-                        <span class="nav-link-text">Edit Order</span>
-                    </a>
-                </li>
+                
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Invoice">
-                    <a class="nav-link" href="invoice.html" target="_blank">
-                        <i class="fa fa-fw fa-file"></i>
-                        <span class="nav-link-text">Invoice</span>
+                    <a class="nav-link" asp-page="/Admin/RecipeManagement/Index">
+                        <i class="fa fa-fw fa-book"></i>
+                        <span class="nav-link-text">Recipe Management</span>
                     </a>
                 </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reviews">
@@ -244,6 +248,17 @@
                 <li class="breadcrumb-item active">My Dashboard</li>
             </ol>
             -->
+            @if (TempData["error"] != null)
+        {
+            <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"> </script>
+
+            <script type="text/javascript">
+                    toastr.error('@TempData["error"]')
+            </script>
+
+        }
             @await Html.PartialAsync("_FlashMessage")
                 @RenderBody()
             
@@ -290,19 +305,28 @@
 
 <!-- Bootstrap core JavaScript-->
 
+
 <script src="~/js/vendor/jquery/jquery.min.js"></script>
 <script src="~/js/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- Core plugin JavaScript-->
+
 <script src="~/js/vendor/jquery-easing/jquery.easing.min.js"></script>
 
 <!-- Page level plugin JavaScript-->
 <script src="~/js/vendor/chart.js/Chart.js"></script>
 
-<script src="~/js/vendor/datatables/jquery.dataTables.js"></script>
-<script src="~/js/vendor/datatables/dataTables.bootstrap4.js"></script>
-<script src="~/js/vendor/jquery.magnific-popup.min.js"></script>
+
+<script src="~/js/vendor/bootstrap/js/jquery.magnific-popup.js"></script>
+
 <!-- Custom scripts for all pages-->
 <script src="~/js/vendor/bootstrap/js/admin.js"></script>
 
 <!-- Custom scripts for this page-->
-<script src="~/js/vendor/bootstrap/js/admin-chart.js"></script>
+
+<!--<script src="~/js/vendor/bootstrap/js/admin-chart.js"></script>-->
+<script src="~/js/vendor/bootstrap/js/admin-chart-all.js"></script>
+
+<!-- /tables-->
+<script src="~/js/vendor/bootstrap/datatables/dataTables.bootstrap4.js"></script>
+<script src="~/js/vendor/bootstrap/datatables/jquery.dataTables.js"></script>
+<script src="~/js/vendor/bootstrap/js/admin-datatables.js"></script>

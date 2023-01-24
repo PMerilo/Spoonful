@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Spoonful.Services;
 using Spoonful.Utility;
 using Stripe;
-=======
+
 using Microsoft.AspNetCore.Identity.UI.Services;
 using System.Configuration;
 using Spoonful.Settings;
@@ -18,7 +18,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<AuthDbContext>();
 builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
-=======
+builder.Services.AddControllers();
+
 builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
    opt.TokenLifespan = TimeSpan.FromHours(2));
 
@@ -29,7 +30,7 @@ builder.Services.AddScoped<MenuItemService>();
 builder.Services.AddScoped<MealKitService>();
 builder.Services.AddScoped<RecipeService>();
 builder.Services.AddScoped<OrderService>();
-=======
+
 builder.Services.AddScoped<EmailService>();
 
 
@@ -76,7 +77,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseSession();
-
+app.MapControllers();
 
 
 app.MapRazorPages();
