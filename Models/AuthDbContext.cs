@@ -23,6 +23,7 @@ namespace Spoonful.Models
         public DbSet<Vouchers> Rewards { get; set; }
         public DbSet<MealKit> MealKit { get; set; }
 
+        public DbSet<OrderDetails> OrderDetails { get; set; }
         public DbSet<Recipe> Recipe { get; set; }
     }
 }
