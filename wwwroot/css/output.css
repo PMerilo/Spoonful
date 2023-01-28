@@ -565,6 +565,10 @@ img,
   width: auto !important;
 }
 
+.tw-w-96 {
+  width: 24rem !important;
+}
+
 .tw-flex-grow {
   flex-grow: 1 !important;
 }

@@ -1,0 +1,9 @@
+﻿//TODO
+
+format notification time when getting from database - set the setter method in class
+badges for notifications
+seen
+remove the previous getnotifiations in razor page
+
+make notification service more usable
+make send to all toastr

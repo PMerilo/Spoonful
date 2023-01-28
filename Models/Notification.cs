@@ -16,8 +16,13 @@ namespace Spoonful.Models
         public string? Body { get; set; }
 
         [Required]
+        [Display(Name = "Url")]
+        [DataType(DataType.Url)]
+        public string? Url { get; set; }
+
+        [Required]
         [DataType(DataType.DateTime)]
-        public string? DateCreated { get; set; }
+        public DateTime DateCreated { get; set; } = DateTime.Now;
 
         
         [Required]
