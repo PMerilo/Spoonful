@@ -1,7 +1,16 @@
 ﻿"use strict";
 
-var connection = new signalR.HubConnectionBuilder().withUrl("/notificationHub").build();
+dayjs().calendar()
 
+function toNotifTime(string) {
+    return dayjs(string).calendar(null, {
+        sameDay: 'h:mm A', // The same day ( Today at 2:30 AM )
+        lastDay: '[Yesterday]', // The day before ( Yesterday at 2:30 AM )
+        sameElse: 'DD/MM/YYYY' // Everything else ( 7/10/2011 )
+    })
+}
+
+var connection = new signalR.HubConnectionBuilder().withUrl("/notificationHub").build();
 connection.on("PushNotification", (req) => {
     //console.log(req)
     $("#Notifications").find("p").remove()
@@ -12,7 +21,7 @@ connection.on("PushNotification", (req) => {
                 <span class="text-black">
                     <strong>${req.title}</strong>
                 </span>
-                <span class="small float-end text-muted">${req.dateCreated}</span>
+                <span class="small float-end text-muted">${toNotifTime(req.dateCreated)}</span>
                 <div class="dropdown-message">${req.body}</div>
             </a>
             `
@@ -31,7 +40,7 @@ connection.on("RetrieveNotifications", (req) => {
                 <span class="text-black">
                     <strong>${req[i].title}</strong>
                 </span>
-                <span class="small float-end text-muted">${Date.parse(req[i].dateCreated).toLocaleString()}</span>
+                <span class="small float-end text-muted">${toNotifTime(req[i].dateCreated)}</span>
                 <div class="dropdown-message">${req[i].body}</div>
             </a>
             `

@@ -53,7 +53,7 @@ namespace Spoonful.Services
             {
                 body = notification.Body,
                 title = notification.Title,
-                dateCreated = notification.DateCreated.ToShortTimeString(),
+                dateCreated = notification.DateCreated,
                 url = notification.Url
             });
             SaveNotification(notification,username);

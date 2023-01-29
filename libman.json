@@ -10,6 +10,15 @@
         "dist/browser/signalr.js",
         "dist/browser/signalr.min.js"
       ]
+    },
+    {
+      "provider": "unpkg",
+      "library": "dayjs@1.11.7",
+      "destination": "wwwroot/js/dayjs/",
+      "files": [
+        "dayjs.min.js",
+        "plugin/calendar.js"
+      ]
     }
   ]
 }

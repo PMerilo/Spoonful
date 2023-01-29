@@ -203,6 +203,13 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/dayjs/dayjs.min.js"></script>
+    <script src="~/js/dayjs/plugin/calendar.js"></script>
+
+    <script>
+        dayjs().format()
+        dayjs.extend(window.dayjs_plugin_calendar)
+    </script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
@@ -212,6 +219,8 @@
 
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
     <script src="~/js/notification.js"></script>
+
+
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
