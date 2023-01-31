@@ -1,7 +1,4 @@
 ﻿//TODO
-
-badges for notifications
-seen
-
-make notification service more usable
 make send to all toastr
+
+admin page for user management

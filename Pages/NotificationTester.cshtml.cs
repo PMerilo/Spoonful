@@ -31,6 +31,9 @@ namespace Spoonful.Pages
 
         [BindProperty]
         public string Url { get; set; }
+
+        [BindProperty]
+        public bool Persist { get; set; }
         public async Task OnGet()
         {
             Users = _userManager.Users.ToList();
@@ -50,7 +53,8 @@ namespace Spoonful.Pages
                 Body = Body,
                 Url = Url,
             };
-            await _notificationService.SendNotificationAsync(notification, UserName);
+            if (Persist == null) Persist = true; 
+            await _notificationService.SendNotificationAsync(notification, UserName, Persist);
             TempData["FlashMessage.Text"] = "Success";
             TempData["FlashMessage.Type"] = "success";
             return Page();

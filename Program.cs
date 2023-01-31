@@ -63,7 +63,7 @@ builder.Services.ConfigureApplicationCookie(config =>
 {
     config.LoginPath = "/Account/Login";
     config.LogoutPath = "/Account/Logout";
-    config.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+    config.ExpireTimeSpan = TimeSpan.FromMinutes(30);
     config.SlidingExpiration = true;
 });
 builder.Services.AddAuthentication("MyCookieAuth").AddCookie("MyCookieAuth", options =>

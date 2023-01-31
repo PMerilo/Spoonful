@@ -6,75 +6,70 @@ function toNotifTime(string) {
     return dayjs(string).calendar(null, {
         sameDay: 'h:mm A', // The same day ( Today at 2:30 AM )
         lastDay: '[Yesterday]', // The day before ( Yesterday at 2:30 AM )
+        lastWeek: 'DD/MM/YYYY',
         sameElse: 'DD/MM/YYYY' // Everything else ( 7/10/2011 )
     })
 }
 
-var connection = new signalR.HubConnectionBuilder().withUrl("/notificationHub").build();
-connection.on("PushNotification", (req) => {
-    //console.log(req)
-    $("#Notifications").find("p").remove()
-    $("#Notifications").append(
-        [
-            `
-            <a class="dropdown-item py-2" href="${req.url}">
-                <span class="text-black">
-                    <strong>${req.title}</strong>
-                </span>
-                <span class="small float-end text-muted">${toNotifTime(req.dateCreated)}</span>
-                <div class="dropdown-message">${req.body}</div>
-            </a>
-            `
-        ].join(""));
+function updateBadge(num = 1) {
     if ($("#NotificationBadge").length) {
-        $("#NotificationBtn").children().first().text(function (i, origText) {
-            return parseInt(origText)++
+        $("#NotificationBadge").children().first().text(function (i, origText) {
+            var i = parseInt(origText)
+            i += num
+            return i
         })
     } else {
         $("#NotificationBtn").append(
             `
         <span class="position-absolute end-0 top-0 badge p-2 rounded-circle border-2 border-white bg-danger" id="NotificationBadge">
-            <span class="position-absolute top-50 start-50 translate-middle fw-normal"></span>
+            <span class="position-absolute top-50 start-50 translate-middle fw-normal">${num}</span>
             <span class="visually-hidden">unread messages</span>
         </span>
         `
         )
-        console.log("EST")
 
     }
+}
+
+function formatter(req) {
+    var unreadClass = req.seen ? "" : "notification-unread"
+    return `
+            <a class="dropdown-item py-2 px-4 ${unreadClass}" href="${req.url}" data-id="${req.id}">
+                <div class="d-flex justify-content-between align-items-baseline">
+                    <span class="text-black text-wrap text-break fw-bold">
+                        ${req.title}
+                    </span>
+                    <span class="small float-end text-muted ms-2">${toNotifTime(req.dateCreated)}</span>
+                </div>
+                <div class="dropdown-text text-wrap text-break">${req.body}</div>
+            </a>
+            `
+}
+
+var connection = new signalR.HubConnectionBuilder().withUrl("/notificationHub").withAutomaticReconnect().build();
+connection.on("PushNotification", (req) => {
+    $("#Notifications").find("p").remove()
+    $("#Notifications").append(formatter(req));
+    updateBadge()
 });
 
 connection.on("RetrieveNotifications", (req) => {
-    console.log(req)
     $("#Notifications").find("p").remove()
+    var unread = 0
     for (let i = 0; i < req.length; i++) {
-        console.log(req[i])
-        $("#Notifications").append(
-            [
-                `
-            <a class="dropdown-item py-2" href="${req[i].url}">
-                <span class="text-black">
-                    <strong>${req[i].title}</strong>
-                </span>
-                <span class="small float-end text-muted">${toNotifTime(req[i].dateCreated)}</span>
-                <div class="dropdown-message">${req[i].body}</div>
-            </a>
-            `
-            ].join(""));
+        $("#Notifications").append(formatter(req[i]));
+        if (!req[i].seen) {
+            unread++
+        }
     }
-    //console.log($("#Notifications"))
-    //$("#Notifications").empty().html(
-    //    [
-    //        `
-    //        <a class="dropdown-item py-2" href="${req.url}">
-    //            <span class="text-black">
-    //                <strong>${req.title}</strong>
-    //            </span>
-    //            <span class="small float-end text-muted">${req.time}</span>
-    //            <div class="dropdown-message">${req.body}</div>
-    //        </a>
-    //        `
-    //    ].join(""));
+    updateBadge(unread)
+    $(".notification-unread").click(function () {
+        var id = $(this).attr("data-id");
+        id = parseInt(id)
+        connection.invoke("ReadNotification", id).catch(function (err) {
+            return console.error(err.toString());
+        });
+    });
 });
 
 connection.start().then(function () {

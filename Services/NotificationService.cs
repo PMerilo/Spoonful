@@ -47,16 +47,18 @@ namespace Spoonful.Services
             }
         }
 
-        public async Task SendNotificationAsync(Notification notification, string username)
+        public async Task SendNotificationAsync(Notification notification, string username, bool persist = true)
         {
             await _notificationHubContext.Clients.User(username).SendAsync("PushNotification", new
             {
+                id = notification.Id,
                 body = notification.Body,
                 title = notification.Title,
                 dateCreated = notification.DateCreated,
-                url = notification.Url
+                url = notification.Url,
+                seen = notification.Seen
             });
-            SaveNotification(notification,username);
+            if (persist) SaveNotification(notification,username);
         }
 
         public async Task SendNotificationAllAsync(Notification notification)

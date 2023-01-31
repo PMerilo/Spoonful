@@ -24,6 +24,8 @@ namespace Spoonful.Models
         [DataType(DataType.DateTime)]
         public DateTime DateCreated { get; set; } = DateTime.Now;
 
+        [Required]
+        public bool Seen { get; set; } = false;
         
         [Required]
         [ForeignKey("UserId")]
