@@ -26,6 +26,22 @@ connection.on("PushNotification", (req) => {
             </a>
             `
         ].join(""));
+    if ($("#NotificationBadge").length) {
+        $("#NotificationBtn").children().first().text(function (i, origText) {
+            return parseInt(origText)++
+        })
+    } else {
+        $("#NotificationBtn").append(
+            `
+        <span class="position-absolute end-0 top-0 badge p-2 rounded-circle border-2 border-white bg-danger" id="NotificationBadge">
+            <span class="position-absolute top-50 start-50 translate-middle fw-normal"></span>
+            <span class="visually-hidden">unread messages</span>
+        </span>
+        `
+        )
+        console.log("EST")
+
+    }
 });
 
 connection.on("RetrieveNotifications", (req) => {
