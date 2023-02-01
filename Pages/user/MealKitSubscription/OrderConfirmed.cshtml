@@ -1,6 +1,19 @@
 ﻿@page
 @model Spoonful.Pages.user.MealKitSubscription.OrderConfirmedModel
 @{
+	
+}
+@using Microsoft.AspNetCore.Identity
+@using Spoonful.Models
+@using Spoonful.Services;
+@inject UserManager<CustomerUser> UserManager
+@inject MealKitService _mealKitService;
+@inject OrderService _orderService;
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+	MealKit? mealkit = _mealKitService.GetMealKitByUserId(user.Id);
+	OrderDetails? orderDetails = _orderService.GetOrderDetailsByUserId(user.Id);
 }
 <!-- SPECIFIC CSS -->
 <link href="~/css/order-confirm.css" rel="stylesheet">
@@ -11,8 +24,8 @@
 		        <div class="col-lg-4">
 		        	<div class="box_order_form">
 		                <div class="head text-center">
-		                    <h3>Pizzeria da Alfredo</h3>
-		                    27 Old Gloucester St, 4530 - <a href="" target="blank">Get directions</a>
+		                    <h3>Spoonful</h3>
+		                    @orderDetails.Address - <a href="" target="blank">Get directions</a>
 		                </div>
 		                <!-- /head -->
 		                <div class="main">
@@ -26,7 +39,14 @@
 									</svg>
 								</div>
 								<h3>Order Confirmed!</h3>
-								<p>Sit an meis aliquam, cetero inermis.</p>
+								<p>Your First Delivery is Scheduled for @orderDetails.OrderDate at @orderDetails.OrderTime.</p>
+								<p>@mealkit.MenuPreference Plan for @mealkit.noOfPeoplePerWeek</p>
+								<p>@mealkit.noOfServingsPerPerson Servings per Person</p>
+
+								<br />
+								<br />
+							<a asp-page="/user/ViewOrders/Index" class="btn btn-success">See My Orders</a>
+							<a asp-page="/user/MealKitSubscription/Invoice" class="btn btn-success" target="_blank">View Invoice</a>
 							</div>
 		                </div>
 		            </div>

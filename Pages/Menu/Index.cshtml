@@ -4,6 +4,7 @@
 }
 <link href="~/css/Menu.css" rel="stylesheet">
 <main>
+	
 	<div class="page_header blog element_to_stick">
 		<div class="container">
 			<div class="row">
@@ -21,31 +22,37 @@
 
 	<div class="container margin_60_20">
 		<div class="row">
+			
 			<div class="col-lg-9">
 				<div class="row">
+					@foreach (var obj in Model.MenuItems)
+					{
 					<div class="col-md-6">
 						<article class="blog">
 							<figure>
-								<a href="blog-post.html">
-									<img src="/images/img/blog-1.jpg" alt="">
+
+								
+								<a asp-page="/Menu/MenuItem" asp-route-id="@obj.Id">
+									<img id="imgPreview" src="@obj.ImageURL" alt="" style="object-fit:cover">
 									<div class="preview"><span>View Full Description</span></div>
 								</a>
 							</figure>
 							<div class="post_info">
-								<small>Category - 20 Nov. 2017</small>
-								<h2><a href="blog-post.html">Ea exerci option hendrerit</a></h2>
-								<p>Quodsi sanctus pro eu, ne audire scripserit quo. Vel an enim offendit salutandi, in eos quod omnes epicurei, ex veri qualisque scriptorem mei.</p>
+								<small>@obj.Category - @obj.MenuPreference - 20 Nov. 2017</small>
+								<h2><a href="blog-post.html">@obj.Name</a></h2>
+								<p>@obj.Description</p>
 								<ul>
 									<li><span class="badge rounded-pill bg-primary text-dark">Tags</span></li>
 									<li>
-										<span class="badge rounded-pill bg-info text-dark">Spicy</span>
+										<span class="badge rounded-pill bg-info text-dark">@obj.Tags</span>
 									</li>
-									<li><i class="icon_comment_alt"></i>20</li>
+									<li><i class="icon_comment_alt"></i></li>
 								</ul>
 							</div>
 						</article>
 						<!-- /article -->
 					</div>
+					}
 					
 				</div>
 				<!-- /row -->
@@ -53,6 +60,7 @@
 
 
 			</div>
+			
 			<!-- /col -->
 
 			<aside class="col-lg-3">
@@ -121,3 +129,14 @@
 
 </main>
 <!-- /main -->
+
+<script>
+	function showImgPreview(input) {
+		if (input.files[0]) {
+			var uploadimg = new FileReader(); uploadimg.onload = function (displayimg) {
+				$("#imgPreview").attr('src', displayimg.target.result);
+			}
+			uploadimg.readAsDataURL(input.files[0]);
+		}
+	}
+</script>

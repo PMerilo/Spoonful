@@ -1,6 +1,7 @@
 ﻿@page
 @model Spoonful.Pages.Admin.MealManagement.IndexModel
 @{
+	Layout = "/Pages/Shared/_LayoutAdmin.cshtml";
 }
 <div class="container p-3">  
 	<div class="row pt-4">
@@ -40,6 +41,7 @@
 				<th>
 					Tags
 				</th>
+				<th>Menu Preference</th>
 			</tr>
 		</thead>
 
@@ -54,6 +56,7 @@
 				<td>@obj.Name</td>
 				<td>@obj.Description</td>
 				<td>@obj.Tags</td>
+				<td>@obj.MenuPreference</td>
 				<td width="50%">
 					<div class="w-75 btn-group" role="group">
 					<a asp-page="/Admin/MealManagement/UpdateMeal" asp-route-id="@obj.Id" class="btn btn-primary mx-2">

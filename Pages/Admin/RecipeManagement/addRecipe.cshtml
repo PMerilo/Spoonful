@@ -1,0 +1,90 @@
+﻿@page
+@model Spoonful.Pages.Admin.RecipeManagement.addRecipeModel
+@{
+    Layout = "/Pages/Shared/_LayoutAdmin.cshtml";
+}
+<!-- Main styles -->
+<link href="~/css/admin.css" rel="stylesheet">
+<!-- /box_general-->
+<form method="post" enctype="multipart/form-data">
+<div class="box_general padding_bottom">
+    <div class="header_box version_2">
+        <h2><i class="fa fa-list"></i>Add item to Recipe List</h2>
+    </div>
+    <div class="wrapper_indent">
+        
+        <div class="menu-item-section clearfix">
+            <h4>Recipe item #1</h4>
+            <div>
+                <a href="#0"><i class="fa fa-plus-circle"></i></a><a href="#0"><i class="fa fa-minus-circle"></i></a>
+            </div>
+        </div>
+        <div class="strip_menu_items">
+            <div class="row">
+                <div class="col-xl-3">
+                    <!--
+                    <input type="file" accept="image/*" asp-for="Upload" class="form-control" onchange="showImgPreview(this)" />
+                    <br />
+                    <img id="imgPreview" class="rounded-circle" style="height:300px;width:300px;object-fit:cover" src="/uploads/user.png" />
+                    -->
+                </div> 
+                
+                <div class="col-xl-9">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label asp-for="MyRecipe.name"></label>
+                                <input asp-for="MyRecipe.name" type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="MyRecipe.allergens"></label>
+                                <input asp-for="MyRecipe.allergens" type="text" class="form-control">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MyRecipe.prepTime"></label>
+                        <input asp-for="MyRecipe.prepTime" type="number" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MyRecipe.description"></label>
+                        <input asp-for="MyRecipe.description" type="text" class="form-control">
+                    </div>
+                    
+                    
+                        </div>
+                        <!-- End form-group -->
+                    <div asp-validation-summary="All"></div>
+                    </div>
+                </div><!-- End row -->
+            </div><!-- End strip_menu_items -->
+
+        </div>
+        <!-- /box_general-->
+    
+    <!-- /.container-fluid-->
+
+    <p>
+        <button type="submit" class="btn_1 medium">Save</button>
+        
+        <a asp-page="Index" class="btn_1 medium gray">Back to Recipe Mangement</a>
+        
+</form>
+<!-- /.container-wrapper-->
+
+<!--
+<script>
+    function showImgPreview(input) {
+        if (input.files[0]) {
+            var uploadimg = new FileReader(); uploadimg.onload = function (displayimg) {
+                $("#imgPreview").attr('src', displayimg.target.result);
+            }
+            uploadimg.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+
+    -->
