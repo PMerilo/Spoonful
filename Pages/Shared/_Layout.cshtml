@@ -3,7 +3,9 @@
 @inject SignInManager<CustomerUser> SignInManager
 @inject UserManager<CustomerUser> UserManager
 
-@{var user = await UserManager.GetUserAsync(User);}
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,6 +19,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
     
+    <link href="https://cdn.jsdelivr.net/gh/hung1001/font-awesome-pro-v6@44659d9/css/all.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
 
 </head>
@@ -91,21 +94,39 @@
                 @{
                     if (SignInManager.IsSignedIn(User))
                     {
-                        <div class="dropdown">
-                            <button class="tw-btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">@user.UserName</button>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a class="dropdown-item" asp-page="/User/Index" asp-route-username="@user.UserName">Profile</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" asp-page="/Account/Index">Account settings</a>
-                                </li>
-                                <li class="dropdown-divider"></li>
-                                <li>
-                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logOutModal">Logout</button>
-                                </li>
-                            </ul>
-                        </div>
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown mx-2 d-flex align-items-center">
+                                <a class="nav-link tw-text-black p-1 hover:tw-bg-gray-300 active:tw-bg-gray-200 tw-group rounded-circle" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="NotificationBtn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="tw-w-6 tw-h-6 tw-stroke-black group-aria-expanded:tw-fill-black">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                                    </svg>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end p-0 tw-w-96" aria-labelledby="alertsDropdown">
+                                    <h6 class="dropdown-header text-black tw-text-lg">Notifications</h6>
+                                    <div class="dropdown-divider m-0"></div>
+                                    <div id="Notifications" class="tw-overflow-y-auto tw-max-h-96 scrollbar-primary">
+                                    <p class="text-center p-5">No New Notifications!</p>
+                                    </div>
+                                    <div class="dropdown-divider m-0"></div>
+                                    <a class="dropdown-item py-2 text-center" href="#">View all</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown mx-2">
+                                <button class="nav-link tw-text-black dropdown-toggle" type="button" data-bs-toggle="dropdown">@user.UserName</button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <a class="dropdown-item" asp-page="/User/Index" asp-route-username="@user.UserName">Profile</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-page="/Account/Index">Account settings</a>
+                                    </li>
+                                    <li class="dropdown-divider"></li>
+                                    <li>
+                                        <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logOutModal">Logout</button>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
                     }
                     else
                     {
@@ -137,9 +158,7 @@
 
         }
         @await Html.PartialAsync("_FlashMessage")
-
         <main role="main" class="pb-3 container col-10">
-            
             @RenderBody()
         </main>
 
@@ -168,12 +187,24 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/dayjs/dayjs.min.js"></script>
+    <script src="~/js/dayjs/plugin/calendar.js"></script>
+
+    <script>
+        dayjs().format()
+        dayjs.extend(window.dayjs_plugin_calendar)
+    </script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="sweetalert2.all.min.js"></script>
     <script src="~/js/swal.js"></script>
+
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/notification.js"></script>
+
+
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

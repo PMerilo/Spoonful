@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,6 +9,7 @@ using System.Security.Claims;
 
 namespace Spoonful.Pages.Account
 {
+    [AllowAnonymous]
     public class LoginModel : PageModel
     {
         [BindProperty]
@@ -41,14 +43,15 @@ namespace Spoonful.Pages.Account
                 if (identityResult.Succeeded)
                 {
                     //Create the security context
-                    var claims = new List<Claim>
-                    {
-                        //new Claim(ClaimTypes.Name, "c@c.com"),
-                        //new Claim(ClaimTypes.Email, "c@c.com")
-                    };
-                    var i = new ClaimsIdentity(claims, "MyCookieAuth");
-                    ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(i);
-                    await HttpContext.SignInAsync("MyCookieAuth", claimsPrincipal);
+                    //var claims = new List<Claim>
+                    //{
+                    //    //new Claim(ClaimTypes.Name, LModel.Username),
+                    //    new Claim(ClaimTypes.NameIdentifier, LModel.Username),
+                    //    //new Claim(ClaimTypes.Email, "c@c.com")
+                    //};
+                    //var i = new ClaimsIdentity(claims, "MyCookieAuth");
+                    //ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(i);
+                    //await HttpContext.SignInAsync("MyCookieAuth", claimsPrincipal);
                     TempData["FlashMessage.Text"] = $"Logged in successfully";
                     TempData["FlashMessage.Type"] = "success";
                     return Redirect(ReturnUrl ?? "/");

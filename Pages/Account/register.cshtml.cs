@@ -9,9 +9,12 @@ using System.Text.Encodings.Web;
 using System.Text;
 using Spoonful.Models;
 using Microsoft.Win32;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Spoonful.Pages.Account
 {
+    [AllowAnonymous]
     public class RegisterModel : PageModel
     {
         private UserManager<CustomerUser> userManager { get; }
@@ -44,6 +47,9 @@ namespace Spoonful.Pages.Account
                 var result = await userManager.CreateAsync(user, RModel.Password);
                 if (result.Succeeded)
                 {
+                    //var userclaims = await userManager.GetClaimsAsync(user);
+                    //await userManager.RemoveClaimAsync(user, );
+                    //await userManager.AddClaimAsync(user, new Claim(ClaimTypes.NameIdentifier, RModel.UserName));
                     await signInManager.SignInAsync(user, false);
                     TempData["FlashMessage.Text"] = "Created account successfully";
                     TempData["FlashMessage.Type"] = "success";
