@@ -422,7 +422,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 html {
   font-size: 14px;
 }
-
 @media (min-width: 768px) {
   html {
     font-size: 16px;
