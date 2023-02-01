@@ -25,6 +25,10 @@ namespace Spoonful.Models
 
         public DbSet<OrderDetails> OrderDetails { get; set; }
         public DbSet<Recipe> Recipe { get; set; }
+
+        public DbSet<Invoice> Invoice { get; set; }
+
+        public DbSet<Blog> Blog { get; set; }
     }
 }
 

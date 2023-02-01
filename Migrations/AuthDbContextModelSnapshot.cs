@@ -250,6 +250,55 @@ namespace Spoonful.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("Spoonful.Models.Invoice", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Cost")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MenuPreference")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OrderDate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OrderTime")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("noOfPeoplePerWeek")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("noOfRecipesPerWeek")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("noOfServingsPerPerson")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Invoice");
+                });
+
             modelBuilder.Entity("Spoonful.Models.MealKit", b =>
                 {
                     b.Property<int>("Id")
@@ -265,6 +314,9 @@ namespace Spoonful.Migrations
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("SubscriptionCheck")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("noOfPeoplePerWeek")
                         .IsRequired()
                         .HasColumnType("int");
@@ -277,8 +329,8 @@ namespace Spoonful.Migrations
                         .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<int?>("orderDetailsId")
-                        .HasColumnType("int");
+                    b.Property<string>("orderDetailsId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("userId")
                         .IsRequired()
@@ -360,11 +412,8 @@ namespace Spoonful.Migrations
 
             modelBuilder.Entity("Spoonful.Models.OrderDetails", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("AdditionalInstructions")
                         .IsRequired()
@@ -381,6 +430,9 @@ namespace Spoonful.Migrations
                     b.Property<string>("OrderTime")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("SubscriptionCheck")
+                        .HasColumnType("bit");
 
                     b.Property<string>("userId")
                         .IsRequired()
