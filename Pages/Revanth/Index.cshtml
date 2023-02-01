@@ -2,3 +2,111 @@
 @model Spoonful.Pages.Revanth.IndexModel
 @{
 }
+<link rel="stylesheet" href="css/voucher.css">
+
+<div class="col-md-12 text-center">
+    <p class="h3 mt-4">Vouchers</p>
+</div>
+
+<div class="row">
+    @{
+                        @foreach (var item in Model.VoucherList)
+            {
+                            <div class="col-12 col-xs-12 col-md-12 col-lg-6 col-xl-6 ">
+                                <div class="voucher-container">
+                                    <div class="vouchers">
+                                        <div class="face front" onclick="addclass(this)" style="cursor: pointer;">
+                                            <div class="voucher-body " style="height:100px;background-image: url(@item.ImageURL);">
+                                                <div class="voucher-text">
+                                                    <h5 class="text-black mb-0 font-weight-bold">Spoonful</h5>
+                                                    <p class="text-black mb-0" style="line-height: 1;"><strong style="font-size: 1.25rem">@item.Name</strong><br>Voucher</p>
+                                                </div>
+                                                <div class="voucher-border-left"></div>
+                                                <div class="voucher-border-right"></div>
+                                            </div>
+                                            <div class="voucher-footer">
+                                                <div class="voucher-details">
+                                                    <div class="details-icon">
+                                                        <i class='bx bx-time'></i>
+                                                    </div>
+                                                    <div class="details-text">
+                                                        <div class="text-title">Valid till</div>
+                                                        <div class="text-description text-primary">@item.expiryDate.ToShortDateString()</div>
+                                                    </div>
+                                                </div>
+                                                <div class="voucher-details">
+                                                    <div class="details-icon">
+                                                        <i class='bx bx-money'></i>
+                                                    </div>
+                                                    <div class="details-text">
+                                                        <div class="text-title" style="width: 90px;">Minimum spend</div>
+                                                        <div class="text-description text-primary">None</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="face back">
+                                            <div class="voucher-body bg-blue-gradient" onclick="removeclass(this)" style="cursor: pointer;background-image: url('/uploads/rewardsUpload/pngtree-pink-rosette-coupon-voucher-image_262018.jpg');">
+                                                <div class="voucher-text">
+                                                    <h5 class="text-black mb-0 font-weight-bold">T&C</h5>
+                                                    <p class="text-black mb-0" style="line-height: 1;">@item.Description</p>
+                                                </div>
+                                                <div class="voucher-border-left"></div>
+                                                <div class="voucher-border-right"></div>
+                                            </div>
+                                            <div class="voucher-footer">
+                                                <div class="voucher-details">
+                                                    <div class="details-icon">
+                                                        <i class='bx bx-time'></i>
+                                                    </div>
+                                                    <div class="details-text">
+                                                        <div class="text-title">Valid till</div>
+                                                        <div class="text-description text-primary">@item.expiryDate.ToShortDateString()</div>
+                                                    </div>
+                                                </div>
+                                                <div class="voucher-details" style="cursor: pointer;">
+                                                    <div class="details-icon">
+                                                        <i class='bx bx-copy'></i>
+                                                    </div>
+                                                    <div class="details-text">
+                                                        <div class="text-title">Discount Code</div>
+                                                        <div class="text-description text-primary" onclick="copycode(this)">@item.voucherCode</div>
+                                                    </div>
+                                                </div>
+                                                <div class="voucher-details">
+                                                    <div class="details-icon">
+                                                        <i class='bx bx-coin-stack'></i>
+                                                    </div>
+                                                    <div class="details-text">
+                                                        <div class="text-title" style="width: 90px;">Spoons Needed</div>
+                                                        <div class="text-description text-primary">99</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+            }
+        }
+        
+</div>
+
+<script>
+
+    function removeclass(card) {
+        var parent = card.parentNode.previousSibling.parentNode;
+        $(parent).removeClass('flipped');
+    };
+    function addclass(card) {
+        var parent = card.parentNode;
+        $(parent).addClass('flipped');
+    };
+
+    function copycode(val) {
+            var value = val.innerText;
+            console.log(value)
+            navigator.clipboard.writeText(value);
+        }
+
+</script>

@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Spoonful.Models;
 using Spoonful.Services;
 
-namespace Spoonful.Pages.Revanth
+
+namespace Spoonful.Pages.Admin.VoucherManagement
 {
     public class IndexModel : PageModel
     {
@@ -20,6 +21,18 @@ namespace Spoonful.Pages.Revanth
         public void OnGet()
         {
             VoucherList = _voucherService.GetAll();
+        }
+
+        public IActionResult OnPost()
+        {
+            Voucher = _voucherService.GetVoucherById(Voucher.Id);
+            if (Voucher != null)
+            {
+                _voucherService.DeleteVoucher(Voucher);
+                TempData["FlashMessage.Type"] = "success";
+                TempData["FlashMessage.Text"] = string.Format("Voucher {0} is updated", Voucher.Id);
+            }
+            return Redirect("/Admin/VoucherManagement");
         }
     }
 }
