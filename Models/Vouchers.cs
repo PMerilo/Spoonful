@@ -27,6 +27,8 @@ namespace Spoonful.Models
         [Required]
         [Display(Name = "Expiry Date")]
         public DateTime expiryDate { get; set; }
+
+        public string? ImageURL { get; set; }
     }   
 }
 

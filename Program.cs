@@ -45,6 +45,7 @@ builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
 //Services
 builder.Services.AddScoped<CategoryService>();
 builder.Services.AddScoped<MenuItemService>();
+builder.Services.AddScoped<VoucherService>();
 builder.Services.AddScoped<MealKitService>();
 builder.Services.AddScoped<RecipeService>();
 builder.Services.AddScoped<OrderService>();
@@ -56,7 +57,6 @@ var emailConfig = builder.Configuration
         .Get<EmailConfiguration>();
 builder.Services.AddSingleton(emailConfig);
 builder.Services.AddScoped<IEmailService, EmailService>();
-
 
 builder.Services.AddIdentity<CustomerUser, IdentityRole>().AddEntityFrameworkStores<AuthDbContext>().AddDefaultTokenProviders();
 builder.Services.ConfigureApplicationCookie(config =>
