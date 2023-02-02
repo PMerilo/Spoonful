@@ -6,9 +6,7 @@ User Management
 	Admin
 		Create user w/ roles
 		Create user temp password
-		Create root user
 		Polish Authorization
-		Add Drivers
 		Add Additional Information and details
 
 	Password Expiry

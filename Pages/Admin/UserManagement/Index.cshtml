@@ -94,6 +94,9 @@
                         }
                         </ul>
                     </td>
+                    <td>
+                        <button class="btn btn-danger" asp-page-handler="DeleteUser" asp-route-name="@item.User.UserName">Delete</button>
+                    </td>
                 </tr>
             }
         </tbody>
