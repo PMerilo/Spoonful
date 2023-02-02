@@ -19,17 +19,21 @@ namespace Spoonful.Pages.user.MealKitSubscription
 
         private readonly MealKitService _mealKitService;
         private readonly OrderService _orderService;
-        
+        private readonly VoucherService _voucherService;
+
         public MealKit MyMealKit { get; set; }
 
         public OrderDetails MyOrderDetails { get;set; }
 
-        public OrderModel(AuthDbContext db, MealKitService mealKitService, UserManager<CustomerUser> userManager, OrderService orderService)
+        [BindProperty]
+        public string Vcode { get; set; }
+        public OrderModel(AuthDbContext db, MealKitService mealKitService, UserManager<CustomerUser> userManager, OrderService orderService, VoucherService voucherService)
         {
             _db = db;
             _mealKitService = mealKitService;
             _userManager = userManager;
             _orderService = orderService;
+            _voucherService = voucherService;
         }
 
         public async Task<IActionResult> OnGet()
@@ -50,7 +54,13 @@ namespace Spoonful.Pages.user.MealKitSubscription
             int totalServings = (int)(MyMealKit.noOfPeoplePerWeek * MyMealKit.noOfServingsPerPerson * MyMealKit.noOfRecipesPerWeek);
             double totalCost = (double)(serving * MyMealKit.noOfPeoplePerWeek * MyMealKit.noOfServingsPerPerson * MyMealKit.noOfRecipesPerWeek);
             MyMealKit.orderDetailsId = MyOrderDetails.Id;
+            Vouchers? voucher = _voucherService.GetVoucherByCode(Vcode);
             int quantity = 1;
+            int deliminator = 100;
+            if(voucher != null)
+            {
+                deliminator = (int)(100 - voucher.discountAmount);
+            }
             if (ModelState.IsValid && MyMealKit.orderDetailsId != null)
             {
                 
@@ -74,7 +84,7 @@ namespace Spoonful.Pages.user.MealKitSubscription
                   {
                     PriceData = new SessionLineItemPriceDataOptions
                     {
-                        UnitAmount = (long)totalCost * 100,
+                        UnitAmount = (long)totalCost * deliminator,
                         Currency = "usd",
                         ProductData = new SessionLineItemPriceDataProductDataOptions
                         {
@@ -114,6 +124,35 @@ namespace Spoonful.Pages.user.MealKitSubscription
 
         }
 
-
+        public async Task<JsonResult> OnPostCheckDiscount(string code)
+        {
+            var date = DateTime.Now.ToString("dd/MM/yyyy");
+            Vouchers? voucher = _voucherService.GetVoucherByCode(code); 
+            if (voucher != null)
+            {
+                var voucherDate = voucher.expiryDate.ToString("dd/MM/yyyy");
+                if (voucher.Quantity > 0)
+                {
+                    if (DateTime.Compare(Convert.ToDateTime(voucherDate), Convert.ToDateTime(date)) > 0)
+                    {
+                        return new JsonResult(new{ status = "Valid", discountAmt = voucher.discountAmount});
+                        //return new JsonResult("Valid");
+                    }
+                    else
+                    {
+                        return new JsonResult(new { status = "Expired"});
+                    }
+                }
+                else
+                {
+                    return new JsonResult(new { status = "ran_out"});
+                }
+            }
+            else
+            {
+                return new JsonResult(new { status = "InvalidCode"});
+            }
+            System.Diagnostics.Debug.WriteLine(code);
+        }
     }
 }

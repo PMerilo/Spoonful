@@ -37,6 +37,7 @@ builder.Services.AddSingleton(typeof(IUserIdProvider), typeof(MyUserIdProvider))
 builder.Services.AddDbContext<AuthDbContext>();
 builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 builder.Services.AddControllers();
+builder.Services.AddAntiforgery(options => options.HeaderName = "XSRF-TOKEN");
 
 builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
    opt.TokenLifespan = TimeSpan.FromHours(2));
@@ -50,6 +51,8 @@ builder.Services.AddScoped<MealKitService>();
 builder.Services.AddScoped<RecipeService>();
 builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<NotificationService>();
+builder.Services.AddScoped<VoucherEmailService>();
+builder.Services.AddScoped<DeliveryService>();
 
 //builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("EmailConfiguration"));
 var emailConfig = builder.Configuration

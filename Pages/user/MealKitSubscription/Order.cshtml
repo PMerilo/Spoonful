@@ -17,7 +17,7 @@
 <!-- SPECIFIC CSS -->
 <link href="~/css/order-sign_up.css" rel="stylesheet">
 <link href="~/css/detail-page.css" rel="stylesheet">
-
+@Html.AntiForgeryToken()
 <main class="bg_gray">
 	<form method="post">
 		<div class="container margin_60_20">
@@ -218,8 +218,21 @@
 							-->
 		                	
 		                	<hr>
-							<div class="form-group">
-								<input type="text" name="name_detail_contact" id="name_detail_contact" class="form-control" placeholder="Enter Discount Code Here">
+							<div class="form-control d-flex align-items-center col-12">
+								<div class="col-md-9">
+									<input type="text" asp-for="Vcode" class="discount-input" placeholder="Enter promo code">
+									<input type="hidden" id="discount_code_entered" value="">
+								</div>
+
+								<div class="col-md-3">
+									<a class="btn apply-discount-button" id="apply-discount-button">
+										APPLY
+									</a>
+								</div>
+							</div>
+							<div class="discount" id="discount-card" style="display:none !important;">
+							  <p class="cart-discount ms-auto" style="color:green">0%</p>
+							  <input type="hidden" value="" id="discount_name">
 							</div>
 		                	
 		                	<ul class="clearfix">
@@ -248,12 +261,10 @@
 	</main>
 	<!-- /main -->
 
-
-
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhDW10Zt5sVkx2_sMzIqNKJBik-TuMwPY&libraries=places&callback=initMap"></script>
 
 <script src="/js/AddressAutoComplete.js"></script>
-
+<script src="/js/voucher.js"></script>
 <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
 <script src="https://js.stripe.com/v3/"></script>
 

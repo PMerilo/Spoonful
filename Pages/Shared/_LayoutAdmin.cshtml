@@ -15,11 +15,14 @@
     
     <link rel="stylesheet" href="~/css/admin.css" />
     <link rel="stylesheet" href="~/css/bootstrap.min.css" />
-    
+    <link rel="stylesheet" href="~/css/btn.css" />
+    <link rel="stylesheet" href="~/css/voucher.css" />
+    <script src="~/js/vendor/jquery/jquery.min.js"></script>
 
     <!-- Icon fonts-->
     
     <link href="https://cdn.jsdelivr.net/gh/hung1001/font-awesome-pro-v6@44659d9/css/all.min.css" rel="stylesheet" type="text/css" />
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     
     <!-- Plugin styles -->
     
@@ -90,10 +93,16 @@
                     </a>
                 </li>
                 
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Invoice">
+                <li class="nav-item" data-toggle="tooltip" data-plalaycement="right" title="Invoice">
                     <a class="nav-link" asp-page="/Admin/RecipeManagement/Index">
                         <i class="fa fa-fw fa-book"></i>
                         <span class="nav-link-text">Recipe Management</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Voucher">
+                    <a class="nav-link" asp-page="/Admin/VoucherManagement/Index">
+                        <i class='fa fa-fw bx bxs-discount'></i>
+                        <span class="nav-link-text">Voucher Management</span>
                     </a>
                 </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reviews">
@@ -255,7 +264,8 @@
             <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"> </script>
-
+            
+            <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
             <script type="text/javascript">
                     toastr.error('@TempData["error"]')
             </script>
@@ -303,7 +313,6 @@
     <!-- Bootstrap core JavaScript-->
 
 
-    <script src="~/js/vendor/jquery/jquery.min.js"></script>
     <script src="~/js/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- Core plugin JavaScript-->
 

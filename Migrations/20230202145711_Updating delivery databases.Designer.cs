@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Spoonful.Models;
 
@@ -11,9 +12,11 @@ using Spoonful.Models;
 namespace Spoonful.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    partial class AuthDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230202145711_Updating delivery databases")]
+    partial class Updatingdeliverydatabases
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -266,6 +269,15 @@ namespace Spoonful.Migrations
                     b.Property<string>("ConfirmationImageURL")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("OrderDetailsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StopsId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("VouchersId")
+                        .HasColumnType("int");
+
                     b.Property<string>("customerConfirmation")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -278,17 +290,19 @@ namespace Spoonful.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("orderdetailsId")
+                    b.Property<int>("orderId")
                         .HasColumnType("int");
 
-                    b.Property<int>("stopsId")
+                    b.Property<int>("stopId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("orderdetailsId");
+                    b.HasIndex("OrderDetailsId");
 
-                    b.HasIndex("stopsId");
+                    b.HasIndex("StopsId");
+
+                    b.HasIndex("VouchersId");
 
                     b.ToTable("Delivery");
                 });
@@ -509,6 +523,9 @@ namespace Spoonful.Migrations
                     b.Property<int>("RoutesId")
                         .HasColumnType("int");
 
+                    b.Property<int>("routeId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("RoutesId");
@@ -651,15 +668,19 @@ namespace Spoonful.Migrations
                 {
                     b.HasOne("Spoonful.Models.OrderDetails", "OrderDetails")
                         .WithMany()
-                        .HasForeignKey("orderdetailsId")
+                        .HasForeignKey("OrderDetailsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Spoonful.Models.Stops", "Stops")
                         .WithMany("Delivery")
-                        .HasForeignKey("stopsId")
+                        .HasForeignKey("StopsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Spoonful.Models.Vouchers", null)
+                        .WithMany("Delivery")
+                        .HasForeignKey("VouchersId");
 
                     b.Navigation("OrderDetails");
 
@@ -712,6 +733,11 @@ namespace Spoonful.Migrations
                 });
 
             modelBuilder.Entity("Spoonful.Models.Stops", b =>
+                {
+                    b.Navigation("Delivery");
+                });
+
+            modelBuilder.Entity("Spoonful.Models.Vouchers", b =>
                 {
                     b.Navigation("Delivery");
                 });

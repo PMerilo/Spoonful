@@ -589,17 +589,6 @@ img,
   justify-content: space-between !important;
 }
 
-.tw-divide-y-4 > :not([hidden]) ~ :not([hidden]) {
-  --tw-divide-y-reverse: 0 !important;
-  border-top-width: calc(4px * calc(1 - var(--tw-divide-y-reverse))) !important;
-  border-bottom-width: calc(4px * var(--tw-divide-y-reverse)) !important;
-}
-
-.tw-divide-black > :not([hidden]) ~ :not([hidden]) {
-  --tw-divide-opacity: 1 !important;
-  border-color: rgb(0 0 0 / var(--tw-divide-opacity)) !important;
-}
-
 .tw-overflow-y-auto {
   overflow-y: auto !important;
 }
