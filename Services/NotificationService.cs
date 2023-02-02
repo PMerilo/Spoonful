@@ -12,6 +12,7 @@ namespace Spoonful.Services
         private readonly AuthDbContext _context;
         private readonly IHubContext<NotificationHub> _notificationHubContext;
 
+
         public NotificationService(AuthDbContext context, IHubContext<NotificationHub> hubContext)
         {
             _notificationHubContext = hubContext;

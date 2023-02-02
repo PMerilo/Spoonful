@@ -17,10 +17,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages(options =>
 {
-    options.Conventions.AuthorizeFolder("/Admin");
+	options.Conventions.AuthorizeFolder("/Admin", "RequireAdministratorRole");
 
-    //Allow Anonymous
-    options.Conventions.AllowAnonymousToPage("/Index");
+	//Allow Anonymous
+	options.Conventions.AllowAnonymousToPage("/Index");
     options.Conventions.AllowAnonymousToPage("/Error");
     options.Conventions.AllowAnonymousToPage("/NotificationTester");
     options.Conventions.AllowAnonymousToPage("/notificationHub");
@@ -50,6 +50,7 @@ builder.Services.AddScoped<MealKitService>();
 builder.Services.AddScoped<RecipeService>();
 builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<NotificationService>();
+builder.Services.AddScoped<CustomerUserService>();
 
 //builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("EmailConfiguration"));
 var emailConfig = builder.Configuration
@@ -83,6 +84,9 @@ builder.Services.AddAuthorization(options =>
     options.FallbackPolicy = new AuthorizationPolicyBuilder()
         .RequireAuthenticatedUser()
         .Build();
+
+	options.AddPolicy("RequireAdministratorRole",
+		 policy => policy.RequireRole("Admin"));
 });
 
 var app = builder.Build();

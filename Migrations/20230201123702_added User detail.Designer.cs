@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Spoonful.Models;
 
@@ -11,9 +12,11 @@ using Spoonful.Models;
 namespace Spoonful.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    partial class AuthDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230201123702_added User detail")]
+    partial class addedUserdetail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -184,7 +187,7 @@ namespace Spoonful.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("DOB")
+                    b.Property<DateTime>("DOB")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTimeOffset>("DateCreated")
@@ -451,10 +454,6 @@ namespace Spoonful.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("UserType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("UserId")
@@ -462,9 +461,7 @@ namespace Spoonful.Migrations
 
                     b.ToTable("UserDetails", (string)null);
 
-                    b.HasDiscriminator<string>("UserType").HasValue("UserDetails");
-
-                    b.UseTphMappingStrategy();
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("Spoonful.Models.Vouchers", b =>
@@ -513,7 +510,7 @@ namespace Spoonful.Migrations
                     b.Property<string>("EmployeeId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasDiscriminator().HasValue("Admin");
+                    b.ToTable("AdminDetails");
                 });
 
             modelBuilder.Entity("Spoonful.Models.CustomerDetails", b =>
@@ -529,7 +526,7 @@ namespace Spoonful.Migrations
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasDiscriminator().HasValue("Customer");
+                    b.ToTable("CustomerDetails");
                 });
 
             modelBuilder.Entity("Spoonful.Models.DriverDetails", b =>
@@ -539,7 +536,7 @@ namespace Spoonful.Migrations
                     b.Property<int>("VehicleNo")
                         .HasColumnType("int");
 
-                    b.HasDiscriminator().HasValue("Driver");
+                    b.ToTable("DriverDetails");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -613,6 +610,33 @@ namespace Spoonful.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Spoonful.Models.AdminDetails", b =>
+                {
+                    b.HasOne("Spoonful.Models.UserDetails", null)
+                        .WithOne()
+                        .HasForeignKey("Spoonful.Models.AdminDetails", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Spoonful.Models.CustomerDetails", b =>
+                {
+                    b.HasOne("Spoonful.Models.UserDetails", null)
+                        .WithOne()
+                        .HasForeignKey("Spoonful.Models.CustomerDetails", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Spoonful.Models.DriverDetails", b =>
+                {
+                    b.HasOne("Spoonful.Models.UserDetails", null)
+                        .WithOne()
+                        .HasForeignKey("Spoonful.Models.DriverDetails", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Spoonful.Models.CustomerUser", b =>
