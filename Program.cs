@@ -86,7 +86,11 @@ builder.Services.AddAuthorization(options =>
         .Build();
 
 	options.AddPolicy("RequireAdministratorRole",
-		 policy => policy.RequireRole("Admin"));
+		 policy => policy.RequireRole(Roles.Admin, Roles.RootUser));
+    options.AddPolicy("RequireCustomerRole",
+         policy => policy.RequireRole(Roles.Customer, Roles.RootUser));
+    options.AddPolicy("RequireDriverRole",
+         policy => policy.RequireRole(Roles.Driver, Roles.RootUser));
 });
 
 var app = builder.Build();
