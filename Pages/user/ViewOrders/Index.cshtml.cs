@@ -14,8 +14,9 @@ namespace Spoonful.Pages.user.ViewOrders
         private readonly MealOrderService _mealOrderService;
         private readonly MenuItemService _menuItemService;
         private readonly UserManager<CustomerUser> _userManager;
+        private readonly InvoiceMealKitService _invoiceMealKitService;
 
-        public IndexModel(AuthDbContext db, OrderService orderService, MealKitService mealKitService, MealOrderService mealOrderService, MenuItemService menuItemService, UserManager<CustomerUser> userManager)
+        public IndexModel(AuthDbContext db, OrderService orderService, MealKitService mealKitService, MealOrderService mealOrderService, MenuItemService menuItemService, UserManager<CustomerUser> userManager, InvoiceMealKitService invoiceMealKitService)
         {
             _db = db;
             _orderService = orderService;
@@ -23,17 +24,34 @@ namespace Spoonful.Pages.user.ViewOrders
             _mealOrderService = mealOrderService;
             _menuItemService = menuItemService;
             _userManager = userManager;
+            _invoiceMealKitService = invoiceMealKitService;
         }
         public IEnumerable<Order> Orders { get; set; }
         public IEnumerable<MenuItem> MenuItems { get; set; }
+        public MealKit MyMealKit { get; set; }
+        public Invoice MyInvoice { get; set; }
+
+        public OrderDetails MyOrderDetails { get; set; }
+
 
         public async Task<IActionResult> OnGet()
         {
             var user = await _userManager.GetUserAsync(User);
             MealKit? mealkit = _mealKitService.GetMealKitByUserId(user.Id);
             OrderDetails? orderDetails = _orderService.GetOrderDetailsByUserId(user.Id);
+            Invoice? invoice = _invoiceMealKitService.GetInvoiceByUserId(user.Id);
             Orders = _db.Order;
             Orders = Orders.Where(X => X.OwnerID == user.Id);
+            if (mealkit == null || orderDetails == null || invoice == null)
+            {
+                return Redirect("/user/CurrentMealKitPlan");
+            }
+
+
+            MyMealKit = mealkit;
+            MyInvoice = invoice;
+            MyOrderDetails = orderDetails;
+
             if(Orders.Count() != mealkit.noOfRecipesPerWeek)
             {
                 /*foreach (MenuItem item in _db.MenuItem)

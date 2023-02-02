@@ -135,16 +135,16 @@
 
     <div>
         @{
-            if(Model.MenuItems.Count() != Model.MyMealKit.noOfRecipesPerWeek){
+            if(Model.Orders.Count() != Model.MyMealKit.noOfRecipesPerWeek){
                 <button type="submit" class="btn btn-success btn-sm rounded fa-pull-right savechanges" disabled>Save Changes</button>
                 
             }else{
-                <button type="submit" class="btn btn-success btn-sm rounded fa-pull-right savechanges">Save Changes</button>
-
+                
+                <a href="/user/ViewOrders" class="btn btn-success rounded font-md fa-pull-right savechanges" style="background-color:green">Save Changes</a>
             }
         }
         
-        <a href="/user/ViewOrders" class="btn btn-secondary rounded font-md fa-pull-right">Cancel</a>
+        <!--<a href="/user/ViewOrders" class="btn btn-secondary rounded font-md fa-pull-right">Cancel</a>-->
         
     </div>
 </div>
@@ -161,23 +161,27 @@
             <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5">
                 @foreach (var obj in Model.Orders)
                 {
-                <div class="col">
-                    <div class="card card-product-grid">
-                        <a href="#" class="img-wrap"> <img src="~/images/menu/menu-item-1.png" alt="Product" /> </a>
-                        <br/>
-                        <div class="info-wrap">
-                            <a href="#" class="title text-truncate">@obj.Name</a>
-                            <div class="price mb-2">$179.00</div>
-                            <!-- price.// -->
-                            
-                                <a href="#" class="btn btn-sm font-sm btn-light rounded"><i class="fa-solid fa-trash"></i></a>
+                <form method="post">
+                    <div class="col">
+                        <div class="card card-product-grid">
+                            <a href="#" class="img-wrap"> <img src="@obj.ImageURL" alt="Product" style="height:250px;object-fit:cover" /> </a>
+                            <br />
+                            <div class="info-wrap" style="overflow:auto">
+                                <small>@obj.Category - @obj.MenuPreference <span class="badge rounded-pill bg-primary text-dark"><small>@obj.Tags </small></span></small>
+
+                                <a href="#" class="title text-truncate">@obj.Name</a>
+                                <div class="price mb-2 h6"></div>
+                                <!-- price.// -->
+                                    <input asp-for="MyOrder.Name" class="form-control" hidden value="@obj.Name">
+                                <button type="submit" asp-page-handler="removemeal" class="btn btn-sm font-sm btn-light rounded mealbtn"><i class="fa-solid fa-trash"></i></button>
+
                                 <a href="#" class="btn btn-sm font-sm btn-light rounded"><i class="far fa-info"></i></a>
-                                                     
+                            </div>
                         </div>
+                        <!-- card-product  end// -->
                     </div>
-                    <!-- card-product  end// -->
-                </div>
-                <!-- col.// -->
+                </form>
+                
                 }
                 
 
@@ -229,9 +233,13 @@
                 </div>
                 <div class="col-lg-2 col-6 col-md-3">
                     <select class="form-select">
-                        <option>Latest added</option>
-                        <option>Cheap first</option>
-                        <option>Most viewed</option>
+                        <option>Menu Preferences</option>
+                        <option value="Meat & Veggie">Meat & Veggies</option>
+                        <option value="Vegetarian">Vegetarian</option>
+                        <option value="Quick & Easy">Quick and Easy</option>
+                        <option value="Family Friendly">Family Friendly</option>
+                        <option value="Pescatarian">Pescatarian</option>
+                        <option value="Fit & Wholesome">Fit & Wholesome</option>
                     </select>
                 </div>
             </div>
@@ -250,20 +258,43 @@
                         <a href="#" class="img-wrap"> <img src="@obj.ImageURL" alt="Product" style="height:250px;object-fit:cover" /> </a>
                         <br />
                         <div class="info-wrap" style="overflow:auto">
+                                    
                             <small>@obj.Category - @obj.MenuPreference <span class="badge rounded-pill bg-primary text-dark"><small>@obj.Tags </small></span></small>
                             
                             <a href="#" class="title text-truncate">@obj.Name</a>
-                                    <div class="price mb-2 h6"></div>
+                            <div class="price mb-2 h6"></div>
                             <!-- price.// -->
-                            
+                            <input asp-for="MyMenuItem.Id" class="form-control" hidden value="@obj.Id">
                             <button type="submit" asp-page-handler="addmeal" class="btn btn-sm font-sm btn-light rounded mealbtn"><i class="fad fa-smile-plus" style="font-size:120%"></i></button>
-                            
-                            <a href="#" class="btn btn-sm font-sm btn-light rounded"><i class="far fa-info"></i></a>
+
+                            <a href="#" class="btn btn-sm font-sm btn-light rounded" data-bs-toggle="modal" data-bs-target="@obj.Name"><i class="far fa-info"></i></a>
                         </div>
                     </div>
                     <!-- card-product  end// -->
                 </div>
                 </form>
+                    <!-- Modal -->
+                    <div class="modal fade" id="@obj.Name" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                        
+                                    <h5 class="modal-title" id="exampleModalLabel">@obj.Name</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <figure><img alt="" class="img-fluid" src="@obj.ImageURL" style="width:950px; height:450px; object-fit:cover"></figure>
+                                    <small>@obj.Category - @obj.MenuPreference <span class="badge rounded-pill bg-primary text-dark"><small>@obj.Tags </small></span></small>
+                                    <br/>
+                                    @obj.Description
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 }
                
             </div>
@@ -272,6 +303,7 @@
         <!-- card-body end// -->
     </div>
     <!-- card end// -->
+
     <div class="pagination-area mt-30 mb-50">
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-start">

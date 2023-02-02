@@ -6,6 +6,7 @@ using Spoonful.Services;
 
 namespace Spoonful.Pages.user.ViewOrders
 {
+    [BindProperties]
     public class ManageWeekModel : PageModel
     {
         private readonly AuthDbContext _db;
@@ -40,6 +41,9 @@ namespace Spoonful.Pages.user.ViewOrders
         [BindProperty]
         public Order MyOrder { get; set; }
 
+        [BindProperty]
+        public MenuItem MyMenuItem { get; set; }
+
         public async Task<IActionResult> OnGet()
         {
             Categories = _db.Category;
@@ -63,16 +67,54 @@ namespace Spoonful.Pages.user.ViewOrders
 
             MenuItems = _db.MenuItem;
 
-            Orders = _db.Order; 
+            Orders = _db.Order;
+            Orders = Orders.Where(X => X.OwnerID == user.Id);
 
             return Page();
         }
 
         public async Task<IActionResult> OnPostAddmealAsync() 
         {
+            MenuItem menuItem = _menuItemService.GetMenuById(MyMenuItem.Id);
+            var user = await _userManager.GetUserAsync(User);
+            if (menuItem != null)
+            {
+                
+                Order order = new Order() { Name = menuItem.Name, Description = menuItem.Description, Tags = menuItem.Tags, MenuPreference = menuItem.MenuPreference, Category = menuItem.Category, ImageURL = menuItem.ImageURL, OwnerID = user.Id };
+                _mealOrderService.AddOrder(order);
+                TempData["FlashMessage.Type"] = "success";
+                TempData["FlashMessage.Text"] = string.Format($"{menuItem.Name} Added to your box");
+            }
+            else
+            {
+                TempData["FlashMessage.Type"] = "danger";
+                TempData["FlashMessage.Text"] = string.Format("Menu Item not found");
+            }
 
 
-            return Page();
+            return Redirect("/user/ViewOrders/ManageWeek");
+        }
+
+        public async Task<IActionResult> OnPostRemovemealAsync()
+        {
+            
+            Order order = _mealOrderService.GetOrderByName(MyOrder.Name);
+            var user = await _userManager.GetUserAsync(User);
+            if (order != null)
+            {
+               
+                _mealOrderService.DeleteOrder(order);
+                TempData["FlashMessage.Type"] = "success";
+                TempData["FlashMessage.Text"] = string.Format($"{order.Name} Removed from your box");
+            }
+            else
+            {
+                TempData["FlashMessage.Type"] = "danger";
+                TempData["FlashMessage.Text"] = string.Format("Menu Item not found");
+            }
+
+
+            return Redirect("/user/ViewOrders/ManageWeek");
         }
     }
 }

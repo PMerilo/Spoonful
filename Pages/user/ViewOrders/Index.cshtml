@@ -74,12 +74,12 @@ a.btn:hover {text-decoration: none; background-color: #5C85ED;}
 <div class="content-header d-flex justify-content-between">
     <div>
         
-        <p><span style="color:red">UPCOMING</span> Change by Sun Nov 7</p>
+        <p><span style="color:red">UPCOMING</span> Change by @Model.MyOrderDetails.OrderDate/p>
         <h2 class="content-title card-title">In Your Box</h2>
         
-        <h3 class="h3">5,pre-selected Meals</h3>
+        <h3 class="h3">@Model.MyMealKit.noOfRecipesPerWeek,pre-selected Meals</h3>
         <br />
-        <p class="h5">Price: $100/Delivery<span style="color:red">(FREE)</span> </p>
+        <p class="h5">Price: $@Model.MyInvoice.Cost/Delivery<span style="color:red">(FREE)</span> </p>
     </div>
 
     <div>
@@ -89,36 +89,46 @@ a.btn:hover {text-decoration: none; background-color: #5C85ED;}
     </div>
 </div>
 
-<section class="grid">
+<section class="content-main">
 
-    <aside>
-        <div class="item">
-            <a href="#">
-                <img src="https://img.jamesedition.com/listing_images/2021/01/31/20/51/39/392d9846-cc29-475f-914e-6b60ce4560bc/je/2000xxs.jpg" alt="Some sample words">
-                <h2>Beachfront Mansion</h2>
-                <p>Brief description or intro text.  Could be a bit longer and so let's give it a shot and see how the text wraps around in the div as well as how much space we have on the top and bottom.</p>
-                <a class="btn" href="#">Read more</a>
-            </a>
+    <div class="card mb-4">
+        <header class="card-header">
+        </header>
+        <!-- card-header end// -->
+
+
+        <div class="card-body">
+            <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5">
+                @foreach (var obj in Model.Orders)
+                {
+                    <form method="post">
+                        <div class="col">
+                            <div class="card card-product-grid">
+                                <a href="#" class="img-wrap"> <img src="@obj.ImageURL" alt="Product" style="height:250px;object-fit:cover" /> </a>
+                                <br />
+                                <div class="info-wrap" style="overflow:auto">
+                                    <small>@obj.Category - @obj.MenuPreference <span class="badge rounded-pill bg-primary text-dark"><small>@obj.Tags </small></span></small>
+
+                                    <a href="#" class="title text-truncate">@obj.Name</a>
+                                    <div class="price mb-2 h6"></div>
+                                    <!-- price.// -->
+                                    
+                                    <a href="#" class="btn btn-sm font-sm btn-light rounded"><i class="far fa-info"></i></a>
+                                </div>
+                            </div>
+                            <!-- card-product  end// -->
+                        </div>
+                    </form>
+
+                }
+
+
+
+
+            </div>
+            <!-- row.// -->
         </div>
-    </aside>
-    <aside>
-        <div class="item">
-            <a href="#">
-                <img src="https://img.jamesedition.com/listing_images/2021/01/31/20/51/39/392d9846-cc29-475f-914e-6b60ce4560bc/je/2000xxs.jpg" alt="Some sample words">
-                <h2>Beachfront Mansion</h2>
-                <p>Brief description or intro text.  Could be a bit longer and so let's give it a shot and see how the text wraps around in the div as well as how much space we have on the top and bottom.</p>
-                <a class="btn" href="#">Read more</a>
-            </a>
-        </div>
-    </aside>
-    <aside>
-        <div class="item">
-            <a href="#">
-                <img src="https://img.jamesedition.com/listing_images/2021/01/31/20/51/39/392d9846-cc29-475f-914e-6b60ce4560bc/je/2000xxs.jpg" alt="Some sample words">
-                <h2>Beachfront Mansion</h2>
-                <p>Brief description or intro text.  Could be a bit longer and so let's give it a shot and see how the text wraps around in the div as well as how much space we have on the top and bottom.</p>
-                <a class="btn" href="#">Read more</a>
-            </a>
-        </div>
-    </aside>
+        <!-- card-body end// -->
+    </div>
+    <!-- card end// -->
 </section>
