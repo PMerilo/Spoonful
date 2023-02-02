@@ -1,4 +1,203 @@
 ﻿@page
+@using Microsoft.AspNetCore.Identity;
+@using Spoonful.Models;
 @model Spoonful.Pages.Admin.UserManagement.IndexModel
+@inject UserManager<CustomerUser> UserManager
 @{
+    
+}
+<div class="card p-3">
+    <h2 class="card-title">Customer Users</h2>
+    <table
+        id="Customertable"
+        data-toggle="table"
+        data-search="true"
+        data-click-to-select="true"
+        data-pagination="true"
+        data-id-field="email"
+        data-page-list="[10, 25, 50, 100, all]"
+        data-sortable="true">
+        <thead>
+            <tr>
+                <th data-field="state" data-checkbox="true"></th>
+                <th data-field="name" data-sortable="true">Name</th>
+                <th data-field="email" data-sortable="true">Email</th>
+                <th data-field="username" data-sortable="true">Username</th>
+                <th data-field="lastLogin" data-sortable="true" data-formatter="dateFormatter">Last Login</th>
+                <th data-field="dateCreated" data-sortable="true" data-formatter="dateFormatter">Date Created</th>
+                <th data-field="activity" data-sortable="true">Activity</th>
+                <th data-field="buttons">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.CustomerDetails)
+            {
+                <tr>
+                    <td></td>
+                    <td>@item.User.FirstName @item.User.LastName</td>
+                    <td>@item.User.Email</td>
+                    <td>@item.User.UserName</td>
+                    <td>@item.User.LastLogin</td>
+                    <td>@item.User.DateCreated</td>
+                    <td>Nothing to see here</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+<div class="card p-3">
+    <div id="admintoolbar">
+        <a class="btn btn-primary" asp-page="AddAdmin">Add Admin User</a>
+        <a class="btn btn-warning" asp-page="Roles">Admin Roles</a>
+    </div>
+    <h2 class="card-title">Admin Users</h2>
+    <table id="Admintable"
+        data-toggle="table"
+        data-search="true"
+        data-click-to-select="true"
+        data-pagination="true"
+        data-id-field="email"
+        data-page-list="[10, 25, 50, 100, all]"
+        data-sortable="true"
+           data-toolbar="#admintoolbar"
+        data-toolbar-align="left">
+        <thead>
+            <tr>
+                <th data-field="state" data-checkbox="true"></th>
+                <th data-field="name" data-sortable="true">Name</th>
+                <th data-field="email" data-sortable="true">Email</th>
+                <th data-field="username" data-sortable="true">Username</th>
+                <th data-field="lastLogin" data-sortable="true" data-formatter="dateFormatter">Last Login</th>
+                <th data-field="dateCreated" data-sortable="true" data-formatter="dateFormatter">Date Created</th>
+                <th data-field="roles" data-sortable="true">Roles</th>
+                <th data-field="buttons">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.AdminDetails)
+            {
+                <tr>
+                    <td></td>
+                    <td>@item.User.FirstName @item.User.LastName</td>
+                    <td>@item.User.Email</td>
+                    <td>@item.User.UserName</td>
+                    <td>@item.User.LastLogin</td>
+                    <td>@item.User.DateCreated</td>
+                    <td>
+                        <ul>
+                        @foreach (var role in await UserManager.GetRolesAsync(item.User))
+                        {
+                            <li>@role</li>
+                        }
+                        </ul>
+                    </td>
+                    <td>
+                        @if (item.User.UserName != "rootuser" && item.User.UserName != User.Identity.Name)
+                        {
+                            <div class="d-flex justify-content-around">
+                                <form method="post">
+                                    <button class="btn btn-danger" asp-page-handler="DeleteUser" asp-route-name="@item.User.UserName">Delete</button>
+                                </form>
+                                @if (Model.RoleList.Count > 0)
+                                {
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#adduserModal_@item.User.UserName">
+                                        Add Roles
+                                    </button>
+                                }
+                            </div>
+                            <div class="modal fade" id="adduserModal_@item.User.UserName" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Select Roles</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form class="px-4 py-3" method="post">
+                                                @if (Model.RoleList.Count > 0)
+                                                {
+                                                    @foreach (var role in Model.RoleList)
+                                                    {
+                                                        var roles = await UserManager.GetRolesAsync(item.User);
+                                                        <div class="mb-1">
+                                                            <input id="@role.Name" name="@role.Name" type="checkbox" value="true" checked="@roles.Contains(role.Name)">
+                                                            @Html.Label(role.Name, role.Name)
+                                                        </div>
+                                                    }
+                                                }
+                                                <button type="submit" class="btn btn-primary" asp-page-handler="AddRoles" asp-route-name="@item.User.UserName">Add Roles to User</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+<div class="card p-3">
+    <div id="drivertoolbar">
+        <a class="btn btn-primary" asp-page="AddAdmin">Add Driver</a>
+    </div>
+    <h2 class="card-title">Drivers</h2>
+    <table id="drivertable"
+           data-toggle="table"
+           data-search="true"
+           data-click-to-select="true"
+           data-pagination="true"
+           data-id-field="email"
+           data-page-list="[10, 25, 50, 100, all]"
+           data-sortable="true"
+           data-toolbar="#drivertoolbar"
+           data-toolbar-align="left">
+        <thead>
+            <tr>
+                <th data-field="state" data-checkbox="true"></th>
+                <th data-field="name" data-sortable="true">Name</th>
+                <th data-field="email" data-sortable="true">Email</th>
+                <th data-field="username" data-sortable="true">Username</th>
+                <th data-field="lastLogin" data-sortable="true" data-formatter="dateFormatter">Last Login</th>
+                <th data-field="dateCreated" data-sortable="true" data-formatter="dateFormatter">Date Created</th>
+                <th data-field="roles" data-sortable="true">Roles</th>
+                <th data-field="buttons">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.DriverDetails)
+            {
+                <tr>
+                    <td></td>
+                    <td>@item.User.FirstName @item.User.LastName</td>
+                    <td>@item.User.Email</td>
+                    <td>@item.User.UserName</td>
+                    <td>@item.User.LastLogin</td>
+                    <td>@item.User.DateCreated</td>
+                    <td>
+                        
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+@section Scripts {
+    <script src="~/js/Admin/Datatables.js"></script>
+    <script>
+        function dateFormatter(value, row) {
+            if (value != "") {
+                return dayjs(value).format("ddd, D MMM, YYYY h:mm A")
+            }
+            return "-"
+
+        }
+    </script>
 }

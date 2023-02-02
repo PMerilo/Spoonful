@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Spoonful.Models;
 
@@ -11,9 +12,11 @@ using Spoonful.Models;
 namespace Spoonful.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    partial class AuthDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230201172858_DOB to null")]
+    partial class DOBtonull
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -536,14 +539,8 @@ namespace Spoonful.Migrations
                 {
                     b.HasBaseType("Spoonful.Models.UserDetails");
 
-                    b.Property<double>("Commision")
-                        .HasColumnType("float");
-
-                    b.Property<double>("HourlyRate")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Rating")
-                        .HasColumnType("float");
+                    b.Property<int>("VehicleNo")
+                        .HasColumnType("int");
 
                     b.HasDiscriminator().HasValue("Driver");
                 });
