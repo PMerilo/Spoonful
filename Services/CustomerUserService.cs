@@ -9,8 +9,10 @@ namespace Spoonful.Services
         public const string Customer = "Customer";
         public const string Admin = "Admin";
         public const string Driver = "Driver";
+        public const string RootUser = "RootUser";
+
     }
-        
+
     public class CustomerUserService
     {
         private readonly SignInManager<CustomerUser> _signInManager;
@@ -55,6 +57,11 @@ namespace Spoonful.Services
                 await _roleManager.CreateAsync(new IdentityRole(Roles.Driver));
 
             }
+            if (!await _roleManager.RoleExistsAsync(Roles.RootUser))
+            {
+                await _roleManager.CreateAsync(new IdentityRole(Roles.RootUser));
+
+            }
             switch (Role)
             {
                 case Roles.Customer:
@@ -77,6 +84,14 @@ namespace Spoonful.Services
                         UserId = user.Id
                     };
                     await _userManager.AddToRoleAsync(user, Roles.Driver);
+                    break;
+                case Roles.RootUser:
+                    user.UserDetails = new AdminDetails()
+                    {
+                        UserId = user.Id
+                    };
+                    await _userManager.AddToRoleAsync(user, Roles.RootUser);
+                    await _userManager.AddToRoleAsync(user, Roles.Admin);
                     break;
                 default:
                     break;

@@ -34,7 +34,7 @@ namespace Spoonful.Models
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<UserDetails>()
                 .ToTable("UserDetails")
-                .HasDiscriminator<string>("UserType")
+                .HasDiscriminator<string>(u => u.UserType)
                 .HasValue<CustomerDetails>("Customer")
                 .HasValue<AdminDetails>("Admin")
                 .HasValue<DriverDetails>("Driver"); ;

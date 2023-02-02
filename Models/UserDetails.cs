@@ -10,6 +10,8 @@ namespace Spoonful.Models
         public string UserId { get; set; }
         [ForeignKey("UserId")]
         public CustomerUser User { get; set; } 
+
+        public string UserType { get; set; }
     }
 
     public class AdminDetails : UserDetails
@@ -27,6 +29,9 @@ namespace Spoonful.Models
 
     public class DriverDetails : UserDetails
     {
-        public int VehicleNo { get; set; }
+        public double Commision { get; set; }
+        public double Rating { get; set; }
+        public double HourlyRate { get; set; }
+
     }
 }

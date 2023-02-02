@@ -32,7 +32,7 @@ public class IndexModel : PageModel
             var result = await _userManager.CreateAsync(root, "Password@123");
             if (result.Succeeded)
             {
-                await _customerUserService.SetUserRoleAsync(root.UserName, Roles.Admin);
+                await _customerUserService.SetUserRoleAsync(root.UserName, Roles.RootUser);
                 TempData["FlashMessage.Text"] = "Created account successfully";
                 TempData["FlashMessage.Type"] = "success";
             }
