@@ -1,6 +1,7 @@
 ﻿@page
 @model Spoonful.Pages.Admin.FoodCategory.AddCategoryModel
 @{
+	Layout = "/Pages/Shared/_LayoutAdmin.cshtml";
 }
 <form method="post">
 	<div class="border p-3 mt-4">
@@ -23,8 +24,4 @@
 	</div>
 </form>
 
-@section Scripts {
-	@{
-		await Html.RenderPartialAsync("_ValidationScriptsPartial");
-	}
-	}
+

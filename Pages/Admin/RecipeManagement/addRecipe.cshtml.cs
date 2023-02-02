@@ -16,7 +16,7 @@ namespace Spoonful.Pages.Admin.RecipeManagement
 
         public IEnumerable<Recipe> Recipes { get; set; }
 
-        public Recipe MyRecipe { get; set; }
+        public Recipe MyRecipe { get; set; } 
 
         public IFormFile? Upload { get; set; }
         public addRecipeModel(AuthDbContext db, RecipeService recipeService, IWebHostEnvironment environment)

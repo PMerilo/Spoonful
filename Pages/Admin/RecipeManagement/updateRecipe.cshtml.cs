@@ -75,12 +75,12 @@ namespace Spoonful.Pages.Admin.RecipeManagement
         {
             var recipe = _recipeService.GetRecipeById(id);
 
-            if (recipe == null)
-            {
+                if (recipe == null)
+                {
                 TempData["FlashMessage.Type"] = "danger";
                 TempData["FlashMessage.Text"] = string.Format("Recipe does not exist!", name);
                 return Page();
-            }
+                }
             if (Upload != null)
             {
                 if (Upload.Length > 2 * 1024 * 1024)

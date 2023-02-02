@@ -11,18 +11,21 @@ namespace Spoonful.Models
 
         [Required]
         [Display(Name = "Number Of Recipes Per Week")]
-        public string? noOfRecipesPerWeek { get; set; }
+        public int? noOfRecipesPerWeek { get; set; }
 
         [Required]
         [Display(Name = "Number Of People Per Week")]
-        public string? noOfPeoplePerWeek { get; set; }
+        public int? noOfPeoplePerWeek { get; set; }
 
         [Required]
         [Display(Name = "Number Of Servings Per Person")]
-        public string? noOfServingsPerPerson { get; set; }
+        public int? noOfServingsPerPerson { get; set; }
 
         [Required]
         public string? userId { get; set; }
+
+        
+        public int? orderDetailsId { get; set; }
 
         public Boolean Status { get; set; } = true;
 

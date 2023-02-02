@@ -83,11 +83,22 @@ namespace Spoonful.Pages.Admin.MealManagement
             }
             if (ModelState.IsValid)
             {
-                MyMenuItem.Id = id;
-                _menuItemService.UpdateMenuItem(MyMenuItem);
-                TempData["FlashMessage.Type"] = "success";
-                TempData["FlashMessage.Text"] = string.Format("Menu item {0} is updated", MyMenuItem.Name);
-                return Redirect("/Admin/MealManagement");
+                MenuItem? menuItem = _menuItemService.GetMenuByName(MyMenuItem.Name);
+                if (menuItem != null)
+                {
+                    TempData["FlashMessage.Type"] = "danger";
+                    TempData["FlashMessage.Text"] = string.Format("Menu item {0} already exist!", MyMenuItem.Name);
+                    return Page();
+                }
+                else
+                {
+                    MyMenuItem.Id = id;
+                    _menuItemService.UpdateMenuItem(MyMenuItem);
+                    TempData["FlashMessage.Type"] = "success";
+                    TempData["FlashMessage.Text"] = string.Format("Menu item {0} is updated", MyMenuItem.Name);
+                    return Redirect("/Admin/MealManagement");
+                }
+                
             }
             return Page();
         }
