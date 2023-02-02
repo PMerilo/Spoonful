@@ -17,16 +17,20 @@ namespace Spoonful.Pages.user.MealKitSubscription
         public readonly IEmailService _emailSender;
         private readonly MealKitService _mealKitService;
         private readonly OrderService _orderService;
+        private readonly InvoiceMealKitService _invoiceMealKitService;
+        private readonly MealKitSubscriptionLogService _mealKitSubscriptionLogService;
 
-       
 
-        public OrderConfirmedModel(UserManager<CustomerUser> userManager, AuthDbContext db, MealKitService mealKitService, OrderService orderService, IEmailService emailSender)
+
+        public OrderConfirmedModel(UserManager<CustomerUser> userManager, AuthDbContext db, MealKitService mealKitService, OrderService orderService, IEmailService emailSender, InvoiceMealKitService invoiceMealKitService, MealKitSubscriptionLogService mealKitSubscriptionLogService)
         {
             _userManager = userManager;
             _db = db;
             _mealKitService = mealKitService;
             _orderService = orderService;
             _emailSender = emailSender;
+            _invoiceMealKitService = invoiceMealKitService;
+            _mealKitSubscriptionLogService = mealKitSubscriptionLogService;
         }
 
         public async Task<IActionResult> OnGet(string id)
@@ -51,6 +55,16 @@ namespace Spoonful.Pages.user.MealKitSubscription
                             $"Hello, {user.UserName} You have subscribed to our meal kit plan successfully. If you have any issues with any substitution, or either an ingredient or a Meal Kit, please contact us via ticket through customer support on our website.",
                             null,
                             null);
+                        double serving = 5.00;
+
+                        
+                        double totalCost = (double)(serving * mealkit.noOfPeoplePerWeek * mealkit.noOfServingsPerPerson * mealkit.noOfRecipesPerWeek);
+                        
+                        Invoice invoice = new Invoice() { MenuPreference = mealkit.MenuPreference, noOfRecipesPerWeek = mealkit.noOfRecipesPerWeek , noOfPeoplePerWeek = mealkit.noOfPeoplePerWeek, noOfServingsPerPerson = mealkit.noOfServingsPerPerson, Address = orderDetails.Address,OrderDate = orderDetails.OrderDate, OrderTime = orderDetails.OrderTime, Cost = totalCost, Name = user.FirstName + " " + user.LastName, Email = user.Email, userId = user.Id, mealkitId = mealkit.Id, orderDetailsId = orderDetails.Id};
+                        MealKitSubscriptionLog mealKitSubscriptionLog = new MealKitSubscriptionLog() { noOfUsersSubscribed = 1, description = $"{user.UserName} has subscribed to our meal kit plan" };
+
+                        _invoiceMealKitService.AddInvoice(invoice);
+                        _mealKitSubscriptionLogService.AddMealKitSubscriptionLog(mealKitSubscriptionLog);
 
                         await _db.SaveChangesAsync();
                     }

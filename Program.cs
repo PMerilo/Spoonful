@@ -30,6 +30,11 @@ builder.Services.AddScoped<MenuItemService>();
 builder.Services.AddScoped<MealKitService>();
 builder.Services.AddScoped<RecipeService>();
 builder.Services.AddScoped<OrderService>();
+builder.Services.AddScoped<BlogService>();
+builder.Services.AddScoped<MealOrderService>();
+builder.Services.AddScoped<InvoiceMealKitService>();
+//Logs Services
+builder.Services.AddScoped<MealKitSubscriptionLogService>();
 
 //builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("EmailConfiguration"));
 var emailConfig = builder.Configuration

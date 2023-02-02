@@ -44,6 +44,20 @@ namespace Spoonful.Models
         [Required]
         [Display(Name = "Email")]
         public string? Email { get; set; }
+
+        [Required]
+        public string? userId { get; set; }
+        [Required]
+        public int? mealkitId { get; set; }
+
+        [Required]
+        public string? orderDetailsId { get; set; }
+
+        [Display(Name = "Discount Code Used")]
+        public string? DiscountCodeUsed { get; set; } = null;
+
+        [Display(Name = "Date Of Payment")]
+        public string? DateOfPayment { get; set; } = DateTime.Now.ToString("yyyy-MM-dd");
     }
 
 }

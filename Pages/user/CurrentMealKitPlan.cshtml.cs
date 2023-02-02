@@ -18,13 +18,16 @@ namespace Spoonful.Pages.user
 
         private readonly OrderService _orderService;
 
+        private readonly InvoiceMealKitService _invoiceMealKitService;
 
-        public CurrentMealKitPlanModel(AuthDbContext db, MealKitService mealKitService, UserManager<CustomerUser> userManager, OrderService orderService)
+
+        public CurrentMealKitPlanModel(AuthDbContext db, MealKitService mealKitService, UserManager<CustomerUser> userManager, OrderService orderService, InvoiceMealKitService invoiceMealKitService)
         {
             _db = db;
             _mealKitService = mealKitService;
             _userManager = userManager;
             _orderService = orderService;
+            _invoiceMealKitService = invoiceMealKitService;
         }
 
         [BindProperty]
@@ -42,6 +45,7 @@ namespace Spoonful.Pages.user
             var user = await _userManager.GetUserAsync(User);
             MealKit? mealkit = _mealKitService.GetMealKitByUserId(user.Id);
             OrderDetails? orderDetails = _orderService.GetOrderDetailsByUserId(user.Id);
+            
             if (mealkit != null)
             {
 
@@ -131,12 +135,13 @@ namespace Spoonful.Pages.user
         {
             var user = await _userManager.GetUserAsync(User);
             MealKit? mealkit = _mealKitService.GetMealKitByUserId(user.Id);
-            OrderDetails orderDetails = _orderService.GetOrderDetailsByUserId(user.Id);
+            OrderDetails? orderDetails = _orderService.GetOrderDetailsByUserId(user.Id);
+            
             if (mealkit != null)
             {
 
                 Console.WriteLine("Deleting Meal Kit");
-
+                
                 _mealKitService.DeleteMealKit(mealkit);
                 _orderService.DeleteOrderDetails(orderDetails);
                 TempData["FlashMessage.Type"] = "success";

@@ -1,0 +1,227 @@
+﻿@page
+@model Spoonful.Pages.user.ViewOrders.ManageWeekModel
+@{
+}
+<style>
+
+    section.grid {
+        position: relative;
+        background-color: #ff0000;
+    }
+
+        section.grid aside {
+            width: 32%;
+            float: left;
+            margin-right: 1%;
+        }
+
+    aside a {
+        text-decoration: none;
+    }
+
+    .item {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 300px;
+        background: #FFF;
+        margin: 10px 5px;
+        color: #011C26;
+        padding-bottom: 30px;
+        border-bottom-right-radius: 5px;
+        border-bottom-left-radius: 5px;
+    }
+
+        .item h2 {
+            padding: 10px;
+            margin: 10px 0 0 0;
+            text-align: center;
+            color: #3E5AA1;
+        }
+
+        .item p {
+            padding: 0px 15px 20px 15px;
+            margin: 5px 0 10px 0;
+            color: #3E5AA1;
+        }
+
+        .item .btn {
+            margin-top: auto;
+        }
+
+        .item img {
+            width: 100%;
+            height: auto;
+        }
+
+    a.btn {
+        
+        align-self: center;
+        margin-top: auto;
+        display: inline-block;
+        padding: 12px 44px;
+        background-color: #3E5AA1;
+        color: #fff;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-size: .9em;
+        letter-spacing: .5px;
+        word-spacing: 1px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        transition: 0.3s;
+    }
+
+        a.btn:hover {
+            text-decoration: none;
+            background-color: #5C85ED;
+        }
+
+</style>
+<div class="content-header d-flex justify-content-between">
+    <div>
+       
+        <p><span style="color:red">UPCOMING</span> Change by Sun Nov 7</p>
+        <h2 class="content-title card-title">In Your Box</h2>
+        
+        <h3 class="h3">5,pre-selected Meals</h3>
+        <br />
+        <p class="h5">Price: $100/Delivery<span style="color:red">(FREE)</span> </p>
+    </div>
+
+    <div>
+        <a href="/user/ViewOrders" class="btn btn-success btn-sm rounded fa-pull-right">Save Changes</a>
+        <a href="/user/ViewOrders" class="btn btn-secondary rounded font-md fa-pull-right">Cancel</a>
+        
+    </div>
+</div>
+<section class="content-main">
+
+    <div class="card mb-4">
+        <header class="card-header">
+            
+        </header>
+        <!-- card-header end// -->
+        <div class="card-body">
+            <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5">
+                <div class="col">
+                    <div class="card card-product-grid">
+                        <a href="#" class="img-wrap"> <img src="~/images/menu/menu-item-1.png" alt="Product" /> </a>
+                        <br/>
+                        <div class="info-wrap">
+                            <a href="#" class="title text-truncate">Haagen-Dazs Caramel Cone Ice</a>
+                            <div class="price mb-2">$179.00</div>
+                            <!-- price.// -->
+                            
+                                <a href="#" class="btn btn-sm font-sm btn-light rounded"><i class="fa-solid fa-trash"></i></a>
+                                <a href="#" class="btn btn-sm font-sm btn-light rounded"><i class="far fa-info"></i></a>
+                                                     
+                        </div>
+                    </div>
+                    <!-- card-product  end// -->
+                </div>
+                <!-- col.// -->
+                <div class="col">
+                    <div class="card card-product-grid">
+                        <a href="#" class="img-wrap"> <img src="~/images/menu/menu-item-1.png" alt="Product" /> </a>
+                        <br/>
+                        <div class="info-wrap">
+                            <a href="#" class="title text-truncate">Haagen-Dazs Caramel Cone Ice</a>
+                            <div class="price mb-2">$179.00</div>
+                            <!-- price.// -->
+
+                            <a href="#" class="btn btn-sm font-sm btn-light rounded"><i class="fa-solid fa-trash"></i></a>
+                            <a href="#" class="btn btn-sm font-sm btn-light rounded"><i class="far fa-info"></i></a>
+                        </div>
+                    </div>
+                    <!-- card-product  end// -->
+                </div>
+
+                
+                
+            </div>
+            <!-- row.// -->
+        </div>
+        <!-- card-body end// -->
+    </div>
+    <!-- card end// -->
+    
+</section>
+<!-- content-main end// -->
+
+<div class="content-header d-flex justify-content-between">
+    <div>
+
+        
+        <h3 class="h3">Other Delicious Meals This Week</h3>
+        <br />
+        
+    </div>
+
+   
+</div>
+<section class="content-main">
+    
+    <div class="card mb-4">
+        <header class="card-header">
+            <div class="row gx-3">
+                <div class="col-lg-4 col-md-6 me-auto">
+                    <input type="text" placeholder="Search..." class="form-control" />
+                </div>
+                <div class="col-lg-2 col-6 col-md-3">
+                    <select class="form-select">
+                        <option>All category</option>
+                        <option>Electronics</option>
+                        <option>Clothings</option>
+                        <option>Something else</option>
+                    </select>
+                </div>
+                <div class="col-lg-2 col-6 col-md-3">
+                    <select class="form-select">
+                        <option>Latest added</option>
+                        <option>Cheap first</option>
+                        <option>Most viewed</option>
+                    </select>
+                </div>
+            </div>
+        </header>
+        <!-- card-header end// -->
+        <div class="card-body">
+            <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5">
+                <div class="col">
+                    <div class="card card-product-grid">
+                        <a href="#" class="img-wrap"> <img src="~/images/menu/menu-item-1.png" alt="Product" /> </a>
+                        <br />
+                        <div class="info-wrap">
+                            <a href="#" class="title text-truncate">Haagen-Dazs Caramel Cone Ice</a>
+                            <div class="price mb-2">$179.00</div>
+                            <!-- price.// -->
+
+                            <a href="#" class="btn btn-sm font-sm btn-light rounded"><i class="fad fa-smile-plus" style="font-size:120%"></i></a>
+                            <a href="#" class="btn btn-sm font-sm btn-light rounded"><i class="far fa-info"></i></a>
+                        </div>
+                    </div>
+                    <!-- card-product  end// -->
+                </div>
+               
+            </div>
+            <!-- row.// -->
+        </div>
+        <!-- card-body end// -->
+    </div>
+    <!-- card end// -->
+    <div class="pagination-area mt-30 mb-50">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-start">
+                <li class="page-item active"><a class="page-link" href="#">01</a></li>
+                <li class="page-item"><a class="page-link" href="#">02</a></li>
+                <li class="page-item"><a class="page-link" href="#">03</a></li>
+                <li class="page-item"><a class="page-link dot" href="#">...</a></li>
+                <li class="page-item"><a class="page-link" href="#">16</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</section>
+<!-- content-main end// -->

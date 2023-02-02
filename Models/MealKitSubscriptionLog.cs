@@ -12,5 +12,10 @@ namespace Spoonful.Models
         [Required]
         [Display(Name = "Description")]
         public string? description { get; set; }
+
+        public string? dateIssued { get; set; } = DateTime.Now.ToString("yyyy-MM-dd");
+
+
+        public string? timeIssued { get; set; } = DateTime.Now.ToString("h:mm:ss tt");
     }
 }

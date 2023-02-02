@@ -29,6 +29,15 @@ namespace Spoonful.Models
         public DbSet<Invoice> Invoice { get; set; }
 
         public DbSet<Blog> Blog { get; set; }
+
+        public DbSet<Order> Order { get; set; }
+
+
+        //Logs
+
+        public DbSet<MealKitSubscriptionLog> MealKitSubscriptionLog { get; set; }
+
+
     }
 }
 
