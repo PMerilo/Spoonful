@@ -5,6 +5,10 @@
 }
 @using Microsoft.AspNetCore.Identity
 @using Spoonful.Models
+@using Spoonful.Settings
+
+@inject GoogleAddressAutoCorrectConfiguration GoogleAddressAutoCorrect
+
 @inject UserManager<CustomerUser> UserManager
 
 @{
@@ -101,6 +105,7 @@
                                 <!-- row.// -->
                                 <br />
                                 <button class="btn btn-success" type="submit">Save changes</button>
+                                <p class="h5 fa-pull-right">Price: $@Model.MyInvoice.Cost/Delivery<span style="color:red">(FREE)</span> </p>
                                 </form>
                                 <br />
                                 <hr />
@@ -238,6 +243,6 @@
     
         </section>
 
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhDW10Zt5sVkx2_sMzIqNKJBik-TuMwPY&libraries=places&callback=initMap"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@GoogleAddressAutoCorrect.API&libraries=places&callback=initMap"></script>
 
 <script src="/js/AddressAutoComplete.js"></script>

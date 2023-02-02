@@ -43,6 +43,11 @@ var emailConfig = builder.Configuration
 builder.Services.AddSingleton(emailConfig);
 builder.Services.AddScoped<IEmailService, EmailService>();
 
+var GoogleAddressAutoCorrect = builder.Configuration
+        .GetSection("GoogleAddressAutoCorrect")
+        .Get<GoogleAddressAutoCorrectConfiguration>();
+
+builder.Services.AddSingleton(GoogleAddressAutoCorrect);
 
 builder.Services.AddIdentity<CustomerUser, IdentityRole>().AddEntityFrameworkStores<AuthDbContext>().AddDefaultTokenProviders();
 builder.Services.ConfigureApplicationCookie(config =>

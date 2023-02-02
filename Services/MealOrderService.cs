@@ -20,6 +20,12 @@ namespace Spoonful.Services
             return order;
         }
 
+        public Order? GetOrderByName(string name)
+        {
+            Order? order = _context.Order.FirstOrDefault(x => x.Name.Equals(name));
+            return order;
+        }
+
         public void AddOrder(Order order)
         {
             _context.Order.Add(order);
