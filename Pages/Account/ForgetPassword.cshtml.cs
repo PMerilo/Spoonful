@@ -8,9 +8,11 @@ using System.Text.Encodings.Web;
 using System.Text;
 using Spoonful.Models;
 using Spoonful.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Spoonful.Pages.Account
 {
+    [AllowAnonymous]
     public class ForgetPasswordModel : PageModel
     {
         public readonly IEmailService _emailSender;

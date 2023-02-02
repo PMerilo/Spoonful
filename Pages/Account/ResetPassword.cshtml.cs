@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,6 +9,7 @@ using System.Text;
 
 namespace Spoonful.Pages.Account
 {
+    [AllowAnonymous]
     [BindProperties]
     public class ResetPasswordModel : PageModel
     {
@@ -55,10 +57,15 @@ namespace Spoonful.Pages.Account
 
             if (!result.Succeeded)
             {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
                 TempData["FlashMessage.Text"] = "Invalid Tokens";
                 TempData["FlashMessage.Type"] = "danger";
                 return Page();
             }
+
             TempData["FlashMessage.Text"] = "Successfully reset password!";
             TempData["FlashMessage.Type"] = "success";
             return RedirectToPage("/Account/Login");

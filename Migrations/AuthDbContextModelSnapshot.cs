@@ -213,8 +213,11 @@ namespace Spoonful.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DOB")
+                    b.Property<DateTime?>("DOB")
                         .HasColumnType("datetime2");
+
+                    b.Property<DateTimeOffset>("DateCreated")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -229,6 +232,9 @@ namespace Spoonful.Migrations
                     b.Property<string>("ImageURL")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTimeOffset?>("LastLogin")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
@@ -265,6 +271,9 @@ namespace Spoonful.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("isDisabled")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -465,11 +474,17 @@ namespace Spoonful.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DateCreated")
+                    b.Property<DateTimeOffset>("DateCreated")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("Seen")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("Url")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -592,6 +607,34 @@ namespace Spoonful.Migrations
                     b.ToTable("Recipe");
                 });
 
+            modelBuilder.Entity("Spoonful.Models.UserDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("UserDetails", (string)null);
+
+                    b.HasDiscriminator<string>("UserType").HasValue("UserDetails");
+
+                    b.UseTphMappingStrategy();
+                });
+
             modelBuilder.Entity("Spoonful.Models.Vouchers", b =>
                 {
                     b.Property<int>("Id")
@@ -602,6 +645,9 @@ namespace Spoonful.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageURL")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -626,6 +672,48 @@ namespace Spoonful.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Rewards");
+                });
+
+            modelBuilder.Entity("Spoonful.Models.AdminDetails", b =>
+                {
+                    b.HasBaseType("Spoonful.Models.UserDetails");
+
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("Admin");
+                });
+
+            modelBuilder.Entity("Spoonful.Models.CustomerDetails", b =>
+                {
+                    b.HasBaseType("Spoonful.Models.UserDetails");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DietaryRestrictions")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("Customer");
+                });
+
+            modelBuilder.Entity("Spoonful.Models.DriverDetails", b =>
+                {
+                    b.HasBaseType("Spoonful.Models.UserDetails");
+
+                    b.Property<double>("Commision")
+                        .HasColumnType("float");
+
+                    b.Property<double>("HourlyRate")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Rating")
+                        .HasColumnType("float");
+
+                    b.HasDiscriminator().HasValue("Driver");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -690,9 +778,23 @@ namespace Spoonful.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Spoonful.Models.UserDetails", b =>
+                {
+                    b.HasOne("Spoonful.Models.CustomerUser", "User")
+                        .WithOne("UserDetails")
+                        .HasForeignKey("Spoonful.Models.UserDetails", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Spoonful.Models.CustomerUser", b =>
                 {
                     b.Navigation("Notifications");
+
+                    b.Navigation("UserDetails")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

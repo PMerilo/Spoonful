@@ -8,14 +8,32 @@ using Stripe;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using System.Configuration;
 using Spoonful.Settings;
-
-
-
+using Spoonful.Hubs;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages(options =>
+{
+	options.Conventions.AuthorizeFolder("/Admin", "RequireAdministratorRole");
+
+	//Allow Anonymous
+	options.Conventions.AllowAnonymousToPage("/Index");
+    options.Conventions.AllowAnonymousToPage("/Error");
+    options.Conventions.AllowAnonymousToPage("/NotificationTester");
+    options.Conventions.AllowAnonymousToPage("/notificationHub");
+
+
+
+});
+builder.Services.AddSignalR(hubOptions =>
+{
+    hubOptions.EnableDetailedErrors = true;
+});
+builder.Services.AddSingleton(typeof(IUserIdProvider), typeof(MyUserIdProvider));
+
 builder.Services.AddDbContext<AuthDbContext>();
 builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 builder.Services.AddControllers();
@@ -27,14 +45,16 @@ builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
 //Services
 builder.Services.AddScoped<CategoryService>();
 builder.Services.AddScoped<MenuItemService>();
+builder.Services.AddScoped<VoucherService>();
 builder.Services.AddScoped<MealKitService>();
 builder.Services.AddScoped<RecipeService>();
 builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<BlogService>();
 builder.Services.AddScoped<MealOrderService>();
 builder.Services.AddScoped<InvoiceMealKitService>();
-//Logs Services
 builder.Services.AddScoped<MealKitSubscriptionLogService>();
+builder.Services.AddScoped<NotificationService>();
+builder.Services.AddScoped<CustomerUserService>();
 
 //builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("EmailConfiguration"));
 var emailConfig = builder.Configuration
@@ -53,6 +73,9 @@ builder.Services.AddIdentity<CustomerUser, IdentityRole>().AddEntityFrameworkSto
 builder.Services.ConfigureApplicationCookie(config =>
 {
     config.LoginPath = "/Account/Login";
+    config.LogoutPath = "/Account/Logout";
+    config.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+    config.SlidingExpiration = true;
 });
 builder.Services.AddAuthentication("MyCookieAuth").AddCookie("MyCookieAuth", options =>
 {
@@ -64,6 +87,20 @@ builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromSeconds(30);
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
+
+	options.AddPolicy("RequireAdministratorRole",
+		 policy => policy.RequireRole(Roles.Admin, Roles.RootUser));
+    options.AddPolicy("RequireCustomerRole",
+         policy => policy.RequireRole(Roles.Customer, Roles.RootUser));
+    options.AddPolicy("RequireDriverRole",
+         policy => policy.RequireRole(Roles.Driver, Roles.RootUser));
 });
 
 var app = builder.Build();
@@ -95,5 +132,6 @@ app.MapControllers();
 
 
 app.MapRazorPages();
+app.MapHub<NotificationHub>("/notificationHub");
 
 app.Run();
