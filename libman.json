@@ -19,6 +19,15 @@
         "dayjs.min.js",
         "plugin/calendar.js"
       ]
+    },
+    {
+      "provider": "unpkg",
+      "library": "bootstrap-table@1.21.2",
+      "destination": "wwwroot/lib/bootstrap-table/",
+      "files": [
+        "dist/bootstrap-table.min.js",
+        "dist/bootstrap-table.min.css"
+      ]
     }
   ]
 }

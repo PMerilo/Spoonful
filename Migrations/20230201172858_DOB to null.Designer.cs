@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Spoonful.Models;
 
@@ -11,9 +12,11 @@ using Spoonful.Models;
 namespace Spoonful.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    partial class AuthDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230201172858_DOB to null")]
+    partial class DOBtonull
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -233,9 +236,6 @@ namespace Spoonful.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("RoutesId")
-                        .HasColumnType("int");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -259,47 +259,7 @@ namespace Spoonful.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.HasIndex("RoutesId");
-
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("Spoonful.Models.Delivery", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ConfirmationImageURL")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("customerConfirmation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("deliveryConfirmation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("deliveryDateTime")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("orderdetailsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("stopsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("orderdetailsId");
-
-                    b.HasIndex("stopsId");
-
-                    b.ToTable("Delivery");
                 });
 
             modelBuilder.Entity("Spoonful.Models.MealKit", b =>
@@ -482,79 +442,6 @@ namespace Spoonful.Migrations
                     b.ToTable("Recipe");
                 });
 
-            modelBuilder.Entity("Spoonful.Models.Routes", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Region")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Town")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Route");
-                });
-
-            modelBuilder.Entity("Spoonful.Models.Stops", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RoutesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoutesId");
-
-                    b.ToTable("Stops");
-                });
-
-            modelBuilder.Entity("Spoonful.Models.VoucherEmails", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("HtmlContent")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Subject")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("sendTo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("vouchersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("vouchersId");
-
-                    b.ToTable("VoucherEmail");
-                });
-
             modelBuilder.Entity("Spoonful.Models.UserDetails", b =>
                 {
                     b.Property<int>("Id")
@@ -606,10 +493,6 @@ namespace Spoonful.Migrations
                         .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<int?>("Used")
-                        .IsRequired()
-                        .HasColumnType("int");
-
                     b.Property<int?>("discountAmount")
                         .IsRequired()
                         .HasColumnType("int");
@@ -656,14 +539,8 @@ namespace Spoonful.Migrations
                 {
                     b.HasBaseType("Spoonful.Models.UserDetails");
 
-                    b.Property<double>("Commision")
-                        .HasColumnType("float");
-
-                    b.Property<double>("HourlyRate")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Rating")
-                        .HasColumnType("float");
+                    b.Property<int>("VehicleNo")
+                        .HasColumnType("int");
 
                     b.HasDiscriminator().HasValue("Driver");
                 });
@@ -719,32 +596,6 @@ namespace Spoonful.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Spoonful.Models.CustomerUser", b =>
-                {
-                    b.HasOne("Spoonful.Models.Routes", null)
-                        .WithMany("CustomerUser")
-                        .HasForeignKey("RoutesId");
-                });
-
-            modelBuilder.Entity("Spoonful.Models.Delivery", b =>
-                {
-                    b.HasOne("Spoonful.Models.OrderDetails", "OrderDetails")
-                        .WithMany()
-                        .HasForeignKey("orderdetailsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Spoonful.Models.Stops", "Stops")
-                        .WithMany("Delivery")
-                        .HasForeignKey("stopsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("OrderDetails");
-
-                    b.Navigation("Stops");
-                });
-
             modelBuilder.Entity("Spoonful.Models.Notification", b =>
                 {
                     b.HasOne("Spoonful.Models.CustomerUser", "User")
@@ -754,28 +605,6 @@ namespace Spoonful.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Spoonful.Models.Stops", b =>
-                {
-                    b.HasOne("Spoonful.Models.Routes", "Routes")
-                        .WithMany("Stops")
-                        .HasForeignKey("RoutesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Routes");
-                });
-
-            modelBuilder.Entity("Spoonful.Models.VoucherEmails", b =>
-                {
-                    b.HasOne("Spoonful.Models.Vouchers", "Vouchers")
-                        .WithMany()
-                        .HasForeignKey("vouchersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Vouchers");
                 });
 
             modelBuilder.Entity("Spoonful.Models.UserDetails", b =>
@@ -795,18 +624,6 @@ namespace Spoonful.Migrations
 
                     b.Navigation("UserDetails")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Spoonful.Models.Routes", b =>
-                {
-                    b.Navigation("CustomerUser");
-
-                    b.Navigation("Stops");
-                });
-
-            modelBuilder.Entity("Spoonful.Models.Stops", b =>
-                {
-                    b.Navigation("Delivery");
                 });
 #pragma warning restore 612, 618
         }
