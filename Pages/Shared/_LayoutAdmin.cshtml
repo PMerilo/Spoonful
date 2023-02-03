@@ -14,7 +14,8 @@
     
     
     <link rel="stylesheet" href="~/css/admin.css" />
-    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" /> 
     
 
     <!-- Icon fonts-->
@@ -109,7 +110,7 @@
                     </a>
                 </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="My profile">
-                    <a class="nav-link" asp-page="/Admin/UserManagement">
+                    <a class="nav-link" asp-page="/Admin/UserManagement/Index">
                         <i class="fa fa-fw fa-user"></i>
                         <span class="nav-link-text">User Management</span>
                     </a>
@@ -294,7 +295,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="#0">Logout</a>
+                    <a class="btn btn-primary" asp-page="/Account/Logout" asp-page-handler="Logout">Logout</a>
                 </div>
             </div>
         </div>
@@ -305,6 +306,8 @@
 
     <script src="~/js/vendor/jquery/jquery.min.js"></script>
     <script src="~/js/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
     <!-- Core plugin JavaScript-->
 
     <script src="~/js/vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -319,7 +322,12 @@
     <script src="~/js/vendor/bootstrap/js/admin.js"></script>
 
     <!-- Custom scripts for this page-->
-
+    <script src="~/js/dayjs/dayjs.min.js"></script>
+    <script src="~/js/dayjs/plugin/calendar.js"></script>
+    <script>
+        dayjs().format()
+        dayjs.extend(window.dayjs_plugin_calendar)
+    </script>
     <!--<script src="~/js/vendor/bootstrap/js/admin-chart.js"></script>-->
     <script src="~/js/vendor/bootstrap/js/admin-chart-all.js"></script>
 
