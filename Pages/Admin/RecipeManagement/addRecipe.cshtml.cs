@@ -33,7 +33,7 @@ namespace Spoonful.Pages.Admin.RecipeManagement
 
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(IFormCollection form)
         {
             if (Upload != null)
             {
@@ -58,9 +58,18 @@ namespace Spoonful.Pages.Admin.RecipeManagement
             }
             else
             {
+                var keys = form.Keys.ToList();
+                foreach ( var key in keys)
+                {
+                    if(key == "instructions")
+                    {
+                        var instruction = form[key];
+                        MyRecipe.instructions = instruction;
+                    }
+                }
                 _recipeService.AddRecipe(MyRecipe);
                 TempData["FlashMessage.Type"] = "success";
-                TempData["FlashMessage.Text"] = string.Format("Menu item {0} is added", MyRecipe.name);
+                TempData["FlashMessage.Text"] = string.Format("Recipe {0} is added", MyRecipe.name);
                 return Redirect("/Admin/RecipeManagement");
             }
 

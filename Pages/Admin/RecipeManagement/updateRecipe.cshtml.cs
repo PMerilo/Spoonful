@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Spoonful.Migrations;
 using Spoonful.Models;
 using Spoonful.Services;
 using System.ComponentModel.DataAnnotations;
@@ -35,6 +36,7 @@ namespace Spoonful.Pages.Admin.RecipeManagement
         public string? allergens { get; set; }
 
         public string? category { get; set; } = "Undefined";
+        public string[] instructionList { get; set; }
         
         public string? instructions { get; set; }
 
@@ -55,7 +57,7 @@ namespace Spoonful.Pages.Admin.RecipeManagement
                 prepTime = recipe.prepTime;
                 allergens = recipe.allergens;
                 category = recipe.category;
-                instructions = recipe.instructions;
+                instructionList = recipe.instructions.Split(",");
                 ingredients = recipe.ingredients;
                 ImageURL = recipe.ImageURL;
 
@@ -71,7 +73,7 @@ namespace Spoonful.Pages.Admin.RecipeManagement
 
         }
 
-        public async Task<IActionResult> OnPostAsync(int id)
+        public async Task<IActionResult> OnPostAsync(int id, IFormCollection form)
         {
             var recipe = _recipeService.GetRecipeById(id);
 
@@ -97,6 +99,15 @@ namespace Spoonful.Pages.Admin.RecipeManagement
             }
             if (ModelState.IsValid)
             {
+                var keys = form.Keys.ToList();
+                foreach (var key in keys)
+                {
+                    if (key == "instructions")
+                    {
+                        var instruction = form[key];
+                        instructions = instruction;
+                    }
+                }
                 recipe.name = name;
                 recipe.description = description;
                 recipe.allergens = allergens;

@@ -9,18 +9,14 @@ namespace Spoonful.Models
         [Required]
         [Display(Name = "Name")]
         public string? name { get; set; }
-		public string? RecipeName { get; set; }
 
         [Required]
         [Display(Name = "Description")]
         public string? description { get; set; }
-		public string? RecipeDesc { get; set; }
 
         [Required]
         [Display(Name = "Preparation Time (Minutes)")]
         public double? prepTime { get; set; }
-        [Display(Name = "Category")]
-        public string? category { get; set; } = "Undefined";
 
         [MaxLength(50)]
         public string ImageURL { get; set; } = "/uploads/user.png";
@@ -28,6 +24,7 @@ namespace Spoonful.Models
         [Required]
         [Display(Name = "Allegrens")]
         public string? allergens { get; set; }
+
         [Display(Name = "Ingredients")]
         public string? ingredients { get; set; }
 
@@ -37,9 +34,7 @@ namespace Spoonful.Models
 
         [Display(Name = "Instructions")]
         public string? instructions { get; set; }
-    }
-		[Required]
-		public string? TimeTaken { get; set; }
+
 
     }
 }
