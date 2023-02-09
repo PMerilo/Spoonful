@@ -11,6 +11,23 @@ builder.Services.AddDbContext<AuthDbContext>();
 
 //Services
 builder.Services.AddScoped<CategoryService>();
+builder.Services.AddScoped<MenuItemService>();
+builder.Services.AddScoped<VoucherService>();
+builder.Services.AddScoped<MealKitService>();
+builder.Services.AddScoped<RecipeService>();
+builder.Services.AddScoped<OrderService>();
+builder.Services.AddScoped<NotificationService>();
+builder.Services.AddScoped<CustomerUserService>();
+builder.Services.AddScoped<DiaryService>();
+builder.Services.AddScoped<ShoppingListService>();
+
+//builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("EmailConfiguration"));
+var emailConfig = builder.Configuration
+        .GetSection("EmailConfiguration")
+        .Get<EmailConfiguration>();
+builder.Services.AddSingleton(emailConfig);
+builder.Services.AddScoped<IEmailService, EmailService>();
+
 
 builder.Services.AddIdentity<CustomerUser, IdentityRole>().AddEntityFrameworkStores<AuthDbContext>();
 builder.Services.ConfigureApplicationCookie(config =>

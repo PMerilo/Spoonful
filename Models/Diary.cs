@@ -20,13 +20,13 @@ namespace Spoonful.Models
         [DataType(DataType.Date)]
         [Column(TypeName = "date")]
         [Display(Name = "Purchase Date")]
-        public DateTime Purchase { get; set; } = new DateTime(DateTime.Now.Year);
+        public DateTime Purchase { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
 
         [Required]
         [DataType(DataType.Date)]
         [Column(TypeName = "date")]
         [Display(Name = "Expiry Date")]
-        public DateTime Expiry { get; set; } = new DateTime(DateTime.Now.Year + 0, 1, 0);
+        public DateTime Expiry { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
 
 
     }
