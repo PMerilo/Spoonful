@@ -3,7 +3,6 @@ using System.Diagnostics;
 using sib_api_v3_sdk.Api;
 using sib_api_v3_sdk.Client;
 using sib_api_v3_sdk.Model;
-using NuGet.Protocol;
 
 
 namespace Spoonful.Services

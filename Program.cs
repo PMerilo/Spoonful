@@ -28,16 +28,22 @@ builder.Services.AddRazorPages(options =>
 
 
 });
+
+//SignalR
 builder.Services.AddSignalR(hubOptions =>
 {
     hubOptions.EnableDetailedErrors = true;
 });
 builder.Services.AddSingleton(typeof(IUserIdProvider), typeof(MyUserIdProvider));
 
+//Database
 builder.Services.AddDbContext<AuthDbContext>();
+
+//Stripe
 builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 builder.Services.AddControllers();
 
+//Identity Tokens
 builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
    opt.TokenLifespan = TimeSpan.FromHours(2));
 
@@ -51,14 +57,14 @@ builder.Services.AddScoped<RecipeService>();
 builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<CustomerUserService>();
-
-//builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("EmailConfiguration"));
+//EmailConfig and service
 var emailConfig = builder.Configuration
         .GetSection("EmailConfiguration")
         .Get<EmailConfiguration>();
 builder.Services.AddSingleton(emailConfig);
 builder.Services.AddScoped<IEmailService, EmailService>();
 
+//Identity
 builder.Services.AddIdentity<CustomerUser, IdentityRole>().AddEntityFrameworkStores<AuthDbContext>().AddDefaultTokenProviders();
 builder.Services.ConfigureApplicationCookie(config =>
 {
@@ -67,6 +73,8 @@ builder.Services.ConfigureApplicationCookie(config =>
     config.ExpireTimeSpan = TimeSpan.FromMinutes(30);
     config.SlidingExpiration = true;
 });
+
+
 builder.Services.AddAuthentication("MyCookieAuth").AddCookie("MyCookieAuth", options =>
 {
     options.Cookie.Name = "MyCookieAuth";
