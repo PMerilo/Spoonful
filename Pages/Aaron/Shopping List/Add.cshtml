@@ -1,0 +1,39 @@
+﻿@page
+@model Spoonful.Pages.Aaron.Shopping_List.AddModel
+@{
+    ViewData["Title"] = "Add Shopping List";
+}
+
+<h1 class="display-4">@ViewData["Title"]</h1>
+<div>
+    <form id="addForm" method="post">
+        <div class="modal-body">
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" asp-for="ShoppingEntry.Name"></label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="ShoppingEntry.Name" />
+                    <span asp-validation-for="ShoppingEntry.Name" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" asp-for="ShoppingEntry.Category"></label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="ShoppingEntry.Category" />
+                    <span asp-validation-for="ShoppingEntry.Category" class="text-danger"></span>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <input type="submit" value="Add" class="btn btn-primary" />
+            <a class="btn btn-secondary ms-2" href="/Aaron/Shopping%20List/ShoppingList">Return to Shopping List</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
