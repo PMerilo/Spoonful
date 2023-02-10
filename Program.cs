@@ -55,6 +55,11 @@ builder.Services.AddScoped<VoucherService>();
 builder.Services.AddScoped<MealKitService>();
 builder.Services.AddScoped<RecipeService>();
 builder.Services.AddScoped<OrderService>();
+builder.Services.AddScoped<BlogService>();
+builder.Services.AddScoped<MealOrderService>();
+builder.Services.AddScoped<InvoiceMealKitService>();
+//Logs Services
+builder.Services.AddScoped<MealKitSubscriptionLogService>();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<CustomerUserService>();
 //EmailConfig and service
@@ -63,6 +68,12 @@ var emailConfig = builder.Configuration
         .Get<EmailConfiguration>();
 builder.Services.AddSingleton(emailConfig);
 builder.Services.AddScoped<IEmailService, EmailService>();
+
+var GoogleAddressAutoCorrect = builder.Configuration
+        .GetSection("GoogleAddressAutoCorrect")
+        .Get<GoogleAddressAutoCorrectConfiguration>();
+
+builder.Services.AddSingleton(GoogleAddressAutoCorrect);
 
 //Identity
 builder.Services.AddIdentity<CustomerUser, IdentityRole>().AddEntityFrameworkStores<AuthDbContext>().AddDefaultTokenProviders();

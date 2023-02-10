@@ -22,11 +22,11 @@
         <div class="strip_menu_items">
             <div class="row">
                 <div class="col-xl-3">
-                    <!--
+                    
                     <input type="file" accept="image/*" asp-for="Upload" class="form-control" onchange="showImgPreview(this)" />
                     <br />
                     <img id="imgPreview" class="rounded-circle" style="height:300px;width:300px;object-fit:cover" src="/uploads/user.png" />
-                    -->
+                    
                 </div> 
                 
                 <div class="col-xl-9">
@@ -53,6 +53,42 @@
                         <label asp-for="MyRecipe.description"></label>
                         <input asp-for="MyRecipe.description" type="text" class="form-control">
                     </div>
+                    <div class="form-group">
+                    <label asp-for="MyRecipe.instructions"></label>
+                        <button id="addRow" type="button" class="btn btn-info">Add</button>
+                            <div id="newRow">
+                                <input type="hidden" id="total" value="0" />
+                            </div>
+                        @section Scripts
+                            {
+                            <script>
+                                $("#addRow").click(function () {
+                                    var rowCount = parseInt($("#total").val());
+                                    rowCount++;
+                                    $("#total").val(rowCount);
+                                    var html = '';
+                                    html += '<div id="inputRow">';
+                                    html += '<input id="instructions" name="instructions" type="text"/>';
+                                    //add more inputs here...
+                                    html += '<button id="removeRow" type="button" class="btn btn-danger">Remove</button>';
+                                    html += '</div>';
+
+                                    $('#newRow').append(html);
+                                });
+                                $(document).on('click', '#removeRow', function () {
+                                    var rowCount = parseInt($("#total").val());
+                                    rowCount--;
+                                    $("#total").val(rowCount);
+                                    $(this).closest('#inputRow').remove();
+                                });
+                            </script>
+                        }
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MyRecipe.ingredients"></label>
+                        <input asp-for="MyRecipe.ingredients" type="text" class="form-control">
+                    </div>
+
                     
                     
                         </div>
@@ -87,4 +123,4 @@
     }
 </script>
 
-    -->
+    
