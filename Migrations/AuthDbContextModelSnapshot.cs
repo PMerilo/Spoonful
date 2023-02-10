@@ -582,6 +582,11 @@ namespace Spoonful.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ImageURL")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<string>("allergens")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -592,6 +597,12 @@ namespace Spoonful.Migrations
 
                     b.Property<string>("description")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ingredients")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("instructions")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("name")
