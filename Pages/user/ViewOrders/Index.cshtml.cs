@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -6,6 +7,7 @@ using Spoonful.Services;
 
 namespace Spoonful.Pages.user.ViewOrders
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly AuthDbContext _db;
@@ -39,11 +41,25 @@ namespace Spoonful.Pages.user.ViewOrders
             var user = await _userManager.GetUserAsync(User);
             MealKit? mealkit = _mealKitService.GetMealKitByUserId(user.Id);
             OrderDetails? orderDetails = _orderService.GetOrderDetailsByUserId(user.Id);
-            Invoice? invoice = _invoiceMealKitService.GetInvoiceByUserId(user.Id);
+            
             Orders = _db.Order;
             Orders = Orders.Where(X => X.OwnerID == user.Id);
-            if (mealkit == null || orderDetails == null || invoice == null)
+            if (mealkit == null || orderDetails == null)
             {
+                return Redirect("/user/CurrentMealKitPlan");
+            }
+            if(mealkit == null)
+            {
+                return Redirect("/user/CurrentMealKitPlan");
+                
+            }
+            Invoice? invoice = _invoiceMealKitService.GetInvoiceByMealKitId(mealkit.Id);
+
+
+            if (mealkit.Status == false)
+            {
+                TempData["FlashMessage.Type"] = "danger";
+                TempData["FlashMessage.Text"] = ($"Your Meal Plan is Currently Paused Please Unpause your plan to start managing your orders.");
                 return Redirect("/user/CurrentMealKitPlan");
             }
 

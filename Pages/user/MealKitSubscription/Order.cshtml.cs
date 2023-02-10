@@ -35,6 +35,7 @@ namespace Spoonful.Pages.user.MealKitSubscription
         public async Task<IActionResult> OnGet()
         {
             var user = await _userManager.GetUserAsync(User);
+            //string? username = User.Identity?.Name;
             MealKit? mealkit = _mealKitService.GetMealKitByUserId(user.Id);
             if (mealkit != null)
             {

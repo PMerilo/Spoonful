@@ -14,11 +14,12 @@ namespace Spoonful.Services
             return _context.Order.OrderBy(x => x.Id).ToList();
         }
 
-        public Order? GetOrderByUserId(string id)
+        public Order? GetOrderId(int id)
         {
             Order? order = _context.Order.FirstOrDefault(x => x.Id.Equals(id));
             return order;
         }
+
 
         public Order? GetOrderByName(string name)
         {

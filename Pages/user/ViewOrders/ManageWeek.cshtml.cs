@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -6,6 +7,7 @@ using Spoonful.Services;
 
 namespace Spoonful.Pages.user.ViewOrders
 {
+    [Authorize]
     [BindProperties]
     public class ManageWeekModel : PageModel
     {
@@ -55,6 +57,14 @@ namespace Spoonful.Pages.user.ViewOrders
             {
                 return Redirect("/user/CurrentMealKitPlan");
             }
+
+            if (mealkit.Status == false)
+            {
+                TempData["FlashMessage.Type"] = "danger";
+                TempData["FlashMessage.Text"] = ($"Your Meal Plan is Currently Paused Please Unpause your plan to start managing your orders.");
+                return Redirect("/user/CurrentMealKitPlan");
+            }
+
             MyMealKit = mealkit;
             Invoice? invoice = _invoiceMealKitService.GetInvoiceByMealKitId(mealkit.Id);
 
@@ -98,7 +108,8 @@ namespace Spoonful.Pages.user.ViewOrders
         public async Task<IActionResult> OnPostRemovemealAsync()
         {
             
-            Order order = _mealOrderService.GetOrderByName(MyOrder.Name);
+            
+            Order order = _mealOrderService.GetOrderId(MyOrder.Id);
             var user = await _userManager.GetUserAsync(User);
             if (order != null)
             {

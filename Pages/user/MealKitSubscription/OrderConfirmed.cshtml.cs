@@ -7,9 +7,11 @@ using Spoonful.Models;
 using Spoonful.Services;
 using System.Text.Encodings.Web;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Spoonful.Pages.user.MealKitSubscription
 {
+    [Authorize]
     public class OrderConfirmedModel : PageModel
     {
         private readonly UserManager<CustomerUser> _userManager;

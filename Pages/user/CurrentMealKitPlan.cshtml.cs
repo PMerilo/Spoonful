@@ -4,9 +4,11 @@ using Spoonful.Models;
 using Spoonful.Services;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Cryptography;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Spoonful.Pages.user
 {
+    [Authorize]
     [BindProperties]
     public class CurrentMealKitPlanModel : PageModel
     {

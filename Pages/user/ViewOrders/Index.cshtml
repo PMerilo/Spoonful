@@ -74,17 +74,17 @@ a.btn:hover {text-decoration: none; background-color: #5C85ED;}
 <div class="content-header d-flex justify-content-between">
     <div>
         
-        <p><span style="color:red">UPCOMING</span> Change by @Model.MyOrderDetails.OrderDate/p>
+        <p><span style="color:red">UPCOMING</span> Change by @Model.MyOrderDetails.OrderDate</p>
         <h2 class="content-title card-title">In Your Box</h2>
         
-        <h3 class="h3">@Model.MyMealKit.noOfRecipesPerWeek,pre-selected Meals</h3>
+        <h3 class="h3">@Model.MyMealKit.noOfRecipesPerWeek, pre-selected Meals</h3>
         <br />
         <p class="h5">Price: $@Model.MyInvoice.Cost/Delivery<span style="color:red">(FREE)</span> </p>
     </div>
 
     <div>
-        <a href="/user/ViewOrders/ManageWeek" class="btn btn-primary btn-sm rounded fa-pull-right">Manage Week</a>
-        <a href="#" class="btn btn-light rounded font-md fa-pull-right">Add Extras</a>
+        <a href="/user/ViewOrders/ManageWeek" class="btn btn-primary btn-sm rounded fa-pull-right">Manage Box</a>
+        <!--<a href="#" class="btn btn-light rounded font-md fa-pull-right">Add Extras</a>-->
         
     </div>
 </div>
@@ -106,19 +106,41 @@ a.btn:hover {text-decoration: none; background-color: #5C85ED;}
                             <div class="card card-product-grid">
                                 <a href="#" class="img-wrap"> <img src="@obj.ImageURL" alt="Product" style="height:250px;object-fit:cover" /> </a>
                                 <br />
-                                <div class="info-wrap" style="overflow:auto">
+                                <div class="info-wrap" style="overflow:auto;padding:3%">
                                     <small>@obj.Category - @obj.MenuPreference <span class="badge rounded-pill bg-primary text-dark"><small>@obj.Tags </small></span></small>
 
                                     <a href="#" class="title text-truncate">@obj.Name</a>
                                     <div class="price mb-2 h6"></div>
                                     <!-- price.// -->
-                                    
-                                    <a href="#" class="btn btn-sm font-sm btn-light rounded"><i class="far fa-info"></i></a>
+
+                                    <a href="#" class="btn btn-sm font-sm btn-light rounded" data-bs-toggle="modal" data-bs-target="#OrderModal_@obj.Id" style="width:100%;"><i class="far fa-info"></i></a>
                                 </div>
                             </div>
                             <!-- card-product  end// -->
                         </div>
                     </form>
+                    <!-- Modal -->
+                    <div class="modal fade" id="OrderModal_@obj.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                        
+                                    <h5 class="modal-title" id="exampleModalLabel">@obj.Name</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <figure><img alt="" class="img-fluid" src="@obj.ImageURL" style="width:950px; height:450px; object-fit:cover"></figure>
+                                    <small>@obj.Category - @obj.MenuPreference <span class="badge rounded-pill bg-primary text-dark"><small>@obj.Tags </small></span></small>
+                                    <br/>
+                                    @obj.Description
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                 }
 

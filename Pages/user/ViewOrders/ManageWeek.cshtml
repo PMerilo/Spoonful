@@ -172,15 +172,37 @@
                                 <a href="#" class="title text-truncate">@obj.Name</a>
                                 <div class="price mb-2 h6"></div>
                                 <!-- price.// -->
-                                    <input asp-for="MyOrder.Name" class="form-control" hidden value="@obj.Name">
+                                    <input asp-for="MyOrder.Id" class="form-control" hidden value="@obj.Id">
                                 <button type="submit" asp-page-handler="removemeal" class="btn btn-sm font-sm btn-light rounded mealbtn"><i class="fa-solid fa-trash"></i></button>
-
-                                <a href="#" class="btn btn-sm font-sm btn-light rounded"><i class="far fa-info"></i></a>
+                                    <a href="#" class="btn btn-sm font-sm btn-light rounded" data-bs-toggle="modal" data-bs-target="#OrderModal_@obj.Id"><i class="far fa-info"></i></a>
+                               
                             </div>
                         </div>
                         <!-- card-product  end// -->
                     </div>
                 </form>
+                <!-- Modal -->
+                    <div class="modal fade" id="OrderModal_@obj.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                        
+                                    <h5 class="modal-title" id="exampleModalLabel">@obj.Name</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <figure><img alt="" class="img-fluid" src="@obj.ImageURL" style="width:950px; height:450px; object-fit:cover"></figure>
+                                    <small>@obj.Category - @obj.MenuPreference <span class="badge rounded-pill bg-primary text-dark"><small>@obj.Tags </small></span></small>
+                                    <br/>
+                                    @obj.Description
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 
                 }
                 
@@ -267,14 +289,14 @@
                             <input asp-for="MyMenuItem.Id" class="form-control" hidden value="@obj.Id">
                             <button type="submit" asp-page-handler="addmeal" class="btn btn-sm font-sm btn-light rounded mealbtn"><i class="fad fa-smile-plus" style="font-size:120%"></i></button>
 
-                            <a href="#" class="btn btn-sm font-sm btn-light rounded" data-bs-toggle="modal" data-bs-target="@obj.Name"><i class="far fa-info"></i></a>
+                            <a href="#" class="btn btn-sm font-sm btn-light rounded" data-bs-toggle="modal" data-bs-target="#FoodModal_@obj.Id"><i class="far fa-info"></i></a>
                         </div>
                     </div>
                     <!-- card-product  end// -->
                 </div>
                 </form>
                     <!-- Modal -->
-                    <div class="modal fade" id="@obj.Name" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="FoodModal_@obj.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -303,20 +325,22 @@
         <!-- card-body end// -->
     </div>
     <!-- card end// -->
-
+    <!--
     <div class="pagination-area mt-30 mb-50">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-start">
-                <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                <li class="page-item"><a class="page-link" href="#">02</a></li>
-                <li class="page-item"><a class="page-link" href="#">03</a></li>
-                <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                <li class="page-item"><a class="page-link" href="#">16</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-start">
+                    <li class="page-item active"><a class="page-link" href="#">01</a></li>
+                    <li class="page-item"><a class="page-link" href="#">02</a></li>
+                    <li class="page-item"><a class="page-link" href="#">03</a></li>
+                    <li class="page-item"><a class="page-link dot" href="#">...</a></li>
+                    <li class="page-item"><a class="page-link" href="#">16</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    -->
+    
 </section>
 <!-- content-main end// -->
