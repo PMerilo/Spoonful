@@ -1,4 +1,4 @@
-﻿namespace ApplicationSecurityAssignment.Services
+﻿namespace Spoonful.Services
 {
 	public interface ISmsSender
 	{

@@ -67,10 +67,10 @@ builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<VoucherEmailService>();
 builder.Services.AddScoped<DeliveryService>();
 builder.Services.AddScoped<CustomerUserService>();
-//EmailConfig and service
 builder.Services.AddScoped<DiaryService>();
 builder.Services.AddScoped<ShoppingListService>();
 
+//EmailConfig and service
 //builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("EmailConfiguration"));
 var emailConfig = builder.Configuration
         .GetSection("EmailConfiguration")

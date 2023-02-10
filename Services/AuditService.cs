@@ -1,8 +1,8 @@
 ﻿
-using ApplicationSecurityAssignment.Models;
+using Spoonful.Models;
 using Microsoft.AspNetCore.Identity;
 
-namespace ApplicationSecurityAssignment.Services
+namespace Spoonful.Services
 {
 
     public class AuditService

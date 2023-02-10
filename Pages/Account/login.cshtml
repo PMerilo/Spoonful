@@ -1,4 +1,5 @@
 ﻿@page
+@using AspNetCore.ReCaptcha;
 @model Spoonful.Pages.Account.LoginModel
 @{
 }
@@ -57,7 +58,7 @@
         <span class="text-danger">@Html.ValidationSummary(true)</span>
         <!-- Submit button -->
         <button type="submit" class="blue-btn-full">Sign in</button>
-
+        @Html.ReCaptcha()
         <!-- Register buttons -->
         <div class="text-center">
             <p>Not a member? <a asp-page="register">Register</a></p>

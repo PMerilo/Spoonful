@@ -1,11 +1,10 @@
-﻿using ApplicationSecurityAssignment.Settings;
+﻿using Spoonful.Settings;
 using Twilio.Types;
 using Twilio;
 using Microsoft.Extensions.Options;
 using Twilio.Rest.Api.V2010.Account;
-using Spoonful.Settings;
 
-namespace ApplicationSecurityAssignment.Services
+namespace Spoonful.Services
 {
 	public class SMSSender : ISmsSender
 	{

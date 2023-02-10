@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.WebUtilities;
 using Spoonful.Models;
 using Spoonful.Services;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
+using System.Text;
 
 namespace Spoonful.Pages.Account
 {
@@ -36,17 +38,42 @@ namespace Spoonful.Pages.Account
             {
                 if (LModel.Username.IndexOf('@') > -1)
                 {
-                    var user = await userManager.FindByEmailAsync(LModel.Username);
-                    if (user != null) LModel.Username = user.UserName;
+                    var userByEmail = await userManager.FindByEmailAsync(LModel.Username);
+                    if (userByEmail != null) LModel.Username = userByEmail.UserName;
                 }
 
-                var identityResult = await signInManager.PasswordSignInAsync(LModel.Username, LModel.Password,
+				var user = await userManager.FindByNameAsync(LModel.Username);
+				if (user.isDisabled)
+				{
+					TempData["FlashMessage.Text"] = $"You cannot log in right now. Please contact the system administator for assistance.";
+					TempData["FlashMessage.Type"] = "danger";
+					return Page();
+				}
+
+				var identityResult = await signInManager.PasswordSignInAsync(LModel.Username, LModel.Password,
                 LModel.RememberMe, false);
 
                 if (identityResult.Succeeded)
                 {
-					var user = await userManager.FindByNameAsync(LModel.Username);
-                    _customerUserService.UpdateLastLogin(user.UserName);
+					if (user.RequirePassChange)
+					{
+						await signInManager.SignOutAsync();
+						var code = await userManager.GeneratePasswordResetTokenAsync(user);
+						code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+						TempData["FlashMessage.Text"] = "Please set your password to continue to login";
+						TempData["FlashMessage.Type"] = "warning";
+						return RedirectToPage("/Account/ResetPassword", new { code = code, username = user.UserName });
+					}
+					if (await _customerUserService.ValidateLastPassChangedAsync(user.UserName))
+					{
+						await signInManager.SignOutAsync();
+						var code = await userManager.GeneratePasswordResetTokenAsync(user);
+						code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+						TempData["FlashMessage.Text"] = "Your password is too old. Please change your password to continue to login";
+						TempData["FlashMessage.Type"] = "warning";
+						return RedirectToPage("/Account/ResetPassword", new { code = code, username = user.UserName });
+					}
+					_customerUserService.UpdateLastLogin(user.UserName);
                     //Create the security context
                     //var claims = new List<Claim>
                     //{

@@ -39,12 +39,6 @@ public class IndexModel : PageModel
 
         };
     }
-
-	public async Task<JsonResult> OnGetAJAX()
-	{
-        return new JsonResult({ "Test" });
-	}
-
 	public async Task<IActionResult> OnPostDeleteUserAsync(string name)
     {
         var user = await _userManager.FindByNameAsync(name);
