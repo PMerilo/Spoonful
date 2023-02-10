@@ -16,9 +16,16 @@ namespace Spoonful.Models
         public string? Body { get; set; }
 
         [Required]
-        [DataType(DataType.DateTime)]
-        public string? DateCreated { get; set; }
+        [Display(Name = "Url")]
+        [DataType(DataType.Url)]
+        public string? Url { get; set; }
 
+        [Required]
+        [DataType(DataType.DateTime)]
+        public DateTimeOffset DateCreated { get; set; } = DateTimeOffset.UtcNow;
+
+        [Required]
+        public bool Seen { get; set; } = false;
         
         [Required]
         [ForeignKey("UserId")]

@@ -1,13 +1,16 @@
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Spoonful.Models;
+using Spoonful.Services;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 
 namespace Spoonful.Pages.Account
 {
+    [AllowAnonymous]
     public class LoginModel : PageModel
     {
         [BindProperty]
@@ -15,11 +18,13 @@ namespace Spoonful.Pages.Account
 
         private readonly SignInManager<CustomerUser> signInManager;
         private readonly UserManager<CustomerUser> userManager;
-        public LoginModel(SignInManager<CustomerUser> signInManager, UserManager<CustomerUser> userManager)
+        private readonly CustomerUserService _customerUserService;
+
+        public LoginModel(SignInManager<CustomerUser> signInManager, UserManager<CustomerUser> userManager, CustomerUserService customerUserService)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
-
+            _customerUserService = customerUserService;
         }
         public void OnGet()
         {
@@ -40,17 +45,24 @@ namespace Spoonful.Pages.Account
 
                 if (identityResult.Succeeded)
                 {
+					var user = await userManager.FindByNameAsync(LModel.Username);
+                    _customerUserService.UpdateLastLogin(user.UserName);
                     //Create the security context
-                    var claims = new List<Claim>
-                    {
-                        //new Claim(ClaimTypes.Name, "c@c.com"),
-                        //new Claim(ClaimTypes.Email, "c@c.com")
-                    };
-                    var i = new ClaimsIdentity(claims, "MyCookieAuth");
-                    ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(i);
-                    await HttpContext.SignInAsync("MyCookieAuth", claimsPrincipal);
+                    //var claims = new List<Claim>
+                    //{
+                    //    //new Claim(ClaimTypes.Name, LModel.Username),
+                    //    new Claim(ClaimTypes.NameIdentifier, LModel.Username),
+                    //    //new Claim(ClaimTypes.Email, "c@c.com")
+                    //};
+                    //var i = new ClaimsIdentity(claims, "MyCookieAuth");
+                    //ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(i);
+                    //await HttpContext.SignInAsync("MyCookieAuth", claimsPrincipal);
                     TempData["FlashMessage.Text"] = $"Logged in successfully";
                     TempData["FlashMessage.Type"] = "success";
+					if (await userManager.IsInRoleAsync(user, Roles.Admin))
+                    {
+						return Redirect(ReturnUrl ?? "/Admin");
+					}
                     return Redirect(ReturnUrl ?? "/");
                 }
                 ModelState.AddModelError("", "Username or Password incorrect");

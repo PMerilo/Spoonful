@@ -14,7 +14,8 @@
     
     
     <link rel="stylesheet" href="~/css/admin.css" />
-    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" /> 
     
 
     <!-- Icon fonts-->
@@ -28,6 +29,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="~/lib/bootstrap-table/dist/bootstrap-table.min.css" />
 </head>
 
 <body class="fixed-nav sticky-footer" id="page-top">
@@ -107,9 +110,9 @@
                     </a>
                 </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="My profile">
-                    <a class="nav-link" href="user-profile.html">
+                    <a class="nav-link" asp-page="/Admin/UserManagement/Index">
                         <i class="fa fa-fw fa-user"></i>
-                        <span class="nav-link-text">My Profile</span>
+                        <span class="nav-link-text">User Management</span>
                     </a>
                 </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
@@ -292,39 +295,50 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="#0">Logout</a>
+                    <a class="btn btn-primary" asp-page="/Account/Logout" asp-page-handler="Logout">Logout</a>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Bootstrap core JavaScript-->
 
+
+    <script src="~/js/vendor/jquery/jquery.min.js"></script>
+    <script src="~/js/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+
+    <script src="~/js/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Page level plugin JavaScript-->
+    <script src="~/js/vendor/chart.js/Chart.js"></script>
+
+
+    <script src="~/js/vendor/bootstrap/js/jquery.magnific-popup.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="~/js/vendor/bootstrap/js/admin.js"></script>
+
+    <!-- Custom scripts for this page-->
+    <script src="~/js/dayjs/dayjs.min.js"></script>
+    <script src="~/js/dayjs/plugin/calendar.js"></script>
+    <script>
+        dayjs().format()
+        dayjs.extend(window.dayjs_plugin_calendar)
+    </script>
+    <!--<script src="~/js/vendor/bootstrap/js/admin-chart.js"></script>-->
+    <script src="~/js/vendor/bootstrap/js/admin-chart-all.js"></script>
+
+    <!-- /tables-->
+    <script src="~/js/vendor/bootstrap/datatables/dataTables.bootstrap4.js"></script>
+    <script src="~/js/vendor/bootstrap/datatables/jquery.dataTables.js"></script>
+    <script src="~/js/vendor/bootstrap/js/admin-datatables.js"></script>
+
+    <script src="~/lib/bootstrap-table/dist/bootstrap-table.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
-
-</html>
-
-<!-- Bootstrap core JavaScript-->
-
-
-<script src="~/js/vendor/jquery/jquery.min.js"></script>
-<script src="~/js/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- Core plugin JavaScript-->
-
-<script src="~/js/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-<!-- Page level plugin JavaScript-->
-<script src="~/js/vendor/chart.js/Chart.js"></script>
-
-
-<script src="~/js/vendor/bootstrap/js/jquery.magnific-popup.js"></script>
-
-<!-- Custom scripts for all pages-->
-<script src="~/js/vendor/bootstrap/js/admin.js"></script>
-
-<!-- Custom scripts for this page-->
-
-<!--<script src="~/js/vendor/bootstrap/js/admin-chart.js"></script>-->
-<script src="~/js/vendor/bootstrap/js/admin-chart-all.js"></script>
 
 <!-- /tables-->
 <script src="~/js/vendor/bootstrap/datatables/dataTables.bootstrap4.js"></script>
@@ -332,3 +346,4 @@
 <script src="~/js/vendor/bootstrap/js/admin-datatables.js"></script>
 
 <script src="~/js/demo/chart-area-demo.js"></script>
+</html>
