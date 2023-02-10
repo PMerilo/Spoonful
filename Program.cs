@@ -28,16 +28,22 @@ builder.Services.AddRazorPages(options =>
 
 
 });
+
+//SignalR
 builder.Services.AddSignalR(hubOptions =>
 {
     hubOptions.EnableDetailedErrors = true;
 });
 builder.Services.AddSingleton(typeof(IUserIdProvider), typeof(MyUserIdProvider));
 
+//Database
 builder.Services.AddDbContext<AuthDbContext>();
+
+//Stripe
 builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 builder.Services.AddControllers();
 
+//Identity Tokens
 builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
    opt.TokenLifespan = TimeSpan.FromHours(2));
 
@@ -56,6 +62,7 @@ builder.Services.AddScoped<InvoiceMealKitService>();
 builder.Services.AddScoped<MealKitSubscriptionLogService>();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<CustomerUserService>();
+//EmailConfig and service
 builder.Services.AddScoped<DiaryService>();
 builder.Services.AddScoped<ShoppingListService>();
 
@@ -72,6 +79,7 @@ var GoogleAddressAutoCorrect = builder.Configuration
 
 builder.Services.AddSingleton(GoogleAddressAutoCorrect);
 
+//Identity
 builder.Services.AddIdentity<CustomerUser, IdentityRole>().AddEntityFrameworkStores<AuthDbContext>().AddDefaultTokenProviders();
 builder.Services.ConfigureApplicationCookie(config =>
 {
@@ -80,6 +88,8 @@ builder.Services.ConfigureApplicationCookie(config =>
     config.ExpireTimeSpan = TimeSpan.FromMinutes(30);
     config.SlidingExpiration = true;
 });
+
+
 builder.Services.AddAuthentication("MyCookieAuth").AddCookie("MyCookieAuth", options =>
 {
     options.Cookie.Name = "MyCookieAuth";
