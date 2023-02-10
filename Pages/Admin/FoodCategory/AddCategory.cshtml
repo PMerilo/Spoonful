@@ -18,9 +18,11 @@
 			<input asp-for="MyCategory.name" class="form-control">
 			<span asp-validation-for="MyCategory.name" class="text-danger"></span>
 		</div>
-		
-		<button type="submit" class="btn btn-primary" style="width:150px;">Create</button>
-		<a asp-page="Index" class="btn btn-secondary" style="width:150px";> Back to List</a>
+		<div class="d-flex">
+
+			<button type="submit" class="blue-btn flex-fill" style="width:150px;">Create</button>
+			<a asp-page="Index" class="light-btn-a flex-fill" style="width:150px";> Back to List</a>
+		</div>
 	</div>
 </form>
 

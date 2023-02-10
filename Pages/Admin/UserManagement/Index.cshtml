@@ -49,8 +49,8 @@
 
 <div class="card p-3">
     <div id="admintoolbar">
-        <a class="btn btn-primary" asp-page="AddAdmin">Add Admin User</a>
-        <a class="btn btn-warning" asp-page="Roles">Admin Roles</a>
+        <a class="blue-btn-a" asp-page="AddAdmin">Add Admin User</a>
+        <a class="light-btn-a" asp-page="Roles">Admin Roles</a>
     </div>
     <h2 class="card-title">Admin Users</h2>
     <table id="Admintable"
@@ -98,11 +98,11 @@
                         {
                             <div class="d-flex justify-content-around">
                                 <form method="post">
-                                    <button class="btn btn-danger" asp-page-handler="DeleteUser" asp-route-name="@item.User.UserName">Delete</button>
+                                    <button class="danger-btn" asp-page-handler="DeleteUser" asp-route-name="@item.User.UserName">Delete</button>
                                 </form>
                                 @if (Model.RoleList.Count > 0)
                                 {
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#adduserModal_@item.User.UserName">
+                                    <button type="button" class="blue-btn" data-bs-toggle="modal" data-bs-target="#adduserModal_@item.User.UserName">
                                         Add Roles
                                     </button>
                                 }
@@ -127,7 +127,7 @@
                                                         </div>
                                                     }
                                                 }
-                                                <button type="submit" class="btn btn-primary" asp-page-handler="AddRoles" asp-route-name="@item.User.UserName">Add Roles to User</button>
+                                                <button type="submit" class="blue-btn" asp-page-handler="AddRoles" asp-route-name="@item.User.UserName">Add Roles to User</button>
                                             </form>
                                         </div>
                                     </div>
@@ -144,7 +144,7 @@
 
 <div class="card p-3">
     <div id="drivertoolbar">
-        <a class="btn btn-primary" asp-page="AddAdmin">Add Driver</a>
+        <a class="blue-btn-a" asp-page="AddAdmin">Add Driver</a>
     </div>
     <h2 class="card-title">Drivers</h2>
     <table id="drivertable"

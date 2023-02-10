@@ -28,6 +28,8 @@ namespace Spoonful.Pages.Admin.VoucherManagement
         [BindProperty]
         public int Quantity { get; set; }
         [BindProperty]
+        public int Used { get; set; }
+        [BindProperty]
         public DateTime expiryDate { get; set; }
         [BindProperty]
         public IFormFile? Upload { get; set; }
@@ -70,6 +72,7 @@ namespace Spoonful.Pages.Admin.VoucherManagement
                 Voucher.voucherCode = voucherCode;
                 Voucher.discountAmount = discountAmount;
                 Voucher.Quantity = Quantity;
+                Voucher.Used = 0;
                 Voucher.expiryDate = expiryDate;
 
                 _voucherService.AddVoucher(Voucher);

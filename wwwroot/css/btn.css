@@ -16,7 +16,7 @@
     }
 
 .blue-btn-10 {
-    width: 8rem;
+    width: 11rem;
     background: #2098ce;
     font-weight: bold;
     color: white;
@@ -126,11 +126,59 @@
     cursor: pointer;
     padding: 10px 5px;
     margin: 10px 5px;
+    text-decoration:none;
 }
 
     .warning-btn:hover,
     .warning-btn:focus {
         box-shadow: 0 0 0 2px white, 0 0 0 3px #fdd626;
+        color: white;
+        text-decoration: none;
+    }
+
+.warning-btn-em {
+    width: 33%;
+    height:44px;
+    background: #fdd626;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 25px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 5px;
+    text-decoration: none;
+    text-align:center;
+}
+
+    .warning-btn-em:hover,
+    .warning-btn-em:focus {
+        box-shadow: 0 0 0 2px white, 0 0 0 3px #fdd626;
+        color: white;
+        text-decoration: none;
+    }
+
+
+.blue-btn-em {
+    width: 33%;
+    height: 44px;
+    background: #2098ce;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 25px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 5px;
+    text-decoration: none;
+    text-align: center;
+}
+
+    .blue-btn-em:hover,
+    .blue-btn-em:focus {
+        box-shadow: 0 0 0 2px white, 0 0 0 3px #fdd626;
+        color: white;
+        text-decoration: none;
     }
 
 .danger-btn {
@@ -168,8 +216,8 @@
         box-shadow: 0 0 0 2px white, 0 0 0 3px #fd3d3d;
     }
 
-.danger-btn-fixed {
-    width: 47%;
+.danger-btn-em {
+    width: 7rem;
     background: #fd3d3d;
     font-weight: bold;
     color: white;
@@ -250,4 +298,56 @@
     .light-btn-25:hover,
     .light-btn-25:focus {
         box-shadow: 0 0 0 2px white, 0 0 0 3px #b3d9ff;
+    }
+
+
+.apply-discount-button {
+    background-color: #265F63;
+    color: white;
+}
+
+.blue-btn-a {
+    width: 7rem;
+    background: #2098ce;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 25px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 5px;
+    text-decoration: none;
+    text-align: center;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+    .blue-btn-a:hover,
+    .blue-btn-a:focus {
+        box-shadow: 0 0 0 2px white, 0 0 0 3px #2098ce;
+        text-decoration: none;
+        color: white;
+    }
+
+.light-btn-a {
+    min-width: 47%;
+    background: #aCbEd0;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 25px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 5px;
+    text-decoration: none;
+    text-align: center;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+    .light-btn-a:hover,
+    .light-btn-a:focus {
+        box-shadow: 0 0 0 2px white, 0 0 0 3px #aCbEd0;
+        text-decoration: none;
+        color: white;
     }

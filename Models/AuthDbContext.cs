@@ -23,6 +23,11 @@ namespace Spoonful.Models
         public DbSet<MenuItem> MenuItem { get; set; }
         public DbSet<Vouchers> Rewards { get; set; }
         public DbSet<MealKit> MealKit { get; set; }
+        public DbSet<VoucherEmails> VoucherEmail { get; set; }
+        public DbSet<Stops> Stops { get; set; }
+        public DbSet<Routes> Route { get; set; }
+        public DbSet<Delivery> Delivery { get; set; }
+
         public DbSet<OrderDetails> OrderDetails { get; set; }
         public DbSet<Recipe> Recipe { get; set; }
 
@@ -34,6 +39,9 @@ namespace Spoonful.Models
 
         public DbSet<Diary> Diary { get; set; }
         public DbSet<ShoppingEntry> Shopping { get; set; }
+
+        public DbSet<Feedbackform> Feedback { get; set; }
+
 
 
         //Logs

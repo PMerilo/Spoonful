@@ -71,47 +71,62 @@ getRevenueData.done(function (data) {
     });
 })
 // -- Bar Chart Example
-var ctx = document.getElementById("myBarChart");
-var myLineChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ["January", "February", "March", "April", "May", "June"],
-        datasets: [{
-            label: "Revenue",
-            backgroundColor: "rgba(2,117,216,1)",
-            borderColor: "rgba(2,117,216,1)",
-            data: [4215, 5312, 6251, 7841, 9821, 14984],
-        }],
-    },
-    options: {
-        scales: {
-            xAxes: [{
-                time: {
-                    unit: 'month'
-                },
-                gridLines: {
-                    display: false
-                },
-                ticks: {
-                    maxTicksLimit: 6
-                }
-            }],
-            yAxes: [{
-                ticks: {
-                    min: 0,
-                    max: 15000,
-                    maxTicksLimit: 5
-                },
-                gridLines: {
-                    display: true
-                }
+var getusedVouchersData = $.get('/Admin/charts/usedVouchers')
+getusedVouchersData.done(function (data) {
+    var ctx = document.getElementById("myBarChart");
+    labels = [];
+    let values = []
+
+    data.forEach(element => {
+        labels.push(element.usedVouchers)
+
+    });
+
+    data.forEach(element => {
+        values.push(element.used)
+
+    });
+    var myLineChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Used Vouchers",
+                backgroundColor: "rgba(2,117,216,1)",
+                borderColor: "rgba(2,117,216,1)",
+                data: values,
             }],
         },
-        legend: {
-            display: false
+        options: {
+            scales: {
+                xAxes: [{
+                    time: {
+                        unit: 'month'
+                    },
+                    gridLines: {
+                        display: false
+                    },
+                    ticks: {
+                        maxTicksLimit: 6
+                    }
+                }],
+                yAxes: [{
+                    ticks: {
+                        min: 0,
+                        max: 10,
+                        maxTicksLimit: 5
+                    },
+                    gridLines: {
+                        display: true
+                    }
+                }],
+            },
+            legend: {
+                display: false
+            }
         }
-    }
-});
+    });
+})
 // -- Pie Chart Example
 var getMenuPreferenceData = $.get('/Admin/charts')
 getMenuPreferenceData.done(function (data) {
