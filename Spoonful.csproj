@@ -51,7 +51,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="Migrations\" />
 	  <Folder Include="Views\" />
 	  <Folder Include="wwwroot\uploads\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="Pages\Ezell\Delete.cshtml" />
+	  <None Include="Pages\Ezell\Details.cshtml" />
+	  <None Include="Pages\Ezell\Edit.cshtml" />
+	  <None Include="Pages\Ezell\FeedbackPage.cshtml" />
+	  <None Include="Pages\Ezell\Index.cshtml" />
 	</ItemGroup>
 </Project>
