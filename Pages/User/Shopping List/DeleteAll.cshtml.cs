@@ -19,9 +19,9 @@ namespace Spoonful.Pages.Aaron.Shopping_List
         {
             _shoppingListService = shoppingListService;
         }
-        public IActionResult OnGet(string userId)
+        public IActionResult OnGet(string id)
         {
-            ShoppingList = _shoppingListService.GetAllByCat(userId);
+            ShoppingList = _shoppingListService.GetAllByCat(id);
 
             string userIdvar = "";
             foreach (var entry in ShoppingList)

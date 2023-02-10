@@ -9,7 +9,6 @@ namespace Spoonful.Pages.Aaron.Shopping_List
     {
         [BindProperty]
         public ShoppingEntry Shopping { get; set; }
-        [BindProperty]
         public string userIdvar { get; set; }
 
         private readonly ShoppingListService _shoppingListService;
@@ -18,9 +17,9 @@ namespace Spoonful.Pages.Aaron.Shopping_List
         {
             _shoppingListService = shoppingListService;
         }
-        public IActionResult OnGet(int entryId)
+        public IActionResult OnGet(int id)
         {
-            ShoppingEntry? entry = _shoppingListService.GetEntryById(entryId);
+            ShoppingEntry? entry = _shoppingListService.GetEntryById(id);
             if (entry != null)
             {
                 userIdvar = entry.userId;
@@ -30,8 +29,8 @@ namespace Spoonful.Pages.Aaron.Shopping_List
             else
             {
                 TempData["FlashMessage.Type"] = "danger";
-                TempData["FlashMessage.Text"] = string.Format("Entry ID {0} not found", entryId);
-                string userUrl = "/User/Shopping%20List/Index?id=" + userIdvar;
+                TempData["FlashMessage.Text"] = string.Format("Entry ID {0} not found", id);
+                string userUrl = "/";
                 return Redirect(userUrl);
             }
         }
@@ -40,7 +39,7 @@ namespace Spoonful.Pages.Aaron.Shopping_List
         {
             if (ModelState.IsValid)
             {
-
+                userIdvar = Shopping.userId;
                 _shoppingListService.UpdateEntry(Shopping);
                 TempData["FlashMessage.Type"] = "success";
                 string userUrl = "/User/Shopping%20List/Index?id=" + userIdvar;

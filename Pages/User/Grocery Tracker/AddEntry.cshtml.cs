@@ -11,7 +11,6 @@ namespace Spoonful.Pages.Aaron
         [BindProperty]
         public Diary DiaryEntry { get; set; }
 
-        [BindProperty]
         public string userIdvar { get; set; }
 
         private readonly DiaryService _diaryService;
@@ -20,13 +19,14 @@ namespace Spoonful.Pages.Aaron
         {
             _diaryService = diaryService;
         }
-        public void OnGet(string userId)
+        public void OnGet(string id)
         {
-            DiaryEntry.userId = userId;
+            userIdvar = id;
         }
 
         public IActionResult OnPost() 
         {
+            userIdvar = DiaryEntry.userId;
             if (ModelState.IsValid)
             {
                 var currentDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
