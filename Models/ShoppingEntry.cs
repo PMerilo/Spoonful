@@ -10,6 +10,9 @@ namespace Spoonful.Models
         public int Id { get; set; }
 
         [Required]
+        public string userId { get; set; }
+
+        [Required]
         [Display(Name = "Item Name")]
         public string Name { get; set; } = string.Empty;
 

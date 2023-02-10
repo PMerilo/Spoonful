@@ -155,6 +155,35 @@ namespace Spoonful.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Spoonful.Models.Blog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Date")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("imageURL")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Blog");
+                });
+
             modelBuilder.Entity("Spoonful.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -281,9 +310,80 @@ namespace Spoonful.Migrations
                     b.Property<DateTime>("Purchase")
                         .HasColumnType("date");
 
+                    b.Property<string>("userId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Diary");
+                });
+
+            modelBuilder.Entity("Spoonful.Models.Invoice", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Cost")
+                        .HasColumnType("float");
+
+                    b.Property<string>("DateOfPayment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DiscountCodeUsed")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MenuPreference")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OrderDate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OrderTime")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("mealkitId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("noOfPeoplePerWeek")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("noOfRecipesPerWeek")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("noOfServingsPerPerson")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<string>("orderDetailsId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("userId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Invoice");
                 });
 
             modelBuilder.Entity("Spoonful.Models.MealKit", b =>
@@ -301,6 +401,9 @@ namespace Spoonful.Migrations
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("SubscriptionCheck")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("noOfPeoplePerWeek")
                         .IsRequired()
                         .HasColumnType("int");
@@ -313,8 +416,8 @@ namespace Spoonful.Migrations
                         .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<int?>("orderDetailsId")
-                        .HasColumnType("int");
+                    b.Property<string>("orderDetailsId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("userId")
                         .IsRequired()
@@ -323,6 +426,33 @@ namespace Spoonful.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("MealKit");
+                });
+
+            modelBuilder.Entity("Spoonful.Models.MealKitSubscriptionLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("dateIssued")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("noOfUsersSubscribed")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<string>("timeIssued")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MealKitSubscriptionLog");
                 });
 
             modelBuilder.Entity("Spoonful.Models.MenuItem", b =>
@@ -400,13 +530,52 @@ namespace Spoonful.Migrations
                     b.ToTable("Notifications");
                 });
 
-            modelBuilder.Entity("Spoonful.Models.OrderDetails", b =>
+            modelBuilder.Entity("Spoonful.Models.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageURL")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("MenuPreference")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OwnerID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Tags")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Order");
+                });
+
+            modelBuilder.Entity("Spoonful.Models.OrderDetails", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("AdditionalInstructions")
                         .IsRequired()
@@ -423,6 +592,9 @@ namespace Spoonful.Migrations
                     b.Property<string>("OrderTime")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("SubscriptionCheck")
+                        .HasColumnType("bit");
 
                     b.Property<string>("userId")
                         .IsRequired()
@@ -441,6 +613,11 @@ namespace Spoonful.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ImageURL")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<string>("allergens")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -451,6 +628,12 @@ namespace Spoonful.Migrations
 
                     b.Property<string>("description")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ingredients")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("instructions")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("name")
@@ -485,9 +668,13 @@ namespace Spoonful.Migrations
                     b.Property<bool>("isBought")
                         .HasColumnType("bit");
 
+                    b.Property<string>("userId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
-                    b.ToTable("ShoppingEntry");
+                    b.ToTable("Shopping");
                 });
 
             modelBuilder.Entity("Spoonful.Models.UserDetails", b =>

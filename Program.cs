@@ -56,6 +56,8 @@ builder.Services.AddScoped<InvoiceMealKitService>();
 builder.Services.AddScoped<MealKitSubscriptionLogService>();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<CustomerUserService>();
+builder.Services.AddScoped<DiaryService>();
+builder.Services.AddScoped<ShoppingListService>();
 
 //builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("EmailConfiguration"));
 var emailConfig = builder.Configuration

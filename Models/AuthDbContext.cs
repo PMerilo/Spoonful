@@ -32,6 +32,9 @@ namespace Spoonful.Models
 
         public DbSet<Order> Order { get; set; }
 
+        public DbSet<Diary> Diary { get; set; }
+        public DbSet<ShoppingEntry> Shopping { get; set; }
+
 
         //Logs
 
