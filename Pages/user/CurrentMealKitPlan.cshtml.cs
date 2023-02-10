@@ -4,9 +4,11 @@ using Spoonful.Models;
 using Spoonful.Services;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Cryptography;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Spoonful.Pages.user
 {
+    [Authorize]
     [BindProperties]
     public class CurrentMealKitPlanModel : PageModel
     {
@@ -18,13 +20,16 @@ namespace Spoonful.Pages.user
 
         private readonly OrderService _orderService;
 
+        private readonly InvoiceMealKitService _invoiceMealKitService;
 
-        public CurrentMealKitPlanModel(AuthDbContext db, MealKitService mealKitService, UserManager<CustomerUser> userManager, OrderService orderService)
+
+        public CurrentMealKitPlanModel(AuthDbContext db, MealKitService mealKitService, UserManager<CustomerUser> userManager, OrderService orderService, InvoiceMealKitService invoiceMealKitService)
         {
             _db = db;
             _mealKitService = mealKitService;
             _userManager = userManager;
             _orderService = orderService;
+            _invoiceMealKitService = invoiceMealKitService;
         }
 
         [BindProperty]
@@ -33,7 +38,7 @@ namespace Spoonful.Pages.user
 
         public OrderDetails MyOrderDetails { get; set; }
 
-
+        public Invoice MyInvoice { get; set; }
 
 
         public async Task<IActionResult> OnGet()
@@ -42,8 +47,11 @@ namespace Spoonful.Pages.user
             var user = await _userManager.GetUserAsync(User);
             MealKit? mealkit = _mealKitService.GetMealKitByUserId(user.Id);
             OrderDetails? orderDetails = _orderService.GetOrderDetailsByUserId(user.Id);
+            
             if (mealkit != null)
             {
+                Invoice? invoice = _invoiceMealKitService.GetInvoiceByMealKitId(mealkit.Id);
+                MyInvoice = invoice;
 
                 Console.WriteLine("Meal Kit Information");
                 Console.WriteLine(mealkit.Id);
@@ -63,14 +71,26 @@ namespace Spoonful.Pages.user
         {
             var user = await _userManager.GetUserAsync(User);
             MealKit? mealkit = _mealKitService.GetMealKitByUserId(user.Id);
-
+            
             if (mealkit != null)
             {
+                Invoice? invoice = _invoiceMealKitService.GetInvoiceByMealKitId(mealkit.Id);
+                
+
                 mealkit.noOfPeoplePerWeek = MyMealKit.noOfPeoplePerWeek;
                 mealkit.MenuPreference = MyMealKit.MenuPreference;
                 mealkit.noOfServingsPerPerson = MyMealKit.noOfServingsPerPerson;
                 mealkit.noOfRecipesPerWeek = MyMealKit.noOfRecipesPerWeek;
                 mealkit.userId = user.Id;
+
+
+                double serving = 5.00;
+
+                
+                double totalCost = (double)(serving * mealkit.noOfPeoplePerWeek * mealkit.noOfServingsPerPerson * mealkit.noOfRecipesPerWeek);
+                invoice.Cost = totalCost;
+
+                _invoiceMealKitService.UpdateInvoice(invoice);
 
                 Console.WriteLine(MyMealKit);
                 Console.WriteLine(MyMealKit.Id);
@@ -131,12 +151,13 @@ namespace Spoonful.Pages.user
         {
             var user = await _userManager.GetUserAsync(User);
             MealKit? mealkit = _mealKitService.GetMealKitByUserId(user.Id);
-            OrderDetails orderDetails = _orderService.GetOrderDetailsByUserId(user.Id);
+            OrderDetails? orderDetails = _orderService.GetOrderDetailsByUserId(user.Id);
+            
             if (mealkit != null)
             {
 
                 Console.WriteLine("Deleting Meal Kit");
-
+                
                 _mealKitService.DeleteMealKit(mealkit);
                 _orderService.DeleteOrderDetails(orderDetails);
                 TempData["FlashMessage.Type"] = "success";
