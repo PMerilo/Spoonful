@@ -28,17 +28,23 @@ builder.Services.AddRazorPages(options =>
 
 
 });
+
+//SignalR
 builder.Services.AddSignalR(hubOptions =>
 {
     hubOptions.EnableDetailedErrors = true;
 });
 builder.Services.AddSingleton(typeof(IUserIdProvider), typeof(MyUserIdProvider));
 
+//Database
 builder.Services.AddDbContext<AuthDbContext>();
+
+//Stripe
 builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 builder.Services.AddControllers();
 builder.Services.AddAntiforgery(options => options.HeaderName = "XSRF-TOKEN");
 
+//Identity Tokens
 builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
    opt.TokenLifespan = TimeSpan.FromHours(2));
 
@@ -50,10 +56,18 @@ builder.Services.AddScoped<VoucherService>();
 builder.Services.AddScoped<MealKitService>();
 builder.Services.AddScoped<RecipeService>();
 builder.Services.AddScoped<OrderService>();
+builder.Services.AddScoped<BlogService>();
+builder.Services.AddScoped<MealOrderService>();
+builder.Services.AddScoped<InvoiceMealKitService>();
+//Logs Services
+builder.Services.AddScoped<MealKitSubscriptionLogService>();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<VoucherEmailService>();
 builder.Services.AddScoped<DeliveryService>();
 builder.Services.AddScoped<CustomerUserService>();
+//EmailConfig and service
+builder.Services.AddScoped<DiaryService>();
+builder.Services.AddScoped<ShoppingListService>();
 
 //builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("EmailConfiguration"));
 var emailConfig = builder.Configuration
@@ -62,6 +76,13 @@ var emailConfig = builder.Configuration
 builder.Services.AddSingleton(emailConfig);
 builder.Services.AddScoped<IEmailService, EmailService>();
 
+var GoogleAddressAutoCorrect = builder.Configuration
+        .GetSection("GoogleAddressAutoCorrect")
+        .Get<GoogleAddressAutoCorrectConfiguration>();
+
+builder.Services.AddSingleton(GoogleAddressAutoCorrect);
+
+//Identity
 builder.Services.AddIdentity<CustomerUser, IdentityRole>().AddEntityFrameworkStores<AuthDbContext>().AddDefaultTokenProviders();
 builder.Services.ConfigureApplicationCookie(config =>
 {
@@ -70,6 +91,8 @@ builder.Services.ConfigureApplicationCookie(config =>
     config.ExpireTimeSpan = TimeSpan.FromMinutes(30);
     config.SlidingExpiration = true;
 });
+
+
 builder.Services.AddAuthentication("MyCookieAuth").AddCookie("MyCookieAuth", options =>
 {
     options.Cookie.Name = "MyCookieAuth";

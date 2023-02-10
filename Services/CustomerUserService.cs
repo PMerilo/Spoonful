@@ -37,7 +37,7 @@ namespace Spoonful.Services
 
         public async Task SetUserRoleAsync(string UserName, string Role)
         {
-            var user = _db.Users.Include(u => u.Notifications).FirstOrDefault(x => x.UserName == UserName);
+            var user = _db.Users.Include(u => u.UserDetails).FirstOrDefault(x => x.UserName == UserName);
             if (user == null || user.UserDetails != null)
             {
                 return;

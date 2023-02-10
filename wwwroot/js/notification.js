@@ -12,6 +12,9 @@ function toNotifTime(string) {
 }
 
 function updateBadge(num = 1) {
+    if (num == 0) {
+        return
+    }
     if ($("#NotificationBadge").length) {
         $("#NotificationBadge").children().first().text(function (i, origText) {
             var i = parseInt(origText)
@@ -33,10 +36,11 @@ function updateBadge(num = 1) {
 
 function formatter(req) {
     var unreadClass = req.seen ? "" : "notification-unread"
+    var bold = req.seen ? "" : "fw-bold"
     return `
             <a class="dropdown-item py-2 px-4 ${unreadClass}" href="${req.url}" data-id="${req.id}">
                 <div class="d-flex justify-content-between align-items-baseline">
-                    <span class="text-black text-wrap text-break fw-bold">
+                    <span class="text-black text-wrap text-break ${bold}">
                         ${req.title}
                     </span>
                     <span class="small float-end text-muted ms-2">${toNotifTime(req.dateCreated)}</span>
@@ -49,7 +53,7 @@ function formatter(req) {
 var connection = new signalR.HubConnectionBuilder().withUrl("/notificationHub").withAutomaticReconnect().build();
 connection.on("PushNotification", (req) => {
     $("#Notifications").find("p").remove()
-    $("#Notifications").append(formatter(req));
+    $("#Notifications").prepend(formatter(req));
     updateBadge()
 });
 
