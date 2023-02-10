@@ -31,12 +31,15 @@ html {
   position: relative;
   min-height: 100%;
 }
-
+.navbar-sidenav::-webkit-scrollbar {
+    display: none;
+}
 body {
   overflow-x: hidden;
 }
 
-body.sticky-footer {
+body.sticky
+{
   margin-bottom: 62px;
 }
 body.sticky-footer .content-wrapper {
@@ -447,7 +450,7 @@ footer.sticky-footer {
   bottom: 0;
   width: 100%;
   height: 56px;
-  border-top: 1px solid #ededed;
+  /*border-top: 1px solid #ededed;*/
   line-height: 55px;
 }
 @media (min-width: 992px) {

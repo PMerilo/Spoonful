@@ -42,6 +42,7 @@ builder.Services.AddDbContext<AuthDbContext>();
 //Stripe
 builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 builder.Services.AddControllers();
+builder.Services.AddAntiforgery(options => options.HeaderName = "XSRF-TOKEN");
 
 //Identity Tokens
 builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
@@ -61,6 +62,8 @@ builder.Services.AddScoped<InvoiceMealKitService>();
 //Logs Services
 builder.Services.AddScoped<MealKitSubscriptionLogService>();
 builder.Services.AddScoped<NotificationService>();
+builder.Services.AddScoped<VoucherEmailService>();
+builder.Services.AddScoped<DeliveryService>();
 builder.Services.AddScoped<CustomerUserService>();
 //EmailConfig and service
 builder.Services.AddScoped<DiaryService>();

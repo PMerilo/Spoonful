@@ -8,7 +8,7 @@
 <div class="card p-3">
     <div id="rolestoolbar">
         <div class="dropdown">
-            <a class="btn btn-primary" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="blue-btn-a" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Add Admin Role
             </a>
 
@@ -62,7 +62,7 @@
                         <form method="post">
                         @if (!(new List<string> { "Admin", "Customer", "Driver" }.Contains(item.Name)))
                         {
-                            <button class="btn btn-danger" asp-page-handler="Delete" asp-route-name="@item.Name">Delete</button>
+                            <button class="danger-btn" asp-page-handler="Delete" asp-route-name="@item.Name">Delete</button>
 
                         }
                         </form>

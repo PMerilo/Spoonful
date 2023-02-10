@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Spoonful.Models;
 using Spoonful.Services;
 
-namespace Spoonful.Pages.Revanth
+namespace Spoonful.Pages.Voucher
 {
     public class IndexModel : PageModel
     {

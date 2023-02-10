@@ -1,5 +1,5 @@
 ﻿@page
-@model Spoonful.Pages.Revanth.IndexModel
+@model Spoonful.Pages.Voucher.IndexModel
 @{
 }
 <link rel="stylesheet" href="css/voucher.css">
@@ -16,7 +16,7 @@
                                 <div class="voucher-container">
                                     <div class="vouchers">
                                         <div class="face front" onclick="addclass(this)" style="cursor: pointer;">
-                                            <div class="voucher-body " style="height:100px;background-image: url(@item.ImageURL);">
+                                            <div class="voucher-body " style="cursor: pointer;background-image: url('/uploads/rewardsUpload/pngtree-pink-rosette-coupon-voucher-image_262018.jpg');">
                                                 <div class="voucher-text">
                                                     <h5 class="text-black mb-0 font-weight-bold">Spoonful</h5>
                                                     <p class="text-black mb-0" style="line-height: 1;"><strong style="font-size: 1.25rem">@item.Name</strong><br>Voucher</p>
@@ -73,15 +73,6 @@
                                                         <div class="text-description text-primary" onclick="copycode(this)">@item.voucherCode</div>
                                                     </div>
                                                 </div>
-                                                <div class="voucher-details">
-                                                    <div class="details-icon">
-                                                        <i class='bx bx-coin-stack'></i>
-                                                    </div>
-                                                    <div class="details-text">
-                                                        <div class="text-title" style="width: 90px;">Spoons Needed</div>
-                                                        <div class="text-description text-primary">99</div>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -107,6 +98,11 @@
             var value = val.innerText;
             console.log(value)
             navigator.clipboard.writeText(value);
+            new SnackBar({
+                message: "Discount Code copied!",
+                status: "success",
+                fixed: true,
+            })
         }
 
 </script>

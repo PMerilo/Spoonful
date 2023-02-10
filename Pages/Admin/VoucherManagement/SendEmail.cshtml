@@ -1,0 +1,49 @@
+﻿@page
+@model Spoonful.Pages.Admin.VoucherManagement.SendEmailModel
+@{
+    ViewData["Title"] = "Send Voucher Email";
+}
+<h1 class="display-4">@ViewData["Title"]</h1>
+
+<form class="mt-3" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label">Voucher Name</label>
+        <div class="col-sm-10">
+            <input class="form-control" asp-for="Voucher.Name"  disabled/>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label" asp-for="Email.Subject"></label>
+        <div class="col-sm-10">
+            <input class="form-control" asp-for="Email.Subject" />
+            <span asp-validation-for="Email.Subject" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label" asp-for="Email.HtmlContent"></label>
+        <div class="col-sm-10">
+            <input class="form-control" asp-for="Email.HtmlContent" />
+            <span asp-validation-for="Email.HtmlContent" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label" asp-for="Email.sendTo"></label>
+        <div class="col-sm-10">
+            <select class="form-control" asp-for="Email.sendTo" required>
+				<option value="all">Send to all users</option>
+				<option value="newsletter">Users signed up to the NewsLetter</option>
+			</select>
+            <span asp-validation-for="Email.sendTo" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div>
+        <input type="submit" value="Send" class="blue-btn" />
+    </div>
+</form> 
+<button class="light-btn-7"onclick="location.href='/Admin/VoucherManagement'">Cancel</button>

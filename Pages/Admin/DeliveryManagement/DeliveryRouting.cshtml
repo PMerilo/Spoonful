@@ -1,0 +1,95 @@
+﻿@page
+@model Spoonful.Pages.Admin.DeliveryManagement.DeliveryRouting
+@{
+}
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<h3>My Google Maps Routing Testing</h3>
+    <!-- [END maps_add_map_heading] -->
+    <!-- [START maps_add_map_div] -->
+    <!--The div element for the map -->
+    <div id="floating-panel">
+      <b>Start: </b>
+      <select id="start">
+        <option value="changi">Changi</option>
+        <option value="yishun">Yishun</option>
+        <option value="woodlands, singapore">Woodlands</option>
+        <option value="sembawang, singapore">Sembawang</option>
+      </select>
+      <b>Waypoints:</b> <br />
+        <select multiple id="waypoints">
+        <option value="novena, singapore">Novena</option>
+        <option value="orchard, singapore">Orchard</option>
+        <option value="Nanyang Polytechnic, Singapore">NYP</option>
+        </select>
+      <b>End: </b>
+      <select id="end">
+        <option value="ang mo kio">Ang Mo Kio</option>
+        <option value="raffles city, singapore">Raffles</option>
+        <option value="marina bay">Marina Bay</option>
+        <option value="sentosa, singapore">Sentosa</option>
+      </select>
+      <input type="submit" id="submit" />
+    </div>
+    <div id="map"></div>
+<script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2XNaPPSnBj0i6cUEE4bk4c6KdU7tA4kU&callback=initMap">
+</script>
+<script src="/js/voucher.js"></script>
+<script>
+    function initMap() {
+      const directionsService = new google.maps.DirectionsService();
+      const directionsRenderer = new google.maps.DirectionsRenderer();
+      const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 11,
+        center: { lat: 1.3742002339365351, lng: 103.81540409330088 },
+      });
+      directionsRenderer.setMap(map);
+
+      const onChangeHandler = function () {
+        calculateAndDisplayRoute(directionsService, directionsRenderer);
+      };
+      document.getElementById("submit").addEventListener("click", () => {
+        calculateAndDisplayRoute(directionsService, directionsRenderer);
+      });
+
+      document.getElementById("start").addEventListener("change", onChangeHandler);
+      document.getElementById("end").addEventListener("change", onChangeHandler);
+    }
+
+   function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+        const waypts = [];
+        const checkboxArray = document.getElementById("waypoints");
+
+        for (let i = 0; i < checkboxArray.length; i++) {
+        if (checkboxArray.options[i].selected) {
+            waypts.push({
+            location: checkboxArray[i].value,
+            stopover: true,
+            });
+        }
+        }
+
+        directionsService
+        .route({
+            origin: document.getElementById("start").value,
+            destination: document.getElementById("end").value,
+            waypoints: waypts,
+            optimizeWaypoints: true,
+            travelMode: google.maps.TravelMode.DRIVING,
+        })
+        .then((response) => {
+            directionsRenderer.setDirections(response);
+        })
+        .catch((e) => window.alert("Directions request failed due to " + status));
+    }
+
+
+    window.initMap = initMap;
+</script>
+
+<style>
+    #map {
+        height: 400px; /* The height is 400 pixels */
+        width: 100%; /* The width is the width of the web page */
+    }
+</style>

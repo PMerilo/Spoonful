@@ -23,6 +23,9 @@ namespace Spoonful.Models
 
         [Required]
         public int? Quantity { get; set; }
+        [Required]
+        [Display(Name = "Vouchers Used")]
+        public int? Used { get; set; }
 
         [Required]
         [Display(Name = "Expiry Date")]
