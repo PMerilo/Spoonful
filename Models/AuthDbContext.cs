@@ -40,6 +40,9 @@ namespace Spoonful.Models
         public DbSet<Diary> Diary { get; set; }
         public DbSet<ShoppingEntry> Shopping { get; set; }
 
+        public DbSet<Feedbackform> Feedback { get; set; }
+
+
 
         //Logs
 
