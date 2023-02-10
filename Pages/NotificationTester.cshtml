@@ -1,0 +1,27 @@
+﻿@page
+@model Spoonful.Pages.NotificationTesterModel
+@{
+}
+<form method="post">
+    <div class="mb-3">
+        <label asp-for="UserName" class="form-label"></label>
+            @Html.DropDownListFor(m => m.UserName, new SelectList(NotificationTesterModel.Users, "UserName", "Email"), "-- Select --",new {@class= "form-select"})
+    </div>
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label"></label>
+        <input type="text" class="form-control" asp-for="Title">
+    </div>
+    <div class="mb-3">
+        <label asp-for="Body" class="form-label"></label>
+        <input type="text" class="form-control" asp-for="Body">
+    </div>
+    <div class="mb-3">
+        <label asp-for="Url" class="form-label"></label>
+        <input type="text" class="form-control" asp-for="Url">
+    </div>
+    <div class="mb-3 form-check">
+        <label asp-for="Persist" class="form-check-label"></label>
+        <input type="checkbox" class="form-check-input" asp-for="Persist">
+    </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

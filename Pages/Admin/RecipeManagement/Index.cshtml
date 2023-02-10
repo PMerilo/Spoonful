@@ -1,0 +1,90 @@
+﻿@page
+@model Spoonful.Pages.Admin.RecipeManagement.IndexModel
+@{
+	Layout = "/Pages/Shared/_LayoutAdmin.cshtml";
+}
+<div class="container p-3">  
+	<div class="row pt-4">
+		<div class="col-6">
+			<h2 class="text-primary display-4">Recipe Item List</h2>
+		</div>
+	
+
+		<div class="col-6 text-end">
+			<a asp-page="/Admin/RecipeManagement/ViewRecipe" class="btn btn-primary">
+				<i class="bi bi-menu-up"></i> &nbsp; View Recipes
+			</a>
+			
+			<a asp-page= "/Admin/RecipeManagement/addRecipe" class="btn btn-primary">
+				<i class="bi-plus-square"></i> &nbsp; Add New Recipe 
+			</a>
+		</div>
+
+	</div>
+
+	<br/>
+	<br/>
+
+
+	<table class="table table-bordered table-striped" style="width:100%">
+		<thead>
+			<tr>
+				<th>Image
+
+				</th>
+				<th>Recipe ID
+
+				</th>
+				<th>
+					Category
+				</th>
+				<th>
+					Name
+				</th>
+				<th>
+					Description
+				</th>
+				<th>
+					Preparation Time
+				</th>
+				<th>Allergens</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			@foreach(var obj in Model.Recipes)
+			{
+			<form method="post">
+			<tr>
+				<td><img src="@obj.ImageURL" width="100" height="50"/></td>
+				<td>@obj.Id</td>
+				<td>@obj.category</td>
+				<td>@obj.name</td>
+				<td>@obj.description</td>
+				<td>@obj.prepTime</td>
+				<td>@obj.allergens</td>
+				<td width="50%">
+					<div class="w-75 btn-group" role="group">
+					<a asp-page="/Admin/RecipeManagement/updateRecipe" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
+						<i class="bi bi-pencil-square"></i>
+					</a>
+					<input asp-for="MyRecipe.ImageURL" class="form-control" hidden value="@obj.ImageURL">
+					<input asp-for="MyRecipe.Id" class="form-control" hidden value="@obj.Id">
+					<input asp-for="MyRecipe.category" class="form-control" hidden value="@obj.category">
+					<input asp-for="MyRecipe.name" class="form-control" hidden value="@obj.name">
+					<input asp-for="MyRecipe.description" class="form-control" hidden value="@obj.description">
+					<input asp-for="MyRecipe.prepTime" class="form-control" hidden value="@obj.prepTime">
+					<input asp-for="MyRecipe.allergens" class="form-control" hidden value="@obj.allergens">
+
+					<button class="btn btn-danger mx-2" type="submit">
+						<i class="bi bi-trash-fill"></i>
+					</button>
+					</div>
+				</td>
+			</tr>
+			</form>
+			}
+		</tbody>
+
+	</table>
+</div>

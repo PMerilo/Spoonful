@@ -1,0 +1,32 @@
+﻿@page
+@model Spoonful.Pages.Admin.UserManagement.AddAdminModel
+@{
+}
+<form method="post">
+	<div class="border p-3 mt-4">
+		<div class="row pb-2">
+			<h2 class="text-primary pl-3 display-6">Add Admin User</h2>
+			<br/>
+
+		</div>
+		<div asp-validation-summary="All"></div>
+		<div class="mb-3">
+			<label asp-for="RModel.UserName"></label>
+			<input asp-for="RModel.UserName" class="form-control">
+			<span asp-validation-for="RModel.UserName" class="text-danger"></span>
+		</div>
+		<div class="mb-3">
+			<label asp-for="RModel.Password"></label>
+			<input asp-for="RModel.Password" class="form-control">
+			<span asp-validation-for="RModel.Password" class="text-danger"></span>
+		</div>
+		<div class="mb-3">
+			<label asp-for="RModel.ConfirmPassword"></label>
+			<input asp-for="RModel.ConfirmPassword" class="form-control">
+			<span asp-validation-for="RModel.ConfirmPassword" class="text-danger"></span>
+		</div>
+
+		<button type="submit" class="btn btn-primary" style="width:150px;">Create</button>
+		<a asp-page="Index" class="btn btn-secondary" style="width:150px";> Back to List</a>
+	</div>
+</form>

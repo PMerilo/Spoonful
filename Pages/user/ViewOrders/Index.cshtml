@@ -1,0 +1,156 @@
+﻿@page
+@model Spoonful.Pages.user.ViewOrders.IndexModel
+@{
+}
+
+<style>
+
+section.grid {
+  position: relative;
+  background-color: #ff0000;
+}
+
+section.grid aside {
+  width: 32%;
+  float: left;
+  margin-right: 1%;
+}
+
+aside a {
+  text-decoration: none;
+}
+
+ .item {
+     display: flex;
+     flex-direction: column;
+     flex: 1 1 300px;
+     background: #FFF;
+     margin: 10px 5px;
+     color: #011C26;
+   padding-bottom: 30px;
+   border-bottom-right-radius: 5px;
+border-bottom-left-radius: 5px;
+}
+
+.item h2 {
+  padding: 10px;
+  margin: 10px 0 0 0; 
+  text-align: center;
+  color: #3E5AA1;
+}
+.item p {padding: 0px 15px 20px 15px; margin: 5px 0 10px 0; color: #3E5AA1;}
+
+ .item .btn {
+     margin-top: auto;
+}
+ .item img {
+     width: 100%;
+     height: auto;
+}
+
+a.btn {
+  align-self: center;
+  margin-top: auto;
+	display: inline-block;
+	padding: 12px 44px;
+	background-color: #3E5AA1;
+	color: #fff;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-size: .9em;
+	letter-spacing: .5px;
+	word-spacing: 1px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  transition: 0.3s;
+}
+
+a.btn:hover {text-decoration: none; background-color: #5C85ED;}
+
+
+
+</style>
+
+<div class="content-header d-flex justify-content-between">
+    <div>
+        
+        <p><span style="color:red">UPCOMING</span> Change by @Model.MyOrderDetails.OrderDate</p>
+        <h2 class="content-title card-title">In Your Box</h2>
+        
+        <h3 class="h3">@Model.MyMealKit.noOfRecipesPerWeek, pre-selected Meals</h3>
+        <br />
+        <p class="h5">Price: $@Model.MyInvoice.Cost/Delivery<span style="color:red">(FREE)</span> </p>
+    </div>
+
+    <div>
+        <a href="/user/ViewOrders/ManageWeek" class="btn btn-primary btn-sm rounded fa-pull-right">Manage Box</a>
+        <!--<a href="#" class="btn btn-light rounded font-md fa-pull-right">Add Extras</a>-->
+        
+    </div>
+</div>
+
+<section class="content-main">
+
+    <div class="card mb-4">
+        <header class="card-header">
+        </header>
+        <!-- card-header end// -->
+
+
+        <div class="card-body">
+            <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5">
+                @foreach (var obj in Model.Orders)
+                {
+                    <form method="post">
+                        <div class="col">
+                            <div class="card card-product-grid">
+                                <a href="#" class="img-wrap"> <img src="@obj.ImageURL" alt="Product" style="height:250px;object-fit:cover" /> </a>
+                                <br />
+                                <div class="info-wrap" style="overflow:auto;padding:3%">
+                                    <small>@obj.Category - @obj.MenuPreference <span class="badge rounded-pill bg-primary text-dark"><small>@obj.Tags </small></span></small>
+
+                                    <a href="#" class="title text-truncate">@obj.Name</a>
+                                    <div class="price mb-2 h6"></div>
+                                    <!-- price.// -->
+
+                                    <a href="#" class="btn btn-sm font-sm btn-light rounded" data-bs-toggle="modal" data-bs-target="#OrderModal_@obj.Id" style="width:100%;"><i class="far fa-info"></i></a>
+                                </div>
+                            </div>
+                            <!-- card-product  end// -->
+                        </div>
+                    </form>
+                    <!-- Modal -->
+                    <div class="modal fade" id="OrderModal_@obj.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                        
+                                    <h5 class="modal-title" id="exampleModalLabel">@obj.Name</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <figure><img alt="" class="img-fluid" src="@obj.ImageURL" style="width:950px; height:450px; object-fit:cover"></figure>
+                                    <small>@obj.Category - @obj.MenuPreference <span class="badge rounded-pill bg-primary text-dark"><small>@obj.Tags </small></span></small>
+                                    <br/>
+                                    @obj.Description
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+
+
+
+
+            </div>
+            <!-- row.// -->
+        </div>
+        <!-- card-body end// -->
+    </div>
+    <!-- card end// -->
+</section>

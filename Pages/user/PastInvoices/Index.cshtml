@@ -1,0 +1,80 @@
+﻿@page
+@model Spoonful.Pages.user.PastInvoices.IndexModel
+@{
+}
+@using Microsoft.AspNetCore.Identity
+@using Spoonful.Models
+@using Spoonful.Settings
+@inject UserManager<CustomerUser> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+
+<section class="content-main">
+
+    <div class="content-header">
+        <h2 class="content-title">Profile setting</h2>
+        <br />
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row gx-5">
+                <aside class="col-lg-3 border-end">
+                    <nav class="nav nav-pills flex-lg-column mb-4">
+                        <a class="nav-link" href="/Account">General</a>
+                        <a class="nav-link" aria-current="page" href="/user/CurrentMealKitPlan">Plan Settings</a>
+                        <a class="nav-link active" href="/user/PastInvoices">Past Invoices</a>
+                        <a class="nav-link" href="#">SEO Settings</a>
+                        <a class="nav-link" href="#">Mail settings</a>
+                        <a class="nav-link" href="#">Newsletter</a>
+                    </nav>
+                </aside>
+                <div class="col-lg-9">
+
+                    <section class="content-body p-xl-4">
+                        <h1 class="tw-text-lg tw-mb-5">Past Invoices</h1>
+                        
+                        <div class="container p-3">  
+							
+							<table class="table">
+                              <thead>
+                                <tr>
+                                  
+                                  <th scope="col">Date Of Transaction</th>
+                                  <th scope="col">Transaction Amount</th>
+                                  <th scope="col">Action</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                @foreach(var obj in Model.Invoices)
+								{
+                                <tr>
+                                  
+                                  <td>@obj.DateOfPayment</td>
+                                  <td>$@obj.Cost</td>
+                                <td>
+                                    <a class="btn btn-outline-primary" asp-route-id="@obj.userId" asp-page="/Admin/ViewCustomerInvoices/CustomerInvoice" target="_blank">View Invoice</a>
+                                </td>
+                                </tr>
+                                }
+                                
+                              </tbody>
+                            </table>
+
+							
+						</div>
+
+                    </section>
+                    <!-- content-body .// -->
+                </div>
+                <!-- col.// -->
+            </div>
+            <!-- row.// -->
+        </div>
+        <!-- card body end// -->
+    </div>
+    <!-- card end// -->
+
+
+</section>
