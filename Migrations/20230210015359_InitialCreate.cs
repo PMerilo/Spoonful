@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Spoonful.Migrations
 {
     /// <inheritdoc />
-    public partial class initialcreate : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -55,6 +55,22 @@ namespace Spoonful.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Blog",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Date = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    imageURL = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Blog", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Category",
                 columns: table => new
                 {
@@ -65,6 +81,32 @@ namespace Spoonful.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Category", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Invoice",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    MenuPreference = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    noOfRecipesPerWeek = table.Column<int>(type: "int", nullable: false),
+                    noOfPeoplePerWeek = table.Column<int>(type: "int", nullable: false),
+                    noOfServingsPerPerson = table.Column<int>(type: "int", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OrderDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OrderTime = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Cost = table.Column<double>(type: "float", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    userId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    mealkitId = table.Column<int>(type: "int", nullable: false),
+                    orderDetailsId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DiscountCodeUsed = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateOfPayment = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Invoice", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -79,11 +121,28 @@ namespace Spoonful.Migrations
                     noOfServingsPerPerson = table.Column<int>(type: "int", nullable: false),
                     userId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     orderDetailsId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Status = table.Column<bool>(type: "bit", nullable: false)
+                    Status = table.Column<bool>(type: "bit", nullable: false),
+                    SubscriptionCheck = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MealKit", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MealKitSubscriptionLog",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    noOfUsersSubscribed = table.Column<int>(type: "int", nullable: false),
+                    description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    dateIssued = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    timeIssued = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MealKitSubscriptionLog", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -105,6 +164,25 @@ namespace Spoonful.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Order",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Tags = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MenuPreference = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageURL = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    OwnerID = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Order", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OrderDetails",
                 columns: table => new
                 {
@@ -113,7 +191,8 @@ namespace Spoonful.Migrations
                     OrderDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OrderTime = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AdditionalInstructions = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    userId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SubscriptionCheck = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -347,16 +426,28 @@ namespace Spoonful.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Blog");
+
+            migrationBuilder.DropTable(
                 name: "Category");
 
             migrationBuilder.DropTable(
+                name: "Invoice");
+
+            migrationBuilder.DropTable(
                 name: "MealKit");
+
+            migrationBuilder.DropTable(
+                name: "MealKitSubscriptionLog");
 
             migrationBuilder.DropTable(
                 name: "MenuItem");
 
             migrationBuilder.DropTable(
                 name: "Notifications");
+
+            migrationBuilder.DropTable(
+                name: "Order");
 
             migrationBuilder.DropTable(
                 name: "OrderDetails");

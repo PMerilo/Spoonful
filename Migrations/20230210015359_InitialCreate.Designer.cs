@@ -12,8 +12,8 @@ using Spoonful.Models;
 namespace Spoonful.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    [Migration("20230202022409_invoiceChanges")]
-    partial class invoiceChanges
+    [Migration("20230210015359_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -294,6 +294,9 @@ namespace Spoonful.Migrations
                     b.Property<double>("Cost")
                         .HasColumnType("float");
 
+                    b.Property<string>("DateOfPayment")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("DiscountCodeUsed")
                         .HasColumnType("nvarchar(max)");
 
@@ -317,6 +320,10 @@ namespace Spoonful.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("mealkitId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
                     b.Property<int?>("noOfPeoplePerWeek")
                         .IsRequired()
                         .HasColumnType("int");
@@ -328,6 +335,10 @@ namespace Spoonful.Migrations
                     b.Property<int?>("noOfServingsPerPerson")
                         .IsRequired()
                         .HasColumnType("int");
+
+                    b.Property<string>("orderDetailsId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("userId")
                         .IsRequired()
