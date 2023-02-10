@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ApplicationSecurityAssignment.Models
+namespace Spoonful.Models
 {
 
 	public class AuditLog
@@ -13,7 +13,7 @@ namespace ApplicationSecurityAssignment.Models
 		public string Description { get; set; }
 		public string? Role { get; set; }
 		public string? ApplicationUserId { get; set; }
-		public ApplicationUser? ApplicationUser { get; set; }
+		public CustomerUser? CustomerUser { get; set; }
 		public DateTimeOffset DateCreated { get; set; } = DateTimeOffset.Now;
 
 
