@@ -30,26 +30,21 @@
     <div class="row">
         <div class="col-12">
             <div class="invoice-title pt-4">
-                <h3>Invoice</h3><h3 class="float-right">Order # 12345</h3>
+                <h3>Invoice</h3><h3 class="float-right">Order # @Model.MyInvoice.Id</h3>
             </div>
             <hr>
             <div class="row">
                 <div class="col-6">
                     <address>
                     <strong>Billed To:</strong><br>
-                        John Smith<br>
-                        1234 Main<br>
-                        Apt. 4B<br>
-                        Springfield, ST 54321
+                        @Model.MyInvoice.Name<br>
+                        
                     </address>
                 </div>
                 <div class="col-6 text-right">
                     <address>
                     <strong>Shipped To:</strong><br>
-                        Jane Smith<br>
-                        1234 Main<br>
-                        Apt. 4B<br>
-                        Springfield, ST 54321
+                        @Model.MyInvoice.Address
                     </address>
                 </div>
             </div>
@@ -58,13 +53,13 @@
                     <address>
                         <strong>Payment Method:</strong><br>
                         Visa ending **** 4242<br>
-                        jsmith@email.com
+                        @Model.MyInvoice.Email
                     </address>
                 </div>
                 <div class="col-6 text-right">
                     <address>
-                        <strong>Order Date:</strong><br>
-                        March 7, 2014<br><br>
+                        <strong>Date Of Payment:</strong><br>
+                        @Model.MyInvoice.DateOfPayment<br><br>
                     </address>
                 </div>
             </div>
@@ -81,46 +76,37 @@
                                 <tr>
                                     <td><strong>Item</strong></td>
                                     <td class="text-center"><strong>Price</strong></td>
-                                    <td class="text-center"><strong>Quantity</strong></td>
+                                    <td class="text-center"><strong>Quantity</strong></td>               
                                     <td class="text-right"><strong>Totals</strong></td>
+                                    
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>BS-200</td>
-                                    <td class="text-center">$10.99</td>
+                                    <td>@Model.MyInvoice.MenuPreference Plan <span style="color:dimgrey"> (@Model.MyInvoice.noOfRecipesPerWeek recipes per Week for @Model.MyInvoice.noOfPeoplePerWeek People, @Model.MyInvoice.noOfServingsPerPerson Servings Per Person) </span></td>
+                                    <td class="text-center">$@Model.MyInvoice.Cost</td>
                                     <td class="text-center">1</td>
-                                    <td class="text-right">$10.99</td>
+                                    <td class="text-right">$@Model.MyInvoice.Cost</td>
+
                                 </tr>
-                                <tr>
-                                    <td>BS-400</td>
-                                    <td class="text-center">$20.00</td>
-                                    <td class="text-center">3</td>
-                                    <td class="text-right">$60.00</td>
-                                </tr>
-                                <tr>
-                                    <td>BS-1000</td>
-                                    <td class="text-center">$600.00</td>
-                                    <td class="text-center">1</td>
-                                    <td class="text-right">$600.00</td>
-                                </tr>
+                                
                                 <tr>
                                     <td class="thick-line"></td>
                                     <td class="thick-line"></td>
                                     <td class="thick-line text-center"><strong>Subtotal</strong></td>
-                                    <td class="thick-line text-right">$670.99</td>
+                                    <td class="thick-line text-right">$@Model.MyInvoice.Cost</td>
                                 </tr>
                                 <tr>
                                     <td class="no-line"></td>
                                     <td class="no-line"></td>
                                     <td class="no-line text-center"><strong>Shipping</strong></td>
-                                    <td class="no-line text-right">$15</td>
+                                    <td class="no-line text-right">FREE</td>
                                 </tr>
                                 <tr>
                                     <td class="no-line"></td>
                                     <td class="no-line"></td>
                                     <td class="no-line text-center"><strong>Total</strong></td>
-                                    <td class="no-line text-right">$685.99</td>
+                                    <td class="no-line text-right">$@Model.MyInvoice.Cost</td>
                                 </tr>
                             </tbody>
                         </table>

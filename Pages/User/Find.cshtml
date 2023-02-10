@@ -1,0 +1,18 @@
+﻿@page
+@model Spoonful.Pages.User.FindModel
+
+<div class="row">
+@foreach (var item in Model.CustomerDetails)
+{
+    <div class="card col-4">
+        <img src="@(string.IsNullOrEmpty(item.User.ImageURL) ? "/images/people/avatar-1.png" : item.User.ImageURL)" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">@@@item.User.UserName</h5>
+            <p class="card-text">@item.User.FirstName @item.User.LastName</p>
+            <form method="post">
+                <button class="btn btn-primary" asp-page-handler="AddFriend" asp-route-username="@item.User.UserName">Add Friend</button>
+            </form>
+        </div>
+    </div>
+}
+</div>

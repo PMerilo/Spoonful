@@ -1,8 +1,12 @@
 ﻿@page
+@using Spoonful.Settings
 @using Microsoft.AspNetCore.Identity
 @using Spoonful.Models
 @inject IOptions<Spoonful.Utility.StripeSettings> Stripe
 @using Microsoft.Extensions.Options
+@inject GoogleAddressAutoCorrectConfiguration GoogleAddressAutoCorrect
+
+
 
 @inject UserManager<CustomerUser> UserManager
 @{
@@ -261,7 +265,8 @@
 	</main>
 	<!-- /main -->
 
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhDW10Zt5sVkx2_sMzIqNKJBik-TuMwPY&libraries=places&callback=initMap"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@GoogleAddressAutoCorrect.API&libraries=places&callback=initMap"></script>
+
 
 <script src="/js/AddressAutoComplete.js"></script>
 <script src="/js/voucher.js"></script>

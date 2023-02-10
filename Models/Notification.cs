@@ -22,7 +22,7 @@ namespace Spoonful.Models
 
         [Required]
         [DataType(DataType.DateTime)]
-        public DateTime DateCreated { get; set; } = DateTime.Now;
+        public DateTimeOffset DateCreated { get; set; } = DateTimeOffset.UtcNow;
 
         [Required]
         public bool Seen { get; set; } = false;

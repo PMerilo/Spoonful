@@ -39,6 +39,7 @@ namespace Spoonful.Pages.user.MealKitSubscription
         public async Task<IActionResult> OnGet()
         {
             var user = await _userManager.GetUserAsync(User);
+            //string? username = User.Identity?.Name;
             MealKit? mealkit = _mealKitService.GetMealKitByUserId(user.Id);
             if (mealkit != null)
             {
@@ -103,7 +104,7 @@ namespace Spoonful.Pages.user.MealKitSubscription
                   "card"  
                 },
                     Mode = "payment",
-                    SuccessUrl = domain + $"/user/MealKitSubscription/OrderConfirmed",
+                    SuccessUrl = domain + $"/user/MealKitSubscription/OrderConfirmed?id={MyOrderDetails.Id}",
                     //SuccessUrl = domain + "/OrderConfirmed.cshtml?session_id={CHECKOUT_SESSION_ID}",
                     CancelUrl = domain + "/user/MealKitSubscription/Order",
                 };
@@ -111,7 +112,7 @@ namespace Spoonful.Pages.user.MealKitSubscription
                 Session session = service.Create(options);
 
                 Response.Headers.Add("Location", session.Url);
-
+                
                 _mealKitService.AddMealKit(MyMealKit);
                 _orderService.AddOrderDetails(MyOrderDetails);
 

@@ -11,6 +11,7 @@ using Spoonful.Models;
 using Microsoft.Win32;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Spoonful.Services;
 
 namespace Spoonful.Pages.Account
 {
@@ -19,14 +20,16 @@ namespace Spoonful.Pages.Account
     {
         private UserManager<CustomerUser> userManager { get; }
         private SignInManager<CustomerUser> signInManager { get; }
+        private CustomerUserService _customerUserService { get; }
 
         [BindProperty]
         public Register RModel { get; set; }
         public RegisterModel(UserManager<CustomerUser> userManager,
-        SignInManager<CustomerUser> signInManager)
+        SignInManager<CustomerUser> signInManager, CustomerUserService customerUserService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            _customerUserService = customerUserService;
         }
         public void OnGet()
         {
@@ -51,6 +54,8 @@ namespace Spoonful.Pages.Account
                     //await userManager.RemoveClaimAsync(user, );
                     //await userManager.AddClaimAsync(user, new Claim(ClaimTypes.NameIdentifier, RModel.UserName));
                     await signInManager.SignInAsync(user, false);
+                    _customerUserService.UpdateLastLogin(user.UserName);
+                    await _customerUserService.SetUserRoleAsync(user.UserName, Roles.Customer);
                     TempData["FlashMessage.Text"] = "Created account successfully";
                     TempData["FlashMessage.Type"] = "success";
                     return RedirectToPage("/Index");

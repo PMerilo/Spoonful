@@ -1,4 +1,18 @@
 ﻿//TODO
-make send to all toastr
+Notifications
+	make send to all toastr
 
-admin page for user management
+User Management
+	Admin
+		Create user w/ roles
+		Create user temp password
+		Polish Authorization
+		Add Additional Information and details
+
+	Password Expiry
+	2FA
+	Text Service
+	Confirm Email & PhoneNum
+	Friends
+
+	!! Fix Inheritance for User detail => Get userdetail from user
