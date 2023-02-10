@@ -67,7 +67,7 @@
                                         <img id="imgPreview" class="img-lg mb-3 img-avatar" src="@Model.ImageURL" alt="User Photo" />
                                         <figcaption>
                                             <input type="file" accept="image/*" asp-for="@Model.Upload" onchange="showImgPreview(this)" hidden>
-                                            <label asp-for="@Model.Upload" class="btn btn-dark rounded font-md">Upload</label>
+                                            <label asp-for="@Model.Upload" class="blue-btn">Upload</label>
                                         </figcaption>
                                     </figure>
                                 </aside>
@@ -75,7 +75,7 @@
                             </div>
                             <!-- row.// -->
                             <br />
-                            <button class="btn btn-success" type="submit">Save changes</button>
+                            <button class="green-btn-full-confirmed" type="submit">Save changes</button>
                         </form>
                         <hr class="my-5" />
                         <div class="row" style="max-width: 920px">

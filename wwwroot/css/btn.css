@@ -217,7 +217,7 @@
     }
 
 .danger-btn-em {
-    width: 47%;
+    width: 7rem;
     background: #fd3d3d;
     font-weight: bold;
     color: white;
@@ -305,3 +305,49 @@
     background-color: #265F63;
     color: white;
 }
+
+.blue-btn-a {
+    width: 7rem;
+    background: #2098ce;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 25px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 5px;
+    text-decoration: none;
+    text-align: center;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+    .blue-btn-a:hover,
+    .blue-btn-a:focus {
+        box-shadow: 0 0 0 2px white, 0 0 0 3px #2098ce;
+        text-decoration: none;
+        color: white;
+    }
+
+.light-btn-a {
+    min-width: 47%;
+    background: #aCbEd0;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 25px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 5px;
+    text-decoration: none;
+    text-align: center;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+    .light-btn-a:hover,
+    .light-btn-a:focus {
+        box-shadow: 0 0 0 2px white, 0 0 0 3px #aCbEd0;
+        text-decoration: none;
+        color: white;
+    }
