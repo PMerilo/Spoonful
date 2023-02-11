@@ -40,11 +40,15 @@ namespace Spoonful.Pages.Admin.FoodCategory
             if (ModelState.IsValid)
             {
                 Category? category = _categoryService.GetCategoryByName(MyCategory.name);
+               
                 if (category != null)
                 {
+                    
                     TempData["FlashMessage.Type"] = "danger";
                     TempData["FlashMessage.Text"] = string.Format("Category {0} already exist!", MyCategory.name);
                     return Page();
+                    
+                    
                 }
                 Console.WriteLine(id);
                 Console.WriteLine(MyCategory.Id);
