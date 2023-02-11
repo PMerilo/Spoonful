@@ -22,10 +22,7 @@ namespace Spoonful.Pages.user.MealKitSubscription
         private readonly VoucherService _voucherService;
 
         public MealKit MyMealKit { get; set; }
-
         public OrderDetails MyOrderDetails { get;set; }
-
-        [BindProperty]
         public string Vcode { get; set; }
         public OrderModel(AuthDbContext db, MealKitService mealKitService, UserManager<CustomerUser> userManager, OrderService orderService, VoucherService voucherService)
         {
@@ -43,6 +40,13 @@ namespace Spoonful.Pages.user.MealKitSubscription
             MealKit? mealkit = _mealKitService.GetMealKitByUserId(user.Id);
             if (mealkit != null)
             {
+                if (mealkit.SubscriptionCheck == false)
+                {
+                    OrderDetails? orderDetails = _orderService.GetOrderDetailsByUserId(user.Id);
+                    _mealKitService.DeleteMealKit(mealkit);
+                    _orderService.DeleteOrderDetails(orderDetails);
+                    return Page();
+                }
                 return Redirect("/user/CurrentMealKitPlan");
             }
                 return Page();
@@ -56,6 +60,8 @@ namespace Spoonful.Pages.user.MealKitSubscription
             double totalCost = (double)(serving * MyMealKit.noOfPeoplePerWeek * MyMealKit.noOfServingsPerPerson * MyMealKit.noOfRecipesPerWeek);
             MyMealKit.orderDetailsId = MyOrderDetails.Id;
             Vouchers? voucher = _voucherService.GetVoucherByCode(Vcode);
+            Console.WriteLine(Vcode);
+            Console.WriteLine("Hello");
             int quantity = 1;
             int deliminator = 100;
             if(voucher != null)
@@ -104,7 +110,7 @@ namespace Spoonful.Pages.user.MealKitSubscription
                   "card"  
                 },
                     Mode = "payment",
-                    SuccessUrl = domain + $"/user/MealKitSubscription/OrderConfirmed?id={MyOrderDetails.Id}",
+                    SuccessUrl = domain + $"/user/MealKitSubscription/OrderConfirmed?id={MyOrderDetails.Id}&code={Vcode}",
                     //SuccessUrl = domain + "/OrderConfirmed.cshtml?session_id={CHECKOUT_SESSION_ID}",
                     CancelUrl = domain + "/user/MealKitSubscription/Order",
                 };
@@ -137,7 +143,6 @@ namespace Spoonful.Pages.user.MealKitSubscription
                     if (DateTime.Compare(Convert.ToDateTime(voucherDate), Convert.ToDateTime(date)) > 0)
                     {
                         return new JsonResult(new{ status = "Valid", discountAmt = voucher.discountAmount});
-                        //return new JsonResult("Valid");
                     }
                     else
                     {

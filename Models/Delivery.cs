@@ -20,6 +20,8 @@ namespace Spoonful.Models
 
         public string? ConfirmationImageURL { get; set; }
 
+        public string? status { get; set; }
+
         [Required]
         public string OrderDetailsId { get; set; }
         public OrderDetails OrderDetails { get; set; }
