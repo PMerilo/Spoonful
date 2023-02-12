@@ -3,6 +3,7 @@
 @{
 }
 <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+@Html.AntiForgeryToken()
 <h3>My Google Maps Routing Testing</h3>
     <!-- [END maps_add_map_heading] -->
     <!-- [START maps_add_map_div] -->
@@ -29,63 +30,13 @@
         <option value="sentosa, singapore">Sentosa</option>
       </select>
       <input type="submit" id="submit" />
+      <button id="test">Testing123</button>
     </div>
     <div id="map"></div>
 <script async
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2XNaPPSnBj0i6cUEE4bk4c6KdU7tA4kU&callback=initMap">
 </script>
-<script src="/js/voucher.js"></script>
-<script>
-    function initMap() {
-      const directionsService = new google.maps.DirectionsService();
-      const directionsRenderer = new google.maps.DirectionsRenderer();
-      const map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 11,
-        center: { lat: 1.3742002339365351, lng: 103.81540409330088 },
-      });
-      directionsRenderer.setMap(map);
-
-      const onChangeHandler = function () {
-        calculateAndDisplayRoute(directionsService, directionsRenderer);
-      };
-      document.getElementById("submit").addEventListener("click", () => {
-        calculateAndDisplayRoute(directionsService, directionsRenderer);
-      });
-
-      document.getElementById("start").addEventListener("change", onChangeHandler);
-      document.getElementById("end").addEventListener("change", onChangeHandler);
-    }
-
-   function calculateAndDisplayRoute(directionsService, directionsRenderer) {
-        const waypts = [];
-        const checkboxArray = document.getElementById("waypoints");
-
-        for (let i = 0; i < checkboxArray.length; i++) {
-        if (checkboxArray.options[i].selected) {
-            waypts.push({
-            location: checkboxArray[i].value,
-            stopover: true,
-            });
-        }
-        }
-
-        directionsService
-        .route({
-            origin: document.getElementById("start").value,
-            destination: document.getElementById("end").value,
-            waypoints: waypts,
-            optimizeWaypoints: true,
-            travelMode: google.maps.TravelMode.DRIVING,
-        })
-        .then((response) => {
-            directionsRenderer.setDirections(response);
-        })
-        .catch((e) => window.alert("Directions request failed due to " + status));
-    }
-
-
-    window.initMap = initMap;
-</script>
+<script src="/js/Routing.js"></script>
 
 <style>
     #map {
