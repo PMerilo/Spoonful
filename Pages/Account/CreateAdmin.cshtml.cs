@@ -42,6 +42,10 @@ namespace Spoonful.Pages.Account
             {
                 return NotFound();
             }
+            RAdmin = new RegisterAdmin
+            {
+                UserName = user.Email
+            };
             return Page();
         }
 
@@ -52,6 +56,7 @@ namespace Spoonful.Pages.Account
                 var user = await _userManager.FindByNameAsync(username);
                 user.FirstName = RAdmin.FirstName;
                 user.LastName = RAdmin.LastName;
+                user.UserName = RAdmin.UserName;
                 var resultPass = await _userManager.AddPasswordAsync(user, RAdmin.Password);
                 var result = await _userManager.UpdateAsync(user);
                 if (resultPass.Succeeded && result.Succeeded)
@@ -84,6 +89,10 @@ namespace Spoonful.Pages.Account
         //[Required]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
+
+        [Required]
+        [Display(Name = "Username")]
+        public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

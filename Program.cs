@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using AspNetCoreHero.ToastNotification;
 using AspNetCoreHero.ToastNotification.Extensions;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -101,6 +102,7 @@ builder.Services.ConfigureApplicationCookie(config =>
     config.LoginPath = "/Account/Login";
     config.LogoutPath = "/Account/Logout";
     config.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+    config.AccessDeniedPath = "/error/403";
     config.SlidingExpiration = true;
 });
 
@@ -129,6 +131,18 @@ builder.Services.AddAuthorization(options =>
          policy => policy.RequireRole(Roles.Customer, Roles.RootUser));
     options.AddPolicy("RequireDriverRole",
          policy => policy.RequireRole(Roles.Driver, Roles.RootUser));
+});
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    // Default Lockout settings.
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+    options.Lockout.MaxFailedAccessAttempts = 5;
+    options.Lockout.AllowedForNewUsers = true;
+
+    // Default User settings.
+    options.User.RequireUniqueEmail = true;
+
 });
 
 var app = builder.Build();

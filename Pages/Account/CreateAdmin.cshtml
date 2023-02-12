@@ -18,6 +18,13 @@
             <span class="text-danger" asp-validation-for="RAdmin.LastName"></span>
         </div>
 
+        <!-- UserName input -->
+        <div class="form-outline mb-4">
+            <input type="text" id="registerLName" class="form-control" asp-for="RAdmin.UserName" />
+            <label class="form-label" asp-for="RAdmin.UserName"></label>
+            <span class="text-danger" asp-validation-for="RAdmin.UserName"></span>
+        </div>
+
         <!-- Password input -->
         <div class="form-outline mb-4">
             <input type="password" id="registerPassword" class="form-control" asp-for="RAdmin.Password" />

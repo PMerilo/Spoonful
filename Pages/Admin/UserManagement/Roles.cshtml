@@ -1,32 +1,138 @@
-﻿@page
+﻿@page "{name=All}"
 @using Microsoft.AspNetCore.Identity;
 @using Spoonful.Models;
+@using Spoonful.Services;
 @model Spoonful.Pages.Admin.UserManagement.RolesModel
 @inject UserManager<CustomerUser> UserManager
 @{
 }
-<div class="card p-3">
-    <div id="rolestoolbar">
-        <div class="dropdown">
-            <a class="blue-btn-a" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Add Admin Role
-            </a>
+@if (RouteData.Values["name"].ToString() ==  "All")
+{
+    <div class="card p-3">
+        <div id="rolestoolbar">
+            <div class="dropdown">
+                <a class="blue-btn-a" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Add Admin Role
+                </a>
 
-            <div class="dropdown-menu">
-                <form class="px-4 py-3" method="post">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Role Name</label>
-                        <input type="text" class="form-control" id="name" asp-for="RoleName" placeholder="Role Name">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Create Role</button>
-                </form>
+                <div class="dropdown-menu">
+                    <form class="px-4 py-3" method="post">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Role Name</label>
+                            <input type="text" class="form-control" id="name" asp-for="RoleName" placeholder="Role Name">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create Role</button>
+                    </form>
+                </div>
             </div>
-        </div>
 
-        @*<button id="remove" class="btn btn-danger" asp-page="AdminRoles">Delete Admin Roles</button>*@
+            @*<button id="remove" class="btn btn-danger" asp-page="AdminRoles">Delete Admin Roles</button>*@
+        </div>
+        <h2 class="card-title">Roles</h2>
+        <table id="rolestable"
+               data-toggle="table"
+               data-search="true"
+               data-click-to-select="true"
+               data-pagination="true"
+               data-id-field="id"
+               data-page-list="[10, 25, 50, 100, all]"
+               data-sortable="true"
+               data-toolbar="#rolestoolbar"
+               data-toolbar-align="left">
+            <thead>
+                <tr>
+                    <th data-field="state" data-checkbox="true"></th>
+                    <th data-field="name" data-sortable="true">Name</th>
+                    <th data-field="members" data-sortable="true">Members</th>
+                    <th data-field="buttons"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Roles)
+                {
+                    @if (item.Name == "Customer" || item.Name == "Driver")
+                    {
+                        continue;
+                    }
+                    <tr>
+                        <td></td>
+                        <td>@item.Name</td>
+                        <td>
+                            <ul>
+                                @foreach (var user in await UserManager.GetUsersInRoleAsync(item.Name))
+                                {
+                                    <li>@user.FirstName @user.LastName - @user.UserName</li>
+                                }
+                            </ul>
+                        </td>
+                        <td>
+                            <form method="post">
+                            @if (!(new List<string> { "Admin", "Customer", "Driver", "RootUser" }.Contains(item.Name)))
+                            {
+                                <button class="danger-btn" asp-page-handler="Delete" asp-route-name="@item.Name">Delete</button>
+
+                            }
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
     </div>
-    <h2 class="card-title">Roles</h2>
-    <table id="rolestable"
+
+    @section Scripts {
+        <script defer>
+            $(document).ready(function () {
+                function getIdSelections() {
+                    return $.map($("#rolestable").bootstrapTable('getSelections'), function (row) {
+                        return row.name
+                    })
+                }
+                $("#rolestable").on('check.bs.table uncheck.bs.table ' +
+                    'check-all.bs.table uncheck-all.bs.table',
+                    function () {
+                        $('#remove').prop('disabled', !$("#rolestable").bootstrapTable('getSelections').length)
+
+                        // save your data, here just save the current page
+                        selections = getIdSelections()
+                        console.log(selections)
+                        // push or splice the selections if you want to save all data selections
+                    })
+                $('#remove').prop('disabled', true)
+            })
+
+        </script>
+    }
+
+} else 
+{
+    <div class="card p-3">
+        <div id="rolestoolbar">
+            @if (@RouteData.Values["name"].ToString().ToLower() != "admin" && @RouteData.Values["name"].ToString().ToLower() != "rootuser")
+            {
+                <div class="dropdown">
+                    <a class="blue-btn-a" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Add User
+                    </a>
+
+                    <div class="dropdown-menu">
+                        <form class="px-4 py-3" method="post" asp-page-handler="AddUserToRole">
+                            <div class="mb-3">
+                                <label asp-for="SelectedUserName" class="form-label">UserName</label>
+                                @Html.DropDownListFor(n => n.SelectedUserName, new SelectList(Model.UsersNotinRole, "UserName", "UserName"))
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add User</button>
+                        </form>
+                    </div>
+                </div>
+            }
+            
+
+            @*<button id="remove" class="btn btn-danger" asp-page="AdminRoles">Delete Admin Roles</button>*@
+        </div>
+        <h2 class="card-title">@RouteData.Values["name"].ToString()</h2>
+        <table id="rolestable"
            data-toggle="table"
            data-search="true"
            data-click-to-select="true"
@@ -36,68 +142,36 @@
            data-sortable="true"
            data-toolbar="#rolestoolbar"
            data-toolbar-align="left">
-        <thead>
-            <tr>
-                <th data-field="state" data-checkbox="true"></th>
-                <th data-field="name" data-sortable="true">Name</th>
-                <th data-field="members" data-sortable="true">Members</th>
-                <th data-field="buttons"></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Roles)
-            {
-                @if (item.Name == "Customer" || item.Name == "Driver")
-                {
-                    continue;
-                }
+            <thead>
                 <tr>
-                    <td></td>
-                    <td>@item.Name</td>
-                    <td>
-                        <ul>
-                            @foreach (var user in await UserManager.GetUsersInRoleAsync(item.Name))
-                            {
-                                <li>@user.FirstName @user.LastName - @user.UserName</li>
-                            }
-                        </ul>
-                    </td>
-                    <td>
-                        <form method="post">
-                        @if (!(new List<string> { "Admin", "Customer", "Driver", "RootUser" }.Contains(item.Name)))
-                        {
-                            <button class="danger-btn" asp-page-handler="Delete" asp-route-name="@item.Name">Delete</button>
-
-                        }
-                        </form>
-                    </td>
+                    <th data-field="state" data-checkbox="true"></th>
+                    <th data-field="name" data-sortable="true">Name</th>
+                    <th data-field="email" data-sortable="true">Email</th>
+                    <th data-field="buttons"></th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var user in Model.UsersinRole)
+                {
+                    <tr>
+                        <td></td>
+                        <td>@user.FirstName @user.LastName - @user.UserName</td>
+                        <td>
+                            @user.Email
+                        </td>
+                        <td>
+                            <form method="post">
+                                @if (user.UserName != User.Identity.Name && @RouteData.Values["name"].ToString().ToLower() != "rootuser" && @RouteData.Values["name"].ToString().ToLower() != "admin")
+                                {
+                                    <button class="danger-btn" asp-page-handler="DeleteUserFromRole" asp-route-username="@user.UserName">Remove</button>
 
-</div>
+                                }
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
 
-@section Scripts {
-    <script defer>
-        $(document).ready(function () {
-            function getIdSelections() {
-                return $.map($("#rolestable").bootstrapTable('getSelections'), function (row) {
-                    return row.name
-                })
-            }
-            $("#rolestable").on('check.bs.table uncheck.bs.table ' +
-                'check-all.bs.table uncheck-all.bs.table',
-                function () {
-                    $('#remove').prop('disabled', !$("#rolestable").bootstrapTable('getSelections').length)
-
-                    // save your data, here just save the current page
-                    selections = getIdSelections()
-                    console.log(selections)
-                    // push or splice the selections if you want to save all data selections
-                })
-            $('#remove').prop('disabled', true)
-        })
-
-    </script>
+    </div>
 }
