@@ -9,7 +9,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-xl-8 col-lg-7 col-md-7 d-none d-md-block">
-					<h1>Menu</h1>
+					<h1 class="display-1">Our Weekly Menu</h1>
 					<br>
 				</div>
 				<div class="col-xl-4 col-lg-5 col-md-5">
@@ -38,14 +38,15 @@
 								</a>
 							</figure>
 							<div class="post_info">
-								<small>@obj.Category - @obj.MenuPreference - 20 Nov. 2017</small>
+								<small>@obj.Category - @obj.MenuPreference</small>
 								<h2><a href="blog-post.html">@obj.Name</a></h2>
 								<p>@obj.Description</p>
 								<ul>
-									<li><span class="badge rounded-pill bg-primary text-dark">Tags</span></li>
-									<li>
-										<span class="badge rounded-pill bg-info text-dark">@obj.Tags</span>
-									</li>
+									@foreach (var x in obj.Tags.Split(","))
+										{
+										<li style="display:inline-block; margin-top:10px;"><span class="badge rounded-pill bg-info text-dark">@x</span></li>
+										}
+									
 									<li><i class="icon_comment_alt"></i></li>
 								</ul>
 							</div>
@@ -62,7 +63,9 @@
 			</div>
 			
 			<!-- /col -->
+			@*
 
+			
 			<aside class="col-lg-3">
 				<div class="widget">
 					<div class="widget-title first">
@@ -122,6 +125,7 @@
 				<!-- /widget -->
 			</aside>
 			<!-- /aside -->
+			*@
 		</div>
 		<!-- /row -->
 	</div>

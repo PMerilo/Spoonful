@@ -23,7 +23,7 @@ namespace Spoonful.Controllers
                     {
                         dateIssued = group.Key.group,
                         count = group.Sum(x => x.noOfUsersSubscribed)
-                    }).Reverse().ToList();
+                    }).ToList();
 
 
 

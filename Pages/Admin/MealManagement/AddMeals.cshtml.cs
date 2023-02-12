@@ -17,6 +17,8 @@ namespace Spoonful.Pages.Admin.MealManagement
 
         public IEnumerable<MenuItem> MenuItems { get; set; }
 
+        public IEnumerable<Recipe> Recipes { get; set; }
+
         [BindProperty]
         public IFormFile? Upload { get; set; }
 
@@ -33,6 +35,7 @@ namespace Spoonful.Pages.Admin.MealManagement
         public void OnGet()
         {
             Categories = _db.Category;
+            Recipes = _db.Recipe;
 
             //if (Categories == null && TempData["Categories"] !=null )
             //{
@@ -70,6 +73,11 @@ namespace Spoonful.Pages.Admin.MealManagement
                     TempData["FlashMessage.Text"] = string.Format("Meal Item {0} already exist!", MyMenuItem.Name);
                     return Page();
                 }
+                if(MyMenuItem.RecipeId != null)
+                {
+                    MyMenuItem.Archived = false;
+                }
+
                 _menuItemService.AddMealItem(MyMenuItem);
                 TempData["FlashMessage.Type"] = "success";
                 TempData["FlashMessage.Text"] = string.Format("Meal Item {0} is added", MyMenuItem.Name);

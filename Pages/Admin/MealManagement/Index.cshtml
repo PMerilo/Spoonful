@@ -34,6 +34,7 @@
 	  <th>Menu Item</th>
       <th>Category / Menu Preference</th>
 	  <th>Description</th>
+	  <th>Status</th>
       <th>Edit</th>
 	  <th>Delete</th>
     </tr>
@@ -54,7 +55,14 @@
               />
           <div class="ms-3">
             <p class="fw-bold mb-1">@obj.Name</p>
-			<p class="text-muted mb-0"><span class="badge badge-success rounded-pill d-inline">@obj.Tags</span></p>
+
+			
+			@foreach (var x in obj.Tags.Split(","))
+			{
+			<p class="text-muted mb-0" style="display:inline-block; margin-top:10px;"><span class="badge badge-success rounded-pill d-inline">@x</span></p>
+			}
+			
+			
           </div>
         </div>
       </td>
@@ -65,7 +73,14 @@
 	  <td>
 		  @obj.Description
 	  </td>
-      
+      <td>
+		  @if(obj.Archived == true){
+			<p class="text-muted mb-0"><span class="badge badge-danger rounded-pill d-inline">Archived</span></p>
+		  }else{
+			<p class="text-muted mb-0"><span class="badge badge-success rounded-pill d-inline">Public</span></p>
+		  }
+		  
+	  </td>
       <td>
 			<a asp-page="/Admin/MealManagement/UpdateMeal" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
 				<i class="bi bi-pencil-square"></i>

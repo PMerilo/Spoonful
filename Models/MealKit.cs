@@ -30,7 +30,6 @@ namespace Spoonful.Models
         [Required]
         public string? Email { get; set; }
 
-
         public string? orderDetailsId { get; set; }
 
         public Boolean Status { get; set; } = true;

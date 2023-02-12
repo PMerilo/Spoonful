@@ -13,7 +13,7 @@
     <div class="wrapper_indent">
         <div class="form-group">
             <label asp-for="MyMenuItem.Category"></label>
-            <select asp-for="MyMenuItem.Category"  class="form-control">
+            <select asp-for="MyMenuItem.Category" class="form-control">
             <option value="" disabled selected hidden>Select Category</option>
             @foreach(var obj in Model.Categories)
 			{
@@ -21,6 +21,14 @@
             }
           
                        
+            </select>
+            <label>Add Recipe</label>
+            <select asp-for="MyMenuItem.RecipeId"  class="form-control">
+            <option value="" disabled selected hidden>Select Recipe</option>
+            @foreach(var obj in Model.Recipes)
+			{
+                <option value="@obj.Id">@obj.name</option>
+            }
             </select>
         </div>
         <div class="menu-item-section clearfix">
@@ -47,7 +55,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label asp-for="MyMenuItem.Tags"></label>
+                                <label asp-for="MyMenuItem.Tags"></label> (Use a "," to seperate tags)
                                 <input asp-for="MyMenuItem.Tags" type="text" class="form-control">
                             </div>
                         </div>

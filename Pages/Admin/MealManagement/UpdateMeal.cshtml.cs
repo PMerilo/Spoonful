@@ -16,6 +16,7 @@ namespace Spoonful.Pages.Admin.MealManagement
         public IEnumerable<Category> Categories { get; set; }
 
         public IEnumerable<MenuItem> MenuItems { get; set; }
+        public IEnumerable<Recipe> Recipes { get; set; }
         private IWebHostEnvironment _environment;
 
         public MenuItem MyMenuItem { get; set; }
@@ -25,6 +26,7 @@ namespace Spoonful.Pages.Admin.MealManagement
 
         public UpdateMealModel(AuthDbContext db, MenuItemService menuItemService, IWebHostEnvironment environment)
         {
+
             _db = db;
             _menuItemService = menuItemService;
             _environment = environment;
@@ -32,6 +34,7 @@ namespace Spoonful.Pages.Admin.MealManagement
 
         public IActionResult OnGet(int id)
         {
+            Recipes = _db.Recipe;
             Categories = _db.Category;
             MenuItem? menuItem = _menuItemService.GetMenuById(id);
             if (menuItem != null)
@@ -86,14 +89,20 @@ namespace Spoonful.Pages.Admin.MealManagement
                 MenuItem? menuItem = _menuItemService.GetMenuByName(MyMenuItem.Name);
 
                 
+
                 if (menuItem != null)
                 {
                     TempData["FlashMessage.Type"] = "danger";
                     TempData["FlashMessage.Text"] = string.Format("Menu item {0} already exist!", MyMenuItem.Name);
                     return Redirect($"/Admin/MealManagement/UpdateMeal?id={id}");
                 }
+
                 else
                 {
+                    if (MyMenuItem.RecipeId != null)
+                    {
+                        MyMenuItem.Archived = false;
+                    }
                     MyMenuItem.Id = id;
                     _menuItemService.UpdateMenuItem(MyMenuItem);
                     TempData["FlashMessage.Type"] = "success";
@@ -102,7 +111,7 @@ namespace Spoonful.Pages.Admin.MealManagement
                 }
                 
             }
-            return Page();
+            return Redirect($"/Admin/MealManagement/UpdateMeal?id={id}");
         }
     }
 }
