@@ -1,5 +1,5 @@
 ﻿@page
-@model Spoonful.Pages.Ezell.CreateModel
+@model Spoonful.Pages.CustomerSupport.CreateModel
 
 @{
     ViewData["Title"] = "Feedback Form";
@@ -13,6 +13,16 @@
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Feedbackform.Category" class="control-label"></label>
+                <select class="form-control" id="cat" name="cat">
+                    <option value="Subscription">Subscription</option>
+                    <option value="Products and Services">Products and Services</option>
+                    <option value="Miscellaneous">Miscellaneous</option>
+                    <option value="Others">Others</option>
+                </select>
+            </div>
             
             <div class="form-group">
                 <label asp-for="Feedbackform.TitleFeedback" class="control-label"></label>

@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Identity;
 
 namespace Spoonful.Models
 {
-    public class Feedbackform
+    public class Ticketing
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -12,10 +11,10 @@ namespace Spoonful.Models
         public Guid Id { get; set; }
 
 
-        public string Feedbackstatus { get; set; } = "New Message*";
+        public string Feedbackstatus { get; set; } = "Pending";
 
         [Required]
-        public string Customername { get; set; } = "Anonymous";
+        public string email { get; set; }
 
         [Required]
         public string TitleFeedback { get; set; }
@@ -28,7 +27,5 @@ namespace Spoonful.Models
 
         [Required]
         public string datetime { get; set; } = DateTime.Now.ToString();
-
     }
-
 }

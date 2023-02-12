@@ -24,7 +24,9 @@ builder.Services.AddRazorPages(options =>
     options.Conventions.AllowAnonymousToPage("/Error");
     options.Conventions.AllowAnonymousToPage("/NotificationTester");
     options.Conventions.AllowAnonymousToPage("/notificationHub");
-    options.Conventions.AllowAnonymousToFolder("/Ezell");
+    options.Conventions.AllowAnonymousToFolder("/CustomerSupport");
+    options.Conventions.AllowAnonymousToFolder("/MailSubscription");
+
 
 
 

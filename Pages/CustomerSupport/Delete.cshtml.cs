@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Spoonful.Models;
 
-namespace Spoonful.Pages.Ezell
+namespace Spoonful.Pages.CustomerSupport
 {
     public class DeleteModel : PageModel
     {

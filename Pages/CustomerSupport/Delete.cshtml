@@ -1,5 +1,5 @@
 ﻿@page
-@model Spoonful.Pages.Ezell.DeleteModel
+@model Spoonful.Pages.CustomerSupport.DeleteModel
 
 @{
     ViewData["Title"] = "Delete";
@@ -35,6 +35,6 @@
     <form method="post">
         <input type="hidden" asp-for="Feedbackform.Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-page="./Index">Back to List</a>
+        <a asp-page="./AdminFeedback">Back to List</a>
     </form>
 </div>
