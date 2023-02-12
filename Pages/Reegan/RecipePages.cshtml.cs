@@ -5,7 +5,7 @@ using Spoonful.Services;
 
 namespace Spoonful.Pages.Reegan
 {
-    public class IndexModel : PageModel
+    public class RecipePagesModel : PageModel
     {
         private readonly AuthDbContext _db;
 
@@ -15,7 +15,7 @@ namespace Spoonful.Pages.Reegan
 
         public Recipe MyRecipe { get; set; }
 
-        public IndexModel(AuthDbContext db, RecipeService recipeService)
+        public RecipePagesModel(AuthDbContext db, RecipeService recipeService)
         {
             _db = db;
             _recipeService = recipeService;

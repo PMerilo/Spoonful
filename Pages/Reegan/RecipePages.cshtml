@@ -1,0 +1,22 @@
+﻿@page
+@model Spoonful.Pages.Reegan.RecipePagesModel
+@{
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+<div>
+    @foreach (var obj in Model.Recipes)
+    {
+        <div>
+            @obj.name
+        </div>
+        <div>
+            @obj.prepTime
+        </div>
+        <div>
+            @obj.description
+        </div>
+        <div>
+            @obj.allergens
+        </div>
+    }
+</div>
