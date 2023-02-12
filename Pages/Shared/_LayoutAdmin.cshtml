@@ -347,6 +347,8 @@
 
     <script src="~/lib/bootstrap-table/dist/bootstrap-table.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    @await Component.InvokeAsync("Notyf")
+
 </body>
 
 <!-- /tables-->

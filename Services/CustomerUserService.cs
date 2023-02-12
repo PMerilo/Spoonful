@@ -10,7 +10,13 @@ namespace Spoonful.Services
         public const string Admin = "Admin";
         public const string Driver = "Driver";
         public const string RootUser = "RootUser";
-
+        public static readonly List<string> Protected = new List<string>
+        {
+            Customer,
+            Admin,
+            Driver,
+            RootUser
+        }; 
     }
 
 	public static class PasswordPolicy

@@ -1,8 +1,10 @@
 ﻿@page
 @using Microsoft.AspNetCore.Identity;
 @using Spoonful.Models;
+@using Spoonful.Services;
 @model Spoonful.Pages.Admin.UserManagement.IndexModel
 @inject UserManager<CustomerUser> UserManager
+@inject RoleManager<IdentityRole> RoleManager
 @{
     
 }
@@ -46,10 +48,41 @@
     </table>
 
 </div>
-
 <div class="card p-3">
-    <div id="admintoolbar">
-        <a class="blue-btn-a" asp-page="AddAdmin">Add Admin User</a>
+    <div id="admintoolbar" class="d-flex">
+        <div class="dropdown">
+            <button class="blue-btn-10" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Add Admin
+            </button>
+            <form class="px-3 py-3 dropdown-menu" asp-page-handler="AdminCreateUser" method="post">
+                <div class="mb-3">
+                    <label asp-for="UserEmail" class="form-label">Email address</label>                                                             
+                    <input type="email" class="form-control" asp-for="UserEmail" placeholder="email@example.com">
+                    <span class="text-danger" asp-validation-for="UserEmail"></span>
+                </div>
+                <div class="mb-3">
+                    <p class="form-label">Roles</p>
+                    @if (RoleManager.Roles.Count() > 4)
+                    {
+                        @foreach (var role in RoleManager.Roles)
+                        {
+                            if (Roles.Protected.Contains(role.Name))
+                            {
+                                continue;
+                            }
+                            <input id="RoleInput" name="RoleInput" type="checkbox" value="@role.Name">
+                            @Html.Label(role.Name, role.Name)
+                        }
+                    } else
+                    {
+                        <p class="text-muted">No Roles available</p>
+                    }
+                </div>
+                <button type="submit" class="btn btn-primary">Create Admin</button>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" asp-page="AddAdmin">Create Manually</a>
+            </form>
+        </div>
         <a class="light-btn-a" asp-page="Roles">Admin Roles</a>
     </div>
     <h2 class="card-title">Admin Users</h2>
@@ -86,12 +119,13 @@
                     <td>@item.User.LastLogin</td>
                     <td>@item.User.DateCreated</td>
                     <td>
-                        <ul>
+                        <div class="d-flex justify-content-evenly">
+
                         @foreach (var role in await UserManager.GetRolesAsync(item.User))
                         {
-                            <li>@role</li>
+                                <a asp-page="Roles" class="btn btn-outline-info ">@role</a>
                         }
-                        </ul>
+                        </div>
                     </td>
                     <td>
                         @if (item.User.UserName != "rootuser" && item.User.UserName != User.Identity.Name)
@@ -122,7 +156,7 @@
                                                     {
                                                         var roles = await UserManager.GetRolesAsync(item.User);
                                                         <div class="mb-1">
-                                                            <input id="@role.Name" name="@role.Name" type="checkbox" value="true" checked="@roles.Contains(role.Name)">
+                                                            <input id="RoleInput" name="RoleInput" type="checkbox" value="@role.Name" checked="@roles.Contains(role.Name)">
                                                             @Html.Label(role.Name, role.Name)
                                                         </div>
                                                     }

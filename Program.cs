@@ -11,6 +11,8 @@ using Spoonful.Settings;
 using Spoonful.Hubs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
+using AspNetCoreHero.ToastNotification;
+using AspNetCoreHero.ToastNotification.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,12 +25,20 @@ builder.Services.AddRazorPages(options =>
 	options.Conventions.AllowAnonymousToPage("/Index");
     options.Conventions.AllowAnonymousToPage("/Error");
     options.Conventions.AllowAnonymousToPage("/NotificationTester");
+    options.Conventions.AllowAnonymousToPage("/Account/CreateAdmin");
     options.Conventions.AllowAnonymousToPage("/notificationHub");
     options.Conventions.AllowAnonymousToFolder("/Ezell");
 
 
 
 
+});
+// Add ToastNotification
+builder.Services.AddNotyf(config =>
+{
+	config.DurationInSeconds = 5;
+	config.IsDismissable = true;
+	config.Position = NotyfPosition.TopRight;
 });
 
 //SignalR
@@ -148,7 +158,7 @@ app.UseAuthorization();
 app.UseSession();
 app.MapControllers();
 
-
+app.UseNotyf();
 app.MapRazorPages();
 app.MapHub<NotificationHub>("/notificationHub");
 

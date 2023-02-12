@@ -14,7 +14,9 @@ namespace Spoonful.Models
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string connectionString = _configuration.GetConnectionString("AuthConnectionString"); optionsBuilder.UseSqlServer(connectionString);
+            string connectionString = _configuration.GetConnectionString("AuthConnectionString"); 
+            optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder.EnableSensitiveDataLogging();
         }
         public DbSet<Category> Category { get; set; }
 

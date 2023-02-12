@@ -20,24 +20,34 @@ public class IndexModel : PageModel
         _customerUserService = customerUserService;
     }
 
-    public async Task OnGet()
+    public async Task<IActionResult> OnGetAsync()
     {
         CustomerUser root = await _userManager.FindByNameAsync("rootuser");
         if (root == null)
         {
             root = new CustomerUser
             {
-                UserName = "rootuser"
+                UserName = "rootuser",
+                FirstName = "Root",
+                LastName = "User"
             };
             var result = await _userManager.CreateAsync(root, "Password@123");
             if (result.Succeeded)
             {
                 await _customerUserService.SetUserRoleAsync(root.UserName, Roles.RootUser);
-                TempData["FlashMessage.Text"] = "Created account successfully";
-                TempData["FlashMessage.Type"] = "success";
+                Console.WriteLine("Rootuser created");
             }
 
         };
+        if (User.Identity.IsAuthenticated)
+        {
+            CustomerUser user = await _userManager.GetUserAsync(User);
+            if (await _userManager.IsInRoleAsync(user, Roles.Admin))
+            {
+                return Redirect("/Admin");
+            }
+        }
+        return Page();
     }
 	public async Task<IActionResult> OnPostDeleteUserAsync(string name)
     {

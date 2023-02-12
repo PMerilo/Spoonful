@@ -43,19 +43,21 @@ namespace Spoonful.Pages.Account
                 }
 
 				var user = await userManager.FindByNameAsync(LModel.Username);
-				if (user.isDisabled)
-				{
-					TempData["FlashMessage.Text"] = $"You cannot log in right now. Please contact the system administator for assistance.";
-					TempData["FlashMessage.Type"] = "danger";
-					return Page();
-				}
+				
 
 				var identityResult = await signInManager.PasswordSignInAsync(LModel.Username, LModel.Password,
                 LModel.RememberMe, false);
 
                 if (identityResult.Succeeded)
                 {
-					if (user.RequirePassChange)
+                    if (user.isDisabled)
+                    {
+                        await signInManager.SignOutAsync();
+                        TempData["FlashMessage.Text"] = $"You cannot log in right now. Please contact the system administator for assistance.";
+                        TempData["FlashMessage.Type"] = "danger";
+                        return Page();
+                    }
+                    if (user.RequirePassChange)
 					{
 						await signInManager.SignOutAsync();
 						var code = await userManager.GeneratePasswordResetTokenAsync(user);
