@@ -78,6 +78,7 @@ var emailConfig = builder.Configuration
 builder.Services.AddSingleton(emailConfig);
 builder.Services.AddScoped<IEmailService, EmailService>();
 
+
 var GoogleAddressAutoCorrect = builder.Configuration
         .GetSection("GoogleAddressAutoCorrect")
         .Get<GoogleAddressAutoCorrectConfiguration>();

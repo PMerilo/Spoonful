@@ -53,6 +53,17 @@ namespace Spoonful.Pages.user.ViewOrders
                 return Redirect("/user/CurrentMealKitPlan");
                 
             }
+
+            string currentDate = DateTime.Now.ToString("dddd, dd MMMM yyyy");
+
+            if (orderDetails.DeliveryDate == currentDate)
+            {
+                orderDetails.DeliveryDate = DateTime.Now.AddDays(7).ToString("dddd, dd MMMM yyyy");
+                _orderService.UpdateOrderDetails(orderDetails);
+
+                return Redirect("/user/ViewOrders/ManageWeek");
+            }
+
             Invoice? invoice = _invoiceMealKitService.GetInvoiceByMealKitId(mealkit.Id);
 
 

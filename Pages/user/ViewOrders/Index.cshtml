@@ -107,8 +107,13 @@ a.btn:hover {text-decoration: none; background-color: #5C85ED;}
                                 <a href="#" class="img-wrap"> <img src="@obj.ImageURL" alt="Product" style="height:250px;object-fit:cover" /> </a>
                                 <br />
                                 <div class="info-wrap" style="overflow:auto;padding:3%">
-                                    <small>@obj.Category - @obj.MenuPreference <span class="badge rounded-pill bg-primary text-dark"><small>@obj.Tags </small></span></small>
-
+                                    <small>@obj.Category - @obj.MenuPreference</small>
+                                    <br />
+                                    @foreach (var x in obj.Tags.Split(","))
+                                    {
+                                        <span class="badge rounded-pill bg-primary text-white"><small>@x </small></span>
+                                    }
+                                    <br />
                                     <a href="#" class="title text-truncate">@obj.Name</a>
                                     <div class="price mb-2 h6"></div>
                                     <!-- price.// -->

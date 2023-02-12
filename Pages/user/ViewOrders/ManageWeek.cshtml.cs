@@ -55,10 +55,25 @@ namespace Spoonful.Pages.user.ViewOrders
             MealKit? mealkit = _mealKitService.GetMealKitByUserId(user.Id);
             OrderDetails? orderDetails = _orderService.GetOrderDetailsByUserId(user.Id);
 
-            if (mealkit == null)
+
+            
+
+            if (mealkit == null || orderDetails == null)
             {
                 return Redirect("/user/CurrentMealKitPlan");
             }
+
+            string currentDate = DateTime.Now.ToString("dddd, dd MMMM yyyy");
+
+            if (orderDetails.DeliveryDate == currentDate)
+            {
+                orderDetails.DeliveryDate = DateTime.Now.AddDays(7).ToString("dddd, dd MMMM yyyy");
+                _orderService.UpdateOrderDetails(orderDetails);
+                
+                return Redirect("/user/ViewOrders/ManageWeek");
+            }
+
+            
 
             if (mealkit.Status == false)
             {
@@ -79,6 +94,8 @@ namespace Spoonful.Pages.user.ViewOrders
             MyInvoice = invoice;
 
             MenuItems = _db.MenuItem;
+            MenuItems = MenuItems.Where(X => X.Archived == false);
+            MenuItems = MenuItems.Where(X => X.MenuPreference == mealkit.MenuPreference);
 
             Orders = _db.Order;
             Orders = Orders.Where(X => X.OwnerID == user.Id);
