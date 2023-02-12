@@ -1,8 +1,8 @@
 ﻿@page
-@model Spoonful.Pages.user.ViewOrders.IndexModel
+@model Spoonful.Pages.Admin.MealKitManagement.ViewCustomerBoxModel
 @{
+    Layout = "/Pages/Shared/_Layout.cshtml";
 }
-
 <style>
 
 section.grid {
@@ -74,7 +74,7 @@ a.btn:hover {text-decoration: none; background-color: #5C85ED;}
 <div class="content-header d-flex justify-content-between">
     <div>
         
-        <p><span style="color:red">UPCOMING</span> Change by @Model.MyOrderDetails.DeliveryDate</p>
+        <p><span style="color:red">UPCOMING</span> Change by @Model.MyOrderDetails.OrderDate</p>
         <h2 class="content-title card-title">In Your Box</h2>
         
         <h3 class="h3">@Model.MyMealKit.noOfRecipesPerWeek, pre-selected Meals</h3>

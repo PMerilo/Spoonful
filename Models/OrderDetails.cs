@@ -14,6 +14,10 @@ namespace Spoonful.Models
         [Display(Name = "Order Date")]
         public string? OrderDate { get; set; }
 
+        
+        [Display(Name = "Delivery Date")]
+        public string? DeliveryDate { get; set; }
+
         [Required]
         [Display(Name = "Order Time")]
         public string? OrderTime { get; set; }

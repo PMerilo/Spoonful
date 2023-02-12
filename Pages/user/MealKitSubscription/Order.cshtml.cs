@@ -43,9 +43,24 @@ namespace Spoonful.Pages.user.MealKitSubscription
             MealKit? mealkit = _mealKitService.GetMealKitByUserId(user.Id);
             if (mealkit != null)
             {
+                if(mealkit.SubscriptionCheck == false)
+                {
+                    OrderDetails? orderDetails = _orderService.GetOrderDetailsByUserId(user.Id);
+                    _mealKitService.DeleteMealKit(mealkit);
+                    _orderService.DeleteOrderDetails(orderDetails);
+                    return Page();
+                }
                 return Redirect("/user/CurrentMealKitPlan");
             }
                 return Page();
+        }
+
+        static DateTime GetNextWeekday(string day)
+        {
+            DateTime result = DateTime.Now.AddDays(1);
+            while (result.DayOfWeek.ToString() != day)
+                result = result.AddDays(1);
+            return result;
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -55,6 +70,71 @@ namespace Spoonful.Pages.user.MealKitSubscription
             int totalServings = (int)(MyMealKit.noOfPeoplePerWeek * MyMealKit.noOfServingsPerPerson * MyMealKit.noOfRecipesPerWeek);
             double totalCost = (double)(serving * MyMealKit.noOfPeoplePerWeek * MyMealKit.noOfServingsPerPerson * MyMealKit.noOfRecipesPerWeek);
             MyMealKit.orderDetailsId = MyOrderDetails.Id;
+
+            string currentDate = DateTime.Now.ToString("YYYY-MM-dd");
+
+
+            switch (MyOrderDetails.OrderDate)
+            {
+                case "Monday":
+                    if(DateTime.Today.DayOfWeek.ToString() == "Monday")
+                    {
+                        MyOrderDetails.DeliveryDate = DateTime.Now.AddDays(7).ToString("dddd, dd MMMM yyyy");
+                    }
+                    MyOrderDetails.DeliveryDate = GetNextWeekday("Monday").ToString("dddd, dd MMMM yyyy");
+                    break;
+                case "Tuesday":
+                    if (DateTime.Today.DayOfWeek.ToString() == "Tuesday")
+                    {
+                        MyOrderDetails.DeliveryDate = DateTime.Now.AddDays(7).ToString("dddd, dd MMMM yyyy");
+                    }
+                    MyOrderDetails.DeliveryDate = GetNextWeekday("Tuesday").ToString("dddd, dd MMMM yyyy");
+                    break;
+
+                case "Wednesday":
+                    if (DateTime.Today.DayOfWeek.ToString() == "Wednesday")
+                    {
+                        MyOrderDetails.DeliveryDate = DateTime.Now.AddDays(7).ToString("dddd, dd MMMM yyyy");
+                    }
+                    MyOrderDetails.DeliveryDate = GetNextWeekday("Wednesday").ToString("dddd, dd MMMM yyyy");
+                    break;
+                case "Thursday":
+                    if (DateTime.Today.DayOfWeek.ToString() == "Thursday")
+                    {
+                        MyOrderDetails.DeliveryDate = DateTime.Now.AddDays(7).ToString("dddd, dd MMMM yyyy");
+                    }
+                    MyOrderDetails.DeliveryDate = GetNextWeekday("Thursday").ToString("dddd, dd MMMM yyyy");
+                    break;
+
+                case "Friday":
+                    if (DateTime.Today.DayOfWeek.ToString() == "Friday")
+                    {
+                        MyOrderDetails.DeliveryDate = DateTime.Now.AddDays(7).ToString("dddd, dd MMMM yyyy");
+                    }
+                    MyOrderDetails.DeliveryDate = GetNextWeekday("Friday").ToString("dddd, dd MMMM yyyy");
+                    break;
+                case "Saturday":
+                    if (DateTime.Today.DayOfWeek.ToString() == "Saturday")
+                    {
+                        MyOrderDetails.DeliveryDate = DateTime.Now.AddDays(7).ToString("dddd, dd MMMM yyyy");
+                    }
+                    MyOrderDetails.DeliveryDate = GetNextWeekday("Saturday").ToString("dddd, dd MMMM yyyy");
+                    break;
+                case "Sunday":
+                    if (DateTime.Today.DayOfWeek.ToString() == "Sunday")
+                    {
+                        MyOrderDetails.DeliveryDate = DateTime.Now.AddDays(7).ToString("dddd, dd MMMM yyyy");
+                    }
+                    MyOrderDetails.DeliveryDate = GetNextWeekday("Sunday").ToString("dddd, dd MMMM yyyy");
+                    break;
+                
+                default:
+                    Console.WriteLine(String.Format("Error in order details date"));
+                    break;
+            }
+
+            
+
             Vouchers? voucher = _voucherService.GetVoucherByCode(Vcode);
             int quantity = 1;
             int deliminator = 100;

@@ -28,7 +28,7 @@
                         <a class="nav-link" href="/Account">General</a>
                         <a class="nav-link active" aria-current="page"  href="#">Plan Settings</a>
                         <a class="nav-link" href="/user/PastInvoices">Past Invoices</a>
-                        <a class="nav-link" href="#">SEO settings</a>
+                        <a class="nav-link" href="#">Deliveries</a>
                         <a class="nav-link" href="#">Mail settings</a>
                         <a class="nav-link" href="#">Newsletter</a>
                     </nav>
@@ -128,8 +128,11 @@
                                                         <div class="row gx-3">
                                                             <div class="form-group">
                                                                 <label>Weekly Delivery Date</label>
-                                                                <input type="date" asp-for="MyOrderDetails.OrderDate" class="form-control">
                                                                 <!--
+                                                                <input type="date" asp-for="MyOrderDetails.OrderDate" class="form-control">
+                                                                -->
+                                                                
+                                                                
                                                                 <select class="form-control" asp-for="MyOrderDetails.OrderDate" value="@Model.MyOrderDetails.OrderDate">
                                                                 <option value="Monday">Monday</option>
                                                                 <option value="Tuesday">Tuesday</option>
@@ -139,7 +142,7 @@
                                                                 <option value="Saturday">Saturday</option>
                                                                 <option value="Sunday">Sunday</option>
                                                                 </select>
-                                                                -->
+                                                                
                                                                 
                                                             </div>
 

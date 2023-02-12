@@ -85,7 +85,7 @@
     <div class="header_box version_2">
         <h2><i class="fa fa-bar-chart"></i>Meal Kit Subscriptions</h2>
     </div>
-    <canvas id="myAreaChart" width="100%" height="30" style="margin:45px 0 15px 0;"></canvas>
+    <canvas id="myAreaChartMealKitSubscriptions" width="100%" height="30" style="margin:45px 0 15px 0;"></canvas>
 </div>
 <div class="box_general padding_bottom">
     <div class="header_box version_2">
@@ -127,4 +127,110 @@
 <script src="~/js/vendor/bootstrap/js/admin-chart-all.js"></script>
 
 
+<script>
+    // Area Chart Example
+    var ctxSubscriptionRevenue = document.getElementById("myAreaChartMealKitSubscriptions");
+    var getRevenueData = $.get('/Admin/mealkitsubscriptions')
+    getRevenueData.done(function (data) {
 
+        labels = [];
+
+        let values = []
+        data.forEach(element => {
+            labels.push(element.dateIssued)
+
+        });
+
+
+        data.forEach(element => {
+            values.push(element.count)
+
+        });
+        var myLineChart = new Chart(ctxSubscriptionRevenue, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "No Of Users Joined",
+                    lineTension: 0.3,
+                    backgroundColor: "rgba(78, 115, 223, 0.05)",
+                    borderColor: "rgba(78, 115, 223, 1)",
+                    pointRadius: 3,
+                    pointBackgroundColor: "rgba(78, 115, 223, 1)",
+                    pointBorderColor: "rgba(78, 115, 223, 1)",
+                    pointHoverRadius: 3,
+                    pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                    pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                    pointHitRadius: 10,
+                    pointBorderWidth: 2,
+                    data: values,
+                }],
+            },
+            options: {
+                maintainAspectRatio: true,
+                layout: {
+                    padding: {
+                        left: 10,
+                        right: 25,
+                        top: 25,
+                        bottom: 0
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        time: {
+                            unit: 'date'
+                        },
+                        gridLines: {
+                            display: false,
+                            drawBorder: false
+                        },
+                        ticks: {
+                            maxTicksLimit: 7
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            maxTicksLimit: 5,
+                            padding: 10,
+                            
+                        },
+                        gridLines: {
+                            color: "rgb(234, 236, 244)",
+                            zeroLineColor: "rgb(234, 236, 244)",
+                            drawBorder: false,
+                            borderDash: [2],
+                            zeroLineBorderDash: [2]
+                        }
+                    }],
+                },
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    titleMarginBottom: 10,
+                    titleFontColor: '#6e707e',
+                    titleFontSize: 14,
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: false,
+                    intersect: false,
+                    mode: 'index',
+                    caretPadding: 10,
+                    callbacks: {
+                        label: function (tooltipItem, chart) {
+                            var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                            return datasetLabel + ':'+ number_format(tooltipItem.yLabel);
+                        }
+                    }
+                }
+            }
+        });
+    })
+
+
+</script>

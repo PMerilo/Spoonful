@@ -45,6 +45,8 @@ namespace Spoonful.Pages.user.ViewOrders
 
         [BindProperty]
         public MenuItem MyMenuItem { get; set; }
+        [BindProperty]
+        public OrderDetails MyOrderDetails { get; set; }
 
         public async Task<IActionResult> OnGet()
         {
@@ -66,6 +68,7 @@ namespace Spoonful.Pages.user.ViewOrders
             }
 
             MyMealKit = mealkit;
+            MyOrderDetails = orderDetails;
             Invoice? invoice = _invoiceMealKitService.GetInvoiceByMealKitId(mealkit.Id);
 
             if(invoice == null)

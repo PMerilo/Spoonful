@@ -36,6 +36,8 @@
 						<div asp-validation-summary="All" class="text-danger"></div>
 					<!-- /head -->
 					<input class="form-control" asp-for="MyMealKit.userId" value="@user.Id" hidden>
+					<input class="form-control" asp-for="MyMealKit.Email" value="@user.Email" hidden>
+						<input class="form-control" asp-for="MyMealKit.Name" value="@user.UserName" hidden>
 						<div class="main">
 							<div class="form-group">
 								<label>Menu Preferences</label>
@@ -89,9 +91,7 @@
 
 						</div>
 					</div>
-					
-				
-					
+
 				
 				
 		        	<div class="box_order_form">
@@ -113,25 +113,27 @@
 							</div>
 					        
 					        <div class="form-group">
-					            <label>Order Pickup Date</label>
-								<input type="date" asp-for="MyOrderDetails.OrderDate" class="form-control">
+					            <label>Order Delivery Date</label>
 								<!--
-									<select class="form-control" asp-for="MyOrderDetails.OrderDate" required>
-									<option value="Monday">Monday</option>
-											<option value="Tuesday">Tuesday</option>
-											<option value="Wednesday">Wednesday</option>
-											<option value="Thursday">Thursday</option>
-											<option value="Friday">Friday</option>
-											<option value="Saturday">Saturday</option>
-											<option value="Sunday">Sunday</option>
-									</select>
+									<input type="date" asp-for="MyOrderDetails.OrderDate" class="form-control">
 								-->
+								
+								<select class="form-control" asp-for="MyOrderDetails.OrderDate" required>
+								<option value="Monday">Monday</option>
+										<option value="Tuesday">Tuesday</option>
+										<option value="Wednesday">Wednesday</option>
+										<option value="Thursday">Thursday</option>
+										<option value="Friday">Friday</option>
+										<option value="Saturday">Saturday</option>
+										<option value="Sunday">Sunday</option>
+								</select>
+								
 								
 								
 					        </div>
 
 							<div class="form-group">
-								<label>Order Pickup Time</label>
+								<label>Order Delivery Time</label>
 								<input class="form-control" placeholder="Select Time of your recurring Orders" min="05:00" max="22:00" type="time" asp-for="@Model.MyOrderDetails.OrderTime" required>
 							</div>
 
