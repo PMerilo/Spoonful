@@ -56,8 +56,8 @@ namespace Spoonful.Services
 
         public List<string>? GetOrderDetailsfortheDay()
         {
-            //var today = DateTime.Now.ToString("yyyy-MM-dd");
-            var today = "2023-02-13";
+            var today = DateTime.Now.ToString("yyyy-MM-dd");
+            //var today = "2023-02-13";
             var details = _context.OrderDetails.Where(x => x.OrderDate == today)
                 .OrderByDescending(x => x.Address)
                 .ToList();
@@ -86,13 +86,13 @@ namespace Spoonful.Services
 
         public List<Delivery> GetAllDeliveriesWithIncludes()
         {
-            var deliveries = _context.Delivery.Include(u => u.OrderDetailsId).Include(u => u.stopsId).ToList();
+            var deliveries = _context.Delivery.Include(u => u.OrderDetails).Include(u => u.Stops).ToList();
             return deliveries;
         }
 
         public List<Routes> GetAllRoutes()
         {
-            return _context.Route.OrderBy(v => v.Id).ToList();
+            return _context.Route.OrderByDescending(v => v.CreatedTime).ToList();
         }
 
         public void AddRoute(Routes route)
@@ -148,64 +148,72 @@ namespace Spoonful.Services
 
         public void CreateRoutes(List<string> postalCodes)
         {
-            List<Routes> routeList = new();
-            routeList = GetAllRoutes();
-            if (routeList.Count == 0)
+            CreateBaseRoutes();
+            List<Routes> routeList = GetAllRoutes();
+            var createdTime = routeList[0].CreatedTime.ToString("yyyy-MM-dd");
+            Console.WriteLine(createdTime);
+            Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd"));
+            if (createdTime != DateTime.Now.ToString("yyyy-MM-dd"))
             {
-                Routes North = new();
-                North.Region = "North";
-                North.Town = "North";
-                Routes South = new();
-                South.Region = "South";
-                South.Town = "South";
-                Routes East = new();
-                East.Region = "East";
-                East.Town = "East";
-                Routes West = new();
-                West.Region = "West";
-                West.Town = "West";
-                Routes Central = new();
-                Central.Region = "Central";
-                Central.Town = "Central";
-                AddRoute(North);
-                AddRoute(South);
-                AddRoute(East);
-                AddRoute(West);
-                AddRoute(Central);
-                Console.WriteLine("Routes got initialized since there were nun");
+                foreach (string postalCode in postalCodes)
+                {
+                    foreach (string Dname in DistrictNames)
+                    {
+                        foreach (string dis in Districts[Dname])
+                        {
+                            if (postalCode.Substring(0, 2) == dis)
+                            {
+                                Stops newStop = new();
+                                newStop.Address = postalCode;
+                                Routes? routeId = GetRouteByRegion(Dname);
+                                newStop.RoutesId = routeId.Id;
+                                AddStop(newStop);
+
+
+                                Delivery newDelivery = new();
+                                OrderDetails deets = GetOrderDetailsbyPostalCode(postalCode);
+                                newDelivery.stopsId = newStop.Id;
+                                newDelivery.OrderDetailsId = deets.Id;
+                                newDelivery.status = "Scheduled";
+                                AddDelivery(newDelivery);
+
+                                newStop = null;
+                                newDelivery = null;
+                                //Console.WriteLine(postalCode + " " + dis);
+                            }
+                        }
+                    }
+                }
+
             }
+        }
+
+        public Dictionary<string, List<string>> GroupDeliveries(List<string> postalCodes)
+        {
+            CreateBaseRoutes();
+            Dictionary<string, List<string>> SortedRoutes = new();
             foreach (string postalCode in postalCodes)
             {
                 foreach (string Dname in DistrictNames)
                 {
                     foreach (string dis in Districts[Dname])
                     {
+                        if (!SortedRoutes.ContainsKey(Dname))
+                        {
+                            SortedRoutes[Dname] = new List<string>();
+                        }
                         if (postalCode.Substring(0, 2) == dis)
                         {
-                            Stops newStop = new();
-                            newStop.Address = postalCode;
-                            Routes? routeId = GetRouteByRegion(Dname);
-                            newStop.RoutesId = routeId.Id;
-                            AddStop(newStop);
-
-
-                            Delivery newDelivery = new();
-                            OrderDetails deets = GetOrderDetailsbyPostalCode(postalCode);
-                            newDelivery.stopsId = newStop.Id;
-                            newDelivery.OrderDetailsId = deets.Id;
-                            newDelivery.status = "Scheduled";
-                            AddDelivery(newDelivery);
-
-                            newStop = null;
-                            newDelivery = null;
-                            //Console.WriteLine(postalCode + " " + dis);
+                            SortedRoutes[Dname].Add(postalCode);
                         }
                     }
                 }
             }
+
+            return SortedRoutes;
         }
 
-        public Dictionary<string, List<string>> GroupDeliveries(List<string> postalCodes)
+        public void CreateBaseRoutes()
         {
             List<Routes> routeList = new();
             routeList = GetAllRoutes();
@@ -233,26 +241,6 @@ namespace Spoonful.Services
                 AddRoute(Central);
                 Console.WriteLine("Routes got initialized since there were nun");
             }
-            Dictionary<string, List<string>> SortedRoutes = new();
-            foreach (string postalCode in postalCodes)
-            {
-                foreach (string Dname in DistrictNames)
-                {
-                    foreach (string dis in Districts[Dname])
-                    {
-                        if (!SortedRoutes.ContainsKey(Dname))
-                        {
-                            SortedRoutes[Dname] = new List<string>();
-                        }
-                        if (postalCode.Substring(0, 2) == dis)
-                        {
-                            SortedRoutes[Dname].Add(postalCode);
-                        }
-                    }
-                }
-            }
-
-            return SortedRoutes;
         }
     }
 }

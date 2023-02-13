@@ -24,6 +24,7 @@ namespace Spoonful.Pages.Admin.DeliveryManagement
         public List<Delivery> deliveryList { get; set; } = new();
         public void OnGet()
         {
+            routeList = _deliveryService.GetAllRoutes();
             deliveryList = _deliveryService.GetAllDeliveriesWithIncludes();
         }
 

@@ -14,12 +14,12 @@
             console.log("Routes created")
         }
     })
+    location.reload();
 })
 
-
-
-$('#test').click(function () {
-    var route = "North"
+function calcRoute(elem) {
+    var route = elem.value
+    var mappy = document.getElementById("map");
     console.log(route)
     $.ajax({
         type: "POST",
@@ -67,9 +67,67 @@ $('#test').click(function () {
                     directionsRenderer.setDirections(response);
                 })
                 .catch((e) => window.alert("Directions request failed due to " + status));
+            mappy.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
         }
     })
+}
+
+
+$('#calcRoute').click(function () {
+    /*var route = "West"*/
+    var route = $("#calcRoute").val()
+    console.log(route)
+    //$.ajax({
+    //    type: "POST",
+    //    beforeSend: function (xhr) {
+    //        xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val())
+    //    },
+    //    dataType: "json",
+    //    data: { route: route },
+    //    url: "/Admin/DeliveryManagement/DeliveryRouting?handler=RetrieveRoutes",
+    //    success: function (data) {
+    //        console.log(data.list)
+    //        var list = data.list
+    //        var last = list[list.length - 1] + ", singapore"
+    //        list.pop();
+    //        console.log(last)
+    //        console.log(list)
+    //        const directionsService = new google.maps.DirectionsService();
+    //        const directionsRenderer = new google.maps.DirectionsRenderer();
+    //        const map = new google.maps.Map(document.getElementById("map"), {
+    //            zoom: 11,
+    //            center: { lat: 1.3742002339365351, lng: 103.81540409330088 },
+    //        });
+    //        directionsRenderer.setMap(map);
+
+    //        const waypts = [];
+
+    //        for (let i = 0; i < list.length; i++) {
+    //            waypts.push({
+    //                location: list[i] + ", singapore",
+    //                stopover: true,
+    //            });
+    //        }
+
+    //        console.log(waypts)
+
+    //        directionsService
+    //            .route({
+    //                origin: "768442, singapore",
+    //                destination: last,
+    //                waypoints: waypts,
+    //                optimizeWaypoints: true,
+    //                travelMode: google.maps.TravelMode.DRIVING,
+    //            })
+    //            .then((response) => {
+    //                directionsRenderer.setDirections(response);
+    //            })
+    //            .catch((e) => window.alert("Directions request failed due to " + status));
+    //    }
+    //})
 })
+
+
 function initMap() {
     const directionsService = new google.maps.DirectionsService();
     const directionsRenderer = new google.maps.DirectionsRenderer();
