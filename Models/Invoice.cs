@@ -38,6 +38,10 @@ namespace Spoonful.Models
         [Display(Name = "Total Cost")]
         public double Cost { get; set; }
 
+        //[Required]
+        //[Display(Name = "PDF Path")]
+        //public string invoicePDFPath { get; set; }
+
         [Required]
         [Display(Name = "Name")]
         public string? Name { get; set; }
@@ -58,6 +62,8 @@ namespace Spoonful.Models
 
         [Display(Name = "Date Of Payment")]
         public string? DateOfPayment { get; set; } = DateTime.Now.ToString("yyyy-MM-dd");
+
+
     }
 
 }

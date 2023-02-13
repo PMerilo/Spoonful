@@ -58,7 +58,11 @@
                                     <a class="btn btn-outline-primary" asp-route-id="@obj.Id" asp-page="/user/PastInvoices/ViewInvoice" target="_blank">View Invoice</a>
                                 </td>
                                 <td>
-                                    <a class="btn btn-outline-primary" href = ""><i class="fa-regular fa-download"></i></a>
+                                    <form method="post">
+                                        <input asp-for="@Model.InvoiceID" class="form-control" hidden value="@obj.Id">
+                                        <button type="submit" class="btn btn-outline-primary"><i class="fa-regular fa-download"></i></button>
+                                    </form>
+                                    
                                 </td>
                                 </tr>
                                 }
