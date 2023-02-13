@@ -1,0 +1,140 @@
+﻿@page
+@model Spoonful.Pages.Account.SecurityModel
+@{
+    ViewData["Page"] = "Security";
+}
+<section class="content-main">
+    <div class="content-header">
+        <h2 class="content-title">Account</h2>
+        <br />
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row gx-5">
+                @await Html.PartialAsync("_AccountNavBar")
+                <div class="col-lg-9">
+                    <section class="content-body p-xl-4">
+                        @if (Model.CurrentUser.TwoFactorEnabled)
+                        {
+                            <div class="card bg-success">
+                                <div class="card-body row">
+                                    <label class="col-form-label col-10 text-white">2FA is Enabled!</label>
+
+                                    <form class="col-2" method="post" asp-page-handler="Disable">
+                                        <button type="submit" class="w-100 btn btn-danger">Disable</button>
+                                    </form>
+                                </div>
+                            </div>
+                           
+                        }
+                        else
+                        {
+                            <div class="card bg-danger">
+                                <div class="card-body row">
+                                    <label class="col-form-label col-10 text-white">2FA is Disabled!</label>
+
+                                    <form class="col-2" method="post" asp-page-handler="Enable">
+                                        <button type="submit" class="w-100 btn btn-success">Enable</button>
+                                    </form>
+                                </div>
+                            </div>
+                        }
+                        
+                        <div class="accordion mt-3" id="accordionPanelsStayOpenExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                                        Email
+                                    </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                                    <div class="accordion-body row">
+                                        <label class="col-form-label col-2">Email</label>
+                                        <div class="col-7 mb-3">
+                                            <input class="form-control" type="text" placeholder="No email added" asp-for="@Model.CurrentUser.Email" readonly />
+                                        </div>
+                                        <div class="col-3 mb-3">
+                                            <a asp-page="/Account/Index" class="btn btn-primary">Update</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                                        SMS
+                                    </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                                    <div class="accordion-body row">
+                                        <label class="col-form-label col-2">Phone</label>
+                                        <div class="col-7 mb-3">
+                                            <input class="form-control" type="text" placeholder="No phone number added" asp-for="@Model.CurrentUser.PhoneNumber" readonly />
+                                        </div>
+                                        <div class="col-3 mb-3">
+                                            <a asp-page="/Account/Index" class="btn btn-primary">Update</a>
+                                            <a asp-page="/Account/Index" class="btn btn-primary">Verify</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                                        Authenticator App
+                                    </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                                    <div class="accordion-body">
+                                        <div>
+                                            <p>To use an authenticator app go through the following steps:</p>
+                                            <ol class="list">
+                                                <li>
+                                                    <p>Scan the QR Code or enter this key <kbd>@Model.SharedKey</kbd> into your two factor authenticator app. Spaces and casing do not matter.</p>
+                                                    <div id="qrCode"></div>
+                                                    <div id="qrCodeData" data-url="@Model.AuthenticatorUri"></div>
+                                                </li>
+                                                <li>
+                                                    <p>
+                                                        Once you have scanned the QR code or input the key above, your two factor authentication app will provide you
+                                                        with a unique code. Enter the code in the confirmation box below.
+                                                    </p>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <form id="send-code" method="post">
+                                                                <div class="form-floating">
+                                                                    <input asp-for="Code" class="form-control" autocomplete="off" />
+                                                                    <label asp-for="Code" class="control-label form-label">Verification Code</label>
+                                                                    <span asp-validation-for="Code" class="text-danger"></span>
+                                                                </div>
+                                                                <button type="submit" class="w-100 btn btn-lg btn-primary">Verify</button>
+                                                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+        <script src="~/lib/qrcodejs/qrcode.js"></script>  
+        <script type="text/javascript">  
+            new QRCode(document.getElementById("qrCode"),  
+                {  
+                    text: "@Html.Raw(Model.AuthenticatorUri)",  
+                    width: 200,  
+                    height: 200  
+                });  
+        </script>  
+}

@@ -28,6 +28,7 @@ builder.Services.AddRazorPages(options =>
     options.Conventions.AllowAnonymousToPage("/NotificationTester");
     options.Conventions.AllowAnonymousToPage("/Account/CreateAdmin");
     options.Conventions.AllowAnonymousToPage("/Account/CreateDriver");
+    options.Conventions.AllowAnonymousToPage("/Account/2FA");
     options.Conventions.AllowAnonymousToPage("/notificationHub");
     options.Conventions.AllowAnonymousToFolder("/Ezell");
 
@@ -89,6 +90,11 @@ var emailConfig = builder.Configuration
         .Get<EmailConfiguration>();
 builder.Services.AddSingleton(emailConfig);
 builder.Services.AddScoped<IEmailService, EmailService>();
+var smsConfig = builder.Configuration
+        .GetSection("SMSConfiguration")
+        .Get<SMSoptions>();
+builder.Services.AddSingleton(smsConfig);
+builder.Services.AddScoped<ISmsSender, SMSSender>();
 
 var GoogleAddressAutoCorrect = builder.Configuration
         .GetSection("GoogleAddressAutoCorrect")

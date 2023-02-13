@@ -200,9 +200,11 @@
 
     <script src="~/js/dayjs/dayjs.min.js"></script>
     <script src="~/js/dayjs/plugin/calendar.js"></script>
+    <script src="~/js/dayjs/plugin/customParseFormat.js"></script>
     <script>
         dayjs().format()
         dayjs.extend(window.dayjs_plugin_calendar)
+        dayjs.extend(window.dayjs_plugin_customParseFormat)
     </script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>

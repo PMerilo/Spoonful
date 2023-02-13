@@ -15,9 +15,8 @@ User Management
 			Different Device
 		Force change password
 
-	2FA
 	Text Service
-	Confirm Email & PhoneNum
+	Confirm PhoneNum
 	External Login
 
 Audit Logs

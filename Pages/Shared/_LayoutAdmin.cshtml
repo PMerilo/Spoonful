@@ -339,9 +339,11 @@
     <!-- Custom scripts for this page-->
     <script src="~/js/dayjs/dayjs.min.js"></script>
     <script src="~/js/dayjs/plugin/calendar.js"></script>
+    <script src="~/js/dayjs/plugin/customParseFormat.js"></script>
     <script>
         dayjs().format()
         dayjs.extend(window.dayjs_plugin_calendar)
+        dayjs.extend(window.dayjs_plugin_customParseFormat)
     </script>
     <!--<script src="~/js/vendor/bootstrap/js/admin-chart.js"></script>-->
     <script src="~/js/vendor/bootstrap/js/admin-chart-all.js"></script>
