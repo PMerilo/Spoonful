@@ -54,15 +54,57 @@ namespace Spoonful.Pages.user.PastInvoices
             var uploadsFolder = "pdfs";
             var pdfFile = Guid.NewGuid() + Path.GetExtension(filename);
             var pdfPath = Path.Combine(_environment.ContentRootPath, "wwwroot", uploadsFolder,filename);
-            var htmlPath = Path.Combine(_environment.ContentRootPath, "Pages/Templates/Invoice.cshtml");
+            var htmlPath = Path.Combine(_environment.ContentRootPath, "Pages/Templates/Invoice.html");
+            var cssPath = Path.Combine(_environment.ContentRootPath, "wwwroot/css/admin.css");
+            string HtmlBody = "";
+
+            using (StreamReader streamReader = System.IO.File.OpenText(htmlPath))
+            {
+                HtmlBody = streamReader.ReadToEnd();
+            }
+
+            // {0} Name
+            // {1} Address
+            // {2} Email
+            // {3} Date Of Payment
+            // {4} Menu Preference (Current Plan)
+            // {5} No Of Recipes Per Week
+            // {6} No Of People Per Week
+            // {7} No Of Servings Per Person
+            // {8} Invoice Cost
+
+           
+            string messageBody = string.Format(HtmlBody,
+                invoice.Name,
+                invoice.Address,
+                invoice.Name,
+                invoice.Address,
+                invoice.Email,
+                invoice.DateOfPayment,
+                invoice.MenuPreference,
+                invoice.noOfPeoplePerWeek,
+                invoice.noOfPeoplePerWeek,
+                invoice.noOfServingsPerPerson,
+                invoice.Cost,
+                invoice.Cost,
+                invoice.Cost,
+                invoice.Cost
+                );
 
             //IronPDF generates pdf
             //var Renderer = new ChromePdfRenderer(); // Instantiates Chrome Renderer
-            var Renderer = new HtmlToPdf();
-            //Renderer.RenderingOptions.CssMediaType = IronPdf.Rendering.PdfCssMediaType.Screen;
+            //var Renderer = new HtmlToPdf();
+            var Renderer = new IronPdf.ChromePdfRenderer();
+            Renderer.RenderingOptions.PaperSize = IronPdf.Rendering.PdfPaperSize.A2;
+            
+            Renderer.RenderingOptions.CssMediaType = IronPdf.Rendering.PdfCssMediaType.Screen;
             //Renderer.RenderingOptions.PrintHtmlBackgrounds = true;
-            //var pdf = Renderer.RenderHtmlAsPdf($" <h3> Invoice Order ID: {invoice.Id}</h3> Made with IronPDF!");
-            var pdf = Renderer.RenderHtmlFileAsPdf(htmlPath);
+
+            var pdf = Renderer.RenderHtmlAsPdf(messageBody);
+            //css path not working fix it tmr
+            //var pdf = Renderer.RenderHtmlAsPdf(messageBody, cssPath);
+            //var pdf = Renderer.RenderHtmlFileAsPdf(htmlPath);
+
             //var pdf = Renderer.RenderHtmlAsPdf();
 
             pdf.SaveAs(pdfPath); // Saves our PdfDocument object as a PDF
