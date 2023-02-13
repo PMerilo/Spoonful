@@ -95,8 +95,8 @@ namespace Spoonful.Pages.user.ViewOrders
             MyInvoice = invoice;
 
             MenuItems = _db.MenuItem;
-            MenuItems = MenuItems.Where(X => X.Archived == false);
-            MenuItems = MenuItems.Where(X => X.MenuPreference == mealkit.MenuPreference);
+            //MenuItems = MenuItems.Where(X => X.Archived == false);
+            //MenuItems = MenuItems.Where(X => X.MenuPreference == mealkit.MenuPreference);
 
             Orders = _db.Order;
             Orders = Orders.Where(X => X.OwnerID == user.Id);
