@@ -44,11 +44,14 @@ namespace Spoonful.Pages.user.MealKitSubscription
             OrderDetails? orderDetails = _orderService.GetOrderDetailsByUserId(user.Id);
             Vouchers? voucher = _voucherService.GetVoucherByCode(code);
             int val = 100;
+            string Vcode = "";
             if (voucher != null)
             {
                 val = (int)(val - voucher.discountAmount);
                 voucher.Quantity = voucher.Quantity - 1;
                 voucher.Used = voucher.Used + 1;
+                Vcode = voucher.voucherCode;
+                _voucherService.UpdateVoucher(voucher);
             }
             if (mealkit != null && orderDetails != null)
             {
@@ -73,12 +76,11 @@ namespace Spoonful.Pages.user.MealKitSubscription
                         double totalCost = (double)(serving * mealkit.noOfPeoplePerWeek * mealkit.noOfServingsPerPerson * mealkit.noOfRecipesPerWeek);
                         totalCost = (totalCost / 100) * val;
 
-                        Invoice invoice = new Invoice() { MenuPreference = mealkit.MenuPreference, noOfRecipesPerWeek = mealkit.noOfRecipesPerWeek , noOfPeoplePerWeek = mealkit.noOfPeoplePerWeek, noOfServingsPerPerson = mealkit.noOfServingsPerPerson, Address = orderDetails.Address,OrderDate = orderDetails.OrderDate, OrderTime = orderDetails.OrderTime, Cost = totalCost, Name = user.FirstName + " " + user.LastName, Email = user.Email, userId = user.Id, mealkitId = mealkit.Id, orderDetailsId = orderDetails.Id, DiscountCodeUsed = voucher.voucherCode};
+                        Invoice invoice = new Invoice() { MenuPreference = mealkit.MenuPreference, noOfRecipesPerWeek = mealkit.noOfRecipesPerWeek , noOfPeoplePerWeek = mealkit.noOfPeoplePerWeek, noOfServingsPerPerson = mealkit.noOfServingsPerPerson, Address = orderDetails.Address,OrderDate = orderDetails.OrderDate, OrderTime = orderDetails.OrderTime, Cost = totalCost, Name = user.FirstName + " " + user.LastName, Email = user.Email, userId = user.Id, mealkitId = mealkit.Id, orderDetailsId = orderDetails.Id, DiscountCodeUsed = Vcode};
                         MealKitSubscriptionLog mealKitSubscriptionLog = new MealKitSubscriptionLog() { noOfUsersSubscribed = 1, description = $"{user.UserName} has subscribed to our meal kit plan" };
 
                         _invoiceMealKitService.AddInvoice(invoice);
                         _mealKitSubscriptionLogService.AddMealKitSubscriptionLog(mealKitSubscriptionLog);
-                        _voucherService.UpdateVoucher(voucher);
 
                         await _db.SaveChangesAsync();
                     }

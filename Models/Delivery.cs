@@ -6,15 +6,12 @@ namespace Spoonful.Models
     {
         public int Id { get; set; }
 
-        [Required]
         [Display(Name = "Delivery Confirmation")]
         public string? deliveryConfirmation { get; set; }
 
-        [Required]
         [Display(Name = "Customer Confirmation")]
         public string? customerConfirmation { get; set; }
 
-        [Required]
         [Display(Name = "Delivery Date Time")]
         public string? deliveryDateTime { get; set; }
 

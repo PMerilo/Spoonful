@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Spoonful.Models;
 
@@ -11,9 +12,11 @@ using Spoonful.Models;
 namespace Spoonful.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    partial class AuthDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230212180750_updating delivery model v3")]
+    partial class updatingdeliverymodelv3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -262,6 +265,9 @@ namespace Spoonful.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("RoutesId")
+                        .HasColumnType("int");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -284,6 +290,8 @@ namespace Spoonful.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("RoutesId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -719,7 +727,7 @@ namespace Spoonful.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedTime")
+                    b.Property<DateTime?>("CreatedTime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Region")
@@ -793,9 +801,6 @@ namespace Spoonful.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("RoutesId")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -805,8 +810,6 @@ namespace Spoonful.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RoutesId");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -930,11 +933,6 @@ namespace Spoonful.Migrations
                     b.Property<double>("Rating")
                         .HasColumnType("float");
 
-                    b.Property<int>("RoutesId1")
-                        .HasColumnType("int");
-
-                    b.HasIndex("RoutesId1");
-
                     b.HasDiscriminator().HasValue("Driver");
                 });
 
@@ -989,6 +987,13 @@ namespace Spoonful.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Spoonful.Models.CustomerUser", b =>
+                {
+                    b.HasOne("Spoonful.Models.Routes", null)
+                        .WithMany("CustomerUser")
+                        .HasForeignKey("RoutesId");
+                });
+
             modelBuilder.Entity("Spoonful.Models.Delivery", b =>
                 {
                     b.HasOne("Spoonful.Models.OrderDetails", "OrderDetails")
@@ -1032,10 +1037,6 @@ namespace Spoonful.Migrations
 
             modelBuilder.Entity("Spoonful.Models.UserDetails", b =>
                 {
-                    b.HasOne("Spoonful.Models.Routes", null)
-                        .WithMany("DriverDetails")
-                        .HasForeignKey("RoutesId");
-
                     b.HasOne("Spoonful.Models.CustomerUser", "User")
                         .WithOne("UserDetails")
                         .HasForeignKey("Spoonful.Models.UserDetails", "UserId")
@@ -1056,17 +1057,6 @@ namespace Spoonful.Migrations
                     b.Navigation("Vouchers");
                 });
 
-            modelBuilder.Entity("Spoonful.Models.DriverDetails", b =>
-                {
-                    b.HasOne("Spoonful.Models.Routes", "Routes")
-                        .WithMany()
-                        .HasForeignKey("RoutesId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Routes");
-                });
-
             modelBuilder.Entity("Spoonful.Models.CustomerUser", b =>
                 {
                     b.Navigation("Notifications");
@@ -1077,7 +1067,7 @@ namespace Spoonful.Migrations
 
             modelBuilder.Entity("Spoonful.Models.Routes", b =>
                 {
-                    b.Navigation("DriverDetails");
+                    b.Navigation("CustomerUser");
 
                     b.Navigation("Stops");
                 });
