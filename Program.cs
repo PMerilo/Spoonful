@@ -28,6 +28,7 @@ builder.Services.AddRazorPages(options =>
     options.Conventions.AllowAnonymousToPage("/NotificationTester");
     options.Conventions.AllowAnonymousToPage("/Account/CreateAdmin");
     options.Conventions.AllowAnonymousToPage("/Account/CreateDriver");
+    options.Conventions.AllowAnonymousToPage("/Account/ExternalLogin");
     options.Conventions.AllowAnonymousToPage("/Account/2FA");
     options.Conventions.AllowAnonymousToPage("/notificationHub");
     options.Conventions.AllowAnonymousToFolder("/Ezell");
@@ -114,9 +115,10 @@ builder.Services.ConfigureApplicationCookie(config =>
 });
 
 
-builder.Services.AddAuthentication("MyCookieAuth").AddCookie("MyCookieAuth", options =>
+builder.Services.AddAuthentication().AddGoogle(googleOptions =>
 {
-    options.Cookie.Name = "MyCookieAuth";
+    googleOptions.ClientId = builder.Configuration["Authentication:Google:client_id"];
+    googleOptions.ClientSecret = builder.Configuration["Authentication:Google:client_secret"];
 });
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); // TODO: CHECK IF REQUIRED

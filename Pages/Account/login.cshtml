@@ -16,7 +16,9 @@
             </div>
 
             <div>
-                <a href="#" class="btn-google"><i class="fa-brands fa-google"></i> Google</a>
+                <form asp-page="./ExternalLogin" method="post">
+                    <button type="submit" class="btn-google" name="provider" value="Google"><i class="fa-brands fa-google"></i> Google</button>
+                </form>
             </div>
 
             <div class="or"><span>OR</span></div>

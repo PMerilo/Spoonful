@@ -25,7 +25,8 @@ namespace Spoonful.Pages.Account
             this.toastService = toastService;
 
         }
-        public async Task OnGetAsync(string username, string code)
+        public IdentityResult Result { get; set; }
+        public async Task OnGetAsync(string username, string code, string purpose = ConfirmationPurpose.ConfirmEmail, string? email = null)
         {
             var user = await userManager.FindByNameAsync(username);
 
@@ -36,11 +37,21 @@ namespace Spoonful.Pages.Account
             }
 
             var token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
-            var result = await userManager.ConfirmEmailAsync(user, token);
-
-            if (!result.Succeeded)
+            switch (purpose)
             {
-                foreach (var error in result.Errors)
+                case ConfirmationPurpose.ConfirmEmail:
+                    Result = await userManager.ConfirmEmailAsync(user, token);
+                    break;
+
+                case ConfirmationPurpose.ChangeEmail:
+                    Result = await userManager.ChangeEmailAsync(user, email, token);
+                    break;
+                default:
+                    break;
+            }
+            if (!Result.Succeeded)
+            {
+                foreach (var error in Result.Errors)
                 {
                     ModelState.AddModelError("", error.Description);
                 }
@@ -50,6 +61,15 @@ namespace Spoonful.Pages.Account
 
             TempData["FlashMessage.Text"] = "Successfully reset password!";
             TempData["FlashMessage.Type"] = "success";
+
         }
+    }
+    public class ConfirmationPurpose
+    {
+        public const string ConfirmEmail = "ConfirmEmail";
+        public const string ConfirmPhone = "ConfirmPhone";
+
+        public const string ChangePhone = "ChangePhone";
+        public const string ChangeEmail = "ChangeEmail";
     }
 }

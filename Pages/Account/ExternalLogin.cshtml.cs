@@ -9,25 +9,31 @@ using System.Text.Encodings.Web;
 using System.Text;
 using Microsoft.AspNetCore.DataProtection;
 using System.Web;
+using Microsoft.AspNetCore.Authorization;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace Spoonful.Pages.Account
 {
+	[AllowAnonymous]
     public class ExternalLoginModel : PageModel
     {
 		private readonly SignInManager<CustomerUser> signInManager;
 		private IDataProtectionProvider _dataProtectionProvider;
-		private readonly UserManager<CustomerUser> userManager;
-		[BindProperty]
-        public Register RModel { get; set; }
-        public string ReturnUrl { get; set; }
+		private readonly UserManager<CustomerUser> userManager; 
+		private readonly INotyfService toastService;
 
-        public ExternalLoginModel (SignInManager<CustomerUser> signInManager, UserManager<CustomerUser> userManager, IDataProtectionProvider dataProtectionProvider)
+        [BindProperty]
+        public Register RModel { get; set; }
+        public string? ReturnUrl { get; set; }
+
+        public ExternalLoginModel (SignInManager<CustomerUser> signInManager, UserManager<CustomerUser> userManager, IDataProtectionProvider dataProtectionProvider, INotyfService toastService)
 		{
 			this.signInManager = signInManager;
             this.userManager = userManager;
 			_dataProtectionProvider = dataProtectionProvider;
+			this.toastService = toastService;
 		}
-		public IActionResult OnPost(string provider, string returnUrl = null)
+		public IActionResult OnPost(string provider, string? returnUrl = null)
 		{
 			// Request a redirect to the external login provider.
 			var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
@@ -35,9 +41,9 @@ namespace Spoonful.Pages.Account
 			return new ChallengeResult(provider, properties);
 		}
 
-		public async Task<IActionResult> OnGetCallbackAsync(string returnUrl = null, string? remoteError = null)
+		public async Task<IActionResult> OnGetCallbackAsync(string? returnUrl = null, string? remoteError = null)
 		{
-			returnUrl = returnUrl ?? Url.Content("~/Home");
+			returnUrl = returnUrl ?? Url.Content("~/");
 			if (remoteError != null)
 			{
 				//ErrorMessage = $"Error from external provider: {remoteError}";
@@ -54,12 +60,14 @@ namespace Spoonful.Pages.Account
 			var result = await signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
 			if (result.Succeeded)
 			{
-				//_logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
-				return LocalRedirect(returnUrl);
+                toastService.Success("Successfully logged in!");
+                //_logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
+                return LocalRedirect(returnUrl);
 			}
 			if (result.IsLockedOut)
 			{
-				return RedirectToPage("./Lockout");
+                toastService.Error("You have been locked out as you had too many invalid attempts. Please try again later");
+                return RedirectToPage("./Login");
 			}
 			else
 			{
@@ -70,7 +78,7 @@ namespace Spoonful.Pages.Account
                     RModel = new Register
 					{
 						Email = info.Principal.FindFirstValue(ClaimTypes.Email),
-						FullName = info.Principal.FindFirstValue(ClaimTypes.Name),
+						FirstName = info.Principal.FindFirstValue(ClaimTypes.Name),
 					};
 				}
 				return Page();
@@ -93,8 +101,11 @@ namespace Spoonful.Pages.Account
 				var protector = _dataProtectionProvider.CreateProtector("MySecretKey");
 				var user = new CustomerUser
                 {
-                    UserName = RModel.Email,
+                    UserName = RModel.UserName,
                     Email = RModel.Email,
+                    EmailConfirmed = true,
+					FirstName =  RModel.FirstName,
+					LastName = RModel.LastName
                 };
 
                 var result = await userManager.CreateAsync(user);
@@ -105,12 +116,15 @@ namespace Spoonful.Pages.Account
                     {
                         await signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
 						await userManager.UpdateSecurityStampAsync(user);
-						return LocalRedirect(returnUrl);
+                        toastService.Success("Successfully logged in!");
+                        return LocalRedirect(returnUrl);
                     }
                 }
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
+                    toastService.Error(error.Description);
+
                 }
             }
 
@@ -121,35 +135,26 @@ namespace Spoonful.Pages.Account
 
 		public class Register
 		{
-			[Required]
-			[RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Invalid Name")]
 
-			public string FullName { get; set; }
+            [Required]
+            [Display(Name = "Username")]
+            public string UserName { get; set; }
 
-			[Required]
-			[DataType(DataType.EmailAddress)]
-			public string Email { get; set; }
+            //[Required]
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; }
 
-			[Required]
-			public string Gender { get; set; }
+            //[Required]
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
 
-			[Required]
-			[DataType(DataType.PhoneNumber)]
-			[RegularExpression(@"^([0-9]{8,})$", ErrorMessage = "Invalid Mobile Number")]
-			public string MobileNumber { get; set; }
+            [Required]
+            [DataType(DataType.EmailAddress)]
+            public string Email { get; set; }
 
-			[Required]
-			public string DeliveryAddress { get; set; }
-
-			[Required]
-			[DataType(DataType.CreditCard)]
-			[RegularExpression(@"^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|6(?:011|5[0-9]{2})[0-9]{12}|(?:2131|1800|35\d{3})\d{11})$", ErrorMessage = "Invalid Credit Card Number")]
-			public string CreditCard { get; set; }
-
-			public string? AboutMe { get; set; }
-
-			public IFormFile? Photo { get; set; }
-		}
+            [Required]
+            public bool Terms { get; set; }
+        }
 
 	}
 }

@@ -32,12 +32,14 @@
                                         <!-- col .// -->
                                         <div class="col-lg-6 mb-3">
                                             <label class="form-label">Email</label>
-                                            <input class="form-control" type="email" placeholder="example@mail.com" asp-for="@Model.Email" />
+                                            <input class="form-control" type="email" placeholder="example@mail.com" asp-for="@Model.Email" disabled/>
+                                            <a asp-page="./ChangeEmail" class="blue-btn-a m-0 mt-2 d-block w-100">Change Email</a>
                                         </div>
                                         <!-- col .// -->
                                         <div class="col-lg-6 mb-3">
                                             <label class="form-label">Phone</label>
-                                            <input class="form-control" type="tel" placeholder="+1234567890" asp-for="@Model.Phone" />
+                                            <input class="form-control" type="tel" placeholder="+1234567890" asp-for="@Model.Phone" disabled/>
+                                            <a asp-page="./ChangePhone" class="blue-btn-a m-0 mt-2 d-block w-100">Change Phone Number</a>
                                         </div>
                                         <!-- col .// -->
                                         <div class="col-lg-12 mb-3">
