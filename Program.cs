@@ -11,6 +11,9 @@ using Spoonful.Settings;
 using Spoonful.Hubs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
+using AspNetCoreHero.ToastNotification;
+using AspNetCoreHero.ToastNotification.Extensions;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,12 +26,21 @@ builder.Services.AddRazorPages(options =>
 	options.Conventions.AllowAnonymousToPage("/Index");
     options.Conventions.AllowAnonymousToPage("/Error");
     options.Conventions.AllowAnonymousToPage("/NotificationTester");
+    options.Conventions.AllowAnonymousToPage("/Account/CreateAdmin");
+    options.Conventions.AllowAnonymousToPage("/Account/CreateDriver");
     options.Conventions.AllowAnonymousToPage("/notificationHub");
     options.Conventions.AllowAnonymousToFolder("/Ezell");
 
 
 
 
+});
+// Add ToastNotification
+builder.Services.AddNotyf(config =>
+{
+	config.DurationInSeconds = 5;
+	config.IsDismissable = true;
+	config.Position = NotyfPosition.TopRight;
 });
 
 //SignalR
@@ -67,10 +79,10 @@ builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<VoucherEmailService>();
 builder.Services.AddScoped<DeliveryService>();
 builder.Services.AddScoped<CustomerUserService>();
-//EmailConfig and service
 builder.Services.AddScoped<DiaryService>();
 builder.Services.AddScoped<ShoppingListService>();
 
+//EmailConfig and service
 //builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("EmailConfiguration"));
 var emailConfig = builder.Configuration
         .GetSection("EmailConfiguration")
@@ -91,6 +103,7 @@ builder.Services.ConfigureApplicationCookie(config =>
     config.LoginPath = "/Account/Login";
     config.LogoutPath = "/Account/Logout";
     config.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+    config.AccessDeniedPath = "/error/403";
     config.SlidingExpiration = true;
 });
 
@@ -121,6 +134,20 @@ builder.Services.AddAuthorization(options =>
          policy => policy.RequireRole(Roles.Driver, Roles.RootUser));
 });
 
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    // Default Lockout settings.
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+    options.Lockout.MaxFailedAccessAttempts = 5;
+    options.Lockout.AllowedForNewUsers = true;
+
+    // Default User settings.
+    options.User.RequireUniqueEmail = true;
+
+    options.SignIn.RequireConfirmedEmail = true;
+
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -148,7 +175,7 @@ app.UseAuthorization();
 app.UseSession();
 app.MapControllers();
 
-
+app.UseNotyf();
 app.MapRazorPages();
 app.MapHub<NotificationHub>("/notificationHub");
 

@@ -1,18 +1,28 @@
 ﻿//TODO
 Notifications
-	make send to all toastr
+	make send to all use Notfy
 
 User Management
 	Admin
-		Create user w/ roles
-		Create user temp password
 		Polish Authorization
 		Add Additional Information and details
 
-	Password Expiry
+	Password Policies
+		Password Expiry
+		Password Lockout
+		Notify suspicious login attempt
+			Lockout
+			Different Device
+		Force change password
+
 	2FA
 	Text Service
 	Confirm Email & PhoneNum
-	Friends
+	External Login
 
-	!! Fix Inheritance for User detail => Get userdetail from user
+Audit Logs
+
+Followers
+	Notify followers
+	Real time messaging
+Session

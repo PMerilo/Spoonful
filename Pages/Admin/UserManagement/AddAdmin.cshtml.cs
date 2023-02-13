@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Identity;
+ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Spoonful.Models;
@@ -32,7 +32,8 @@ namespace Spoonful.Pages.Admin.UserManagement
 
 			var user = new CustomerUser()
 			{
-				UserName = RModel.UserName
+				UserName = RModel.UserName,
+				RequirePassChange = RModel.RequirePassChange
 			};
 			var result = await _userManager.CreateAsync(user, RModel.Password);
 			if (result.Succeeded)
@@ -66,6 +67,7 @@ namespace Spoonful.Pages.Admin.UserManagement
 			[DataType(DataType.Password)]
 			[Compare(nameof(Password), ErrorMessage = "Passwords must match")]
 			public string ConfirmPassword { get; set; }
+			public bool RequirePassChange { get; set; }
 		}
 	}
 }

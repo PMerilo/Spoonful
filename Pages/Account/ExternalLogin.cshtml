@@ -1,0 +1,87 @@
+﻿@page
+@using AspNetCore.ReCaptcha;
+@model Spoonful.Pages.Account.ExternalLoginModel
+@{
+}
+<div class="container mt-5">
+	<div class="row justify-content-center align-items-center">
+
+		<div class="col-sm-12 col-md-12 col-lg-8">
+			<h1 class="mb-3">Register </h1>
+			<div class="mb-3 d-flex">
+				<img id="imgPreview" class="rounded-circle mx-auto"
+					 style="height:300px;width:300px;object-fit:cover"
+					 src="/uploads/user.png" />
+			</div>
+			<form method="post" enctype="multipart/form-data" asp-page-handler="Confirmation" asp-route-returnUrl="@Model.ReturnUrl">
+				<div class="row">
+					<div class="mb-3">
+						<input type="file" accept=".jpg" asp-for="RModel.Photo"
+							   class="form-control" onchange="showImgPreview(this)" />
+						<span asp-validation-for="RModel.Photo" class="text-danger"></span>
+					</div>
+
+					<div class="mb-3">
+						<label class="form-label" asp-for="RModel.FullName">Full Name</label>
+						<input type="Text" asp-for="RModel.FullName" class="form-control" />
+						<span asp-validation-for="RModel.FullName" class="text-danger"></span>
+					</div>
+
+					<div class="mb-3">
+						<label class="form-label" asp-for="RModel.Email">Email Address</label>
+						<input type="email" asp-for="RModel.Email" class="form-control" />
+						<span asp-validation-for="RModel.Email" class="text-danger"></span>
+					</div>
+
+					<div class="mb-3">
+						<label class="col-sm-2 col-form-label" asp-for="RModel.Gender"></label>
+						<div class="col-sm-10 d-flex align-items-center">
+							<div class="form-check form-check-inline">
+								@Html.RadioButtonFor(m => m.RModel.Gender, "M",
+								new {@class = "form-check-input"})
+								<label class="form-check-label">Male</label>
+							</div>
+							<div class="form-check form-check-inline">
+								@Html.RadioButtonFor(m => m.RModel.Gender, "F",
+								new {@class = "form-check-input"})
+								<label class="form-check-label">Female</label>
+							</div>
+							<span asp-validation-for="RModel.Gender" class="text-danger"></span>
+						</div>
+					</div>
+
+
+					<div class="mb-3">
+						<label class="form-label" asp-for="RModel.MobileNumber">Mobile Number</label>
+						<input type="tel" asp-for="RModel.MobileNumber" class="form-control" />
+						<span asp-validation-for="RModel.MobileNumber" class="text-danger"></span>
+					</div>
+
+					<div class="mb-3">
+						<label class="form-label" asp-for="RModel.DeliveryAddress">Delivery Address</label>
+						<input type="Text" asp-for="RModel.DeliveryAddress" class="form-control" />
+						<span asp-validation-for="RModel.DeliveryAddress" class="text-danger"></span>
+					</div>
+
+					<div class="mb-3">
+						<label class="form-label" asp-for="RModel.CreditCard">Credit Card</label>
+						<input type="Text" asp-for="RModel.CreditCard" class="form-control" />
+						<span asp-validation-for="RModel.CreditCard" class="text-danger"></span>
+					</div>
+
+					<div class="mb-3">
+						<label class="form-label" asp-for="RModel.AboutMe">About Me</label>
+						<textarea rows="2" asp-for="RModel.AboutMe" class="form-control"></textarea>
+						<span asp-validation-for="RModel.AboutMe" class="text-danger"></span>
+					</div>
+
+				</div>
+				<div asp-validation-summary="All" class="text-danger"></div>
+				<div class="d-grid mb-3">
+					<button type="submit" class="btn btn-primary">Register</button>
+				</div>
+				@Html.ReCaptcha()
+			</form>
+		</div>
+	</div>
+</div>

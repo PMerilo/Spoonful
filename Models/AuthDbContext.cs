@@ -14,7 +14,9 @@ namespace Spoonful.Models
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string connectionString = _configuration.GetConnectionString("AuthConnectionString"); optionsBuilder.UseSqlServer(connectionString);
+            string connectionString = _configuration.GetConnectionString("AuthConnectionString"); 
+            optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder.EnableSensitiveDataLogging();
         }
         public DbSet<Category> Category { get; set; }
 
@@ -41,6 +43,7 @@ namespace Spoonful.Models
         public DbSet<ShoppingEntry> Shopping { get; set; }
 
         public DbSet<Feedbackform> Feedback { get; set; }
+        public DbSet<AuditLog> AuditLogs { get; set; }
 
 
 
@@ -60,8 +63,23 @@ namespace Spoonful.Models
                 .HasDiscriminator<string>(u => u.UserType)
                 .HasValue<CustomerDetails>("Customer")
                 .HasValue<AdminDetails>("Admin")
-                .HasValue<DriverDetails>("Driver"); ;
-        }
+                .HasValue<DriverDetails>("Driver");
+
+			modelBuilder.Entity<Followers>()
+	            .HasKey(e => new { e.FollowingId, e.FollowerId });
+
+			modelBuilder.Entity<Followers>()
+				.HasOne(e => e.Follower)
+				.WithMany(e => e.Followings)
+				.HasForeignKey(e => e.FollowerId);
+
+			modelBuilder.Entity<Followers>()
+				.HasOne(e => e.Following)
+				.WithMany(e => e.Followers)
+				.HasForeignKey(e => e.FollowingId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+		}
     }
 }
 
