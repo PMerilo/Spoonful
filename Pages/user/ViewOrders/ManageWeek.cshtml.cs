@@ -108,8 +108,20 @@ namespace Spoonful.Pages.user.ViewOrders
         {
             MenuItem menuItem = _menuItemService.GetMenuById(MyMenuItem.Id);
             var user = await _userManager.GetUserAsync(User);
+            Orders = _db.Order;
+            Orders = Orders.Where(X => X.OwnerID == user.Id);
+            MealKit? mealkit = _mealKitService.GetMealKitByUserId(user.Id);
+            MyMealKit = mealkit;
+            if (Orders.Count() >= MyMealKit.noOfRecipesPerWeek)
+            {
+                TempData["FlashMessage.Type"] = "danger";
+                TempData["FlashMessage.Text"] = string.Format($"You have reached the minimum amount of meals for the week");
+                return Redirect("/user/ViewOrders/ManageWeek");
+            }
+
             if (menuItem != null)
             {
+                
                 
                 Order order = new Order() { Name = menuItem.Name, Description = menuItem.Description, Tags = menuItem.Tags, MenuPreference = menuItem.MenuPreference, Category = menuItem.Category, ImageURL = menuItem.ImageURL, OwnerID = user.Id };
                 _mealOrderService.AddOrder(order);

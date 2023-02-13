@@ -298,8 +298,9 @@
                             <a href="#" class="title text-truncate">@obj.Name</a>
                             <div class="price mb-2 h6"></div>
                             <!-- price.// -->
+
                             <input asp-for="MyMenuItem.Id" class="form-control" hidden value="@obj.Id">
-                            <button type="submit" asp-page-handler="addmeal" class="btn btn-sm font-sm btn-light rounded mealbtn"><i class="fad fa-smile-plus" style="font-size:120%"></i></button>
+                            <button type="submit" asp-page-handler="addmeal" class="btn btn-sm font-sm btn-light rounded mealbtn"><i class="fa-sharp fa-regular fa-plus"></i></button>
 
                             <a href="#" class="btn btn-sm font-sm btn-light rounded" data-bs-toggle="modal" data-bs-target="#FoodModal_@obj.Id"><i class="far fa-info"></i></a>
                         </div>

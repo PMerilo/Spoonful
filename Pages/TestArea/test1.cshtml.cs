@@ -7,14 +7,10 @@ namespace Spoonful.Pages.TestArea
     {
         public void OnGet()
         {
-
-            var Renderer = new ChromePdfRenderer(); // Instantiates Chrome Renderer
-
-            // To include elements that are usually removed to save ink during printing we choose screen
-            Renderer.RenderingOptions.CssMediaType = IronPdf.Rendering.PdfCssMediaType.Screen;
-
-            var pdf = Renderer.RenderUrlAsPdf("https://getbootstrap.com/");
-            pdf.SaveAs("url_saved.pdf");
+            //IronPDF generates pdf
+            //var Renderer = new ChromePdfRenderer(); // Instantiates Chrome Renderer
+            //var pdf = Renderer.RenderHtmlAsPdf(" <h1> ~Hello World~ </h1> Made with IronPDF!");
+            //pdf.SaveAs("html_saved.pdf"); // Saves our PdfDocument object as a PDF
         }
     }
 }

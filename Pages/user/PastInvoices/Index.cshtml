@@ -44,6 +44,7 @@
                                   <th scope="col">Date Of Transaction</th>
                                   <th scope="col">Transaction Amount</th>
                                   <th scope="col">Action</th>
+                                  <th scope="col">Download</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -55,6 +56,9 @@
                                   <td>$@obj.Cost</td>
                                 <td>
                                     <a class="btn btn-outline-primary" asp-route-id="@obj.Id" asp-page="/user/PastInvoices/ViewInvoice" target="_blank">View Invoice</a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-outline-primary" href = ""><i class="fa-regular fa-download"></i></a>
                                 </td>
                                 </tr>
                                 }
