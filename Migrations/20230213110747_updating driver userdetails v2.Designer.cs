@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Spoonful.Models;
 
@@ -11,9 +12,11 @@ using Spoonful.Models;
 namespace Spoonful.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    partial class AuthDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230213110747_updating driver userdetails v2")]
+    partial class updatingdriveruserdetailsv2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -925,11 +928,6 @@ namespace Spoonful.Migrations
                     b.Property<double>("Rating")
                         .HasColumnType("float");
 
-                    b.Property<int?>("RoutesId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("RoutesId");
-
                     b.HasDiscriminator().HasValue("Driver");
                 });
 
@@ -1047,15 +1045,6 @@ namespace Spoonful.Migrations
                     b.Navigation("Vouchers");
                 });
 
-            modelBuilder.Entity("Spoonful.Models.DriverDetails", b =>
-                {
-                    b.HasOne("Spoonful.Models.Routes", "Routes")
-                        .WithMany("DriverDetails")
-                        .HasForeignKey("RoutesId");
-
-                    b.Navigation("Routes");
-                });
-
             modelBuilder.Entity("Spoonful.Models.CustomerUser", b =>
                 {
                     b.Navigation("Notifications");
@@ -1066,8 +1055,6 @@ namespace Spoonful.Migrations
 
             modelBuilder.Entity("Spoonful.Models.Routes", b =>
                 {
-                    b.Navigation("DriverDetails");
-
                     b.Navigation("Stops");
                 });
 
