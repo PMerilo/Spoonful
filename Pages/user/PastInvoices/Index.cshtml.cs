@@ -54,17 +54,22 @@ namespace Spoonful.Pages.user.PastInvoices
             var uploadsFolder = "pdfs";
             var pdfFile = Guid.NewGuid() + Path.GetExtension(filename);
             var pdfPath = Path.Combine(_environment.ContentRootPath, "wwwroot", uploadsFolder,filename);
-            
+            var htmlPath = Path.Combine(_environment.ContentRootPath, "Pages/Templates/Invoice.cshtml");
 
             //IronPDF generates pdf
-            var Renderer = new ChromePdfRenderer(); // Instantiates Chrome Renderer
-            Renderer.RenderingOptions.CssMediaType = IronPdf.Rendering.PdfCssMediaType.Screen;
-            Renderer.RenderingOptions.PrintHtmlBackgrounds = true;
-            var pdf = Renderer.RenderHtmlAsPdf($" <h3> Invoice Order ID: {invoice.Id}</h3> Made with IronPDF!");
+            //var Renderer = new ChromePdfRenderer(); // Instantiates Chrome Renderer
+            var Renderer = new HtmlToPdf();
+            //Renderer.RenderingOptions.CssMediaType = IronPdf.Rendering.PdfCssMediaType.Screen;
+            //Renderer.RenderingOptions.PrintHtmlBackgrounds = true;
+            //var pdf = Renderer.RenderHtmlAsPdf($" <h3> Invoice Order ID: {invoice.Id}</h3> Made with IronPDF!");
+            var pdf = Renderer.RenderHtmlFileAsPdf(htmlPath);
+            //var pdf = Renderer.RenderHtmlAsPdf();
+
             pdf.SaveAs(pdfPath); // Saves our PdfDocument object as a PDF
 
-            
+            // To Show the download link in the browser
             var result = File(pdf.Stream.ToArray(), "application/pdf");
+            // To name the file of the downloaded pdf
             result.FileDownloadName = filename;
             return result;
 
