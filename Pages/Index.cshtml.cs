@@ -28,6 +28,8 @@ public class IndexModel : PageModel
             root = new CustomerUser
             {
                 UserName = "rootuser",
+                Email = "rootuser@spoonful.com",
+                EmailConfirmed = true,
                 FirstName = "Root",
                 LastName = "User"
             };
