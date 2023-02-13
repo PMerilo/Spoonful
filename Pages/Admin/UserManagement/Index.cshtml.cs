@@ -51,6 +51,7 @@ namespace Spoonful.Pages.Admin.UserManagement
             CustomerDetails = _db.CustomerDetails.Include(d => d.User).ToList();
             AdminDetails = _db.AdminDetails.Include(d => d.User).ToList();
             DriverDetails = _db.DriverDetails.Include(d => d.User).ToList();
+            //Ddeets = _db.Users.Include(d => d.UserDetails).Where(d => d.UserDetails.UserType == Roles.Driver);
             RoleList = _roleManager.Roles.Where(r => r.Name != "RootUser" && r.Name != "Admin" && r.Name != "Customer" && r.Name != "Driver").ToList();
         }
 

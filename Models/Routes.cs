@@ -12,9 +12,11 @@ namespace Spoonful.Models
         [Required]
         public string? Town { get; set; }
 
-        public ICollection<CustomerUser> CustomerUser { get; set; }
+        public DateTime CreatedTime { get; set; } = DateTime.Now;
 
         public ICollection<Stops> Stops { get; set; }
+
+        public ICollection<UserDetails> DriverDetails { get; set; }
     }   
 }
 
