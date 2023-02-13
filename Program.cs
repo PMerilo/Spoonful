@@ -143,6 +143,8 @@ builder.Services.Configure<IdentityOptions>(options =>
     // Default User settings.
     options.User.RequireUniqueEmail = true;
 
+    options.SignIn.RequireConfirmedEmail = true;
+
 });
 
 var app = builder.Build();

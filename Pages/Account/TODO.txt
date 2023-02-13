@@ -10,11 +10,9 @@ User Management
 	Password Policies
 		Password Expiry
 		Password Lockout
-		Password Reuse
 		Notify suspicious login attempt
 			Lockout
 			Different Device
-		Max age
 		Force change password
 
 	2FA
