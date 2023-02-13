@@ -16,7 +16,7 @@ namespace Spoonful.Models
 
         public ICollection<Stops> Stops { get; set; }
 
-        public ICollection<UserDetails> DriverDetails { get; set; }
+        public ICollection<DriverDetails> DriverDetails { get; set; }
     }   
 }
 
