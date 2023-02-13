@@ -178,7 +178,21 @@
 
 <div class="card p-3">
     <div id="drivertoolbar">
-        <a class="blue-btn-a" asp-page="AddAdmin">Add Driver</a>
+        <div class="dropdown">
+            <button class="blue-btn-10" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Add Driver
+            </button>
+            <form class="px-3 py-3 dropdown-menu" asp-page-handler="DriverCreateUser" method="post">
+                <div class="mb-3">
+                    <label asp-for="UserEmail" class="form-label">Email address</label>
+                    <input type="email" class="form-control" asp-for="UserEmail" placeholder="email@example.com">
+                    <span class="text-danger" asp-validation-for="UserEmail"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">Create Driver</button>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" asp-page="AddDriver">Create Manually</a>
+            </form>
+        </div>
     </div>
     <h2 class="card-title">Drivers</h2>
     <table id="drivertable"

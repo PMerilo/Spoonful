@@ -140,5 +140,54 @@ namespace Spoonful.Pages.Admin.UserManagement
             _toastService.Success("Sent instructions to email");
             return RedirectToPage();
         }
+
+        public async Task<IActionResult> OnPostDriverCreateUser()
+        {
+            if (!ModelState.IsValid)
+            {
+                Users = _userManager.Users.Include(u => u.UserDetails).ToList();
+                CustomerDetails = _db.CustomerDetails.Include(d => d.User).ToList();
+                AdminDetails = _db.AdminDetails.Include(d => d.User).ToList();
+                DriverDetails = _db.DriverDetails.Include(d => d.User).ToList();
+                RoleList = _roleManager.Roles.Where(r => r.Name != "RootUser" && r.Name != "Admin" && r.Name != "Customer" && r.Name != "Driver").ToList();
+                _toastService.Error("Email field is required");
+                return Page();
+            }
+            var newUser = new CustomerUser
+            {
+                Email = UserEmail,
+                UserName = UserEmail
+            };
+            var result = await _userManager.CreateAsync(newUser);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    _toastService.Error($"Something went wrong - {error.Description}");
+                }
+                return RedirectToPage();
+            }
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
+            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+            var callbackUrl = Url.Page(
+            "/Account/CreateDriver",
+            pageHandler: null,
+                values: new { code = code, username = newUser.UserName },
+                protocol: Request.Scheme);
+
+            var emailresult = _emailService.SendEmail(
+                UserEmail,
+                "Spoonful Driver Setup",
+                $"Please set up your driver account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.",
+                null,
+                null);
+
+            if (!emailresult)
+            {
+                _toastService.Error("Email failed to send");
+            }
+            _toastService.Success("Sent instructions to email");
+            return RedirectToPage();
+        }
     }
 }
