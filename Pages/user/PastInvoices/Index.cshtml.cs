@@ -60,7 +60,7 @@ namespace Spoonful.Pages.user.PastInvoices
             var Renderer = new ChromePdfRenderer(); // Instantiates Chrome Renderer
             Renderer.RenderingOptions.CssMediaType = IronPdf.Rendering.PdfCssMediaType.Screen;
             Renderer.RenderingOptions.PrintHtmlBackgrounds = true;
-            var pdf = Renderer.RenderHtmlAsPdf($" <h1> Invoice Order {invoice.Id}</h1> Made with IronPDF!");
+            var pdf = Renderer.RenderHtmlAsPdf($" <h3> Invoice Order ID: {invoice.Id}</h3> Made with IronPDF!");
             pdf.SaveAs(pdfPath); // Saves our PdfDocument object as a PDF
 
             

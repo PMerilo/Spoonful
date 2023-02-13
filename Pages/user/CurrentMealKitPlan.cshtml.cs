@@ -183,8 +183,8 @@ namespace Spoonful.Pages.user
                 TempData["FlashMessage.Type"] = "success";
                 TempData["FlashMessage.Text"] = ("Your Order Details Has Been Saved Successfully.");
             }
-            
-            return Page();
+
+            return Redirect("/user/CurrentMealKitPlan");
         }
     }
 }

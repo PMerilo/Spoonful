@@ -22,7 +22,7 @@ namespace Spoonful.Models
         [Display(Name = "Order Time")]
         public string? OrderTime { get; set; }
 
-        [Required]
+        
         [Display(Name = "Additional Instructions")]
         public string? AdditionalInstructions { get; set; }
 
