@@ -26,12 +26,12 @@ namespace Spoonful.Pages.user.PastInvoices
         public async Task<IActionResult> OnGet(string id)
         {
             //var user = await _userManager.GetUserAsync(User);
-            MealKit? mealkit = _mealKitService.GetMealKitByUserId(id);
-            if (mealkit == null)
-            {
-                return Redirect("/user/PastInvoices");
-            }
-            Invoice? invoice = _invoiceMealKitService.GetInvoiceByMealKitId(mealkit.Id);
+            //MealKit? mealkit = _mealKitService.GetMealKitByUserId(id);
+            //if (mealkit == null)
+            //{
+            //    return Redirect("/user/PastInvoices");
+            //}
+            Invoice? invoice = _invoiceMealKitService.GetInvoiceById(id);
             if (invoice != null)
             {
                 MyInvoice = invoice;

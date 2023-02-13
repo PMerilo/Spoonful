@@ -109,7 +109,22 @@
                     if (SignInManager.IsSignedIn(User))
                     {
                                     <ul class="navbar-nav">
-                            
+                                    @*Start Of Past Invoices Link*@
+                                        <li class="nav-item dropdown mx-2 d-flex align-items-center">
+                                            <a class="nav-link tw-text-black p-1 hover:tw-bg-gray-300 active:tw-bg-gray-200 tw-group rounded-circle" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="NotificationBtn">
+                                            <i class="fa-solid fa-file-invoice-dollar"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-end p-0 tw-w-96" aria-labelledby="alertsDropdown">
+                                                <h6 class="dropdown-header text-black tw-text-lg">Past Invoices</h6>
+                                                <div class="dropdown-divider m-0"></div>
+                                                <div id="Notifications" class="tw-overflow-y-auto tw-max-h-96 scrollbar-primary">
+                                                    <p class="text-center p-5">You Currently have No Invoices</p>
+                                                </div>
+                                                <div class="dropdown-divider m-0"></div>
+                                                <a class="dropdown-item py-2 text-center" href="/user/PastInvoices">View all</a>
+                                            </div>
+                                        </li>
+                                    @*End Of Past Invoices Link*@
                                         <li class="nav-item dropdown mx-2 d-flex align-items-center">
                                             <a class="nav-link tw-text-black p-1 hover:tw-bg-gray-300 active:tw-bg-gray-200 tw-group rounded-circle" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="NotificationBtn">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="tw-w-6 tw-h-6 tw-stroke-black group-aria-expanded:tw-fill-black">

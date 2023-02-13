@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Spoonful.Models;
 using Spoonful.Services;
+using System.Globalization;
 
 namespace Spoonful.Pages.user.ViewOrders
 {
@@ -64,8 +65,8 @@ namespace Spoonful.Pages.user.ViewOrders
             }
 
             string currentDate = DateTime.Now.ToString("dddd, dd MMMM yyyy");
-
-            if (orderDetails.DeliveryDate == currentDate)
+            
+            if (DateTime.Parse(orderDetails.DeliveryDate, CultureInfo.InvariantCulture) <= DateTime.Parse(currentDate, CultureInfo.InvariantCulture))
             {
                 orderDetails.DeliveryDate = DateTime.Now.AddDays(7).ToString("dddd, dd MMMM yyyy");
                 _orderService.UpdateOrderDetails(orderDetails);
