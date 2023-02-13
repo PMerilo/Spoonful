@@ -20,13 +20,19 @@ namespace Spoonful.Models
         public bool isDisabled { get; set; } = false;
 
         public DateTimeOffset? LastLogin { get; set; }
+        public DateTimeOffset LastPassChanged { get; set; } = DateTimeOffset.UtcNow;
+        public bool RequirePassChange { get; set; } = false;
+		public ICollection<PreviousPassword> PreviousPassword { get; set; }
 
-        [PersonalData]
+		[PersonalData]
         public DateTimeOffset DateCreated { get; set; } = DateTimeOffset.Now;
 
         public ICollection<Notification>? Notifications { get; set; }
 
-        [Required]
+		public virtual ICollection<Followers> Followers { get; set; }
+		public virtual ICollection<Followers> Followings { get; set; }
+
+		[Required]
         public virtual UserDetails UserDetails { get; set; }
     }
 }

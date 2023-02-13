@@ -30,6 +30,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="AspNetCore.ReCaptcha" Version="1.7.0" />
+	  <PackageReference Include="AspNetCoreHero.ToastNotification" Version="1.1.0" />
 	  <PackageReference Include="MailKit" Version="3.4.3" />
 	  <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.12" />
 	  <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.12" />
@@ -48,6 +50,7 @@
 
 	  <PackageReference Include="SendGrid" Version="9.28.1" />
 	  <PackageReference Include="sib_api_v3_sdk" Version="3.3.0" />
+	  <PackageReference Include="Twilio" Version="6.2.3" />
 	</ItemGroup>
 
 	<ItemGroup>
