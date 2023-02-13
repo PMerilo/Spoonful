@@ -2,7 +2,7 @@
     box-sizing: border-box;
 }
 
-.wrapper {
+.signin-wrapper {
     width: 1%;
     height: 100vh;
     background: #ededed;
@@ -25,17 +25,17 @@
 }
 
 
-.title {
+.signin-title {
     color: #9f9f9f;
 }
 
-    .title span {
+    .signin-title span {
         display: block;
         font-size: 46px;
         font-weight: bold;
     }
 
-    .title p {
+    .signin-title p {
         font-size: 20px;
         font-weight: 500;
     }
@@ -180,7 +180,6 @@
     font-weight: 500;
     color: #9f9f9f;
     display: block;
-    /*width: 210px;*/
     margin: 30px auto 0;
     text-decoration: none;
 }
@@ -193,23 +192,6 @@
         margin-left: 6px;
     }
 
-.notification p {
-    font-size: 20px;
-    font-weight: 600;
-    color: #9f9f9f;
-}
-
-.notification span {
-    color: #ec581e;
-}
-
-.error {
-    display: block;
-    color: #ec581e;
-    font-size: 20px;
-    font-weight: 600;
-    margin: 15px 0;
-}
 
 @media screen and (max-width: 768px) {
     .sign-panels {
@@ -242,7 +224,7 @@
         width: 80%;
     }
 
-    .title span {
+    .signin-title span {
         font-size: 36px;
     }
 }
