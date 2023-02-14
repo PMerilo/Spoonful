@@ -8,7 +8,6 @@ using System.ComponentModel.DataAnnotations;
 namespace Spoonful.Pages.Account
 {
     [Authorize]
-    [BindProperties]
     public class IndexModel : PageModel
     {
         private readonly UserManager<CustomerUser> userManager;
@@ -18,10 +17,13 @@ namespace Spoonful.Pages.Account
             this.userManager = userManager;
             _environment = environment;
         }
+        [BindProperty]
         public string? UserName { get; set; }
 
+        [BindProperty]
         public string? FirstName { get; set; }
 
+        [BindProperty]
         public string? LastName { get; set; }
 
 
@@ -31,10 +33,14 @@ namespace Spoonful.Pages.Account
         [DataType(DataType.PhoneNumber)]
         public string? Phone { get; set; }
 
+        [BindProperty]
         [DataType(DataType.DateTime)]
         public DateTime? DOB { get; set; }
 
+        [BindProperty]
         public string? ImageURL { get; set; }
+
+        [BindProperty]
         public IFormFile? Upload { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
@@ -70,8 +76,6 @@ namespace Spoonful.Pages.Account
             if (UserName != null) user.UserName = UserName;
             if (FirstName != null) user.FirstName = FirstName;
             if (LastName != null) user.LastName = LastName;
-            if (Email != null) user.Email = Email;
-            if (Phone != null) user.PhoneNumber = Phone;
             if (DOB != null) user.DOB = (DateTime)DOB;
 
             if (Upload != null)

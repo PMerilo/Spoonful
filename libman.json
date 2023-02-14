@@ -17,7 +17,8 @@
       "destination": "wwwroot/js/dayjs/",
       "files": [
         "dayjs.min.js",
-        "plugin/calendar.js"
+        "plugin/calendar.js",
+        "plugin/customParseFormat.js"
       ]
     },
     {
@@ -28,6 +29,11 @@
         "dist/bootstrap-table.min.js",
         "dist/bootstrap-table.min.css"
       ]
+    },
+    {
+      "provider": "unpkg",
+      "library": "qrcodejs@1.0.0",
+      "destination": "wwwroot/lib/qrcodejs/"
     }
   ]
 }

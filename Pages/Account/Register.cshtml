@@ -2,89 +2,67 @@
 @model Spoonful.Pages.Account.RegisterModel
 @{
 }
-<div class="col-6 mx-auto">
-    <form method="post">
-        <div class="text-center mb-3">
-            <p>Sign up with:</p>
-            <button type="button" class="btn btn-link btn-floating mx-1">
-                <i class="bi bi-facebook"></i>
-            </button>
+<link rel="stylesheet" href="~/css/Account.css" />
+<div class="signin-wrapper">
+    <div class="sign-panels">
+        <div class="signup">
+            <div class="signin-title">
+                <span>Sign Up</span>
+                <p>Create a new account. You can sign up with your google account or manually</p>
+            </div>
 
-            <button type="button" class="btn btn-link btn-floating mx-1">
-                <i class="bi bi-google"></i>
-            </button>
+            <div>
+                <form asp-page="./ExternalLogin" method="post">
+                    <button type="submit" class="btn-google" name="provider" value="Google"><i class="fa-brands fa-google"></i> Google</button>
+                </form>
+            </div>
 
-            <button type="button" class="btn btn-link btn-floating mx-1">
-                <i class="bi bi-twitter"></i>
-            </button>
+            <div class="or"><span>OR</span></div>
 
-            <button type="button" class="btn btn-link btn-floating mx-1">
-                <i class="bi bi-github"></i>
-            </button>
+            <form method="post">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="floatingFname" placeholder="First Name" asp-for="RModel.FirstName">
+                    <label style="padding-left:30px;" for="floatingFname">First Name</label>
+                    <span class="text-danger" asp-validation-for="RModel.FirstName"></span>
+
+                </div>
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="floatingLname" placeholder="Last Name" asp-for="RModel.LastName">
+                    <label style="padding-left:30px;" for="floatingLname">Last Name</label>
+                    <span class="text-danger" asp-validation-for="RModel.LastName"></span>
+
+                </div>
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="floatingUsername" placeholder="Username" asp-for="RModel.UserName">
+                    <label style="padding-left:30px;" for="floatingUsername">Username</label>
+                    <span class="text-danger" asp-validation-for="RModel.UserName"></span>
+
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="floatingEmail" placeholder="Email" asp-for="RModel.Email">
+                    <label style="padding-left:30px;" for="floatingEmail">Email</label>
+                    <span class="text-danger" asp-validation-for="RModel.Email"></span>
+
+                </div>
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password" asp-for="RModel.Password">
+                    <label style="padding-left:30px;" for="floatingPassword">Password</label>
+                    <span class="text-danger" asp-validation-for="RModel.Password"></span>
+
+                </div>
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="floatingRPassword" placeholder="Repeat Password" asp-for="RModel.ConfirmPassword">
+                    <label style="padding-left:30px;" for="floatingRPassword">Repeat Password</label>
+                    <span class="text-danger" asp-validation-for="RModel.ConfirmPassword"></span>
+
+                </div>
+                <input type="checkbox" id="signin-checkbox" asp-for="RModel.Terms">
+                <label for="signin-checkbox">I have read and agree to the terms</label>
+                <button type="submit" class="btn-signin">Sign Up</button>
+                <a asp-page="./login" class="btn-login btn-fade">
+                    Already have an account, Sign In <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                </a>
+            </form>
         </div>
-
-        <p class="text-center">or:</p>
-
-        <!-- Name input -->
-        <div class="form-outline mb-4">
-            <input type="text" id="registerFName" class="form-control" asp-for="RModel.FirstName"/>
-            <label class="form-label" asp-for="RModel.FirstName"></label>
-            <span class="text-danger" asp-validation-for="RModel.FirstName"></span>
-        </div>
-
-        <!-- Name input -->
-        <div class="form-outline mb-4">
-            <input type="text" id="registerLName" class="form-control" asp-for="RModel.LastName" />
-            <label class="form-label" asp-for="RModel.LastName"></label>
-            <span class="text-danger" asp-validation-for="RModel.LastName"></span>
-        </div>
-
-        <!-- Username input -->
-        <div class="form-outline mb-4">
-            <input type="text" id="registerUsername" class="form-control" asp-for="RModel.UserName"/>
-            <label class="form-label" asp-for="RModel.UserName"></label>
-            <span class="text-danger" asp-validation-for="RModel.UserName"></span>
-        </div>
-
-        <!-- Email input -->
-        <div class="form-outline mb-4">
-            <input type="email" id="registerEmail" class="form-control" asp-for="RModel.Email" />
-            <label class="form-label" asp-for="RModel.Email">Email</label>
-            <span class="text-danger" asp-validation-for="RModel.Email"></span>
-        </div>
-
-        <!-- Password input -->
-        <div class="form-outline mb-4">
-            <input type="password" id="registerPassword" class="form-control" asp-for="RModel.Password" />
-            <label class="form-label" asp-for="RModel.Password">Password</label>
-            <span class="text-danger" asp-validation-for="RModel.Password"></span>
-        </div>
-
-        <!-- Repeat Password input -->
-        <div class="form-outline mb-4">
-            <input type="password" id="registerRepeatPassword" class="form-control" asp-for="RModel.ConfirmPassword" />
-            <label class="form-label" asp-for="RModel.ConfirmPassword">Repeat password</label>
-            <span class="text-danger" asp-validation-for="RModel.ConfirmPassword"></span>
-        </div>
-
-        <span class="text-danger">@Html.ValidationSummary(true)</span>
-
-        <!-- Checkbox -->
-        <div class="form-check d-flex justify-content-start mb-4">
-            <input class="form-check-input me-2" type="checkbox" value="" id="registerCheck" checked
-                    aria-describedby="registerCheckHelpText" />
-            <label class="form-check-label" for="registerCheck">
-                I have read and agree to the terms
-            </label>
-        </div>
-
-        <!-- Submit button -->
-        <button type="submit" class="tw-btn-primary w-100">Sign in</button>
-
-        <!-- Register buttons -->
-        <div class="text-center">
-            <p>Already a member? <a asp-page="login">Log in</a></p>
-        </div>
-    </form>
-
+    </div>
 </div>

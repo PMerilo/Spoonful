@@ -1,0 +1,49 @@
+﻿@page
+@model Spoonful.Pages.Account.CreateAdminModel
+@{
+}
+<div class="col-6 mx-auto">
+    <form method="post">
+        <!-- Name input -->
+        <div class="form-outline mb-4">
+            <input type="text" id="registerFName" class="form-control" asp-for="RAdmin.FirstName" />
+            <label class="form-label" asp-for="RAdmin.FirstName"></label>
+            <span class="text-danger" asp-validation-for="RAdmin.FirstName"></span>
+        </div>
+
+        <!-- Name input -->
+        <div class="form-outline mb-4">
+            <input type="text" id="registerLName" class="form-control" asp-for="RAdmin.LastName" />
+            <label class="form-label" asp-for="RAdmin.LastName"></label>
+            <span class="text-danger" asp-validation-for="RAdmin.LastName"></span>
+        </div>
+
+        <!-- UserName input -->
+        <div class="form-outline mb-4">
+            <input type="text" id="registerLName" class="form-control" asp-for="RAdmin.UserName" />
+            <label class="form-label" asp-for="RAdmin.UserName"></label>
+            <span class="text-danger" asp-validation-for="RAdmin.UserName"></span>
+        </div>
+
+        <!-- Password input -->
+        <div class="form-outline mb-4">
+            <input type="password" id="registerPassword" class="form-control" asp-for="RAdmin.Password" />
+            <label class="form-label" asp-for="RAdmin.Password">Password</label>
+            <span class="text-danger" asp-validation-for="RAdmin.Password"></span>
+        </div>
+
+        <!-- Repeat Password input -->
+        <div class="form-outline mb-4">
+            <input type="password" id="registerRepeatPassword" class="form-control" asp-for="RAdmin.ConfirmPassword" />
+            <label class="form-label" asp-for="RAdmin.ConfirmPassword">Repeat password</label>
+            <span class="text-danger" asp-validation-for="RAdmin.ConfirmPassword"></span>
+        </div>
+
+        <span class="text-danger">@Html.ValidationSummary(true)</span>
+
+        <!-- Submit button -->
+        <button type="submit" class="tw-btn-primary w-100">Register</button>
+
+    </form>
+
+</div>

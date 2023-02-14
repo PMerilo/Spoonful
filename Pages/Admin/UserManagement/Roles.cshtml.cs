@@ -19,12 +19,32 @@ namespace Spoonful.Pages.Admin.UserManagement
         }
 
         public List<IdentityRole> Roles { get; set; }
+        public IdentityRole Role { get; set; }
+        public List<CustomerUser> UsersinRole { get; set; }
+        public List<CustomerUser> UsersNotinRole { get; set; }
+        [BindProperty]
+        public string SelectedUserName { get; set; }
         [BindProperty]
         public string RoleName { get; set; }
 
-        public void OnGet()
+        public async Task<IActionResult> OnGetAsync(string name)
         {
-            Roles = _roleManager.Roles.ToList();
+            if (name == "All")
+            {
+                Roles = _roleManager.Roles.ToList();
+
+            }
+            else
+            {
+                Role = _roleManager.Roles.FirstOrDefault(r => r.Name == name);
+                if (Role == null || Role.Name == "Customer" || Role.Name == "Driver")
+                {
+                    return NotFound();
+                }
+                UsersinRole = (await _userManager.GetUsersInRoleAsync(Role.Name)).ToList();
+                UsersNotinRole = _userManager.Users.Where(u => !UsersinRole.Contains(u) && u.UserDetails.UserType == "Admin").ToList();
+            }
+            return Page();
         }
 
         //public IActionResult OnGetRoles()
@@ -51,6 +71,19 @@ namespace Spoonful.Pages.Admin.UserManagement
         {
             var role = await _roleManager.FindByNameAsync(name);
             await _roleManager.DeleteAsync(role);
+            return RedirectToPage();
+        }
+
+        public async Task<IActionResult> OnPostAddUserToRole(string name)
+        {
+            var user = await _userManager.FindByNameAsync(SelectedUserName);
+            await _userManager.AddToRoleAsync(user, name);
+            return RedirectToPage();
+        }
+        public async Task<IActionResult> OnPostDeleteUserFromRole(string name, string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            await _userManager.RemoveFromRoleAsync(user, name);
             return RedirectToPage();
         }
     }

@@ -1,0 +1,31 @@
+﻿@page
+@model Spoonful.Pages.Drivers.IndexModel
+@{
+}
+<link rel="stylesheet" href="css/test.css">
+
+<aside class="profile-card">
+
+    <header>
+    
+        <h5>@Model.driverDetails.User.UserName</h5>
+        
+        <h6>Driver</h6>
+    
+    </header>
+
+    <div class="profile-bio">
+    
+        <p>Hourly Rate: $@Model.driverDetails.HourlyRate</p>
+        @if(@Model.driverDetails.RoutesId == null)
+        {
+            <p>Today's Route: Not Assigned Yet</p>   
+        }else
+        {
+            <p>Today's Route: @Model.driverDetails.RoutesId</p>
+        }
+    
+    </div>
+
+</aside>
+    

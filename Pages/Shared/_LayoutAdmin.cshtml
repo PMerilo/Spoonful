@@ -39,7 +39,7 @@
 <body class="fixed-nav sticky-footer" id="page-top">
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-default fixed-top" id="mainNav">
-        <a class="navbar-brand" asp-page="/Admin/Index"><img src="/images/spoonfulLogo.jpg" alt="" width="167" height="36"></a>
+        <a class="navbar-brand" asp-page="/Admin/Index"><img src="/images/spoonfulLogo.jpg" alt=""  height="40"></a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -106,6 +106,12 @@
                         <span class="nav-link-text">Voucher Management</span>
                     </a>
                 </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Delivery">
+                    <a class="nav-link" asp-page="/Admin/DeliveryManagement/Index">
+                        <i class='fa fa-fw bx bxs-truck'></i>
+                        <span class="nav-link-text">Delivery Management</span>
+                    </a>
+                </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reviews">
                     <a class="nav-link" href="reviews.html">
                         <i class="fa fa-fw fa-star"></i>
@@ -122,6 +128,24 @@
                     <a class="nav-link" asp-page="/Admin/UserManagement/Index">
                         <i class="fa fa-fw fa-user"></i>
                         <span class="nav-link-text">User Management</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-plalaycement="right" title="Feedback">
+                    <a class="nav-link" asp-page="/Admin/SupportManagement/Index">
+                        <i class="fa fa-eye"></i>
+                        <span class="nav-link-text">Feedback Responses</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-plalaycement="right" title="Ticket">
+                    <a class="nav-link" asp-page="/Admin/SupportManagement/TicketingManagement">
+                        <i class="fa fa-info-circle"></i>
+                        <span class="nav-link-text">Ticketing Management</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-plalaycement="right" title="Thread">
+                    <a class="nav-link" asp-page="/Admin/SupportManagement/ProblemThreads">
+                        <i class="bi bi-blockquote-left"></i>
+                        <span class="nav-link-text">Problem Threads</span>
                     </a>
                 </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
@@ -333,9 +357,11 @@
     <!-- Custom scripts for this page-->
     <script src="~/js/dayjs/dayjs.min.js"></script>
     <script src="~/js/dayjs/plugin/calendar.js"></script>
+    <script src="~/js/dayjs/plugin/customParseFormat.js"></script>
     <script>
         dayjs().format()
         dayjs.extend(window.dayjs_plugin_calendar)
+        dayjs.extend(window.dayjs_plugin_customParseFormat)
     </script>
     <!--<script src="~/js/vendor/bootstrap/js/admin-chart.js"></script>-->
     <script src="~/js/vendor/bootstrap/js/admin-chart-all.js"></script>
@@ -347,6 +373,8 @@
 
     <script src="~/lib/bootstrap-table/dist/bootstrap-table.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    @await Component.InvokeAsync("Notyf")
+
 </body>
 
 <!-- /tables-->

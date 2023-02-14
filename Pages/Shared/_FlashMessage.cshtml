@@ -4,7 +4,7 @@
 } @if (!string.IsNullOrWhiteSpace(text))
 {
 	 <div class="@cssClass" role="alert"> 
-		 @text 
+		 @Html.Raw(text) 
 		 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
 
 		 </button> 

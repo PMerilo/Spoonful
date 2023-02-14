@@ -21,11 +21,13 @@
         <a class="btn btn-primary" href="/User/Grocery%20Tracker/AddEntry?id=@Model.userIdvar">Add Entry</a>
 
             <div style =" display: inline-block;">
-            <a id="shoppingList" class="btn btn-secondary" type="button" href="/User/Shopping%20List/Index?id=@Model.userIdvar">Shopping List</a>
+                <a id="shoppingList" class="btn btn-secondary" type="button" href="/User/Shopping%20List/Index?id=@Model.userIdvar">Shopping List</a>
             </div>
-        
+
+        <input asp-for="userIdvar" value="@Model.userIdvar" hidden/>
         <div class="row mb-3">
             <form id="sortFilterDropdown" method="post">
+                <input asp-for="userIdvar" value="@Model.userIdvar" hidden />
                 <label for="sortFilter">Sort By:</label>
                 <select name="sortFilter" id="filters" asp-for="sortFilter" onchange="sortFilterDropdown.submit()">
                     <option value="name">Name</option>
@@ -39,6 +41,7 @@
 
         <div class="row mb-3">
             <form id="HideFilterDropdown" method="post">
+                <input asp-for="userIdvar" value="@Model.userIdvar" hidden />
                 <label for="hideFilter">Filter:</label>
                 <select name="hideFilter" id="filters" asp-for="hideFilter" onchange="HideFilterDropdown.submit()">
                     <option value="seafood">Seafood</option>
