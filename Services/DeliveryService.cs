@@ -56,9 +56,9 @@ namespace Spoonful.Services
 
         public List<string>? GetOrderDetailsfortheDay()
         {
-            var today = DateTime.Now.ToString("yyyy-MM-dd");
+            var today = DateTime.Now.ToString("dddd, dd MMMM yyyy");
             //var today = "2023-02-13";
-            var details = _context.OrderDetails.Where(x => x.OrderDate == today)
+            var details = _context.OrderDetails.Where(x => x.DeliveryDate == today)
                 .OrderByDescending(x => x.Address)
                 .ToList();
             List<string> list = new();
