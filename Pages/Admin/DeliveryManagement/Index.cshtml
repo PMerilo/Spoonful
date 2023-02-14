@@ -13,7 +13,6 @@ integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jI
 
 <div class="card" style="padding:10px">
     <h3 class="pl-3">Routes</h3>
-    <button class="blue-btn flex-fill" onclick="location.href='/Admin/DeliveryManagement/CreateDriver'">Add Rider</button>
     <div class="card-body">
         <table class="table table-striped" id="route-table">
             <thead>
@@ -21,19 +20,29 @@ integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jI
                     <th>@Html.DisplayNameFor(model => model.routeList[0].Id)</th>
                     <th>@Html.DisplayNameFor(model => model.routeList[0].Region)</th>
                     <th>Districts</th>
+                    <th>Status</th>
+                    <th>Date</th>
                     <th>View Route</th>
                 </tr>
             </thead>
             <tbody>
                 @{
-                    @foreach (var item in Model.routeList)
+                        @foreach (var item in Model.routeList)
                     {
-                        <tr>
-                            <td>@item.Id</td>
-                            <td>@item.Region</td>
-                            <td>@item.Town</td>
-                            <td><button onclick="calcRoute(this)" class="blue-btn" value="@item.Region">View Route</button></td>    
-                        </tr>
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.Region</td>
+                                <td>@item.Town</td>
+                                <td>@item.Status</td>
+                                <td>@item.CreatedTime.ToShortDateString()</td>
+                                @if(@item.Status == "Started")
+                            {
+                                    <td><button onclick="calcRoute(this)" class="blue-btn" value="@item.Region">View Route</button></td>
+                            }else
+                            {
+                                    <td></td>
+                            }
+                            </tr>
                     }
                 }
             </tbody>
@@ -52,33 +61,68 @@ integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jI
         <thead>
             <tr>
                 <th>Delivery Id</th>
-                <th>@Html.DisplayNameFor(model => model.deliveryList[0].Stops.Address)</th>
-                <th>Confirmation</th>
-                <th>User Id</th>
-                <th>Status</th>
-                <th>@Html.DisplayNameFor(model => model.deliveryList[0].deliveryDateTime)</th>
                 <th>Route Id</th>
+                <th>@Html.DisplayNameFor(model => model.deliveryList[0].Stops.Address)</th>
+                <th>User Id</th>
+                <th>Confirmation</th>
+                <th>Delivered Time</th>
             </tr>
         </thead>
         <tbody>
             @{
-                @foreach (var item in Model.deliveryList)
+                    @foreach (var item in Model.deliveryList)
                 {
-                    <tr>
-                        <td>@item.Id</td>
-                        <td>@item.OrderDetails.Address</td>
-                        <td>View Confirmation</td>
-                        <td>@item.OrderDetails.userId</td>
-                        <td>@item.status</td>
-                            @if(@item.deliveryDateTime == null)
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.Stops.Routes.Id</td>
+                            <td>@item.OrderDetails.Address</td>
+                            <td>@item.OrderDetails.userId</td>
+                            <td>
+                            @if(@item.status != "Delivered")
                             {
-                                <td>Not delivered yet</td>
+                                    
+                                    <button type="button" class="blue-btn-full">
+                                        @item.status
+                                        </button>
+                            }else if (@item.status == "Delivered" && @item.customerConfirmation == null)
+                            {
+                                    <button type="button" class="green-btn-full" data-bs-toggle="modal"
+                                        data-bs-target="#myModal_@item.Id">
+                                        Awaiting User Confirmation
+                                    </button>
+                            }
+                            else 
+                            {
+                                    <button type="button" class="green-btn-full" data-bs-toggle="modal"
+                                        data-bs-target="#myModal_@item.Id">
+                                        @item.status
+                                    </button>
+                            }
+                                <div class="modal " id="myModal_@item.Id">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Delivery Confirmation</h4>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+
+                                            <div class="modal-body">
+                                            
+                                                <img id="imgPreview" class="" style="height:300px;width:300px;object-fit:cover" src="@item.ConfirmationImageURL" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                                @if(@item.deliveryDateTime == null)
+                            {
+                                    <td>Not delivered yet</td>
                             }else
                             {
-                                <td>@item.deliveryDateTime</td>
+                                    <td>@item.deliveryDateTime</td>
                             }
-                        <td>@item.Stops.Routes.Id</td>
-                    </tr>
+                        </tr>
                 }
             }
         </tbody>
@@ -118,5 +162,11 @@ integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jI
     #map {
         height: 400px; /* The height is 400 pixels */
         width: 100%; /* The width is the width of the web page */
+    }
+
+    #imgPreview {
+        display: block;
+          margin-left: auto;
+          margin-right: auto;
     }
 </style>

@@ -56,7 +56,7 @@
 	<ItemGroup>
 	  <Folder Include="Migrations\" />
 	  <Folder Include="Views\" />
-	  <Folder Include="wwwroot\uploads\" />
+	  <Folder Include="wwwroot\uploads\deliveryUpload\" />
 	</ItemGroup>
 
 	<ItemGroup>

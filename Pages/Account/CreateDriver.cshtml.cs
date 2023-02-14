@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using Spoonful.Models;
 using Spoonful.Services;
 using System.Text;
@@ -61,6 +62,9 @@ namespace Spoonful.Pages.Account
                 {
                     _customerUserService.UpdateLastLogin(user.UserName);
                     await _customerUserService.SetUserRoleAsync(user.UserName, Roles.Driver);
+                    var driver = _db.DriverDetails.Include(u => u.User).FirstOrDefault(u => u.User.UserName == username);
+                    driver.HourlyRate = 15;
+                    _db.SaveChanges();
                     _toastService.Success("Driver Account Created");
                     await _signInManager.SignInAsync(user, false);
                     return Redirect("/Driver");
