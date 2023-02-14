@@ -32,6 +32,8 @@ namespace Spoonful.Models
         public double Commision { get; set; }
         public double Rating { get; set; }
         public double HourlyRate { get; set; }
+        public int? RoutesId { get; set; }
+        public Routes Routes { get; set; }
 
     }
 }

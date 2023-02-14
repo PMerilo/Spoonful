@@ -31,6 +31,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" />
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.js"></script>
+    <script src="~/js/js-snackbar.js"></script>
 </head>
 
 <body class="">
@@ -52,7 +53,7 @@
                                 {
                             new string[] {"Our Plans", "/Index"},
                             new string[] {"How it works", "/Privacy"},
-                            new string[] {"Users", "/User/Find"},
+                            new string[] {"Users", "/Users"},
                             new string[] {"Menus", "0"},
                             new string[] {"Services", "1"}
                                                                                         };
@@ -202,25 +203,26 @@
 
     <script src="~/js/dayjs/dayjs.min.js"></script>
     <script src="~/js/dayjs/plugin/calendar.js"></script>
+    <script src="~/js/dayjs/plugin/customParseFormat.js"></script>
     <script>
         dayjs().format()
         dayjs.extend(window.dayjs_plugin_calendar)
+        dayjs.extend(window.dayjs_plugin_customParseFormat)
     </script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="sweetalert2.all.min.js"></script>
     <script src="~/js/swal.js"></script>
 
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
     <script src="~/js/notification.js"></script>
-    <script src="~/js/js-snackbar.js"></script>
 
 
 
     @await RenderSectionAsync("Scripts", required: false)
+    @await Component.InvokeAsync("Notyf")
 </body>
 
 </html>

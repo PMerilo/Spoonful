@@ -1,0 +1,34 @@
+﻿@page
+@model Spoonful.Pages.Account._2FAModel
+@{
+}
+@if (!Model.SentCode)
+{
+    <div class="col-6 mx-auto">
+        <form method="post" >
+            <input asp-for="RememberMe" type="hidden" />
+            <div class="form-outline mb-4">
+                <label class="form-label">Choose your 2-Factor Method</label>
+                @Html.DropDownListFor(n => n.SelectedProvider, new SelectList(Model.Providers), new { @class="form-select" } )
+            </div>
+            <!-- Submit button -->
+            <button type="submit" class="blue-btn-full">Select</button>
+
+        </form>
+    </div>
+} else
+{
+    <div class="col-6 mx-auto">
+        <form method="post" asp-page-handler="Verify">
+            <input asp-for="RememberMe" type="hidden" />
+            <input asp-for="SelectedProvider" type="hidden" />
+            <div class="form-outline mb-4">
+                <label class="form-label" asp-for="OTP"></label>
+                <input type="text" class="form-control" asp-for="OTP"/>
+                <span class="text-danger">@Html.ValidationSummary(true)</span>
+            </div>
+            <!-- Submit button -->
+            <button type="submit" class="blue-btn-full">Log in</button>
+        </form>
+    </div>
+}
