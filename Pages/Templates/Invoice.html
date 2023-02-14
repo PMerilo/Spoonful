@@ -6,10 +6,11 @@
 </head>
 <body style="background-color: #fff">
     <link rel="stylesheet" href="../../wwwroot/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../wwwroot/lib/bootstrap/dist/css/bootsrap.min" />
     <link rel="stylesheet" href="../../wwwroot/css/admin.css" />
-    
+
     <div class="container">
-        
+
         <div class="row">
             <div class="col-12">
                 <div class="invoice-title pt-4">
@@ -25,6 +26,7 @@
                             {1}
                         </address>
                     </div>
+                    </br>
                     <div class="col-6 text-right">
                         <address>
                             <strong>Shipped To:</strong><br>
@@ -34,6 +36,7 @@
                     </div>
                 </div>
                 <div class="row">
+                    <br/>
                     <div class="col-6">
                         <address>
                             <strong>Payment Method:</strong><br>
@@ -41,6 +44,7 @@
                             {4}
                         </address>
                     </div>
+                    <br/>
                     <div class="col-6 text-right">
                         <address>
                             <strong>Date Of Payment:</strong><br>
@@ -56,11 +60,11 @@
                 <div class="pt-4">
                     <h5><strong>Order summary</strong></h5>
                     <div class="table-responsive">
-                        <table class="table table-condensed">
+                        <table class="table table-condensed" >
                             <thead>
-                                <tr>
+                                <tr style="padding:20px;">
                                     <td><strong>Item</strong></td>
-                                    <td class="text-center"><strong>Price</strong></td>
+                                    <td class="text-center" ><strong>Price</strong></td>
                                     <td class="text-center"><strong>Quantity</strong></td>
                                     <td class="text-right"><strong>Totals</strong></td>
                                 </tr>
@@ -68,17 +72,17 @@
                             <tbody>
                                 <tr>
                                     <td>{6} Plan <span style="color:dimgrey"> ({7} recipes per Week for {8}, {9} Servings Per Person) </span></td>
-                                    <td class="text-center"> {10}</td>
+                                    <td class="text-center"> ${10}</td>
                                     <td class="text-center">1</td>
-                                    <td class="text-right"> {11}</td>
+                                    <td class="text-right"> ${11}</td>
                                 </tr>
-                                
-                                
+
+
                                 <tr>
                                     <td class="thick-line"></td>
                                     <td class="thick-line"></td>
                                     <td class="thick-line text-center"><strong>Subtotal</strong></td>
-                                    <td class="thick-line text-right"> {12}</td>
+                                    <td class="thick-line text-right"> ${12}</td>
                                 </tr>
                                 <tr>
                                     <td class="no-line"></td>
@@ -90,7 +94,7 @@
                                     <td class="no-line"></td>
                                     <td class="no-line"></td>
                                     <td class="no-line text-center"><strong>Total</strong></td>
-                                    <td class="no-line text-right"> {1}</td>
+                                    <td class="no-line text-right"> ${12}</td>
                                 </tr>
                             </tbody>
                         </table>

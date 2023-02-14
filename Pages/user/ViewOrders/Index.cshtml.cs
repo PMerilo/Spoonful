@@ -61,6 +61,8 @@ namespace Spoonful.Pages.user.ViewOrders
             {
                 orderDetails.DeliveryDate = DateTime.Now.AddDays(7).ToString("dddd, dd MMMM yyyy");
                 _orderService.UpdateOrderDetails(orderDetails);
+                TempData["FlashMessage.Type"] = "success";
+                TempData["FlashMessage.Text"] = ($"Your previous order has been placed successfully");
 
                 return Redirect("/user/ViewOrders/ManageWeek");
             }

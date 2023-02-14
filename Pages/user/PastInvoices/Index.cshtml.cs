@@ -55,7 +55,7 @@ namespace Spoonful.Pages.user.PastInvoices
             var pdfFile = Guid.NewGuid() + Path.GetExtension(filename);
             var pdfPath = Path.Combine(_environment.ContentRootPath, "wwwroot", uploadsFolder,filename);
             var htmlPath = Path.Combine(_environment.ContentRootPath, "Pages/Templates/Invoice.html");
-            var cssPath = Path.Combine(_environment.ContentRootPath, "wwwroot/css/admin.css");
+            //var cssPath = Path.Combine(_environment.ContentRootPath, "wwwroot/css/Templates/invoiceAdmin.css");
             string HtmlBody = "";
 
             using (StreamReader streamReader = System.IO.File.OpenText(htmlPath))

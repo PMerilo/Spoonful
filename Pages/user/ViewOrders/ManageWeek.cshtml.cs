@@ -70,7 +70,8 @@ namespace Spoonful.Pages.user.ViewOrders
             {
                 orderDetails.DeliveryDate = DateTime.Now.AddDays(7).ToString("dddd, dd MMMM yyyy");
                 _orderService.UpdateOrderDetails(orderDetails);
-                
+                TempData["FlashMessage.Type"] = "success";
+                TempData["FlashMessage.Text"] = ($"Your time remaining to edit your box has expired, your previous order has been placed successfully");
                 return Redirect("/user/ViewOrders/ManageWeek");
             }
 
@@ -100,6 +101,22 @@ namespace Spoonful.Pages.user.ViewOrders
 
             Orders = _db.Order;
             Orders = Orders.Where(X => X.OwnerID == user.Id);
+            var checkMealsReset = false;
+            foreach(var i in Orders)
+            {
+                if(i.MenuPreference != mealkit.MenuPreference)
+                {
+                    checkMealsReset = true;
+                    _mealOrderService.DeleteOrder(i);
+                }
+                
+            }
+            if (checkMealsReset)
+            {
+                TempData["FlashMessage.Type"] = "danger";
+                TempData["FlashMessage.Text"] = ($"Some of your order items has been removed due to changing your meal kit preferences.");
+                return Redirect("/user/ViewOrders/ManageWeek");
+            }
 
             return Page();
         }
