@@ -9,6 +9,7 @@ using System.Text.Encodings.Web;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 
+
 namespace Spoonful.Pages.user.MealKitSubscription
 {
     [Authorize]
@@ -20,12 +21,14 @@ namespace Spoonful.Pages.user.MealKitSubscription
         private readonly MealKitService _mealKitService;
         private readonly OrderService _orderService;
         private readonly InvoiceMealKitService _invoiceMealKitService;
-        private readonly MealKitSubscriptionLogService _mealKitSubscriptionLogService; 
+        private readonly MealKitSubscriptionLogService _mealKitSubscriptionLogService;
+        private IWebHostEnvironment _environment;
+        
         private readonly VoucherService _voucherService;
 
 
 
-        public OrderConfirmedModel(UserManager<CustomerUser> userManager, AuthDbContext db, MealKitService mealKitService, OrderService orderService, IEmailService emailSender, InvoiceMealKitService invoiceMealKitService, MealKitSubscriptionLogService mealKitSubscriptionLogService, VoucherService voucherService)
+        public OrderConfirmedModel(UserManager<CustomerUser> userManager, AuthDbContext db, MealKitService mealKitService, OrderService orderService, IEmailService emailSender, InvoiceMealKitService invoiceMealKitService, MealKitSubscriptionLogService mealKitSubscriptionLogService, IWebHostEnvironment environment, VoucherService voucherService)
         {
             _userManager = userManager;
             _db = db;
@@ -34,10 +37,11 @@ namespace Spoonful.Pages.user.MealKitSubscription
             _emailSender = emailSender;
             _invoiceMealKitService = invoiceMealKitService;
             _mealKitSubscriptionLogService = mealKitSubscriptionLogService;
+            _environment = environment;
             _voucherService = voucherService;
         }
 
-        public async Task<IActionResult> OnGet(string id,string code)
+        public async Task<IActionResult> OnGet(string id, string code)
         {
             var user = await _userManager.GetUserAsync(User);
             MealKit? mealkit = _mealKitService.GetMealKitByUserId(user.Id);
@@ -64,12 +68,25 @@ namespace Spoonful.Pages.user.MealKitSubscription
                         _mealKitService.UpdateMealKit(mealkit);
                         _orderService.UpdateOrderDetails(orderDetails);
 
-                        _emailSender.SendEmail(
-                            user.Email,
-                            "Spoonful Meal Kit Subscription",
-                            $"Hello, {user.UserName} You have subscribed to our meal kit plan successfully. If you have any issues with any substitution, or either an ingredient or a Meal Kit, please contact us via ticket through customer support on our website.",
-                            null,
-                            null);
+                        //var PathToFile = _environment.WebRootPath +Path.DirectorySeparatorChar.ToString(); +"Pages/Templates"
+                        var htmlPath = Path.Combine(_environment.ContentRootPath, "Pages/Templates/MealKitSubscriptionEmailTemplate.html");
+                        var subject = "Spoonful Meal Kit Subscription";
+                        string htmlBody = "";
+                        using (StreamReader streamReader = System.IO.File.OpenText(htmlPath))
+                        {
+                            htmlBody = streamReader.ReadToEnd();
+                        }
+
+                        //{0} Name
+                        //{1} Menu Preference
+                        //{2} Number Of Recipes Per Week
+                        //{3} Number Of Servings Per Week
+                        //{4} Number Of People Per Week
+                        //{5} Cost
+
+                        
+
+                       
                         double serving = 5.00;
 
                         
@@ -81,6 +98,86 @@ namespace Spoonful.Pages.user.MealKitSubscription
 
                         _invoiceMealKitService.AddInvoice(invoice);
                         _mealKitSubscriptionLogService.AddMealKitSubscriptionLog(mealKitSubscriptionLog);
+
+                        var htmlInvoicePath = Path.Combine(_environment.ContentRootPath, "Pages/Templates/Invoice.html");
+
+                        string HtmlInvoiceBody = "";
+
+                        using (StreamReader streamReader = System.IO.File.OpenText(htmlInvoicePath))
+                        {
+                            HtmlInvoiceBody = streamReader.ReadToEnd();
+                        }
+
+                        // {0} Name
+                        // {1} Address
+                        // {2} Email
+                        // {3} Date Of Payment
+                        // {4} Menu Preference (Current Plan)
+                        // {5} No Of Recipes Per Week
+                        // {6} No Of People Per Week
+                        // {7} No Of Servings Per Person
+                        // {8} Invoice Cost
+
+                        string messageInvoiceBody = string.Format(HtmlInvoiceBody,
+                        invoice.Name,
+                        invoice.Address,
+                        invoice.Name,
+                        invoice.Address,
+                        invoice.Email,
+                        invoice.DateOfPayment,
+                        invoice.MenuPreference,
+                        invoice.noOfPeoplePerWeek,
+                        invoice.noOfPeoplePerWeek,
+                        invoice.noOfServingsPerPerson,
+                        invoice.Cost,
+                        invoice.Cost,
+                        invoice.Cost,
+                        invoice.Cost
+                        );
+
+                        var Renderer = new IronPdf.ChromePdfRenderer();
+                        Renderer.RenderingOptions.PaperSize = IronPdf.Rendering.PdfPaperSize.A2;
+
+                        Renderer.RenderingOptions.CssMediaType = IronPdf.Rendering.PdfCssMediaType.Screen;
+                        //Renderer.RenderingOptions.PrintHtmlBackgrounds = true;
+                       
+
+                        var pdf = Renderer.RenderHtmlAsPdf(messageInvoiceBody);
+
+                        var filename = "Invoice Order ID -" + invoice.Id + ".pdf";
+                        var uploadsFolder = "pdfs";
+                        var pdfPath = Path.Combine(_environment.ContentRootPath, "wwwroot", uploadsFolder, filename);
+
+                        pdf.SaveAs(pdfPath); // Saves our PdfDocument object as a PDF
+
+                        IFormFile File;
+                        
+                        using (var stream = System.IO.File.OpenRead(pdfPath))
+                        {
+                            var memoryStream = new MemoryStream();
+                            stream.CopyTo(memoryStream);
+                            memoryStream.Seek(0, SeekOrigin.Begin);
+
+                            var file = new FormFile(memoryStream, 0, memoryStream.Length, null, Path.GetFileName(pdfPath));
+
+                            List<IFormFile> myAttachments = new List<IFormFile>();
+                            myAttachments.Add(file);
+
+                            string messageBody = string.Format(htmlBody, user.UserName, mealkit.MenuPreference, mealkit.noOfRecipesPerWeek, mealkit.noOfServingsPerPerson, mealkit.noOfPeoplePerWeek, totalCost);
+                            // Call Email Service and send
+                            _emailSender.SendEmail(
+                               user.Email,
+                               subject,
+                               messageBody,
+                               null,
+                               myAttachments);
+                        }
+
+                        
+                        
+                        
+
+                       
 
                         await _db.SaveChangesAsync();
                     }

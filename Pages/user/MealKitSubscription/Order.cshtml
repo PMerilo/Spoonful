@@ -23,6 +23,9 @@
 <link href="~/css/detail-page.css" rel="stylesheet">
 @Html.AntiForgeryToken()
 <main class="bg_gray">
+	
+	
+		
 	<form method="post">
 		<div class="container margin_60_20">
 		    <div class="row justify-content-center">
@@ -36,6 +39,8 @@
 						<div asp-validation-summary="All" class="text-danger"></div>
 					<!-- /head -->
 					<input class="form-control" asp-for="MyMealKit.userId" value="@user.Id" hidden>
+					<input class="form-control" asp-for="MyMealKit.Email" value="@user.Email" hidden>
+						<input class="form-control" asp-for="MyMealKit.Name" value="@user.UserName" hidden>
 						<div class="main">
 							<div class="form-group">
 								<label>Menu Preferences</label>
@@ -89,10 +94,6 @@
 
 						</div>
 					</div>
-					
-				
-					
-				
 				
 		        	<div class="box_order_form">
 					    <div class="head">
@@ -103,6 +104,8 @@
 
 					    <input class="form-control" asp-for="@Model.MyOrderDetails.userId" value="@user.Id" hidden>
 					    <div class="main">
+							<div id="map" style="height: 200px;"></div>
+							
 					        <div class="form-group">
 					            <label>Address</label>
 								<input type="text" id="address" class="form-control" onfocusout="ValidateAddress(this)" placeholder="Enter Delivery Address" asp-for="@Model.MyOrderDetails.Address" required>
@@ -113,25 +116,27 @@
 							</div>
 					        
 					        <div class="form-group">
-					            <label>Order Pickup Date</label>
-								<input type="date" asp-for="MyOrderDetails.OrderDate" class="form-control">
+					            <label>Order Delivery Date</label>
 								<!--
-									<select class="form-control" asp-for="MyOrderDetails.OrderDate" required>
-									<option value="Monday">Monday</option>
-											<option value="Tuesday">Tuesday</option>
-											<option value="Wednesday">Wednesday</option>
-											<option value="Thursday">Thursday</option>
-											<option value="Friday">Friday</option>
-											<option value="Saturday">Saturday</option>
-											<option value="Sunday">Sunday</option>
-									</select>
+									<input type="date" asp-for="MyOrderDetails.OrderDate" class="form-control">
 								-->
+								
+								<select class="form-control" asp-for="MyOrderDetails.OrderDate" required>
+								<option value="Monday">Monday</option>
+										<option value="Tuesday">Tuesday</option>
+										<option value="Wednesday">Wednesday</option>
+										<option value="Thursday">Thursday</option>
+										<option value="Friday">Friday</option>
+										<option value="Saturday">Saturday</option>
+										<option value="Sunday">Sunday</option>
+								</select>
+								
 								
 								
 					        </div>
 
 							<div class="form-group">
-								<label>Order Pickup Time</label>
+								<label>Order Delivery Time (Select Time Between 5am to 10pm)</label>
 								<input class="form-control" placeholder="Select Time of your recurring Orders" min="05:00" max="22:00" type="time" asp-for="@Model.MyOrderDetails.OrderTime" required>
 							</div>
 
@@ -265,12 +270,90 @@
 	</main>
 	<!-- /main -->
 
+
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@GoogleAddressAutoCorrect.API&libraries=places&callback=initMap"></script>
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=@GoogleAddressAutoCorrect.API"></script>
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=@GoogleAddressAutoCorrect.API&callback=initMap" async defer></script>
+
+<!--
+	<script src="/js/AddressAutoComplete.js"></script>
+-->
 
 
-<script src="/js/AddressAutoComplete.js"></script>
 <script src="/js/voucher.js"></script>
 <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
 <script src="https://js.stripe.com/v3/"></script>
+
+<script>
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: -33.8688, lng: 151.2195 },
+            zoom: 13
+        });
+        var input = document.getElementById('address');
+        
+
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.bindTo('bounds', map);
+
+        var infowindow = new google.maps.InfoWindow();
+        var marker = new google.maps.Marker({
+            map: map,
+            anchorPoint: new google.maps.Point(0, -29)
+        });
+
+        autocomplete.addListener('place_changed', function () {
+            infowindow.close();
+            marker.setVisible(false);
+            var place = autocomplete.getPlace();
+            if (!place.geometry) {
+                window.alert("Autocomplete's returned place contains no geometry");
+                return;
+            }
+
+            // If the place has a geometry, then present it on a map.
+            if (place.geometry.viewport) {
+                map.fitBounds(place.geometry.viewport);
+            } else {
+                map.setCenter(place.geometry.location);
+                map.setZoom(17);
+            }
+            marker.setIcon(({
+                url: place.icon,
+                size: new google.maps.Size(71, 71),
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(17, 34),
+                scaledSize: new google.maps.Size(35, 35)
+            }));
+            marker.setPosition(place.geometry.location);
+            marker.setVisible(true);
+
+            var address = '';
+            if (place.address_components) {
+                address = [
+                    (place.address_components[0] && place.address_components[0].short_name || ''),
+                    (place.address_components[1] && place.address_components[1].short_name || ''),
+                    (place.address_components[2] && place.address_components[2].short_name || '')
+                ].join(' ');
+            }
+
+            infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
+            infowindow.open(map, marker);
+
+            // Location details
+            //for (var i = 0; i < place.address_components.length; i++) {
+            //    if (place.address_components[i].types[0] == 'postal_code') {
+            //        document.getElementById('postal_code').innerHTML = place.address_components[i].long_name;
+            //    }
+            //    if (place.address_components[i].types[0] == 'country') {
+            //        document.getElementById('country').innerHTML = place.address_components[i].long_name;
+            //    }
+            //}
+            document.getElementById('location').innerHTML = place.formatted_address;
+            document.getElementById('lat').innerHTML = place.geometry.location.lat();
+            document.getElementById('lon').innerHTML = place.geometry.location.lng();
+        });
+    }
+</script>
 
 

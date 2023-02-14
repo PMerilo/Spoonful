@@ -32,200 +32,228 @@
                             @{
                             if (Model.MyMealKit != null)
                             {
-                                            <form method="post">
-                                            <div class="row">
-
-                                                <div class="col-lg-8">
-                                                    <div class="row gx-3">
-                                                        <div class="form-group">
-                                                            <label>Menu Preferences</label>
-                                                            <select class="form-control" asp-for="MyMealKit.MenuPreference">
-                                                                <option value="Meat & Veggie">Meat & Veggies</option>
-                                                                <option value="Vegetarian">Vegetarian</option>
-                                                                <option value="Quick & Easy">Quick and Easy</option>
-                                                                <option value="Family Friendly">Family Friendly</option>
-                                                                <option value="Pescatarian">Pescatarian</option>
-                                                                <option value="Fit & Wholesome">Fit & Wholesome</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Number of Recipes Per Week</label>
-                                                                    <select class="form-control" asp-for="MyMealKit.noOfRecipesPerWeek" >
-                                                                        <option value="1">1</option>
-                                                                        <option value="2">2</option>
-                                                                        <option value="3">3</option>
-                                                                        <option value="4">4</option>
-                                                                        <option value="5">5</option>
-                                                                        <option value="6">6</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Number of People Per Week</label>
-                                                                    <select class="form-control" asp-for="MyMealKit.noOfPeoplePerWeek">
-                                                                        <option value="1">1</option>
-                                                                        <option value="2">2</option>
-                                                                        <option value="3">3</option>
-                                                                        <option value="4">4</option>
-                                                                        <option value="5">5</option>
-                                                                        <option value="6">6</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Number of Servings Per Person</label>
-                                                                    
-                                                                    <select class="form-control" asp-for="MyMealKit.noOfServingsPerPerson">
-
-                                                                        <option value="1">1</option>
-                                                                        <option value="2">2</option>
-                                                                        <option value="3">3</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                
-                                                <!-- col.// -->
-                                                
-                                            </div>
-                                            <!-- row.// -->
-                                            <br />
-                                            <button class="btn btn-success" type="submit">Save changes</button>
-                                            <p class="h5 fa-pull-right">Price: $@Model.MyInvoice.Cost/Delivery<span style="color:red">(FREE)</span> </p>
-                                            </form>
-                                            <br />
-                                            <hr />
-                                            <br />
-                                            <h1 class="tw-text-lg tw-mb-5">Order Details</h1>
-                                            <form method="post">
-                                            <div class="row">
-                                                <input class="form-control" asp-for="@Model.MyOrderDetails.userId" value="@user.Id" hidden>
-                                                <div class="col-lg-8">
-                                                    <div class="row gx-3">
-                                                        <div class="form-group">
-                                                            <label>Delivery Address</label>
-                                                            <input class="form-control" id="address" asp-for="@Model.MyOrderDetails.Address" value="@Model.MyOrderDetails.Address" >
-                                                        </div>
-                                                        
-                                                    </div>
-                                                </div>
+                                                <form method="post">
+                                                <div class="row">
 
                                                     <div class="col-lg-8">
                                                         <div class="row gx-3">
                                                             <div class="form-group">
-                                                                <label>Weekly Delivery Date</label>
-                                                                <input type="date" asp-for="MyOrderDetails.OrderDate" class="form-control">
-                                                                <!--
-                                                                <select class="form-control" asp-for="MyOrderDetails.OrderDate" value="@Model.MyOrderDetails.OrderDate">
-                                                                <option value="Monday">Monday</option>
-                                                                <option value="Tuesday">Tuesday</option>
-                                                                <option value="Wednesday">Wednesday</option>
-                                                                <option value="Thursday">Thursday</option>
-                                                                <option value="Friday">Friday</option>
-                                                                <option value="Saturday">Saturday</option>
-                                                                <option value="Sunday">Sunday</option>
+                                                                <label>Menu Preferences</label>
+                                                                <select class="form-control" asp-for="MyMealKit.MenuPreference">
+                                                                    <option value="Meat & Veggie">Meat & Veggies</option>
+                                                                    <option value="Vegetarian">Vegetarian</option>
+                                                                    <option value="Quick & Easy">Quick and Easy</option>
+                                                                    <option value="Family Friendly">Family Friendly</option>
+                                                                    <option value="Pescatarian">Pescatarian</option>
+                                                                    <option value="Fit & Wholesome">Fit & Wholesome</option>
                                                                 </select>
-                                                                -->
-                                                                
                                                             </div>
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Number of Recipes Per Week</label>
+                                                                        <select class="form-control" asp-for="MyMealKit.noOfRecipesPerWeek" >
+                                                                            <option value="1">1</option>
+                                                                            <option value="2">2</option>
+                                                                            <option value="3">3</option>
+                                                                            <option value="4">4</option>
+                                                                            <option value="5">5</option>
+                                                                            <option value="6">6</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Number of People Per Week</label>
+                                                                        <select class="form-control" asp-for="MyMealKit.noOfPeoplePerWeek">
+                                                                            <option value="1">1</option>
+                                                                            <option value="2">2</option>
+                                                                            <option value="3">3</option>
+                                                                            <option value="4">4</option>
+                                                                            <option value="5">5</option>
+                                                                            <option value="6">6</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Number of Servings Per Person</label>
+                                                                        
+                                                                        <select class="form-control" asp-for="MyMealKit.noOfServingsPerPerson">
 
+                                                                            <option value="1">1</option>
+                                                                            <option value="2">2</option>
+                                                                            <option value="3">3</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
-
+                                                    
+                                                    <!-- col.// -->
+                                                    
+                                                </div>
+                                                <!-- row.// -->
+                                                <br />
+                                                <button class="btn btn-success" type="submit">Save changes</button>
+                                                <p class="h5 fa-pull-right">Price: $@Model.MyInvoice.Cost/Delivery<span style="color:red">(FREE)</span> </p>
+                                                </form>
+                                                <br />
+                                                <hr />
+                                                <br />
+                                                <h1 class="tw-text-lg tw-mb-5">Order Details</h1>
+                                                <form method="post">
+                                                <div class="row">
+                                                    <input class="form-control" asp-for="@Model.MyOrderDetails.userId" value="@user.Id" hidden>
                                                     <div class="col-lg-8">
                                                         <div class="row gx-3">
                                                             <div class="form-group">
-                                                                <label>Weekly Delivery Time</label>
-                                                                <input class="form-control" placeholder="Select Time of your recurring Orders" min="05:00" max="22:00" type="time" asp-for="@Model.MyOrderDetails.OrderTime" value="@Model.MyOrderDetails.OrderTime" required>
+                                                                <div id="map" style="height: 200px;"></div>
+                                                                <label>Delivery Address</label>
+                                                                <input class="form-control" id="address" asp-for="@Model.MyOrderDetails.Address" value="@Model.MyOrderDetails.Address" >
                                                             </div>
-
+                                                            
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-lg-8">
-                                                        <div class="row gx-3">
-                                                            <div class="form-group">
-                                                                <label>Additional Instructions</label>
-                                                                <input class="form-control" placeholder= "Any additional instructions" type="text" asp-for="@Model.MyOrderDetails.AdditionalInstructions" value="@Model.MyOrderDetails.AdditionalInstructions" required>
-                                                            </div>
+                                                        <div class="col-lg-8">
+                                                            <div class="row gx-3">
+                                                                <div class="form-group">
+                                                                    <label>Weekly Delivery Date</label>
+                                                                    <!--
+                                                                    <input type="date" asp-for="MyOrderDetails.OrderDate" class="form-control">
+                                                                    -->
+                                                                    
+                                                                    
+                                                                    <select class="form-control" asp-for="MyOrderDetails.OrderDate" value="@Model.MyOrderDetails.OrderDate">
+                                                                    <option value="Monday">Monday</option>
+                                                                    <option value="Tuesday">Tuesday</option>
+                                                                    <option value="Wednesday">Wednesday</option>
+                                                                    <option value="Thursday">Thursday</option>
+                                                                    <option value="Friday">Friday</option>
+                                                                    <option value="Saturday">Saturday</option>
+                                                                    <option value="Sunday">Sunday</option>
+                                                                    </select>
+                                                                    
+                                                                    
+                                                                </div>
 
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                
-                                                <!-- col.// -->
-                                                
-                                            </div>
-                                            <!-- row.// -->
-                                            <br />
-                                                <button class="btn btn-success" type="submit" asp-page-handler="saveorderdetails">Save changes</button>
-                                            </form>
+
+                                                        <div class="col-lg-8">
+                                                            <div class="row gx-3">
+                                                                <div class="form-group">
+                                                                    <label>Weekly Delivery Time</label>
+                                                                    <input class="form-control" placeholder="Select Time of your recurring Orders" min="05:00" max="22:00" type="time" asp-for="@Model.MyOrderDetails.OrderTime" value="@Model.MyOrderDetails.OrderTime" required>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-8">
+                                                            <div class="row gx-3">
+                                                                <div class="form-group">
+                                                                    <label>Additional Instructions</label>
+                                                                    <input class="form-control" placeholder= "Any additional instructions" type="text" asp-for="@Model.MyOrderDetails.AdditionalInstructions" value="@Model.MyOrderDetails.AdditionalInstructions" required>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    
+                                                    <!-- col.// -->
+                                                    
+                                                </div>
+                                                <!-- row.// -->
+                                                <br />
+                                                    <button class="btn btn-success" type="submit" asp-page-handler="saveorderdetails">Save changes</button>
+                                                </form>
 
                             
-                                        <hr class="my-5" />
-                                        <h1 class="tw-text-lg tw-mb-5">Status</h1>
+                                            <hr class="my-5" />
+                                            <h1 class="tw-text-lg tw-mb-5">Status</h1>
                             
                                 if(Model.MyMealKit.Status){
-                                                    <span class="d-block" style="color:green">Your Plan is currently active</span>
-                                                    <p class="text-muted d-block">You can pause your plan to stop receiving boxes for the following weeks. </p>
-                                                    <p class="text-muted d-block">You will not be charged the following week if you pause your plan.</p>
-                                                    <br />
+                                                        <span class="d-block" style="color:green">Your Plan is currently active</span>
+                                                        <p class="text-muted d-block">You can pause your plan to stop receiving boxes for the following weeks. </p>
+                                                        <p class="text-muted d-block">You will not be charged the following week if you pause your plan.</p>
+                                                        <br />
                                 } else{
-                                                <span class="d-block" style="color:green">Your Plan is currently paused</span>
-                                                <p class="text-muted d-block">You can unpause your plan to start receiving boxes for the following weeks.</p>
-                                                <p class="text-muted d-block">You will be charged the following week of your scheduled delivery date after unpausing</p>
-                                                <br />
+                                                    <span class="d-block" style="color:green">Your Plan is currently paused</span>
+                                                    <p class="text-muted d-block">You can unpause your plan to start receiving boxes for the following weeks.</p>
+                                                    <p class="text-muted d-block">You will be charged the following week of your scheduled delivery date after unpausing</p>
+                                                    <br />
                                 }
                             
                                 
                                 
-                                            <div class="row" style="max-width: 920px">
-                                                <div class="col-md">
+                                                <div class="row" style="max-width: 920px">
+                                                    <div class="col-md">
 
-                                                    <form method="post">
-                                                        <article class="box mb-3 bg-light">
-
-                                                            
-                                                            @if(Model.MyMealKit.Status == true){
-                                                                <button type="submit" asp-page-handler="pause" class="btn float-end btn-light btn-sm rounded font-md" style="background-color:grey; color:white">Pause</button>
-                                                            }else{
-                                                    <button type="submit" asp-page-handler="pause" class="btn float-end btn-light btn-sm rounded font-md" style="background-color:blueviolet; color:white">Unpause</button>
-                                                            }
-                                                            <h6>Pause Plan</h6>
-                                                            <small class="text-muted d-block" style="width: 70%">You can pause your plan by clicking here</small>
-                                                        </article>
-                                                    </form>
-                                                </div>
-                                                <!-- col.// -->
-                                                <div class="col-md">
-                                                    <form method="post">
-                                                        <article class="box mb-3 bg-light">
-                                                <button type="submit" asp-page-handler="cancel" class="btn float-end btn-light rounded btn-sm font-md" style="background-color:indianred; color:white">Cancel</button>
-                                                            <h6>Cancel Plan</h6>
-                                                            <small class="text-muted d-block" style="width: 70%">Once you cancel your plan, there is no going back.</small>
-                                                        </article>
-                                                    </form>
-                                                </div>
-                                                <!-- col.// -->
-                                            </div>
-                                            <!-- row.// -->
-                                            }else{
-                                                    <div class="row" style="max-width: 520px">
-                                                        <div class="col-md">
+                                                        <form method="post">
                                                             <article class="box mb-3 bg-light">
-                                                                <a class="btn float-end btn-light btn-sm rounded font-md" href="/user/MealKitSubscription/Order">Start Meal Plan</a>
-                                                                <h6>Choose Your Plan</h6>
-                                                                <small class="text-muted d-block" style="width: 70%">You don't currently have a plan. Start one today by clicking here</small>
+
+                                                                
+                                                                @if(Model.MyMealKit.Status == true){
+                                                                    <button type="submit" asp-page-handler="pause" class="btn float-end btn-light btn-sm rounded font-md" style="background-color:grey; color:white">Pause</button>
+                                                            }else{
+                                                        <button type="submit" asp-page-handler="pause" class="btn float-end btn-light btn-sm rounded font-md" style="background-color:blueviolet; color:white">Unpause</button>
+                                                            }
+                                                                <h6>Pause Plan</h6>
+                                                                <small class="text-muted d-block" style="width: 70%">You can pause your plan by clicking here</small>
                                                             </article>
-                                                        </div>
-                                                        
-                                                        <!-- col.// -->
+                                                        </form>
                                                     </div>
+                                                    <!-- col.// -->
+                                                    <div class="col-md">
+                                                        <form method="post">
+                                                            <article class="box mb-3 bg-light">
+                                                            <!-- Button trigger modal -->
+                                                            <button type="button" class="btn float-end btn-light rounded btn-sm font-md" data-bs-toggle="modal" data-bs-target="#exampleModal" style="background-color:indianred; color:white;">
+                                                            Cancel Plan
+                                                            </button>
+
+                                                            <!-- Cancel Plan Modal -->
+                                                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                              <div class="modal-dialog">
+                                                                <div class="modal-content">
+                                                                  <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">Confirm Plan Cancellation</h5>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                  </div>
+                                                                  <div class="modal-body">
+                                                                    Are you sure you want to cancel your plan, you cannot undo this action.
+                                                                  </div>
+                                                                  <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                    
+                                                                    <button type="submit" asp-page-handler="cancel" class="btn btn-danger" style="background-color:indianred; color:white">Cancel Plan</button>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                            
+                                                                <h6>Cancel Plan</h6>
+                                                                <small class="text-muted d-block" style="width: 70%">Once you cancel your plan, there is no going back.</small>
+                                                            </article>
+                                                        </form>
+                                                    </div>
+                                                    <!-- col.// -->
+                                                </div>
+                                                <!-- row.// -->
+                                            }else{
+                                                        <div class="row" style="max-width: 520px">
+                                                            <div class="col-md">
+                                                                <article class="box mb-3 bg-light">
+                                                                    <a class="btn float-end btn-light btn-sm rounded font-md" href="/user/MealKitSubscription/Order">Start Meal Plan</a>
+                                                                    <h6>Choose Your Plan</h6>
+                                                                    <small class="text-muted d-block" style="width: 70%">You don't currently have a plan. Start one today by clicking here</small>
+                                                                </article>
+                                                            </div>
+                                                            
+                                                            <!-- col.// -->
+                                                        </div>
                                             }
                                         }
                             </section>
@@ -243,5 +271,82 @@
         </section>
 
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@GoogleAddressAutoCorrect.API&libraries=places&callback=initMap"></script>
-
+<!--
 <script src="/js/AddressAutoComplete.js"></script>
+-->
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@GoogleAddressAutoCorrect.API&libraries=places&callback=initMap"></script>
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=@GoogleAddressAutoCorrect.API"></script>
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=@GoogleAddressAutoCorrect.API&callback=initMap" async defer></script>
+<script>
+
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: -33.8688, lng: 151.2195 },
+            zoom: 13
+        });
+        var input = document.getElementById('address');
+
+
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.bindTo('bounds', map);
+
+        var infowindow = new google.maps.InfoWindow();
+        var marker = new google.maps.Marker({
+            map: map,
+            anchorPoint: new google.maps.Point(0, -29)
+        });
+
+        autocomplete.addListener('place_changed', function () {
+            infowindow.close();
+            marker.setVisible(false);
+            var place = autocomplete.getPlace();
+            if (!place.geometry) {
+                window.alert("Autocomplete's returned place contains no geometry");
+                return;
+            }
+
+            // If the place has a geometry, then present it on a map.
+            if (place.geometry.viewport) {
+                map.fitBounds(place.geometry.viewport);
+            } else {
+                map.setCenter(place.geometry.location);
+                map.setZoom(17);
+            }
+            marker.setIcon(({
+                url: place.icon,
+                size: new google.maps.Size(71, 71),
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(17, 34),
+                scaledSize: new google.maps.Size(35, 35)
+            }));
+            marker.setPosition(place.geometry.location);
+            marker.setVisible(true);
+
+            var address = '';
+            if (place.address_components) {
+                address = [
+                    (place.address_components[0] && place.address_components[0].short_name || ''),
+                    (place.address_components[1] && place.address_components[1].short_name || ''),
+                    (place.address_components[2] && place.address_components[2].short_name || '')
+                ].join(' ');
+            }
+
+            infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
+            infowindow.open(map, marker);
+
+            // Location details
+            for (var i = 0; i < place.address_components.length; i++) {
+                if (place.address_components[i].types[0] == 'postal_code') {
+                    document.getElementById('postal_code').innerHTML = place.address_components[i].long_name;
+                }
+                if (place.address_components[i].types[0] == 'country') {
+                    document.getElementById('country').innerHTML = place.address_components[i].long_name;
+                }
+            }
+            document.getElementById('location').innerHTML = place.formatted_address;
+            document.getElementById('lat').innerHTML = place.geometry.location.lat();
+            document.getElementById('lon').innerHTML = place.geometry.location.lng();
+        });
+    }
+</script>
