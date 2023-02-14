@@ -31,6 +31,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" />
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.js"></script>
+    <script src="~/js/js-snackbar.js"></script>
 </head>
 
 <body class="">
@@ -55,7 +56,7 @@
                                 {
                             new string[] {"Our Plans", "/Index"},
                             new string[] {"How it works", "/Privacy"},
-                            new string[] {"Users", "/User/Find"},
+                            new string[] {"Users", "/Users"},
                             new string[] {"Menus", "0"},
                             new string[] {"Services", "1"}
                                                                                         };
@@ -108,59 +109,42 @@
                 @{
                     if (SignInManager.IsSignedIn(User))
                     {
-                                    <ul class="navbar-nav">
-                                    @*Start Of Past Invoices Link*@
-                                        <li class="nav-item dropdown mx-2 d-flex align-items-center">
-                                            <a class="nav-link tw-text-black p-1 hover:tw-bg-gray-300 active:tw-bg-gray-200 tw-group rounded-circle" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="NotificationBtn">
-                                            <i class="fa-solid fa-file-invoice-dollar"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-end p-0 tw-w-96" aria-labelledby="alertsDropdown">
-                                                <h6 class="dropdown-header text-black tw-text-lg">Past Invoices</h6>
-                                                <div class="dropdown-divider m-0"></div>
-                                                <div id="Notifications" class="tw-overflow-y-auto tw-max-h-96 scrollbar-primary">
-                                                    <p class="text-center p-5">You Currently have No Invoices</p>
-                                                </div>
-                                                <div class="dropdown-divider m-0"></div>
-                                                <a class="dropdown-item py-2 text-center" href="/user/PastInvoices">View all</a>
-                                            </div>
-                                        </li>
-                                    @*End Of Past Invoices Link*@
-                                        <li class="nav-item dropdown mx-2 d-flex align-items-center">
-                                            <a class="nav-link tw-text-black p-1 hover:tw-bg-gray-300 active:tw-bg-gray-200 tw-group rounded-circle" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="NotificationBtn">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="tw-w-6 tw-h-6 tw-stroke-black group-aria-expanded:tw-fill-black">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-                                                </svg>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-end p-0 tw-w-96" aria-labelledby="alertsDropdown">
-                                                <h6 class="dropdown-header text-black tw-text-lg">Notifications</h6>
-                                                <div class="dropdown-divider m-0"></div>
-                                                <div id="Notifications" class="tw-overflow-y-auto tw-max-h-96 scrollbar-primary">
-                                                <p class="text-center p-5">No New Notifications!</p>
-                                                </div>
-                                                <div class="dropdown-divider m-0"></div>
-                                                <a class="dropdown-item py-2 text-center" href="#">View all</a>
-                                            </div>
-                                        </li>
-                                        <li class="nav-item dropdown mx-2">
-                                            <button class="nav-link tw-text-black dropdown-toggle" type="button" data-bs-toggle="dropdown">@user.UserName</button>
-
-                                            <ul class="dropdown-menu dropdown-menu-end">
-                                                <li>
-                                                    <a class="dropdown-item" asp-page="/User/Index" asp-route-username="@user.UserName">Profile</a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" asp-page="/Account/Index">Account settings</a>
-                                                </li>
-                                                <li class="dropdown-divider"></li>
-                                                <li>
-                                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logOutModal">Logout</button>
-                                                </li>
-                                            </ul>
-                                        </li>
-                            
-                                        
-                                        
-                                    </ul>
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown mx-2 d-flex align-items-center">
+                                <a class="nav-link tw-text-black p-1 hover:tw-bg-gray-300 active:tw-bg-gray-200 tw-group rounded-circle" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="NotificationBtn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="tw-w-6 tw-h-6 tw-stroke-black group-aria-expanded:tw-fill-black">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                                    </svg>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end p-0 tw-w-96" aria-labelledby="alertsDropdown">
+                                    <h6 class="dropdown-header text-black tw-text-lg">Notifications</h6>
+                                    <div class="dropdown-divider m-0"></div>
+                                    <div id="Notifications" class="tw-overflow-y-auto tw-max-h-96 scrollbar-primary">
+                                    <p class="text-center p-5">No New Notifications!</p>
+                                    </div>
+                                    <div class="dropdown-divider m-0"></div>
+                                    <a class="dropdown-item py-2 text-center" href="#">View all</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown mx-2">
+                                <button class="nav-link tw-text-black dropdown-toggle" type="button" data-bs-toggle="dropdown">@user.UserName</button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <a class="dropdown-item" asp-page="/User/Index" asp-route-username="@user.UserName">Profile</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-page="/User/Grocery%20Tracker/Index" asp-route-username="@user.Id">Profile</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-page="/Account/Index">Account settings</a>
+                                    </li>
+                                    <li class="dropdown-divider"></li>
+                                    <li>
+                                        <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logOutModal">Logout</button>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
                     }
                     else
                     {
@@ -235,21 +219,21 @@
 
     <script src="~/js/dayjs/dayjs.min.js"></script>
     <script src="~/js/dayjs/plugin/calendar.js"></script>
+    <script src="~/js/dayjs/plugin/customParseFormat.js"></script>
     <script>
         dayjs().format()
         dayjs.extend(window.dayjs_plugin_calendar)
+        dayjs.extend(window.dayjs_plugin_customParseFormat)
     </script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="sweetalert2.all.min.js"></script>
     <script src="~/js/swal.js"></script>
 
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
     <script src="~/js/notification.js"></script>
-    <script src="~/js/js-snackbar.js"></script>
 
     <!--Script for google translate on webpage probably not gonna use can remove if not using-->
     <script src="https://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate"></script>
@@ -262,6 +246,7 @@
 
 
     @await RenderSectionAsync("Scripts", required: false)
+    @await Component.InvokeAsync("Notyf")
 </body>
 
 </html>

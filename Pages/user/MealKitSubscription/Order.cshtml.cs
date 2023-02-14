@@ -2,10 +2,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Net.Http;
 using Spoonful.Models;
 using Spoonful.Services;
+using Spoonful.Settings;
 using Stripe;
 using Stripe.Checkout;
+using Newtonsoft.Json;
 
 namespace Spoonful.Pages.user.MealKitSubscription
 {
@@ -20,20 +23,21 @@ namespace Spoonful.Pages.user.MealKitSubscription
         private readonly MealKitService _mealKitService;
         private readonly OrderService _orderService;
         private readonly VoucherService _voucherService;
+        private readonly HttpClient _httpClient;
+        private readonly GoogleAddressAutoCorrectConfiguration _googleAddressAutoCorrectConfiguration;
 
         public MealKit MyMealKit { get; set; }
-
         public OrderDetails MyOrderDetails { get;set; }
-
-        [BindProperty]
         public string Vcode { get; set; }
-        public OrderModel(AuthDbContext db, MealKitService mealKitService, UserManager<CustomerUser> userManager, OrderService orderService, VoucherService voucherService)
+        public OrderModel(AuthDbContext db, MealKitService mealKitService, UserManager<CustomerUser> userManager, OrderService orderService, VoucherService voucherService, GoogleAddressAutoCorrectConfiguration googleAddressAutoCorrectConfiguration)
         {
             _db = db;
             _mealKitService = mealKitService;
             _userManager = userManager;
             _orderService = orderService;
             _voucherService = voucherService;
+            _httpClient = new HttpClient();
+            _googleAddressAutoCorrectConfiguration = googleAddressAutoCorrectConfiguration;
         }
 
         public async Task<IActionResult> OnGet()
@@ -136,6 +140,8 @@ namespace Spoonful.Pages.user.MealKitSubscription
             
 
             Vouchers? voucher = _voucherService.GetVoucherByCode(Vcode);
+            Console.WriteLine(Vcode);
+            Console.WriteLine("Hello");
             int quantity = 1;
             int deliminator = 100;
             if(voucher != null)
@@ -184,7 +190,7 @@ namespace Spoonful.Pages.user.MealKitSubscription
                   "card"  
                 },
                     Mode = "payment",
-                    SuccessUrl = domain + $"/user/MealKitSubscription/OrderConfirmed?id={MyOrderDetails.Id}",
+                    SuccessUrl = domain + $"/user/MealKitSubscription/OrderConfirmed?id={MyOrderDetails.Id}&code={Vcode}",
                     //SuccessUrl = domain + "/OrderConfirmed.cshtml?session_id={CHECKOUT_SESSION_ID}",
                     CancelUrl = domain + "/user/MealKitSubscription/Order",
                 };
@@ -217,7 +223,6 @@ namespace Spoonful.Pages.user.MealKitSubscription
                     if (DateTime.Compare(Convert.ToDateTime(voucherDate), Convert.ToDateTime(date)) > 0)
                     {
                         return new JsonResult(new{ status = "Valid", discountAmt = voucher.discountAmount});
-                        //return new JsonResult("Valid");
                     }
                     else
                     {
@@ -234,6 +239,47 @@ namespace Spoonful.Pages.user.MealKitSubscription
                 return new JsonResult(new { status = "InvalidCode"});
             }
             System.Diagnostics.Debug.WriteLine(code);
+        }
+
+
+        public async Task<JsonResult> OnPostValidateAddress(string address)
+        {
+            var apiKey = _googleAddressAutoCorrectConfiguration.addValAPI;
+            var response = await _httpClient.GetAsync($"https://maps.googleapis.com/maps/api/geocode/json?address={address}&key={apiKey}");
+            var responseString = await response.Content.ReadAsStringAsync();
+            var responseJson = JsonConvert.DeserializeObject<dynamic>(responseString);
+            var status = responseJson["status"];
+            string postalCode = "";
+
+            // Validate the address
+            if (status == "OK")
+            {
+                // Get the postal code from the address components
+                foreach (var component in responseJson.results[0].address_components)
+                {
+                    if (component.types[0] == "postal_code")
+                    {
+                        postalCode = component.long_name;
+                        break;
+                    }
+                }
+
+                Console.WriteLine(address);
+                Console.WriteLine(status);
+                //Console.WriteLine(responseJson);
+                Console.WriteLine(postalCode);
+                // Check if the postal code is present
+                if (string.IsNullOrEmpty(postalCode))
+                {
+                    return new JsonResult(new { msg = "The address is not complete with a postal code.", status = "no code" });
+                }
+                else
+                {
+                    return new JsonResult(new { msg = "The address is valid and complete with a postal code.", status = "valid", code = postalCode });
+                }
+            }
+
+            return new JsonResult(new { msg = "InvalidAddress", status = "failed" }); ;
         }
     }
 }

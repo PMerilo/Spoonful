@@ -23,10 +23,12 @@ namespace Spoonful.Pages.user.MealKitSubscription
         private readonly InvoiceMealKitService _invoiceMealKitService;
         private readonly MealKitSubscriptionLogService _mealKitSubscriptionLogService;
         private IWebHostEnvironment _environment;
+        
+        private readonly VoucherService _voucherService;
 
 
 
-        public OrderConfirmedModel(UserManager<CustomerUser> userManager, AuthDbContext db, MealKitService mealKitService, OrderService orderService, IEmailService emailSender, InvoiceMealKitService invoiceMealKitService, MealKitSubscriptionLogService mealKitSubscriptionLogService, IWebHostEnvironment environment)
+        public OrderConfirmedModel(UserManager<CustomerUser> userManager, AuthDbContext db, MealKitService mealKitService, OrderService orderService, IEmailService emailSender, InvoiceMealKitService invoiceMealKitService, MealKitSubscriptionLogService mealKitSubscriptionLogService, IWebHostEnvironment environment, VoucherService voucherService)
         {
             _userManager = userManager;
             _db = db;
@@ -36,15 +38,25 @@ namespace Spoonful.Pages.user.MealKitSubscription
             _invoiceMealKitService = invoiceMealKitService;
             _mealKitSubscriptionLogService = mealKitSubscriptionLogService;
             _environment = environment;
+            _voucherService = voucherService;
         }
-        
-
 
         public async Task<IActionResult> OnGet(string id)
         {
             var user = await _userManager.GetUserAsync(User);
             MealKit? mealkit = _mealKitService.GetMealKitByUserId(user.Id);
             OrderDetails? orderDetails = _orderService.GetOrderDetailsByUserId(user.Id);
+            Vouchers? voucher = _voucherService.GetVoucherByCode(code);
+            int val = 100;
+            string Vcode = "";
+            if (voucher != null)
+            {
+                val = (int)(val - voucher.discountAmount);
+                voucher.Quantity = voucher.Quantity - 1;
+                voucher.Used = voucher.Used + 1;
+                Vcode = voucher.voucherCode;
+                _voucherService.UpdateVoucher(voucher);
+            }
             if (mealkit != null && orderDetails != null)
             {
                 if(orderDetails.Id == id)
@@ -79,8 +91,9 @@ namespace Spoonful.Pages.user.MealKitSubscription
 
                         
                         double totalCost = (double)(serving * mealkit.noOfPeoplePerWeek * mealkit.noOfServingsPerPerson * mealkit.noOfRecipesPerWeek);
-                        
-                        Invoice invoice = new Invoice() { MenuPreference = mealkit.MenuPreference, noOfRecipesPerWeek = mealkit.noOfRecipesPerWeek , noOfPeoplePerWeek = mealkit.noOfPeoplePerWeek, noOfServingsPerPerson = mealkit.noOfServingsPerPerson, Address = orderDetails.Address,OrderDate = orderDetails.OrderDate, OrderTime = orderDetails.OrderTime, Cost = totalCost, Name = user.FirstName + " " + user.LastName, Email = user.Email, userId = user.Id, mealkitId = mealkit.Id, orderDetailsId = orderDetails.Id};
+                        totalCost = (totalCost / 100) * val;
+
+                        Invoice invoice = new Invoice() { MenuPreference = mealkit.MenuPreference, noOfRecipesPerWeek = mealkit.noOfRecipesPerWeek , noOfPeoplePerWeek = mealkit.noOfPeoplePerWeek, noOfServingsPerPerson = mealkit.noOfServingsPerPerson, Address = orderDetails.Address,OrderDate = orderDetails.OrderDate, OrderTime = orderDetails.OrderTime, Cost = totalCost, Name = user.FirstName + " " + user.LastName, Email = user.Email, userId = user.Id, mealkitId = mealkit.Id, orderDetailsId = orderDetails.Id, DiscountCodeUsed = Vcode};
                         MealKitSubscriptionLog mealKitSubscriptionLog = new MealKitSubscriptionLog() { noOfUsersSubscribed = 1, description = $"{user.UserName} has subscribed to our meal kit plan" };
 
                         _invoiceMealKitService.AddInvoice(invoice);

@@ -155,6 +155,41 @@ namespace Spoonful.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Spoonful.Models.AuditLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Action")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomerUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTimeOffset>("DateCreated")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerUserId");
+
+                    b.ToTable("AuditLogs");
+                });
+
             modelBuilder.Entity("Spoonful.Models.Blog", b =>
                 {
                     b.Property<int>("Id")
@@ -239,6 +274,9 @@ namespace Spoonful.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTimeOffset>("LastPassChanged")
+                        .HasColumnType("datetimeoffset");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -262,8 +300,8 @@ namespace Spoonful.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("RoutesId")
-                        .HasColumnType("int");
+                    b.Property<bool>("RequirePassChange")
+                        .HasColumnType("bit");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -288,8 +326,6 @@ namespace Spoonful.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.HasIndex("RoutesId");
-
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
@@ -309,15 +345,15 @@ namespace Spoonful.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("customerConfirmation")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("deliveryConfirmation")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("deliveryDateTime")
-                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("status")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("stopsId")
@@ -384,6 +420,24 @@ namespace Spoonful.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Feedback");
+                });
+
+            modelBuilder.Entity("Spoonful.Models.Followers", b =>
+                {
+                    b.Property<string>("FollowingId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FollowerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("FollowingId", "FollowerId");
+
+                    b.HasIndex("FollowerId");
+
+                    b.ToTable("Followers");
                 });
 
             modelBuilder.Entity("Spoonful.Models.Invoice", b =>
@@ -574,6 +628,35 @@ namespace Spoonful.Migrations
                     b.ToTable("MenuItem");
                 });
 
+            modelBuilder.Entity("Spoonful.Models.Messages", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReceiverId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SenderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReceiverId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("Spoonful.Models.Notification", b =>
                 {
                     b.Property<int>("Id")
@@ -692,6 +775,32 @@ namespace Spoonful.Migrations
                     b.ToTable("OrderDetails");
                 });
 
+            modelBuilder.Entity("Spoonful.Models.PreviousPassword", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CustomerUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTimeOffset>("DateCreated")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerUserId");
+
+                    b.ToTable("PreviousPassword");
+                });
+
             modelBuilder.Entity("Spoonful.Models.Recipe", b =>
                 {
                     b.Property<int>("Id")
@@ -744,7 +853,14 @@ namespace Spoonful.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Region")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -947,6 +1063,11 @@ namespace Spoonful.Migrations
                     b.Property<double>("Rating")
                         .HasColumnType("float");
 
+                    b.Property<int?>("RoutesId")
+                        .HasColumnType("int");
+
+                    b.HasIndex("RoutesId");
+
                     b.HasDiscriminator().HasValue("Driver");
                 });
 
@@ -1001,11 +1122,13 @@ namespace Spoonful.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Spoonful.Models.CustomerUser", b =>
+            modelBuilder.Entity("Spoonful.Models.AuditLog", b =>
                 {
-                    b.HasOne("Spoonful.Models.Routes", null)
-                        .WithMany("CustomerUser")
-                        .HasForeignKey("RoutesId");
+                    b.HasOne("Spoonful.Models.CustomerUser", "CustomerUser")
+                        .WithMany()
+                        .HasForeignKey("CustomerUserId");
+
+                    b.Navigation("CustomerUser");
                 });
 
             modelBuilder.Entity("Spoonful.Models.Delivery", b =>
@@ -1027,6 +1150,44 @@ namespace Spoonful.Migrations
                     b.Navigation("Stops");
                 });
 
+            modelBuilder.Entity("Spoonful.Models.Followers", b =>
+                {
+                    b.HasOne("Spoonful.Models.CustomerUser", "Follower")
+                        .WithMany("Followings")
+                        .HasForeignKey("FollowerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Spoonful.Models.CustomerUser", "Following")
+                        .WithMany("Followers")
+                        .HasForeignKey("FollowingId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Follower");
+
+                    b.Navigation("Following");
+                });
+
+            modelBuilder.Entity("Spoonful.Models.Messages", b =>
+                {
+                    b.HasOne("Spoonful.Models.CustomerUser", "Receiver")
+                        .WithMany("Sent")
+                        .HasForeignKey("ReceiverId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Spoonful.Models.CustomerUser", "Sender")
+                        .WithMany("Received")
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Receiver");
+
+                    b.Navigation("Sender");
+                });
+
             modelBuilder.Entity("Spoonful.Models.Notification", b =>
                 {
                     b.HasOne("Spoonful.Models.CustomerUser", "User")
@@ -1036,6 +1197,17 @@ namespace Spoonful.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Spoonful.Models.PreviousPassword", b =>
+                {
+                    b.HasOne("Spoonful.Models.CustomerUser", "CustomerUser")
+                        .WithMany("PreviousPassword")
+                        .HasForeignKey("CustomerUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CustomerUser");
                 });
 
             modelBuilder.Entity("Spoonful.Models.Stops", b =>
@@ -1071,9 +1243,28 @@ namespace Spoonful.Migrations
                     b.Navigation("Vouchers");
                 });
 
+            modelBuilder.Entity("Spoonful.Models.DriverDetails", b =>
+                {
+                    b.HasOne("Spoonful.Models.Routes", "Routes")
+                        .WithMany("DriverDetails")
+                        .HasForeignKey("RoutesId");
+
+                    b.Navigation("Routes");
+                });
+
             modelBuilder.Entity("Spoonful.Models.CustomerUser", b =>
                 {
+                    b.Navigation("Followers");
+
+                    b.Navigation("Followings");
+
                     b.Navigation("Notifications");
+
+                    b.Navigation("PreviousPassword");
+
+                    b.Navigation("Received");
+
+                    b.Navigation("Sent");
 
                     b.Navigation("UserDetails")
                         .IsRequired();
@@ -1081,7 +1272,7 @@ namespace Spoonful.Migrations
 
             modelBuilder.Entity("Spoonful.Models.Routes", b =>
                 {
-                    b.Navigation("CustomerUser");
+                    b.Navigation("DriverDetails");
 
                     b.Navigation("Stops");
                 });

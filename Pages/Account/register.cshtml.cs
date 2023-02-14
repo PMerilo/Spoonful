@@ -12,6 +12,7 @@ using Microsoft.Win32;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Spoonful.Services;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace Spoonful.Pages.Account
 {
@@ -21,15 +22,19 @@ namespace Spoonful.Pages.Account
         private UserManager<CustomerUser> userManager { get; }
         private SignInManager<CustomerUser> signInManager { get; }
         private CustomerUserService _customerUserService { get; }
+        private readonly IEmailService emailService;
+        private readonly INotyfService toastService;
 
         [BindProperty]
         public Register RModel { get; set; }
         public RegisterModel(UserManager<CustomerUser> userManager,
-        SignInManager<CustomerUser> signInManager, CustomerUserService customerUserService)
+        SignInManager<CustomerUser> signInManager, CustomerUserService customerUserService, IEmailService emailService, INotyfService toastService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             _customerUserService = customerUserService;
+            this.emailService = emailService;
+            this.toastService = toastService;
         }
         public void OnGet()
         {
@@ -53,12 +58,29 @@ namespace Spoonful.Pages.Account
                     //var userclaims = await userManager.GetClaimsAsync(user);
                     //await userManager.RemoveClaimAsync(user, );
                     //await userManager.AddClaimAsync(user, new Claim(ClaimTypes.NameIdentifier, RModel.UserName));
-                    await signInManager.SignInAsync(user, false);
                     _customerUserService.UpdateLastLogin(user.UserName);
                     await _customerUserService.SetUserRoleAsync(user.UserName, Roles.Customer);
-                    TempData["FlashMessage.Text"] = "Created account successfully";
-                    TempData["FlashMessage.Type"] = "success";
-                    return RedirectToPage("/Index");
+                    toastService.Success("Created account successfully. Please check your email for account confirmation");
+                    var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
+                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    var callbackUrl = Url.Page(
+                    "/Account/Confirmation",
+                        pageHandler: null,
+                        values: new { code = code, username = user.UserName },
+                        protocol: Request.Scheme);
+
+                    var resultEmail = emailService.SendEmail(
+                        user.Email,
+                        "Spoonful Account Confirmation",
+                        $"Please verify your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.",
+                        null,
+                        null);
+
+                    if (!resultEmail)
+                    {
+                        toastService.Success("Failed to send email");
+                    }
+                    return RedirectToPage("./login");
                 }
                 foreach (var error in result.Errors)
                 {
@@ -96,6 +118,10 @@ namespace Spoonful.Pages.Account
         [DataType(DataType.Password)]
         [Compare(nameof(Password), ErrorMessage = "Passwords must match")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        public bool Terms { get; set; }
+
     }
 
 }

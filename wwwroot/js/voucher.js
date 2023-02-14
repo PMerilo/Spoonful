@@ -21,6 +21,9 @@
                 })
                 discount_card.style.display = "";
                 $('.cart-discount').text("Discount of " + data.discountAmt + "% has been applied!!")
+                $('#discount_code_entered').val(discountcode)
+                console.log($('#discount_code_entered'))
+                console.log(discountcode)
             }
             else if (data.status == "InvalidCode") {
                 new SnackBar({
@@ -30,6 +33,7 @@
                 })
                 discount_card.style.cssText = "display:none !important;";
                 $('.cart-discount').text(0 + "%")
+                $('#discount_code_entered').val("Null")
             }
             else if (data.status == "Expired") {
                 new SnackBar({
@@ -39,6 +43,7 @@
                 })
                 discount_card.style.cssText = "display:none !important;";
                 $('.cart-discount').text(0 + "%")
+                $('#discount_code_entered').val("Null")
             }
             else if (data.status == "ran_out") {
                 new SnackBar({
@@ -48,6 +53,7 @@
                 })
                 discount_card.style.cssText = "display:none !important;";
                 $('.cart-discount').text(0 + "%")
+                $('#discount_code_entered').val("Null")
             }
             else {
                 new SnackBar({
@@ -57,6 +63,7 @@
                 })
                 discount_card.style.cssText = "display:none !important;";
                 $('.cart-discount').text(0 + "%")
+                $('#discount_code_entered').val("Null")
             }
         }
     })

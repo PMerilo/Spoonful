@@ -108,8 +108,11 @@
 							
 					        <div class="form-group">
 					            <label>Address</label>
-								<input type="text" id="address" class="form-control" placeholder="Enter Delivery Address" asp-for="@Model.MyOrderDetails.Address" required>
-
+								<input type="text" id="address" class="form-control" onfocusout="ValidateAddress(this)" placeholder="Enter Delivery Address" asp-for="@Model.MyOrderDetails.Address" required>
+								<p id="addressval" style="color:red;display:none;"></p>
+								
+					           
+					        
 							</div>
 					        
 					        <div class="form-group">
@@ -226,8 +229,8 @@
 		                	<hr>
 							<div class="form-control d-flex align-items-center col-12">
 								<div class="col-md-9">
-									<input type="text" asp-for="Vcode" class="discount-input" placeholder="Enter promo code">
-									<input type="hidden" id="discount_code_entered" value="">
+									<input type="text" class="discount-input" placeholder="Enter promo code">
+									<input type="hidden" asp-for="Vcode" id="discount_code_entered" value="Null">
 								</div>
 
 								<div class="col-md-3">
@@ -251,7 +254,7 @@
 								-->
 		                		
 		                	</ul>
-							<button type="submit" class="green-btn-full-confirmed" style="width:100%">Order Now</button>
+							<button type="submit" id="submitBtn" class="green-btn-full-confirmed" style="width:100%">Order Now</button>
 		                    
 		                    <div class="text-center"><small>Or Call Us at <strong>0432 48432854</strong></small></div>
 		                </div>
