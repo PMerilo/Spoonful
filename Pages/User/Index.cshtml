@@ -1,0 +1,25 @@
+﻿@page "{Username}"
+@model Spoonful.Pages.User.IndexModel
+@{
+}
+<div class="row">
+    <div class="card col-6 mx-auto" style="width: 18rem;">
+        <img src="@(string.IsNullOrEmpty(Model.TargetUser.User.ImageURL) ? "/images/people/avatar-1.png" : Model.TargetUser.User.ImageURL)" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">@@@Model.TargetUser.User.UserName</h5>
+            <p class="card-text">@Model.TargetUser.User.FirstName @Model.TargetUser.User.LastName</p>
+            <p class="card-text">
+                <div class="row">
+                    <div class="col-12">
+                        <h3 class="mb-0 fs-2">@Model.TargetUser.User.Followers.Count</h3>
+                        <small>Followers</small>
+                    </div>
+                </div>
+            </p>
+            @if (Model.TargetUser.User.UserName != User.Identity.Name)
+            {
+                <a href="/User/Chat/@Model.TargetUser.UserId" class="btn btn-primary w-100">Message <i class="bi bi-send-fill"></i></a>
+            }
+        </div>
+    </div>
+</div>

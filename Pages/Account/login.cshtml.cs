@@ -85,8 +85,7 @@ namespace Spoonful.Pages.Account
                     if (user.isDisabled)
                     {
                         await signInManager.SignOutAsync();
-                        TempData["FlashMessage.Text"] = $"You cannot log in right now. Please contact the system administator for assistance.";
-                        TempData["FlashMessage.Type"] = "danger";
+                        toastService.Error("You cannot log in right now. Please contact the system administator for assistance.");
                         return Page();
                     }
                     if (user.RequirePassChange)
@@ -94,9 +93,8 @@ namespace Spoonful.Pages.Account
 						await signInManager.SignOutAsync();
 						var code = await userManager.GeneratePasswordResetTokenAsync(user);
 						code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-						TempData["FlashMessage.Text"] = "Please set your password to continue to login";
-						TempData["FlashMessage.Type"] = "warning";
-						return RedirectToPage("/Account/ResetPassword", new { code = code, username = user.UserName });
+                        toastService.Error("Please set your password to continue to login");
+                        return RedirectToPage("/Account/ResetPassword", new { code = code, username = user.UserName });
 					}
 					if (await userManager.IsInRoleAsync(user, Roles.Admin) && await _customerUserService.ValidateLastPassChangedAsync(user.UserName))
 					{
@@ -108,9 +106,8 @@ namespace Spoonful.Pages.Account
 						return RedirectToPage("/Account/ResetPassword", new { code = code, username = user.UserName });
 					}
 					_customerUserService.UpdateLastLogin(user.UserName);
-                    TempData["FlashMessage.Text"] = $"Logged in successfully";
-                    TempData["FlashMessage.Type"] = "success";
-					if (await userManager.IsInRoleAsync(user, Roles.Admin))
+                    toastService.Success("Logged in successfully");
+                    if (await userManager.IsInRoleAsync(user, Roles.Admin))
                     {
 						return Redirect(ReturnUrl ?? "/Admin");
 					}

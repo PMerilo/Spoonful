@@ -1,25 +1,3 @@
 ﻿//TODO
-Notifications
-	make send to all use Notfy
 
-User Management
-	Admin
-		Add Additional Information and details
-
-	Password Policies
-		Password Expiry
-		Password Lockout
-		Notify suspicious login attempt
-			Lockout
-			Different Device
-		Force change password
-
-	Error handling for forms
-	Ensure same buttons
 	Alerts for forms
-
-Audit Logs
-
-Followers
-	Notify when receving msgs
-Session

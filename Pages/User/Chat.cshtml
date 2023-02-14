@@ -18,14 +18,10 @@
             <div class="border-bottom">
                 <div class="d-flex px-4 py-2 align-items-center">
                     <div class="p-2">
-                        <img class="rounded-circle img-fluid" width="40" src="/images/people/avatar1.jpg" alt="">
+                        <img class="rounded-circle img-fluid" width="40" src="@(string.IsNullOrEmpty(Model.TargetUser.User.ImageURL) ? "/images/people/avatar-1.png" : Model.TargetUser.User.ImageURL)" alt="">
                     </div>
                     <div class="px-5 fs-4 chat-name" id="username">@@@Model.TargetUser.User.UserName</div>
-                    <div class="ms-auto">
-                        <button class="btn" id="info">
-                            <i class="fs-4 bi bi-info-circle"></i>
-                        </button>
-                    </div>
+                    
 
                 </div>
             </div>
@@ -33,40 +29,29 @@
     </div>
     <div class="row flex-grow-1 overflow-auto">
         <div class="col-xxl-3 col-sm-4 p-0 border-end vstack overflow-auto" style="height:100%;">
-            <a class="chat text-black" href='/admin/requests/chat/{{id}}'>
-                <div class="hstack gap-4 p-3 position-relative">
-                    <img class="rounded-circle img-fluid" width="60" src="/images/avatars/avatar1.jpg" alt="">
-                    <div class="d-flex flex-column justify-content-center flex-grow-1">
-                        <span>Perry</span>
-                        <span class="text-truncate" style="max-width: 50%;">HI<i class="bi bi-check"></i>dwadwa</span>
+            @foreach (var item in Model.OpenChats)
+            {
+                <a class="chat text-black" href='/User/Chat/@item.Id'>
+                    <div class="hstack gap-4 p-3 position-relative">
+                        <img class="rounded-circle img-fluid" width="60" src="@(string.IsNullOrEmpty(item.ImageURL) ? "/images/people/avatar-1.png" : item.ImageURL)" alt="">
+                        <div class="d-flex flex-column justify-content-center flex-grow-1">
+                            <span>@@@item.UserName</span>
+                            @*<span class="text-truncate" style="max-width: 50%;">HI<i class="bi bi-check"></i>dwadwa</span>*@
+                        </div>
                     </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-xxl-9 col-sm-8 p-0 vstack" style="display: none; height:100%;" id="info-panel">
-            Hi
+                </a>
+            }
+            
         </div>
         <div class="col-xxl-9 col-sm-8 p-0 vstack" style="height:100%;">
             <div class="flex-grow-1 overflow-auto" id="chat-panel">
-               
-                <div class="d-flex justify-content-end">
-                    <div class="chat-bubble chat-bubble--right text-break" style="max-width: 50%;">
-                       wwedasd
-                    </div>
-                </div>
-                <div class="d-flex">
-                    <div class="chat-bubble chat-bubble--left text-break" style="max-width: 50%;">
-                        dxwad
-                    </div>
-                </div>
-
             </div>
             <div class="message-box border-top">
                 <div id="chat-box" class=" d-flex p-2">
                     <input type="hidden" value="@Model.CurrentUser.UserName" id="sender"/>
                     <input id="messageInput" class="flex-grow-1 form-control" type="text" placeholder="Enter Message" required
                             autocomplete="off" />
-                    <button id="sendButton" class="btn btn-primary">Send</button>
+                    <button id="sendButton" class="btn btn-primary ms-3">Send</button>
                 </div>
 
             </div>
