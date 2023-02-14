@@ -32,7 +32,7 @@ namespace Spoonful.Services
 
         public Delivery? GetDeliveryById(int id)
         {
-            Delivery? delivery = _context.Delivery.FirstOrDefault(x => x.Id.Equals(id));
+            Delivery? delivery = _context.Delivery.Include(u => u.OrderDetails).Include(u => u.Stops).FirstOrDefault(x => x.Id.Equals(id));
             return delivery;
         }
 
@@ -44,7 +44,7 @@ namespace Spoonful.Services
 
         public Routes? GetRouteByRegion(string region)
         {
-            Routes? route = _context.Route.FirstOrDefault(x => x.Region.Equals(region));
+            Routes? route = _context.Route.Where(v => v.Status == "Started").FirstOrDefault(x => x.Region.Equals(region));
             return route;
         }
 
@@ -90,9 +90,25 @@ namespace Spoonful.Services
             return deliveries;
         }
 
+        public List<Delivery> GetAllDeliveriesForDriver(int id)
+        {
+            var deliveries = _context.Delivery.Include(u => u.OrderDetails).Include(u => u.Stops).Where(u => u.Stops.RoutesId == id).ToList();
+            return deliveries;
+        }
+
         public List<Routes> GetAllRoutes()
         {
             return _context.Route.OrderByDescending(v => v.CreatedTime).ToList();
+        }
+
+        public List<Routes> GetAllNonCompletedRoutes()
+        {
+            return _context.Route.OrderByDescending(v => v.CreatedTime).Where(v => v.Status == "Started").ToList();
+        }
+
+        public List<DriverDetails> GetAllDeliveryDrivers()
+        {
+            return _context.DriverDetails.Include(u => u.User).ToList();
         }
 
         public void AddRoute(Routes route)
@@ -108,6 +124,26 @@ namespace Spoonful.Services
         public void DeleteRoute(Routes route)
         {
             _context.Route.Remove(route);
+            _context.SaveChanges();
+        }
+
+        public void CompleteRoutes()
+        {
+            List<Routes> nonCompleteRoutes =  _context.Route.OrderByDescending(v => v.CreatedTime).Where(v => v.Status == "Started").ToList();
+            if(nonCompleteRoutes.Count != 0)
+            {
+                foreach (Routes route in nonCompleteRoutes)
+                {
+                    route.Status = "Completed";
+                    _context.SaveChanges();
+                }
+            }
+        }
+
+        public void CompleteRoute(int Id)
+        {
+            Routes nonCompletedRoute = _context.Route.FirstOrDefault(r => r.Id == Id);
+            nonCompletedRoute.Status = "Completed";
             _context.SaveChanges();
         }
 
@@ -148,13 +184,102 @@ namespace Spoonful.Services
 
         public void CreateRoutes(List<string> postalCodes)
         {
-            CreateBaseRoutes();
             List<Routes> routeList = GetAllRoutes();
-            var createdTime = routeList[0].CreatedTime.ToString("yyyy-MM-dd");
-            Console.WriteLine(createdTime);
-            Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd"));
-            if (createdTime != DateTime.Now.ToString("yyyy-MM-dd"))
+            if(routeList.Count != 0)
             {
+                List<DriverDetails> Drivers = GetAllDeliveryDrivers();
+                var createdTime = routeList[0].CreatedTime.AddDays(1).ToString("yyyy-MM-dd");
+                Console.WriteLine(createdTime);
+                Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd"));
+                //for (int i = 0; i < 5; i++)
+                //{
+                //    Routes route = routeList[i];
+                //    Drivers[i].RoutesId = route.Id;
+                //    Console.WriteLine($"{Drivers[i].User.UserName} assigned to Route {route.Id}");
+                //}
+                if (createdTime == DateTime.Now.ToString("yyyy-MM-dd"))
+                {
+                    Console.WriteLine(routeList.Count);
+                    if (Drivers[0].RoutesId != null)
+                    {
+                        for (int i = 0; i < 5; i++)
+                        {
+                            Drivers[i].RoutesId = null;
+                            Console.WriteLine("null");
+                        }
+                    }
+                    if (routeList.Count >= 5)
+                    {
+                        Console.WriteLine(">=5");
+                        CompleteRoutes();
+                        CreateNewRoutes();
+                    }
+                    List<Routes> newrouteList = GetAllNonCompletedRoutes();
+                    for (int i = 0; i < 5; i++)
+                    {
+                        Routes route = newrouteList[i];
+                        Drivers[i].RoutesId = route.Id;
+                        Console.WriteLine($"{Drivers[i].User.UserName} assigned to Route {route.Id}");
+                    }
+                    foreach (string postalCode in postalCodes)
+                    {
+                        foreach (string Dname in DistrictNames)
+                        {
+                            foreach (string dis in Districts[Dname])
+                            {
+                                if (postalCode.Substring(0, 2) == dis)
+                                {
+                                    Stops newStop = new();
+                                    newStop.Address = postalCode;
+                                    Routes? routeId = GetRouteByRegion(Dname);
+                                    newStop.RoutesId = routeId.Id;
+                                    AddStop(newStop);
+
+
+                                    Delivery newDelivery = new();
+                                    OrderDetails deets = GetOrderDetailsbyPostalCode(postalCode);
+                                    newDelivery.stopsId = newStop.Id;
+                                    newDelivery.OrderDetailsId = deets.Id;
+                                    newDelivery.status = "Scheduled";
+                                    AddDelivery(newDelivery);
+
+                                    newStop = null;
+                                    newDelivery = null;
+                                    //Console.WriteLine(postalCode + " " + dis);
+                                }
+                            }
+                        }
+                    }
+
+                }
+                _context.SaveChanges();
+            }else
+            {
+
+                List<DriverDetails> Drivers = GetAllDeliveryDrivers();
+                Console.WriteLine("0 routes when Create Routes was ran");
+                CreateBaseRoutes();
+                if (Drivers[0].RoutesId != null)
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+                        Drivers[i].RoutesId = null;
+                        Console.WriteLine("null");
+                    }
+                }
+                if (routeList.Count >= 5)
+                {
+                    Console.WriteLine(">=5");
+                    CompleteRoutes();
+                    CreateNewRoutes();
+                }
+                List<Routes> newrouteList = GetAllNonCompletedRoutes();
+                for (int i = 0; i < 5; i++)
+                {
+                    Routes route = newrouteList[i];
+                    Drivers[i].RoutesId = route.Id;
+                    Console.WriteLine($"{Drivers[i].User.UserName} assigned to Route {route.Id}");
+                }
                 foreach (string postalCode in postalCodes)
                 {
                     foreach (string Dname in DistrictNames)
@@ -184,7 +309,6 @@ namespace Spoonful.Services
                         }
                     }
                 }
-
             }
         }
 
@@ -221,19 +345,24 @@ namespace Spoonful.Services
             {
                 Routes North = new();
                 North.Region = "North";
-                North.Town = "North";
+                North.Town = "25,26,27,28";
+                North.Status = "Started";
                 Routes South = new();
                 South.Region = "South";
-                South.Town = "South";
+                South.Town = "1,2,3,4,5,6,7,8,9,10";
+                South.Status = "Started";
                 Routes East = new();
                 East.Region = "East";
-                East.Town = "East";
+                East.Town = "16,17,18,19";
+                East.Status = "Started";
                 Routes West = new();
                 West.Region = "West";
-                West.Town = "West";
+                West.Town = "22,23,24";
+                West.Status = "Started";
                 Routes Central = new();
                 Central.Region = "Central";
-                Central.Town = "Central";
+                Central.Town = "11,12,13,14,15,20,21";
+                Central.Status = "Started";
                 AddRoute(North);
                 AddRoute(South);
                 AddRoute(East);
@@ -241,6 +370,35 @@ namespace Spoonful.Services
                 AddRoute(Central);
                 Console.WriteLine("Routes got initialized since there were nun");
             }
+        }
+
+        public void CreateNewRoutes()
+        {
+            Routes North = new();
+            North.Region = "North";
+            North.Town = "25,26,27,28";
+            North.Status = "Started";
+            Routes South = new();
+            South.Region = "South";
+            South.Town = "1,2,3,4,5,6,7,8,9,10";
+            South.Status = "Started";
+            Routes East = new();
+            East.Region = "East";
+            East.Town = "16,17,18,19";
+            East.Status = "Started";
+            Routes West = new();
+            West.Region = "West";
+            West.Town = "22,23,24";
+            West.Status = "Started";
+            Routes Central = new();
+            Central.Region = "Central";
+            Central.Town = "11,12,13,14,15,20,21";
+            Central.Status = "Started";
+            AddRoute(North);
+            AddRoute(South);
+            AddRoute(East);
+            AddRoute(West);
+            AddRoute(Central);
         }
     }
 }

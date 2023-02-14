@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Spoonful.Models;
 
@@ -11,9 +12,11 @@ using Spoonful.Models;
 namespace Spoonful.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    partial class AuthDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230213134240_updating driver userdetails v4")]
+    partial class updatingdriveruserdetailsv4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -614,35 +617,6 @@ namespace Spoonful.Migrations
                     b.ToTable("MenuItem");
                 });
 
-            modelBuilder.Entity("Spoonful.Models.Messages", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ReceiverId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("SenderId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReceiverId");
-
-                    b.HasIndex("SenderId");
-
-                    b.ToTable("Messages");
-                });
-
             modelBuilder.Entity("Spoonful.Models.Notification", b =>
                 {
                     b.Property<int>("Id")
@@ -1149,25 +1123,6 @@ namespace Spoonful.Migrations
                     b.Navigation("Following");
                 });
 
-            modelBuilder.Entity("Spoonful.Models.Messages", b =>
-                {
-                    b.HasOne("Spoonful.Models.CustomerUser", "Receiver")
-                        .WithMany("Sent")
-                        .HasForeignKey("ReceiverId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Spoonful.Models.CustomerUser", "Sender")
-                        .WithMany("Received")
-                        .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Receiver");
-
-                    b.Navigation("Sender");
-                });
-
             modelBuilder.Entity("Spoonful.Models.Notification", b =>
                 {
                     b.HasOne("Spoonful.Models.CustomerUser", "User")
@@ -1241,10 +1196,6 @@ namespace Spoonful.Migrations
                     b.Navigation("Notifications");
 
                     b.Navigation("PreviousPassword");
-
-                    b.Navigation("Received");
-
-                    b.Navigation("Sent");
 
                     b.Navigation("UserDetails")
                         .IsRequired();
