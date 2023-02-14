@@ -573,12 +573,12 @@ img,
   width: auto !important;
 }
 
-.tw-w-96 {
-  width: 24rem !important;
-}
-
 .tw-w-6 {
   width: 1.5rem !important;
+}
+
+.tw-w-96 {
+  width: 24rem !important;
 }
 
 .tw-flex-grow {

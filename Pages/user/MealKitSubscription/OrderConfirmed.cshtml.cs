@@ -41,7 +41,7 @@ namespace Spoonful.Pages.user.MealKitSubscription
             _voucherService = voucherService;
         }
 
-        public async Task<IActionResult> OnGet(string id)
+        public async Task<IActionResult> OnGet(string id, string code)
         {
             var user = await _userManager.GetUserAsync(User);
             MealKit? mealkit = _mealKitService.GetMealKitByUserId(user.Id);
