@@ -24,7 +24,7 @@ namespace Spoonful.Models
         public string MainFeedback { get; set; }
 
         [Required]
-        public string Category { get; set; } = "test";
+        public string Category { get; set; }
 
         [Required]
         public string datetime { get; set; } = DateTime.Now.ToString();

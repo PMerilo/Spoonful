@@ -1,0 +1,61 @@
+﻿@page
+@model Spoonful.Pages.Admin.SupportManagement.IndexModel
+@{
+}
+<div class="card p-3">
+    <h2 class="card-title">Feedback Responses</h2>
+    <table id="Customertable"
+           data-toggle="table"
+           data-search="true"
+           data-click-to-select="true"
+           data-pagination="true"
+           data-id-field="email"
+           data-page-list="[10, 25, 50, 100, all]"
+           data-sortable="true">
+        <thead>
+            <tr>
+                <th data-field="view" data-sortable="true">Status</th>
+                <th data-field="name" data-sortable="true">Name</th>
+                <th data-field="title" data-sortable="true">Title</th>
+                <th data-field="message" data-sortable="true">Message</th>
+                <th data-field="review" data-sortable="true">Review</th>
+                <th data-field="date" data-sortable="true">Date Created</th>
+                <th data-field="detailed" data-sortable="true">Details</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Feedbackform) {
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Feedbackstatus)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Customername)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TitleFeedback)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MainFeedback)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Category)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.datetime)
+                    </td>
+                    <td>
+                        <a asp-page="./Details" asp-route-id="@item.Id">
+                            <button value="view" class="blue-btn" data-bs-toggle="modal" data-bs-target="">View</button>
+                        </a>
+                        
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

@@ -1,0 +1,41 @@
+﻿@page
+@model Spoonful.Pages.Admin.SupportManagement.ReplyModel
+@{
+}
+<h1>Details</h1>
+
+<div>
+    <h4>Ticket Id: @Html.DisplayFor(model => model.TixMod.Id)</h4>
+    <hr />
+    <p>Issue <strong>#@Html.DisplayFor(model => model.TixMod.Id)</strong> asked by <a href="#">@Html.DisplayFor(model => model.TixMod.username)</a> @Html.DisplayFor(model => model.TixMod.datetime)</p>
+    <p><strong>Category: </strong> @Html.DisplayFor(model => model.TixMod.Category)</p>
+    <p><strong>@Html.DisplayFor(model => model.TixMod.TitleFeedback)</strong></p>
+    <p>@Html.DisplayFor(model => model.TixMod.MainFeedback)</p>
+    <dl class="row">
+        <dt class="col-sm-2">
+            Email
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TixMod.email)
+        </dd>
+        <dt class="col-sm-2">
+            Date Created
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TixMod.datetime)
+        </dd>
+    </dl>
+    <form method="post">
+        <input type="hidden" name="id1" id="id1" value="@Html.DisplayFor(model => model.TixMod.Id)">
+        <textarea class="form-control" asp-for="TixMod.answer" id="answer" name="answer" rows="3"></textarea>
+        <button type="submit" class="light-btn">Submit</button>
+
+
+    </form>
+</div>
+<div>
+    <a asp-page="./TicketingManagement">
+        <button class="blue-btn">Back to List</button>
+        
+    </a>
+</div>

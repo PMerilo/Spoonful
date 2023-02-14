@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Spoonful.Models;
 
-namespace Spoonful.Pages.CustomerSupport
+namespace Spoonful.Pages.Admin.SupportManagement
 {
     public class IndexModel : PageModel
     {
@@ -18,7 +14,7 @@ namespace Spoonful.Pages.CustomerSupport
             _context = context;
         }
 
-        public IList<Feedbackform> Feedbackform { get;set; }
+        public IList<Feedbackform> Feedbackform { get; set; }
 
         public async Task OnGetAsync()
         {

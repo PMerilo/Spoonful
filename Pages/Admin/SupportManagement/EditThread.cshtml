@@ -1,0 +1,53 @@
+﻿@page
+@model Spoonful.Pages.Admin.SupportManagement.EditThreadModel
+@{
+}
+   
+
+<h1 class="display-4">Edit Thread</h1>
+
+<form class="mt-3" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label">Username</label>
+        <div class="col-sm-10">
+            <input class="form-control" asp-for="problem.Id" type="hidden" />
+            <input class="form-control" asp-for="problem.username"/>
+            <span asp-validation-for="problem.username" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label">Category</label>
+        <div class="col-sm-10">
+            <input class="form-control" asp-for="problem.Category" />
+            <span asp-validation-for="problem.Category" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label" asp-for="problem.TitleFeedback"></label>
+        <div class="col-sm-10">
+            <input class="form-control" asp-for="problem.TitleFeedback" />
+            <span asp-validation-for="problem.TitleFeedback" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label" asp-for="problem.answer"></label>
+        <div class="col-sm-10">
+            <input class="form-control" asp-for="problem.answer" />
+            <span asp-validation-for="problem.answer" class="text-danger"></span>
+        </div>
+    </div>
+
+
+   
+
+    <div>
+        <input type="submit" value="Edit" class="blue-btn" />
+    </div>
+</form> 
+<button class="light-btn-7"onclick="location.href='/Admin/SupportManagement/ProblemThreads'">Cancel</button>
+

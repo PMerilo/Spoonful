@@ -24,8 +24,6 @@ builder.Services.AddRazorPages(options =>
     options.Conventions.AllowAnonymousToPage("/Error");
     options.Conventions.AllowAnonymousToPage("/NotificationTester");
     options.Conventions.AllowAnonymousToPage("/notificationHub");
-    options.Conventions.AllowAnonymousToFolder("/CustomerSupport");
-    options.Conventions.AllowAnonymousToFolder("/MailSubscription");
 
 
 
@@ -54,6 +52,8 @@ builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
 
 
 //Services
+builder.Services.AddScoped<TicketingService>();
+
 builder.Services.AddScoped<CategoryService>();
 builder.Services.AddScoped<MenuItemService>();
 builder.Services.AddScoped<VoucherService>();

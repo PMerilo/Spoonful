@@ -43,7 +43,14 @@ namespace Spoonful.Models
         public DbSet<Feedbackform> Feedback { get; set; }
 
         public DbSet<MailSubscription> mailsubsciption { get; set; }
-        public DbSet<Ticketing> ticket { get; set; }
+        public DbSet<TicketingModel> ticketingss { get; set; }
+
+        public DbSet<TixMod> tired { get; set; }
+
+        public DbSet<ProblemThread> Problem { get; set; }
+
+
+
 
 
 

@@ -1,0 +1,78 @@
+﻿@page
+@model Spoonful.Pages.Admin.SupportManagement.ProblemThreadsModel
+@{
+}
+<div class="card p-3">
+    <h2 class="card-title">Problem Thread</h2>
+    <table id="Customertable"
+           data-toggle="table"
+           data-search="true"
+           data-click-to-select="true"
+           data-pagination="true"
+           data-id-field="email"
+           data-page-list="[10, 25, 50, 100, all]"
+           data-sortable="true">
+        <thead>
+            <tr>
+                <th data-field="name" data-sortable="true">Name</th>
+                <th data-field="title" data-sortable="true">Title</th>
+                <th data-field="message" data-sortable="true">Question</th>
+                <th data-field="date" data-sortable="true">Date Created</th>
+                <th data-field="answer" data-sortable="true">Answer</th>
+
+                <th data-field="detailed" data-sortable="true"></th>
+                <th data-field="delete" data-sortable="true"></th>
+
+
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.problem) {
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.username)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TitleFeedback)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MainFeedback)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.datetime2)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.answer)
+                    </td>
+                    <td>
+                        <a asp-page="./EditThread" asp-route-id="@item.Id">
+                            <button value="view" class="blue-btn" data-bs-toggle="modal" data-bs-target="">Edit</button>
+                        </a>
+                        
+                    </td>
+                    <td>
+                        <div>
+                            <button value="view" class="blue-btn" data-bs-toggle="modal" data-bs-target="#myModal_@item.Id">Delete</button>
+                        </div>
+                        <div class="modal" id="myModal_@item.Id">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Options</h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body d-flex justify-content-between justify-content-center">
+                                        <a type="button" asp-page="./DeleteThread" asp-route-id="@item.Id" class="danger-btn-em flex-fill"><i class="fa fa-times"></i> Delete</a>
+
+                                    </div>
+                                </div>
+                            </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

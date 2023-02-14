@@ -31,7 +31,7 @@ namespace Spoonful.Pages.CustomerSupport
         public Feedbackform Feedbackform { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync(string cat)
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
@@ -42,11 +42,12 @@ namespace Spoonful.Pages.CustomerSupport
             {
                 Feedbackform.Customername = user.UserName;
             }
-            Feedbackform.Category = cat;
             _context.Feedback.Add(Feedbackform);
             await _context.SaveChangesAsync();
+            TempData["FlashMessage.Text"] = $"Feedback successfully sent";
+            TempData["FlashMessage.Type"] = "success";
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("/Index");
             //change
         }
     }

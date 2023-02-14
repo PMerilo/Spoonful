@@ -1,0 +1,45 @@
+﻿@page
+@model Spoonful.Pages.CustomerSupport.EndTicketModel
+@{
+}
+<h1>Ticketing Details</h1>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Status
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ticketings.Feedbackstatus)
+        </dd>
+        <dt class="col-sm-2">
+            Category
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ticketings.Category)
+        </dd>
+        <dt class="col-sm-2">
+            Title
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ticketings.TitleFeedback)
+        </dd>
+        <dt class="col-sm-2">
+            Message
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ticketings.MainFeedback)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./ForceDelete" asp-route-id="@Html.DisplayFor(model => model.Ticketings.Id)">
+        <button class="blue-btn">Forcefully End Ticket</button>
+
+    </a>
+    <form method="post">
+        <input hidden name="id2" value="@Html.DisplayFor(model => model.Ticketings.Id)" />
+        <button type="submit" class="warning-btn">Ticket Resolved</button>
+
+    </form>
+</div>

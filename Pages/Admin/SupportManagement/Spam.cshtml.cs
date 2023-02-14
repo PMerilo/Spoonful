@@ -3,22 +3,22 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Spoonful.Models;
 
-namespace Spoonful.Pages.HelpThread
+namespace Spoonful.Pages.Admin.SupportManagement
 {
-    public class IndexModel : PageModel
+    public class SpamModel : PageModel
     {
         private readonly Spoonful.Models.AuthDbContext _context;
 
-        public IndexModel(Spoonful.Models.AuthDbContext context)
+        public  SpamModel(Spoonful.Models.AuthDbContext context)
         {
             _context = context;
         }
 
-        public IList<ProblemThread> problem { get; set; }
+        public IList<TixMod> tixMods { get; set; }
 
         public async Task OnGetAsync()
         {
-            problem = await _context.Problem.ToListAsync();
+            tixMods = await _context.tired.ToListAsync();
         }
     }
 }

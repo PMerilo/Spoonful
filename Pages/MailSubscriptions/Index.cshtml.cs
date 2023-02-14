@@ -35,11 +35,6 @@ namespace Spoonful.Pages.MailSubscriptions
                     //error
                     return Redirect("/MailSubscriptions");
                 }
-                if (mailsubscription.Subscriptiontype == "Basic")
-                {
-                    i = 0;
-
-                }
                 var domain = "https://localhost:44367";
                 var options = new SessionCreateOptions
                 {
@@ -67,28 +62,13 @@ namespace Spoonful.Pages.MailSubscriptions
                         "card"
                     },
                     Mode = "payment",
-                    SuccessUrl = domain + $"/user/MealKitSubscription/OrderConfirmed?id={user.Id}",
+                    SuccessUrl = domain + $"/MailSubscriptions/OrderConfirmed?id={user.Id}",
                     //SuccessUrl = domain + "/OrderConfirmed.cshtml?session_id={CHECKOUT_SESSION_ID}",
                     CancelUrl = domain + "/MailSubscriptions",
                 };
                 var service = new SessionService();
                 Session session = service.Create(options);
                 Response.Headers.Add("Location", session.Url);
-
-                if (i == 0)
-                {
-                    mailsubscription.Subscriptiontype = "Advanced";
-                    mailsubscription.datetime = DateTime.Now.ToShortDateString();
-                    _context.mailsubsciption.Update(mailsubscription);
-                    await _context.SaveChangesAsync();
-                }
-                else
-                {
-                    mailsubscription.email = user.Email;
-                    mailsubscription.Subscriptiontype = "Advanced";
-                    _context.mailsubsciption.Add(mailsubscription);
-                    await _context.SaveChangesAsync();
-                }
 
                 return new StatusCodeResult(303);
 

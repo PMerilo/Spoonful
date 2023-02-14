@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
 namespace Spoonful.Models
 {
-    public class Ticketing
+    public class TicketingModel
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -14,18 +13,24 @@ namespace Spoonful.Models
         public string Feedbackstatus { get; set; } = "Pending";
 
         [Required]
-        public string email { get; set; }
+        public string username { get; set; } = "test";
 
         [Required]
-        public string TitleFeedback { get; set; }
+        public string email { get; set; } = "test";
 
         [Required]
-        public string MainFeedback { get; set; }
+        public string TitleFeedback { get; set; } = "test";
+
+        [Required]
+        public string MainFeedback { get; set; } = "test";
 
         [Required]
         public string Category { get; set; } = "test";
 
         [Required]
         public string datetime { get; set; } = DateTime.Now.ToString();
+
+        [Required]
+        public string notifypreference { get; set; } = "test";
     }
 }
