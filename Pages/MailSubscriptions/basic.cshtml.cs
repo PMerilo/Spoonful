@@ -26,9 +26,12 @@ namespace Spoonful.Pages.MailSubscriptions
             mailsubscription = await _context.mailsubsciption.FirstOrDefaultAsync(m => m.email == user.Email);
             if (mailsubscription == null)
             {
-                mailsubscription.email = user.Email;
-                mailsubscription.Subscriptiontype = "Basic";
-                _context.mailsubsciption.Add(mailsubscription);
+                var test = new MailSubscription()
+                {
+                    email = user.Email,
+                    Subscriptiontype = "Basic",
+                };
+                _context.mailsubsciption.Add(test);
                 await _context.SaveChangesAsync();
                 return Redirect("/MailSubscriptions");
             }
