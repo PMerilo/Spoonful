@@ -39,8 +39,8 @@
 									</a>
 								</figure>
 								<div class="post_info">
-									<small>@obj.category - 20 Nov. 2017</small>
-									<h2><a asp-page="/Reegan/RecipePages">@obj.name</a></h2>
+									@*<small>@obj.category - 20 Nov. 2017</small>*@
+									<h2><a asp-page="/Reegan/RecipePages" asp-route-id="@obj.Id">@obj.name</a></h2>
 									<p id="recipeDesc">@obj.description</p>
 									<ul>
 										<li><span class="badge rounded-pill bg-primary text-dark">Tags</span></li>
