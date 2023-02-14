@@ -87,9 +87,7 @@ namespace Spoonful.Pages.Admin.MealManagement
             if (ModelState.IsValid)
             {
                 MenuItem? menuItem = _menuItemService.GetMenuByName(MyMenuItem.Name);
-
                 
-
                 if (menuItem != null)
                 {
                     TempData["FlashMessage.Type"] = "danger";
