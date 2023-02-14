@@ -15,8 +15,6 @@ User Management
 			Different Device
 		Force change password
 
-	Text Service
-	Change & Confirm PhoneNum
 	Error handling for forms
 	Ensure same buttons
 
