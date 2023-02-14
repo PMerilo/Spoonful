@@ -1,0 +1,55 @@
+﻿@page
+@model Spoonful.Pages.Account.ChangePhoneModel
+@{
+    ViewData["Title"] = "Change Email";
+    ViewData["Page"] = "Account";
+    var sent = Model.Sent;
+}
+<section class="content-main">
+    <div class="content-header">
+        <h2 class="content-title">Account setting</h2>
+        <br />
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row gx-5">
+                @await Html.PartialAsync("_AccountNavBar")
+                <div class="col-lg-9">
+                    <section class="content-body p-xl-4">
+                        <h1 class="tw-text-lg tw-mb-5"><i class="bi bi-arrow-left"></i></h1>
+                        <form method="post">
+                            <div class="col-lg-9 mb-3 mx-auto">
+                                <label class="form-label">Phone Number</label>
+                                <div class="d-flex justify-content-between">
+                                    @if (!Model.Sent){
+                                        <input class="form-control" type="tel" placeholder="+6512345678" asp-for="@Model.Phone"/>
+                                        <button type="submit" class="blue-btn-10 m-0 ms-3">Send Code</button>
+                                    } else
+                                    {
+                                        <input class="form-control" type="tel" placeholder="+6512345678" asp-for="@Model.Phone" readonly/>
+                                        <a asp-page="ChangePhone" class="blue-btn-a m-0 ms-3" disabled>Cancel</a>
+                                    }
+                                </div>
+                            </div>
+                            @if (Model.Sent)
+                            {
+                                <div class="col-lg-9 mb-3 mx-auto">
+                                    <label class="form-label">Verification Code</label>
+                                    <input class="form-control" type="text" asp-for="@Model.Code" />
+                                    <button type="submit" class="blue-btn-full m-0 mt-2" asp-page-handler="Verify">Verify</button>
+                                </div>
+                            }
+                        </form>
+
+                        <!-- row.// -->
+                    </section>
+                    <!-- content-body .// -->
+                </div>
+                <!-- col.// -->
+            </div>
+            <!-- row.// -->
+        </div>
+        <!-- card body end// -->
+    </div>
+    <!-- card end// -->
+</section>

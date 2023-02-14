@@ -238,11 +238,12 @@
 </div>
 
 @section Scripts {
-    <script src="~/js/Admin/Datatables.js"></script>
+    @*<script src="~/js/Admin/Datatables.js"></script>*@
     <script>
         function dateFormatter(value, row) {
+            console.log(value)
             if (value != "") {
-                return dayjs(value).format("ddd, D MMM, YYYY h:mm A")
+                return dayjs(value, 'D/M/YYYY HH:mm:ss a Z').format("ddd, D MMM, YYYY h:mm A")
             }
             return "-"
 

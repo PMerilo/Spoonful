@@ -58,7 +58,6 @@ namespace Spoonful.Pages.Account
                     //var userclaims = await userManager.GetClaimsAsync(user);
                     //await userManager.RemoveClaimAsync(user, );
                     //await userManager.AddClaimAsync(user, new Claim(ClaimTypes.NameIdentifier, RModel.UserName));
-                    await signInManager.SignInAsync(user, false);
                     _customerUserService.UpdateLastLogin(user.UserName);
                     await _customerUserService.SetUserRoleAsync(user.UserName, Roles.Customer);
                     toastService.Success("Created account successfully. Please check your email for account confirmation");
@@ -81,7 +80,7 @@ namespace Spoonful.Pages.Account
                     {
                         toastService.Success("Failed to send email");
                     }
-                    return RedirectToPage("/Index");
+                    return RedirectToPage("./login");
                 }
                 foreach (var error in result.Errors)
                 {
@@ -119,6 +118,10 @@ namespace Spoonful.Pages.Account
         [DataType(DataType.Password)]
         [Compare(nameof(Password), ErrorMessage = "Passwords must match")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        public bool Terms { get; set; }
+
     }
 
 }

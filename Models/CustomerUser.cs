@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Spoonful.Models
 {
@@ -32,7 +33,10 @@ namespace Spoonful.Models
 		public virtual ICollection<Followers> Followers { get; set; }
 		public virtual ICollection<Followers> Followings { get; set; }
 
-		[Required]
+        public virtual ICollection<Messages> Sent { get; set; }
+        public virtual ICollection<Messages> Received { get; set; }
+
+        [Required]
         public virtual UserDetails UserDetails { get; set; }
     }
 }

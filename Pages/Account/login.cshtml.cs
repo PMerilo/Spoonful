@@ -122,7 +122,7 @@ namespace Spoonful.Pages.Account
                 }
                 if (identityResult.IsNotAllowed)
                 {
-                    TempData["FlashMessage.Text"] = $"<a href='/Account/ResendEmailConfirmation'>Click here to send a new verification email</a>";
+                    TempData["FlashMessage.Text"] = $"You need to verify your email. <a href='/Account/ResendEmailConfirmation'>Click here to send a new verification email</a>";
                     TempData["FlashMessage.Type"] = "warning";
                     ModelState.AddModelError("", "You have not verified your account. Please check your email inbox.");
                     return Page();
