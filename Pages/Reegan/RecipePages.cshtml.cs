@@ -22,9 +22,22 @@ namespace Spoonful.Pages.Reegan
 
         }
 
-        public void OnGet()
-        {
-            Recipes = _db.Recipe;
-        }
-    }
+		public IActionResult OnGet(int id)
+		{
+			Recipe? recipe = _recipeService.GetRecipeById(id);
+			if (recipe != null)
+			{
+				MyRecipe = recipe;
+
+				return Page();
+			}
+			else
+			{
+				TempData["FlashMessage.Type"] = "danger";
+				TempData["FlashMessage.Text"] = string.Format("Menu Item Id {0} not found", id);
+				return Redirect("/Admin/ViewMeals");
+			}
+			return Page();
+		}
+	}
 }

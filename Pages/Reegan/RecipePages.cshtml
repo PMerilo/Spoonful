@@ -3,7 +3,7 @@
 @{
     Layout = "/Pages/Shared/_Layout.cshtml";
 }
-<div>
+@*<div>
     @foreach (var obj in Model.Recipes)
     {
         <div>
@@ -19,4 +19,133 @@
             @obj.allergens
         </div>
     }
-</div>
+</div>*@
+<link href="~/css/Menu.css" rel="stylesheet">
+<main>
+	<div class="page_header blog element_to_stick">
+		<div class="container">
+			<div class="row">
+				<div class="col-xl-8 col-lg-7 col-md-7 d-none d-md-block">
+
+					<h1>Recipe</h1>
+					<br />
+				</div>
+				<div class="col-xl-4 col-lg-5 col-md-5">
+				</div>
+			</div>
+			<!-- /row -->
+		</div>
+	</div>
+	<!-- /page_header -->
+
+	<div class="container margin_60_20">
+		<div class="row">
+			<div class="col-lg-9">
+				<div class="singlepost">
+					<figure><img alt="" class="img-fluid" src="@Model.MyRecipe.ImageURL" style="width:950px; height:450px; object-fit:cover"></figure>
+					<h1>@Model.MyRecipe.name</h1>
+					<div class="postmeta">
+						<ul>
+							<li><a href="#"><i class="icon_folder-alt"></i>@Model.MyRecipe.category</a> - @Model.MyRecipe.ingredients</li>
+							<li><i class="icon_calendar"></i> 23/12/2015</li>
+
+
+						</ul>
+					</div>
+					<!-- /post meta -->
+					<div class="post-content">
+
+						<p>Description: @Model.MyRecipe.description</p>
+					</div>
+					<!-- /desc -->
+					<div class="post-content">
+
+						<p>Time needed: @Model.MyRecipe.prepTime minutes</p>
+					</div>
+					<!-- /prep time -->
+					<div class="post-content">
+
+						<p>Ingredients: @Model.MyRecipe.ingredients</p>
+					</div>
+					<!-- /ingredients-->
+					<div class="post-content">
+
+						<p>Instructions: @Model.MyRecipe.instructions</p>
+					</div>
+					<!-- /instructions-->
+				</div>
+				<!-- /single-post -->
+				
+
+
+
+
+			</div>
+			<!-- /col -->
+
+			@*<aside class="col-lg-3">
+				<div class="widget">
+					<div class="widget-title first">
+						<h4>Latest Post</h4>
+					</div>
+					<ul class="comments-list">
+						<li>
+							<div class="alignleft">
+								<a href="#0"><img src="/images/img/blog-5.jpg" alt=""></a>
+							</div>
+							<small>Category - 11.08.2016</small>
+							<h3><a href="#" title="">Verear qualisque ex minimum...</a></h3>
+						</li>
+						<li>
+							<div class="alignleft">
+								<a href="#0"><img src="/images/img/blog-6.jpg" alt=""></a>
+							</div>
+							<small>Category - 11.08.2016</small>
+							<h3><a href="#" title="">Verear qualisque ex minimum...</a></h3>
+						</li>
+						<li>
+							<div class="alignleft">
+								<a href="#0"><img src="/images/img/blog-4.jpg" alt=""></a>
+							</div>
+							<small>Category - 11.08.2016</small>
+							<h3><a href="#" title="">Verear qualisque ex minimum...</a></h3>
+						</li>
+					</ul>
+				</div>
+				<!-- /widget -->
+				<div class="widget">
+					<div class="widget-title">
+						<h4>Categories</h4>
+					</div>
+					<ul class="cats">
+						<li><a href="#">Food <span>(12)</span></a></li>
+						<li><a href="#">Places to visit <span>(21)</span></a></li>
+						<li><a href="#">New Places <span>(44)</span></a></li>
+						<li><a href="#">Suggestions and guides <span>(31)</span></a></li>
+					</ul>
+				</div>
+				<!-- /widget -->
+				<div class="widget">
+					<div class="widget-title">
+						<h4>Popular Tags</h4>
+					</div>
+					<div class="tags">
+						<a href="#">Food</a>
+						<a href="#">Bars</a>
+						<a href="#">Cooktails</a>
+						<a href="#">Shops</a>
+						<a href="#">Best Offers</a>
+						<a href="#">Transports</a>
+						<a href="#">Restaurants</a>
+					</div>
+				</div>
+				<!-- /widget -->
+			</aside>*@
+			<!-- /aside -->
+		</div>
+		<!-- /row -->
+	</div>
+	<!-- /container -->
+
+</main>
+<!-- /main -->
