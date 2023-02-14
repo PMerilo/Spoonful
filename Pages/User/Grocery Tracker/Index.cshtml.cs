@@ -28,10 +28,11 @@ namespace Spoonful.Pages.Aaron
 
         public List<Diary> DiaryList { get; set; } = new();
 
-        public void OnGet(string userID)
+        public void OnGet(string id)
         {
-            userIdvar = userID;
-            DiaryList = _diaryService.GetAllByCat(userID);
+            userIdvar = id;
+            
+            DiaryList = _diaryService.GetAllByCat(id);
         }
 
         public IActionResult OnPost() 

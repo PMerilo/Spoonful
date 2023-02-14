@@ -12,33 +12,33 @@ namespace Spoonful.Services
         }
         public List<Diary> GetAll(string userId)
         {
-            return _context.Diary.Where(m => m.Category.ToLower() == userId).OrderBy(m => m.Id).ToList();
+            return _context.Diary.Where(m => m.userId.ToLower() == userId).OrderBy(m => m.Id).ToList();
         }
         public List<Diary> GetAllByName(string userId)
         {
-            return _context.Diary.Where(m => m.Category.ToLower() == userId).OrderBy(m => m.Name).ToList();
+            return _context.Diary.Where(m => m.userId.ToLower() == userId).OrderBy(m => m.Name).ToList();
         }
         public List<Diary> GetAllByCat(string userId)
         {
-            return _context.Diary.Where(m => m.Category.ToLower() == userId).OrderBy(m => m.Category).ToList();
+            return _context.Diary.Where(m => m.userId.ToLower() == userId).OrderBy(m => m.Category).ToList();
         }
         public List<Diary> GetAllByPurchase(string userId)
         {
-            return _context.Diary.Where(m => m.Category.ToLower() == userId).OrderBy(m => m.Purchase).ToList();
+            return _context.Diary.Where(m => m.userId == userId).OrderBy(m => m.Purchase).ToList();
         }
         public List<Diary> GetAllByExpiry(string userId)
         {
-            return _context.Diary.Where(m => m.Category.ToLower() == userId).OrderBy(m => m.Expiry).ToList();
+            return _context.Diary.Where(m => m.userId == userId).OrderBy(m => m.Expiry).ToList();
         }
 
         public List<Diary> GetAllInCategory(string userId, string catName)
         {
-            return _context.Diary.Where(m => m.Category.ToLower() == userId).Where(m => m.Category.ToLower() == catName).ToList();
+            return _context.Diary.Where(m => m.userId == userId).Where(m => m.Category.ToLower() == catName).ToList();
         }
 
         public List<Diary> GetTodayExpire(string userId, DateTime today)
         {
-            return _context.Diary.Where(m => m.Category.ToLower() == userId).Where(m => m.Expiry == today).ToList();
+            return _context.Diary.Where(m => m.userId == userId).Where(m => m.Expiry == today).ToList();
         }
         public Diary? GetEntryById(int id)
         {

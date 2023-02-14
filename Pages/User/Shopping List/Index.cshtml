@@ -70,6 +70,7 @@
                                 <p>@entry.isBought</p>
                             
                                         <input hidden asp-for="ListId" value="@entry.Id"/>
+                                        <input hidden asp-for="entryUserId" value="@entry.userId" />
                                         @if(entry.isBought == true)
                                         {
                                             <input type="checkbox" id="isBoughtCheckBox" name="bought" value="boughtBool" asp-for="boughtCheckBox" checked onchange="isBoughtCheck.submit()" />

@@ -19,6 +19,7 @@ namespace Spoonful.Pages.Aaron.Shopping_List
         public bool boughtCheckBox { get; set; }
 
         [BindProperty]
+        public string entryUserId { get; set; }
         public string userIdvar { get; set; }
 
         [BindProperty]
@@ -33,20 +34,20 @@ namespace Spoonful.Pages.Aaron.Shopping_List
 
         public List<ShoppingEntry> ShoppingList { get; set; } = new();
 
-        public void OnGet(string userId)
+        public void OnGet(string id)
         {
-            userIdvar = userId;
+            userIdvar = id;
             ShoppingList = _shoppingService.GetAllByCat(userIdvar);
         }
 
         public IActionResult OnPost()
         {
-           
 
+            userIdvar = entryUserId;
             var ShoppingBoughtEntry = _shoppingService.GetEntryById(ListId);
             ShoppingBoughtEntry.isBought = !ShoppingBoughtEntry.isBought;
             _shoppingService.UpdateEntry(ShoppingBoughtEntry);
-
+            ShoppingList = _shoppingService.GetAllByCat(userIdvar);
 
             return Page();
         }

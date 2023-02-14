@@ -11,7 +11,6 @@ namespace Spoonful.Pages.Aaron.Shopping_List
     {
         [BindProperty]
         public ShoppingEntry ShoppingEntry { get; set; }
-        [BindProperty]
         public string userIdvar { get; set; }
         private readonly ShoppingListService _shoppingListService;
 
@@ -19,16 +18,16 @@ namespace Spoonful.Pages.Aaron.Shopping_List
         {
             _shoppingListService = shoppingListService;
         }
-        public void OnGet(string userId)
+        public void OnGet(string id)
         {
-            ShoppingEntry.userId = userId;
+            userIdvar = id;
         }
 
         public IActionResult OnPost()
         {
             if (ModelState.IsValid)
             {
-
+                userIdvar = ShoppingEntry.userId;
                 _shoppingListService.AddEntry(ShoppingEntry);
                 TempData["FlashMessage.Type"] = "success";
                 string userUrl = "/User/Shopping%20List/Index?id=" + userIdvar;
