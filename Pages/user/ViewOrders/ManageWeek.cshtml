@@ -125,7 +125,7 @@
 <div class="content-header d-flex justify-content-between">
     <div>
        
-        <p><span style="color:red">UPCOMING</span> Change by @Model.MyInvoice.OrderDate</p>
+        <p><span style="color:red">UPCOMING</span> Change by @Model.MyOrderDetails.DeliveryDate</p>
         <h2 class="content-title card-title">In Your Box</h2>
         
         <h3 class="h3">@Model.MyMealKit.noOfRecipesPerWeek, pre-selected Meals</h3>
@@ -136,11 +136,11 @@
     <div>
         @{
             if(Model.Orders.Count() != Model.MyMealKit.noOfRecipesPerWeek){
-                <button type="submit" class="btn btn-success btn-sm rounded fa-pull-right savechanges" disabled>Save Changes</button>
+                                    <button type="submit" class="btn btn-success btn-sm rounded fa-pull-right savechanges" disabled>Save Changes</button>
                 
             }else{
                 
-                <a href="/user/ViewOrders" class="btn btn-success rounded font-md fa-pull-right savechanges" style="background-color:green">Save Changes</a>
+                                    <a href="/user/ViewOrders" class="btn btn-success rounded font-md fa-pull-right savechanges" style="background-color:green">Save Changes</a>
             }
         }
         
@@ -166,10 +166,18 @@
                         <div class="card card-product-grid">
                             <a href="#" class="img-wrap"> <img src="@obj.ImageURL" alt="Product" style="height:250px;object-fit:cover" /> </a>
                             <br />
-                            <div class="info-wrap" style="overflow:auto">
-                                <small>@obj.Category - @obj.MenuPreference <span class="badge rounded-pill bg-primary text-dark"><small>@obj.Tags </small></span></small>
-
+                                <div class="info-wrap" style="overflow:auto;padding:3%">
                                 <a href="#" class="title text-truncate">@obj.Name</a>
+                                <br />
+                                <small>@obj.Category - @obj.MenuPreference</small>
+                                <br/>
+                                @foreach (var x in obj.Tags.Split(","))
+                                {
+                                    <span class="badge rounded-pill bg-primary text-white"><small>@x </small></span>
+                                }
+                                <br/>
+
+                                
                                 <div class="price mb-2 h6"></div>
                                 <!-- price.// -->
                                     <input asp-for="MyOrder.Id" class="form-control" hidden value="@obj.Id">
@@ -192,7 +200,14 @@
                                 </div>
                                 <div class="modal-body">
                                     <figure><img alt="" class="img-fluid" src="@obj.ImageURL" style="width:950px; height:450px; object-fit:cover"></figure>
-                                    <small>@obj.Category - @obj.MenuPreference <span class="badge rounded-pill bg-primary text-dark"><small>@obj.Tags </small></span></small>
+                                    <small>@obj.Category - @obj.MenuPreference 
+                                        
+                                        @foreach (var x in obj.Tags.Split(","))
+                                        {
+                                            <span class="badge rounded-pill bg-primary text-white"><small>@x </small></span>
+                                        } 
+                                        
+                                    </small>
                                     <br/>
                                     @obj.Description
                                 </div>
@@ -236,12 +251,13 @@
         <header class="card-header">
             <div class="row gx-3">
                 <div class="col-lg-4 col-md-6 me-auto">
-                    <input type="text" placeholder="Search..." class="form-control" />
+                    <input type="text" placeholder="Search..." class="form-control" id="search"/>
                 </div>
                 <div class="col-lg-2 col-6 col-md-3">
                     <form method="post">
-                        <select class="form-control">
-                            <option value="" disabled selected hidden>Select Category</option>
+                        <select class="form-control" id="selectCategory">
+                            <option selected disabled hidden>Select Category</option>
+                            <option value="Select All">Select All</option>
                             @foreach (var obj in Model.Categories)
                             {
                                 <option value="@obj.name">@obj.name</option>
@@ -253,7 +269,8 @@
                     
                     
                 </div>
-                <div class="col-lg-2 col-6 col-md-3">
+                <!--
+                    <div class="col-lg-2 col-6 col-md-3">
                     <select class="form-select">
                         <option>Menu Preferences</option>
                         <option value="Meat & Veggie">Meat & Veggies</option>
@@ -263,34 +280,44 @@
                         <option value="Pescatarian">Pescatarian</option>
                         <option value="Fit & Wholesome">Fit & Wholesome</option>
                     </select>
-                </div>
+                    </div>
+                -->
+                
             </div>
         </header>
         <!-- card-header end// -->
 
         
         <div class="card-body">
-            <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5">
+            <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5" id="MenuGrid">
 
                 @foreach (var obj in Model.MenuItems)
                 {
                 <form method="post">
-                <div class="col">
+                <div class="col" id= "menuCard">
                     <div class="card card-product-grid">
                         <a href="#" class="img-wrap"> <img src="@obj.ImageURL" alt="Product" style="height:250px;object-fit:cover" /> </a>
                         <br />
-                        <div class="info-wrap" style="overflow:auto">
-                                    
-                            <small>@obj.Category - @obj.MenuPreference <span class="badge rounded-pill bg-primary text-dark"><small>@obj.Tags </small></span></small>
+                            <div class="info-wrap" style="overflow:auto;padding:3%">
+                                <a href="#" class="title text-truncate">@obj.Name</a>
+                                <br />
+                                <small class="menuCategory">@obj.Category</small>
+                                <small>@obj.MenuPreference</small>
+                                <br/>
+                                @foreach (var x in obj.Tags.Split(","))
+                                {
+                                    <span class="badge rounded-pill bg-primary text-white"><small>@x </small></span>
+                                }
+                                <br/>
                             
-                            <a href="#" class="title text-truncate">@obj.Name</a>
-                            <div class="price mb-2 h6"></div>
-                            <!-- price.// -->
-                            <input asp-for="MyMenuItem.Id" class="form-control" hidden value="@obj.Id">
-                            <button type="submit" asp-page-handler="addmeal" class="btn btn-sm font-sm btn-light rounded mealbtn"><i class="fad fa-smile-plus" style="font-size:120%"></i></button>
+                                <div class="price mb-2 h6"></div>
+                                <!-- price.// -->
 
-                            <a href="#" class="btn btn-sm font-sm btn-light rounded" data-bs-toggle="modal" data-bs-target="#FoodModal_@obj.Id"><i class="far fa-info"></i></a>
-                        </div>
+                                <input asp-for="MyMenuItem.Id" class="form-control" hidden value="@obj.Id">
+                                <button type="submit" asp-page-handler="addmeal" class="btn btn-sm font-sm btn-light rounded mealbtn"><i class="fa-sharp fa-regular fa-plus"></i></button>
+
+                                <a href="#" class="btn btn-sm font-sm btn-light rounded" data-bs-toggle="modal" data-bs-target="#FoodModal_@obj.Id"><i class="far fa-info"></i></a>
+                            </div>
                     </div>
                     <!-- card-product  end// -->
                 </div>
@@ -306,7 +333,16 @@
                                 </div>
                                 <div class="modal-body">
                                     <figure><img alt="" class="img-fluid" src="@obj.ImageURL" style="width:950px; height:450px; object-fit:cover"></figure>
-                                    <small>@obj.Category - @obj.MenuPreference <span class="badge rounded-pill bg-primary text-dark"><small>@obj.Tags </small></span></small>
+                                   
+                                        @obj.Category - @obj.MenuPreference 
+                                            
+                                        @foreach (var x in obj.Tags.Split(","))
+                                        {
+                                            <span class="badge rounded-pill bg-primary text-white"><small>@x </small></span>
+                                        }
+                                            
+                                       
+                                    
                                     <br/>
                                     @obj.Description
                                 </div>
@@ -344,3 +380,70 @@
     
 </section>
 <!-- content-main end// -->
+
+
+
+<script>
+    
+    const dropdown = document.getElementById("selectCategory");
+    var card = document.getElementById("menuCard");
+    const cardGrid = document.getElementById("MenuGrid");
+
+    dropdown.addEventListener("change", function () {
+        console.log("Selected item: ", this.value);
+        
+        for(var i of cardGrid.children){
+            var category = i.querySelector(".menuCategory");
+            if(this.value == "Select All"){
+                i.style.display = "";
+            }
+            else
+            {
+                if (category?.textContent != this.value) {
+                    i.style.display = "None";
+                } 
+                else 
+                {
+                    i.style.display = "";
+                }
+            }
+
+            
+            console.log("Category: ",category)
+            
+            console.log("Child elements ", i);
+        }
+        
+
+    });
+    const searchbar = document.querySelector("#search")
+
+    searchbar.addEventListener("keyup", function () {
+        console.log("Search query", this.value);
+
+        for (var i of cardGrid.children) {
+            var menuTitle = i.querySelector(".title");
+            if(menuTitle?.textContent != null || menuTitle?.textContent == ""){
+                console.log("Value: ", this.value.toLowerCase())
+                console.log("Text Content",menuTitle.textContent.slice(0,this.value.length).toLowerCase() )
+                if (menuTitle.textContent.slice(0,this.value.length).toLowerCase() == this.value.toLowerCase()) {
+                    i.style.display = "";
+                } else {
+                    i.style.display = "None";
+                }
+            }else{
+                i.style.display = "None";
+            }
+           
+            
+            
+        }
+    })
+    
+
+    
+
+
+
+
+</script>

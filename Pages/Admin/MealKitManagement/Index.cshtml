@@ -44,8 +44,8 @@
 							 class="rounded-circle" />
 							&nbsp;	&nbsp;
 							<div class="ms-3">
-								<p class="fw-bold mb-1">Name</p>
-								<p class="text-muted mb-0">Email</p>
+								<p class="fw-bold mb-1">@obj.Name</p>
+								<p class="text-muted mb-0">@obj.Email</p>
 							</div>
 						</div>
 					</td>
@@ -71,7 +71,7 @@
 						
 					</td>
 					<td>
-						
+						<a class="btn btn-outline-primary" asp-route-id="@obj.userId" asp-page="/Admin/MealKitManagement/ViewCustomerBox" target="_blank">View Box</a>
 					</td>
 					
 

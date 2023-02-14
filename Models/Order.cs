@@ -27,5 +27,7 @@ namespace Spoonful.Models
 
         [Required]
         public string? OwnerID { get; set; }
+
+        public string? RecipeId { get; set; }
     }
 }

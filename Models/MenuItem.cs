@@ -25,5 +25,9 @@ namespace Spoonful.Models
 
         [MaxLength(50)]
         public string ImageURL { get; set; } = "/uploads/user.png";
+
+        public Boolean Archived { get; set; } = true;
+        public string? RecipeId { get; set; }
+
     }
 }

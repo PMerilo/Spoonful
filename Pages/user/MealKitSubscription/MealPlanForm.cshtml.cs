@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+
 
 namespace Spoonful.Pages.user.MealKitSubscription
 {
@@ -7,6 +9,12 @@ namespace Spoonful.Pages.user.MealKitSubscription
     {
         public void OnGet()
         {
+
+        }
+
+        public async Task<IActionResult> OnPost()
+        {
+            return Page();
         }
     }
 }

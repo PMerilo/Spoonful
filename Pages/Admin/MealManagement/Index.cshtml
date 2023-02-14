@@ -3,17 +3,20 @@
 @{
 	Layout = "/Pages/Shared/_LayoutAdmin.cshtml";
 }
-<div class="container p-3">  
+<div class="container">  
 	<div class="row pt-4">
-		<div class="col-6">
-			<h2 class="text-primary display-4">Menu Item List</h2>
+		<div class="col-6" style="padding-left:30px;">
+			<h2 class="text-primary display-6">Menu Item List</h2>
 		</div>
 	
-
+		
 		<div class="col-6 text-end">
+			<!--
 			<a asp-page="/Admin/MealManagement/ViewMeals" class="blue-btn-a">
-				<i class="bi bi-menu-up"></i> &nbsp; View Customer Menu
+			<i class="bi bi-menu-up"></i> &nbsp; View Customer Menu
 			</a>
+			-->
+			
 			<a asp-page= "/Admin/MealManagement/AddMeals" class="blue-btn-a">
 				<i class="bi-plus-square"></i> &nbsp; Create New Menu Item
 			</a>
@@ -24,59 +27,83 @@
 	<br/>
 	<br/>
 
+	<table class="table align-middle mb-0 bg-white">
+  <thead class="bg-light">
+    <tr>
+      <th>#</th>
+	  <th>Menu Item</th>
+      <th>Category / Menu Preference</th>
+	  <th>Description</th>
+	  <th>Status</th>
+      <th>Edit</th>
+	  <th>Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+	@foreach(var obj in Model.MenuItems)
+		{
+		<form method="post">
+    <tr>
+	  <td>@obj.Id</td>
+      <td>
+        <div class="d-flex align-items-center">
+          <img
+              src="@obj.ImageURL"
+              alt=""
+              style="width: 45px; height: 45px"
+              class="rounded-circle"
+              />
+          <div class="ms-3">
+            <p class="fw-bold mb-1">@obj.Name</p>
 
-	<table class="table table-bordered table-striped" style="width:100%">
-		<thead>
-			<tr>
-				<th>Menu ID</th>
-				<th>
-					Category
-				</th>
-				<th>
-					Name
-				</th>
-				<th>
-					Description
-				</th>
-				<th>
-					Tags
-				</th>
-				<th>Menu Preference</th>
-			</tr>
-		</thead>
-
-		<tbody>
-			@foreach(var obj in Model.MenuItems)
+			
+			@foreach (var x in obj.Tags.Split(","))
 			{
-			<form method="post">
-			<tr>
-				
-				<td>@obj.Id</td>
-				<td>@obj.Category</td>
-				<td>@obj.Name</td>
-				<td>@obj.Description</td>
-				<td>@obj.Tags</td>
-				<td>@obj.MenuPreference</td>
-				<td width="50%">
-					<div class="w-75 btn-group" role="group">
-					<a asp-page="/Admin/MealManagement/UpdateMeal" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
-						<i class="bi bi-pencil-square"></i>
-					</a>
-					<input asp-for="MyMenuItem.Id" class="form-control" hidden value="@obj.Id">
-					<input asp-for="MyMenuItem.Category" class="form-control" hidden value="@obj.Category">
-					<input asp-for="MyMenuItem.Name" class="form-control" hidden value="@obj.Name">
-					<input asp-for="MyMenuItem.Description" class="form-control" hidden value="@obj.Description">
-					<input asp-for="MyMenuItem.Tags" class="form-control" hidden value="@obj.Tags">
-
-					<button class="btn btn-danger mx-2" type="submit">
-						<i class="bi bi-trash-fill"></i>
-					</button>
-					</div>
-				</td>
-			</tr>
-			</form>
+			<p class="text-muted mb-0" style="display:inline-block; margin-top:10px;"><span class="badge badge-success rounded-pill d-inline">@x</span></p>
 			}
-		</tbody>
+			
+			
+          </div>
+        </div>
+      </td>
+      <td>
+        <p class="fw-normal mb-1">@obj.Category</p>
+        <p class="text-muted mb-0">@obj.MenuPreference</p>
+      </td>
+	  <td>
+		  @obj.Description
+	  </td>
+      <td>
+		  @if(obj.Archived == true){
+			<p class="text-muted mb-0"><span class="badge badge-danger rounded-pill d-inline">Archived</span></p>
+		  }else{
+			<p class="text-muted mb-0"><span class="badge badge-success rounded-pill d-inline">Public</span></p>
+		  }
+		  
+	  </td>
+      <td>
+			<a asp-page="/Admin/MealManagement/UpdateMeal" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
+				<i class="bi bi-pencil-square"></i>
+			</a>
+			<input asp-for="MyMenuItem.Id" class="form-control" hidden value="@obj.Id">
+			<input asp-for="MyMenuItem.Category" class="form-control" hidden value="@obj.Category">
+			<input asp-for="MyMenuItem.Name" class="form-control" hidden value="@obj.Name">
+			<input asp-for="MyMenuItem.Description" class="form-control" hidden value="@obj.Description">
+			<input asp-for="MyMenuItem.Tags" class="form-control" hidden value="@obj.Tags">
+	  </td>
 
-	</table>
+		<td>
+			<button class="btn btn-danger mx-2" type="submit">
+				<i class="bi bi-trash-fill"></i>
+			</button>
+		</td>
+      
+    </tr>
+    </form>
+	}
+  </tbody>
+</table>
+
+
+	
 </div>

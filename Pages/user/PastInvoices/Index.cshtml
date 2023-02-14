@@ -36,6 +36,7 @@
                                   <th scope="col">Date Of Transaction</th>
                                   <th scope="col">Transaction Amount</th>
                                   <th scope="col">Action</th>
+                                  <th scope="col">Download</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -46,7 +47,14 @@
                                   <td>@obj.DateOfPayment</td>
                                   <td>$@obj.Cost</td>
                                 <td>
-                                    <a class="btn btn-outline-primary" asp-route-id="@obj.userId" asp-page="/Admin/ViewCustomerInvoices/CustomerInvoice" target="_blank">View Invoice</a>
+                                    <a class="btn btn-outline-primary" asp-route-id="@obj.Id" asp-page="/user/PastInvoices/ViewInvoice" target="_blank">View Invoice</a>
+                                </td>
+                                <td>
+                                    <form method="post">
+                                        <input asp-for="@Model.InvoiceID" class="form-control" hidden value="@obj.Id">
+                                        <button type="submit" class="btn btn-outline-primary"><i class="fa-regular fa-download"></i></button>
+                                    </form>
+                                    
                                 </td>
                                 </tr>
                                 }

@@ -12,13 +12,13 @@ getRevenueData.done(function (data) {
 
     let values = []
     data.forEach(element => {
-        labels.push(element.dateOfPayment)
+        labels.push(element.dateIssued)
 
     });
 
 
     data.forEach(element => {
-        values.push(element.cost)
+        values.push(element.coun)
 
     });
     var myLineChart = new Chart(ctxrevenue, {

@@ -1,54 +1,146 @@
 ﻿@page
-@model Spoonful.Pages.user.MealKitSubscription.MealPlanFormModel
+@using Spoonful.Settings
+@using Microsoft.AspNetCore.Identity
+@using Spoonful.Models
+@using Microsoft.Extensions.Options
+@inject GoogleAddressAutoCorrectConfiguration GoogleAddressAutoCorrect
+
+
+
+@inject UserManager<CustomerUser> UserManager
+@{
+	var user = await UserManager.GetUserAsync(User);
+}
+@model Spoonful.Pages.user.MealKitSubscription.OrderModel
 @{
 }
+
+
 <!-- SPECIFIC CSS -->
 <link href="~/css/order-sign_up.css" rel="stylesheet">
 <link href="~/css/detail-page.css" rel="stylesheet">
+@Html.AntiForgeryToken()
+
+<style>
+    #map {
+        height: 400px; /* The height is 400 pixels */
+        width: 100%; /* The width is the width of the web page */
+    }
+
+    /*
+     * Optional: Makes the sample page fill the window.
+     */
+    
+</style>
 
 <main class="bg_gray">
+	
+	
+	<form method="post" asp-page-handler="googleaddressvalidate">
+		<label>Address</label>
+		<input type="text" value="yay" class="form-control" placeholder="Enter Delivery Address" required>
+		<button type="submit" id="btn2" class="btn btn-primary">Validate Address</button>
+	</form>
+    <form method="post">
+        <label>PDF BUTTOn</label>
+        
+        <button type="submit" id="btn2" class="btn btn-primary">Print PDF</button>
+    </form>
+		<br/>
 
-	<div class="container margin_60_20">
-		<div class="row justify-content-center">
-			<div class="col-xl-6 col-lg-8">
-				<div class="box_order_form">
-					<div class="head">
-						<div class="title">
-							<h3>Personalise your plan</h3>
-						</div>
-					</div>
-					<!-- /head -->
-					<div class="main">
-						<div class="form-group">
-							<label>First and Last Name</label>
-							<input class="form-control" placeholder="First and Last Name">
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group">
-									<label>Email Address</label>
-									<input class="form-control" placeholder="Email Address">
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label>Phone</label>
-									<input class="form-control" placeholder="Phone">
-								</div>
-							</div>
-						</div>
-						
-					</div>
-				</div>
-				
-			</div>
-			<!-- /col -->
-			
 
-		</div>
-		<!-- /row -->
-	</div>
-	<!-- /container -->
+    <!-- Search input -->
+    <input id="searchInput" class="controls form-control" type="text" placeholder="Enter a location">
+    <br/>
+	<div id="map"></div>
+    <!-- Display geolocation data -->
+    <ul class="geo-data">
+        <li>Full Address: <span id="location"></span></li>
+        <li>Postal Code: <span id="postal_code"></span></li>
+        <li>Country: <span id="country"></span></li>
+        <li>Latitude: <span id="lat"></span></li>
+        <li>Longitude: <span id="lon"></span></li>
+    </ul>
+    
+    
+	<!-- /main -->
 
 </main>
-<!-- /main -->
+
+<script src="/js/AddressAutoComplete.js"></script>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@GoogleAddressAutoCorrect.API&libraries=places&callback=initMap"></script>
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=@GoogleAddressAutoCorrect.API"></script>
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=@GoogleAddressAutoCorrect.API&callback=initMap" async defer></script>
+<script>
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: -33.8688, lng: 151.2195 },
+            zoom: 13
+        });
+        var input = document.getElementById('searchInput');
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.bindTo('bounds', map);
+
+        var infowindow = new google.maps.InfoWindow();
+        var marker = new google.maps.Marker({
+            map: map,
+            anchorPoint: new google.maps.Point(0, -29)
+        });
+
+        autocomplete.addListener('place_changed', function () {
+            infowindow.close();
+            marker.setVisible(false);
+            var place = autocomplete.getPlace();
+            if (!place.geometry) {
+                window.alert("Autocomplete's returned place contains no geometry");
+                return;
+            }
+
+            // If the place has a geometry, then present it on a map.
+            if (place.geometry.viewport) {
+                map.fitBounds(place.geometry.viewport);
+            } else {
+                map.setCenter(place.geometry.location);
+                map.setZoom(17);
+            }
+            marker.setIcon(({
+                url: place.icon,
+                size: new google.maps.Size(71, 71),
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(17, 34),
+                scaledSize: new google.maps.Size(35, 35)
+            }));
+            marker.setPosition(place.geometry.location);
+            marker.setVisible(true);
+
+            var address = '';
+            if (place.address_components) {
+                address = [
+                    (place.address_components[0] && place.address_components[0].short_name || ''),
+                    (place.address_components[1] && place.address_components[1].short_name || ''),
+                    (place.address_components[2] && place.address_components[2].short_name || '')
+                ].join(' ');
+            }
+
+            infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
+            infowindow.open(map, marker);
+
+            // Location details
+            for (var i = 0; i < place.address_components.length; i++) {
+                if (place.address_components[i].types[0] == 'postal_code') {
+                    document.getElementById('postal_code').innerHTML = place.address_components[i].long_name;
+                }
+                if (place.address_components[i].types[0] == 'country') {
+                    document.getElementById('country').innerHTML = place.address_components[i].long_name;
+                }
+            }
+            document.getElementById('location').innerHTML = place.formatted_address;
+            document.getElementById('lat').innerHTML = place.geometry.location.lat();
+            document.getElementById('lon').innerHTML = place.geometry.location.lng();
+        });
+    }
+</script>
+
