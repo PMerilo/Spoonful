@@ -1,17 +1,34 @@
 ﻿@page
-@model Spoonful.Pages.Reegan.IndexModel
+@model Spoonful.Pages.Reegan.RecipePagesModel
 @{
     Layout = "/Pages/Shared/_Layout.cshtml";
 }
+@*<div>
+    @foreach (var obj in Model.Recipes)
+    {
+        <div>
+            @obj.name
+        </div>
+        <div>
+            @obj.prepTime
+        </div>
+        <div>
+            @obj.description
+        </div>
+        <div>
+            @obj.allergens
+        </div>
+    }
+</div>*@
 <link href="~/css/Menu.css" rel="stylesheet">
 <main>
-
 	<div class="page_header blog element_to_stick">
 		<div class="container">
 			<div class="row">
 				<div class="col-xl-8 col-lg-7 col-md-7 d-none d-md-block">
-					<h1>Recipes</h1>
-					<br>
+
+					<h1>Recipe</h1>
+					<br />
 				</div>
 				<div class="col-xl-4 col-lg-5 col-md-5">
 				</div>
@@ -23,56 +40,58 @@
 
 	<div class="container margin_60_20">
 		<div class="row">
-
 			<div class="col-lg-9">
-				<div class="row">
-					@foreach (var obj in Model.Recipes)
-					{
-						<div class="col-md-6">
-							<article class="blog">
-								<figure>
+				<div class="singlepost">
+					<figure><img alt="" class="img-fluid" src="@Model.MyRecipe.ImageURL" style="width:950px; height:450px; object-fit:cover"></figure>
+					<h1>@Model.MyRecipe.name</h1>
+					<div class="postmeta">
+						<ul>
+							<li><a href="#"><i class="icon_folder-alt"></i>@Model.MyRecipe.category</a> - @Model.MyRecipe.ingredients</li>
+							<li><i class="icon_calendar"></i> 23/12/2015</li>
 
 
-									<a asp-page="/Reegan/RecipePages" asp-route-id="@obj.Id">
-										<img id="imgPreview" src="@obj.ImageURL" alt="" style="object-fit:cover">
-										<div class="preview"><span>View Full Description</span></div>
-									</a>
-								</figure>
-								<div class="post_info">
-									<small>@obj.category - 20 Nov. 2017</small>
-									<h2><a asp-page="/Reegan/RecipePages">@obj.name</a></h2>
-									<p id="recipeDesc">@obj.description</p>
-									<ul>
-										<li><span class="badge rounded-pill bg-primary text-dark">Tags</span></li>
-										<li>
-											<span class="badge rounded-pill bg-info text-dark">@obj.ingredients</span>
-										</li>
-										<li><i class="icon_comment_alt"></i></li>
-									</ul>
-								</div>
-							</article>
-							<!-- /article -->
-						</div>
-					}
+						</ul>
+					</div>
+					<!-- /post meta -->
+					<div class="post-content">
 
+						<p>Description: @Model.MyRecipe.description</p>
+					</div>
+					<!-- /desc -->
+					<div class="post-content">
+
+						<p>Time needed: @Model.MyRecipe.prepTime minutes</p>
+					</div>
+					<!-- /prep time -->
+					<div class="post-content">
+
+						<p>Ingredients: @Model.MyRecipe.ingredients</p>
+					</div>
+					<!-- /ingredients-->
+					<div class="post-content">
+
+						<p>Instructions: @Model.MyRecipe.instructions</p>
+					</div>
+					<!-- /instructions-->
 				</div>
-				<!-- /row -->
+				<!-- /single-post -->
+				
+
 
 
 
 			</div>
-
 			<!-- /col -->
 
 			@*<aside class="col-lg-3">
 				<div class="widget">
 					<div class="widget-title first">
-						<h4>Popular Items</h4>
+						<h4>Latest Post</h4>
 					</div>
 					<ul class="comments-list">
 						<li>
 							<div class="alignleft">
-								<a href="#0"><img src="/images/img/blog-6.jpg" alt=""></a>
+								<a href="#0"><img src="/images/img/blog-5.jpg" alt=""></a>
 							</div>
 							<small>Category - 11.08.2016</small>
 							<h3><a href="#" title="">Verear qualisque ex minimum...</a></h3>
@@ -130,17 +149,3 @@
 
 </main>
 <!-- /main -->
-
-<script>
-	var desc = document.getElementById("recipeDesc")
-	let newArr = desc.trim().split("3");
-	const cardGrid = document.getElementById("")
-	function showImgPreview(input) {
-		if (input.files[0]) {
-			var uploadimg = new FileReader(); uploadimg.onload = function (displayimg) {
-				$("#imgPreview").attr('src', displayimg.target.result);
-			}
-			uploadimg.readAsDataURL(input.files[0]);
-		}
-	}
-</script>
