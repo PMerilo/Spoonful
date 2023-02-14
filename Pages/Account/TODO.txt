@@ -4,7 +4,6 @@ Notifications
 
 User Management
 	Admin
-		Polish Authorization
 		Add Additional Information and details
 
 	Password Policies
@@ -22,6 +21,5 @@ User Management
 Audit Logs
 
 Followers
-	Notify followers
-	Real time messaging
+	Notify when receving msgs
 Session

@@ -1,3 +1,4 @@
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -10,12 +11,14 @@ namespace Spoonful.Pages.Admin.UserManagement
         private readonly AuthDbContext _db;
         private readonly UserManager<CustomerUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly INotyfService notyfService;
 
-        public RolesModel(AuthDbContext db, UserManager<CustomerUser> userManager, RoleManager<IdentityRole> roleManager)
+        public RolesModel(AuthDbContext db, UserManager<CustomerUser> userManager, RoleManager<IdentityRole> roleManager, INotyfService notyfService)
         {
             _db = db;
             _userManager = userManager;
             _roleManager = roleManager;
+            this.notyfService = notyfService;
         }
 
         public List<IdentityRole> Roles { get; set; }
@@ -55,15 +58,20 @@ namespace Spoonful.Pages.Admin.UserManagement
 
         public async Task<IActionResult> OnPost()
         {
-            if (!ModelState.IsValid)
+            if (RoleName == null)
             {
                 Roles = _roleManager.Roles.ToList();
+                notyfService.Error("Role Name cannot be empty");
                 return Page();
             }
             if (!await _roleManager.RoleExistsAsync(RoleName))
             {
                 await _roleManager.CreateAsync(new IdentityRole(RoleName));
+                notyfService.Success("Successfully added role.");
+                return RedirectToPage();
+
             }
+            notyfService.Error("This role already exists.");
             return RedirectToPage();
         }
 
@@ -71,7 +79,8 @@ namespace Spoonful.Pages.Admin.UserManagement
         {
             var role = await _roleManager.FindByNameAsync(name);
             await _roleManager.DeleteAsync(role);
-            return RedirectToPage();
+            notyfService.Success("Successfully deleted role.");
+            return Redirect("/Admin/UserManagement/Roles/All");
         }
 
         public async Task<IActionResult> OnPostAddUserToRole(string name)
