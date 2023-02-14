@@ -200,7 +200,14 @@
                                 </div>
                                 <div class="modal-body">
                                     <figure><img alt="" class="img-fluid" src="@obj.ImageURL" style="width:950px; height:450px; object-fit:cover"></figure>
-                                    <small>@obj.Category - @obj.MenuPreference <span class="badge rounded-pill bg-primary text-dark"><small>@obj.Tags </small></span></small>
+                                    <small>@obj.Category - @obj.MenuPreference 
+                                        
+                                        @foreach (var x in obj.Tags.Split(","))
+                                        {
+                                            <span class="badge rounded-pill bg-primary text-white"><small>@x </small></span>
+                                        } 
+                                        
+                                    </small>
                                     <br/>
                                     @obj.Description
                                 </div>
@@ -326,7 +333,16 @@
                                 </div>
                                 <div class="modal-body">
                                     <figure><img alt="" class="img-fluid" src="@obj.ImageURL" style="width:950px; height:450px; object-fit:cover"></figure>
-                                    <small>@obj.Category - @obj.MenuPreference <span class="badge rounded-pill bg-primary text-dark"><small>@obj.Tags </small></span></small>
+                                   
+                                        @obj.Category - @obj.MenuPreference 
+                                            
+                                        @foreach (var x in obj.Tags.Split(","))
+                                        {
+                                            <span class="badge rounded-pill bg-primary text-white"><small>@x </small></span>
+                                        }
+                                            
+                                       
+                                    
                                     <br/>
                                     @obj.Description
                                 </div>

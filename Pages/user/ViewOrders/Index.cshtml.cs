@@ -114,8 +114,31 @@ namespace Spoonful.Pages.user.ViewOrders
                     return Redirect("/user/ViewOrders/ManageWeek");
                 }
 
+                MenuItems = _db.MenuItem;
+                MenuItems = MenuItems.Where(X => X.Archived == false);
+                MenuItems = MenuItems.Where(X => X.MenuPreference == mealkit.MenuPreference);
+
                 
-                    
+
+
+
+            }
+
+            var checkMealsReset = false;
+            foreach (var i in Orders)
+            {
+                if (i.MenuPreference != mealkit.MenuPreference)
+                {
+                    checkMealsReset = true;
+                    _mealOrderService.DeleteOrder(i);
+                }
+
+            }
+            if (checkMealsReset)
+            {
+                TempData["FlashMessage.Type"] = "danger";
+                TempData["FlashMessage.Text"] = ($"Some of your order items has been removed due to changing your meal kit preferences.");
+                return Redirect("/user/ViewOrders/ManageWeek");
             }
 
             return Page();
