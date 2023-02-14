@@ -620,12 +620,6 @@ img,
   color: rgb(0 0 0 / var(--tw-text-opacity)) !important;
 }
 
-.tw-shadow-dark {
-  --tw-shadow: 2px 3px rgb(0 0 0 / 1); !important;
-  --tw-shadow-colored: 2px 3px var(--tw-shadow-color) !important;
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow) !important;
-}
-
 * {
   box-sizing: border-box;
 }

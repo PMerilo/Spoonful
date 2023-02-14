@@ -3,23 +3,6 @@
 @{
     Layout = "/Pages/Shared/_Layout.cshtml";
 }
-@*<div>
-    @foreach (var obj in Model.Recipes)
-    {
-        <div>
-            @obj.name
-        </div>
-        <div>
-            @obj.prepTime
-        </div>
-        <div>
-            @obj.description
-        </div>
-        <div>
-            @obj.allergens
-        </div>
-    }
-</div>*@
 <link href="~/css/Menu.css" rel="stylesheet">
 <main>
 	<div class="page_header blog element_to_stick">
@@ -40,14 +23,14 @@
 
 	<div class="container margin_60_20">
 		<div class="row">
-			<div class="col-lg-9">
+			<div style="text-align: center;" class="col-lg-9">
 				<div class="singlepost">
 					<figure><img alt="" class="img-fluid" src="@Model.MyRecipe.ImageURL" style="width:950px; height:450px; object-fit:cover"></figure>
 					<h1>@Model.MyRecipe.name</h1>
 					<div class="postmeta">
 						<ul>
-							<li><a href="#"><i class="icon_folder-alt"></i>@Model.MyRecipe.category</a> - @Model.MyRecipe.ingredients</li>
-							<li><i class="icon_calendar"></i> 23/12/2015</li>
+							@*<li><a href="#"><i class="icon_folder-alt"></i>@Model.MyRecipe.category</a> - @Model.MyRecipe.ingredients</li>*@
+							@*<li><i class="icon_calendar"></i> 23/12/2015</li>*@
 
 
 						</ul>
@@ -55,22 +38,22 @@
 					<!-- /post meta -->
 					<div class="post-content">
 
-						<p>Description: @Model.MyRecipe.description</p>
+						<p style="font-size: 20px;">Description: </p>  <div style="color: dimgray"> @Model.MyRecipe.description </div>
 					</div>
 					<!-- /desc -->
 					<div class="post-content">
 
-						<p>Time needed: @Model.MyRecipe.prepTime minutes</p>
+						<p style="font-size: 20px;">Time needed: </p>  <div style="color: dimgray"> @Model.MyRecipe.prepTime minutes </div>
 					</div>
 					<!-- /prep time -->
 					<div class="post-content">
 
-						<p>Ingredients: @Model.MyRecipe.ingredients</p>
+						<p style="font-size: 20px;">Ingredients:  </p>  <div style="color: dimgray"> @Model.MyRecipe.ingredients </div>
 					</div>
 					<!-- /ingredients-->
 					<div class="post-content">
 
-						<p>Instructions: @Model.MyRecipe.instructions</p>
+						<p style="font-size: 20px;">Instructions:  </p>  <div style="color: dimgray"> @Model.MyRecipe.instructions </div>
 					</div>
 					<!-- /instructions-->
 				</div>

@@ -31,10 +31,15 @@ namespace Spoonful.Pages.MailSubscriptions
                 var i = 1;
 
                 mailsubscription = await _context.mailsubsciption.FirstOrDefaultAsync(m => m.email == user.Email);
-                if (mailsubscription.Subscriptiontype == "Advanced") {
-                    //error
-                    return Redirect("/MailSubscriptions");
+                if (mailsubscription != null)
+                {
+                    if (mailsubscription.Subscriptiontype == "Advanced")
+                    {
+                        //error
+                        return Redirect("/MailSubscriptions");
+                    }
                 }
+                
                 var domain = "https://localhost:44367";
                 var options = new SessionCreateOptions
                 {
