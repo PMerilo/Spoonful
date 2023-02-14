@@ -65,10 +65,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Include="Pages\Ezell\Delete.cshtml" />
-	  <None Include="Pages\Ezell\Details.cshtml" />
-	  <None Include="Pages\Ezell\Edit.cshtml" />
-	  <None Include="Pages\Ezell\FeedbackPage.cshtml" />
-	  <None Include="Pages\Ezell\Index.cshtml" />
+	  <None Include="Pages\CustomerSupport\Delete.cshtml" />
+	  <None Include="Pages\CustomerSupport\Edit.cshtml" />
+	  <None Include="Pages\CustomerSupport\FeedbackPage.cshtml" />
 	</ItemGroup>
 </Project>

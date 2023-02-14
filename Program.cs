@@ -31,7 +31,7 @@ builder.Services.AddRazorPages(options =>
     options.Conventions.AllowAnonymousToPage("/Account/ExternalLogin");
     options.Conventions.AllowAnonymousToPage("/Account/2FA");
     options.Conventions.AllowAnonymousToPage("/notificationHub");
-    options.Conventions.AllowAnonymousToFolder("/Ezell");
+
 
 
 
@@ -66,6 +66,8 @@ builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
 
 
 //Services
+builder.Services.AddScoped<TicketingService>();
+
 builder.Services.AddScoped<CategoryService>();
 builder.Services.AddScoped<MenuItemService>();
 builder.Services.AddScoped<VoucherService>();

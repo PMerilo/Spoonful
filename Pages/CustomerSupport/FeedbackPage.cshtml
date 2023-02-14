@@ -1,0 +1,90 @@
+﻿@page
+@model Spoonful.Pages.CustomerSupport.CreateModel
+
+@{
+    ViewData["Title"] = "Feedback Form";
+}
+
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous" />
+    <title>Feedback Form</title>
+</head>
+<body>
+    <div class="container">
+        <div class="card-header bg-primary">
+            <h5 class="card-title text-white mt-2" id="exampleModalLabel">Feedback Form</h5>
+        </div>
+        <br >
+        <div class="text-center">
+            <i class="far fa-file-alt fa-4x mb-3 text-primary"></i>
+            <p>
+                <strong>Your opinion matters</strong>
+            </p>
+            <p>
+                Have some ideas how to improve our website?
+                <strong>Give us your feedback.</strong>
+            </p>
+        </div>
+        <hr />
+        <form method="post">
+            <label><strong>Your Experience:</strong></label>
+
+
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="radio" value="5" asp-for="Feedbackform.Category" id="radio3Example1" required/>
+                <label class="form-check-label" for="radio3Example1">
+                    Very good
+                </label>
+            </div>
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="radio" value="4" asp-for="Feedbackform.Category" id="radio3Example2" required/>
+                <label class="form-check-label" for="radio3Example2">
+                    Good
+                </label>
+            </div>
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="radio" value="3" asp-for="Feedbackform.Category" id="radio3Example3" required />
+                <label class="form-check-label" for="radio3Example3">
+                    Medicore
+                </label>
+            </div>
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="radio" value="2" asp-for="Feedbackform.Category" id="radio3Example4" required />
+                <label class="form-check-label" for="radio3Example4">
+                    Bad
+                </label>
+            </div>
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="radio" value="1" asp-for="Feedbackform.Category" id="radio3Example5" required />
+                <label class="form-check-label" for="radio3Example5">
+                    Very bad
+                </label>
+                <span asp-validation-for="Feedbackform.Category" class="text-danger"></span>
+
+            </div>
+               
+            <div class="form-group">
+                <label for="name"><strong>Title</strong></label>
+                <input type="text" class="form-control" asp-for="Feedbackform.TitleFeedback" placeholder="Enter a Title" />
+                <span asp-validation-for="Feedbackform.TitleFeedback" class="text-danger"></span>
+
+            </div>
+            
+            <div class="form-group">
+                <label for="message"><strong>Message</strong></label>
+                <textarea class="form-control" asp-for="Feedbackform.MainFeedback" rows="3"></textarea>
+                    <span asp-validation-for="Feedbackform.MainFeedback" class="text-danger"></span>
+
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

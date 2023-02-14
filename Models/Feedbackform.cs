@@ -15,10 +15,19 @@ namespace Spoonful.Models
         public string Feedbackstatus { get; set; } = "New Message*";
 
         [Required]
+        public string Customername { get; set; } = "Anonymous";
+
+        [Required]
         public string TitleFeedback { get; set; }
 
         [Required]
         public string MainFeedback { get; set; }
+
+        [Required]
+        public string Category { get; set; }
+
+        [Required]
+        public string datetime { get; set; } = DateTime.Now.ToString();
 
     }
 
