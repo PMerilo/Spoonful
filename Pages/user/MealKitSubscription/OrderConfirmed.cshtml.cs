@@ -21,10 +21,11 @@ namespace Spoonful.Pages.user.MealKitSubscription
         private readonly OrderService _orderService;
         private readonly InvoiceMealKitService _invoiceMealKitService;
         private readonly MealKitSubscriptionLogService _mealKitSubscriptionLogService;
+        private IWebHostEnvironment _environment;
 
 
 
-        public OrderConfirmedModel(UserManager<CustomerUser> userManager, AuthDbContext db, MealKitService mealKitService, OrderService orderService, IEmailService emailSender, InvoiceMealKitService invoiceMealKitService, MealKitSubscriptionLogService mealKitSubscriptionLogService)
+        public OrderConfirmedModel(UserManager<CustomerUser> userManager, AuthDbContext db, MealKitService mealKitService, OrderService orderService, IEmailService emailSender, InvoiceMealKitService invoiceMealKitService, MealKitSubscriptionLogService mealKitSubscriptionLogService, IWebHostEnvironment environment)
         {
             _userManager = userManager;
             _db = db;
@@ -33,6 +34,7 @@ namespace Spoonful.Pages.user.MealKitSubscription
             _emailSender = emailSender;
             _invoiceMealKitService = invoiceMealKitService;
             _mealKitSubscriptionLogService = mealKitSubscriptionLogService;
+            _environment = environment;
         }
 
         public async Task<IActionResult> OnGet(string id)
@@ -51,12 +53,25 @@ namespace Spoonful.Pages.user.MealKitSubscription
                         _mealKitService.UpdateMealKit(mealkit);
                         _orderService.UpdateOrderDetails(orderDetails);
 
-                        _emailSender.SendEmail(
-                            user.Email,
-                            "Spoonful Meal Kit Subscription",
-                            $"Hello, {user.UserName} You have subscribed to our meal kit plan successfully. If you have any issues with any substitution, or either an ingredient or a Meal Kit, please contact us via ticket through customer support on our website.",
-                            null,
-                            null);
+                        //var PathToFile = _environment.WebRootPath +Path.DirectorySeparatorChar.ToString(); +"Pages/Templates"
+                        var htmlPath = Path.Combine(_environment.ContentRootPath, "Pages/Templates/MealKitSubscriptionEmailTemplate.html");
+                        var subject = "Spoonful Meal Kit Subscription";
+                        string htmlBody = "";
+                        using (StreamReader streamReader = System.IO.File.OpenText(htmlPath))
+                        {
+                            htmlBody = streamReader.ReadToEnd();
+                        }
+
+                        //{0} Name
+                        //{1} Menu Preference
+                        //{2} Number Of Recipes Per Week
+                        //{3} Number Of Servings Per Week
+                        //{4} Number Of People Per Week
+                        //{5} Cost
+
+                        
+
+                       
                         double serving = 5.00;
 
                         
@@ -68,6 +83,14 @@ namespace Spoonful.Pages.user.MealKitSubscription
                         _invoiceMealKitService.AddInvoice(invoice);
                         _mealKitSubscriptionLogService.AddMealKitSubscriptionLog(mealKitSubscriptionLog);
 
+
+                        string messageBody = string.Format(htmlBody, user.UserName, mealkit.MenuPreference, mealkit.noOfRecipesPerWeek, mealkit.noOfServingsPerPerson, mealkit.noOfPeoplePerWeek, totalCost);
+                        _emailSender.SendEmail(
+                           user.Email,
+                           subject,
+                           messageBody,
+                           null,
+                           null);
                         await _db.SaveChangesAsync();
                     }
                     return Page();
