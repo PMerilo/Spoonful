@@ -30,6 +30,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="IronPdf" Version="2023.1.11416" />
 	  <PackageReference Include="AspNetCore.ReCaptcha" Version="1.7.0" />
 	  <PackageReference Include="AspNetCoreHero.ToastNotification" Version="1.1.0" />
 	  <PackageReference Include="MailKit" Version="3.4.3" />
@@ -58,6 +59,8 @@
 	  <Folder Include="Migrations\" />
 	  <Folder Include="Pages\Community\" />
 	  <Folder Include="Views\" />
+	  <Folder Include="wwwroot\pdfs\" />
+	  <Folder Include="wwwroot\uploads\" />
 	  <Folder Include="wwwroot\uploads\deliveryUpload\" />
 	</ItemGroup>
 

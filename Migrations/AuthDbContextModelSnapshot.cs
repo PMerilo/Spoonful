@@ -550,7 +550,15 @@ namespace Spoonful.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("MenuPreference")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -619,6 +627,9 @@ namespace Spoonful.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("Archived")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Category")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -638,6 +649,9 @@ namespace Spoonful.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RecipeId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Tags")
@@ -748,6 +762,9 @@ namespace Spoonful.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RecipeId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Tags")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -768,6 +785,9 @@ namespace Spoonful.Migrations
 
                     b.Property<string>("Address")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DeliveryDate")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OrderDate")

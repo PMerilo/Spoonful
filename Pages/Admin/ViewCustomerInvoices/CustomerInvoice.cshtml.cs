@@ -26,12 +26,12 @@ namespace Spoonful.Pages.Admin.ViewCustomerInvoices
         public async Task<IActionResult> OnGet(string id)
         {
             //var user = await _userManager.GetUserAsync(User);
-            MealKit? mealkit = _mealKitService.GetMealKitByUserId(id);
-            if (mealkit == null)
-            {
-                return Redirect("/Admin/ViewCustomerInvoices/CustomerInvoice");
-            }
-            Invoice? invoice = _invoiceMealKitService.GetInvoiceByMealKitId(mealkit.Id);
+            //MealKit? mealkit = _mealKitService.GetMealKitByUserId(id);
+            //if (mealkit == null)
+            //{
+            //    return Redirect("/Admin/ViewCustomerInvoices/CustomerInvoice");
+            //}
+            Invoice? invoice = _invoiceMealKitService.GetInvoiceById(id);
             if (invoice != null)
             {
                 MyInvoice = invoice;

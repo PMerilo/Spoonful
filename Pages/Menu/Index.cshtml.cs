@@ -25,6 +25,7 @@ namespace Spoonful.Pages.Menu
         public void OnGet()
         {
             MenuItems = _db.MenuItem;
+            MenuItems = MenuItems.Where(X => X.Archived == false);
         }
     }
 }

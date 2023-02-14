@@ -8,8 +8,8 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-xl-8 col-lg-7 col-md-7 d-none d-md-block">
+					<a class="btn btn-primary" href="/Menu" role="button" style="margin-bottom:20px; "><i class="fa-solid fa-arrow-left"></i> Back To Weekly Menu</a>
 					
-					<h1>Menu</h1>
 					<br />
 				</div>
 				<div class="col-xl-4 col-lg-5 col-md-5">
@@ -29,7 +29,10 @@
 					<div class="postmeta">
 						<ul>
 							<li><a href="#"><i class="icon_folder-alt"></i>@Model.MyMenuItem.Category</a> - @Model.MyMenuItem.MenuPreference</li>
-							<li><i class="icon_calendar"></i> 23/12/2015</li>
+							@foreach (var x in Model.MyMenuItem.Tags.Split(","))
+							{
+								<li style="display:inline-block; margin-top:10px;"><span class="badge rounded-pill bg-info text-dark">@x</span></li>
+							}
 
 
 						</ul>
@@ -49,7 +52,9 @@
 
 			</div>
 			<!-- /col -->
+			@*
 
+			
 			<aside class="col-lg-3">
 				<div class="widget">
 					<div class="widget-title first">
@@ -109,6 +114,7 @@
 				<!-- /widget -->
 			</aside>
 			<!-- /aside -->
+			*@
 		</div>
 		<!-- /row -->
 	</div>

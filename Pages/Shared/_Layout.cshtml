@@ -39,6 +39,9 @@
         <nav class="navbar bg-light navbar-expand-lg tw-shadow-dark">
             <div class="tw-flex tw-justify-between tw-align-middle tw-flex-grow tw-mx-32">
                 <a class="navbar-brand" asp-page="/Index">Spoonful</a>
+                
+                
+               
                 <div class="offcanvas offcanvas-end tw-grow-1 tw-w-auto align-items-center justify-items-center" tabindex="-1" id="offcanvasNavbar"
                      aria-labelledby="offcanvasNavbarLabel">
                     <div class="offcanvas-header">
@@ -74,26 +77,26 @@
                                 {
                                     if (!Int32.TryParse(navLinks[i][1], out int Indexvalue))
                                     {
-                                                        <li class="nav-item tw-px-2">
-                                                            <a class="nav-link hover-underline-animation tw-text-black" asp-page="@navLinks[i][1]">@navLinks[i][0]</a>
-                                                        </li>
+                                                                    <li class="nav-item tw-px-2">
+                                                                        <a class="nav-link hover-underline-animation tw-text-black" asp-page="@navLinks[i][1]">@navLinks[i][0]</a>
+                                                                    </li>
                                     }
                                     else
                                     {
-                                                        <li class="nav-item tw-px-2 dropdown">
-                                                            <a class="nav-link hover-underline-animation tw-text-black" href="#" id="@navLinks[i][0]Dropdown" role="button"
-                                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                                                @navLinks[i][0]
-                                                            </a>
-                                                            <ul class="dropdown-menu" aria-labelledby="@navLinks[i][0]Dropdown">
-                                                                @{
+                                                                    <li class="nav-item tw-px-2 dropdown">
+                                                                        <a class="nav-link hover-underline-animation tw-text-black" href="#" id="@navLinks[i][0]Dropdown" role="button"
+                                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                                            @navLinks[i][0]
+                                                                        </a>
+                                                                        <ul class="dropdown-menu" aria-labelledby="@navLinks[i][0]Dropdown">
+                                                                            @{
                                         for (int k = 0; k < dropdownLinks.GetLength(1); k++)
                                         {
-                                                                            <li><a class="dropdown-item tw-text-black" asp-page="@dropdownLinks[Int32.Parse(navLinks[i][1]), k, 1]">@dropdownLinks[Int32.Parse(navLinks[i][1]), k, 0]</a></li>
+                                                                                                    <li><a class="dropdown-item tw-text-black" asp-page="@dropdownLinks[Int32.Parse(navLinks[i][1]), k, 1]">@dropdownLinks[Int32.Parse(navLinks[i][1]), k, 0]</a></li>
                                         }
-                                                                }
-                                                            </ul>
-                                                        </li>
+                                                                            }
+                                                                        </ul>
+                                                                    </li>
                                     }
 
                                 }
@@ -145,10 +148,10 @@
                     }
                     else
                     {
-                        <div class="d-flex justify-content-between">
-                            <a class="tw-btn-primary" asp-page="/Account/Login">Login</a>
-                            <button class="tw-btn-primary">Get your first meal!</button>
-                        </div>
+                                    <div class="d-flex justify-content-between">
+                                        <a class="tw-btn-primary" asp-page="/Account/Login">Login</a>
+                                        <button class="tw-btn-primary">Get your first meal!</button>
+                                    </div>
                     }
                 }
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
@@ -174,10 +177,22 @@
         }
         @await Html.PartialAsync("_FlashMessage")
         <main role="main" class="pb-3 container col-10">
+
+            <!--To Enable Google Translate on Webpage -->
+            
+            <!-- code -->
+            <!--
+                <div id="google_element" style=""></div>
+            -->
+            
+            
             @RenderBody()
+            
         </main>
 
+
     </div>
+    
     @await Html.PartialAsync("_Swal")
 
     <div class="modal fade" id="logOutModal" tabindex="-1" aria-labelledby="logOutModalLabel" aria-hidden="true">
@@ -220,6 +235,14 @@
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
     <script src="~/js/notification.js"></script>
 
+    <!--Script for google translate on webpage probably not gonna use can remove if not using-->
+    <script src="https://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate"></script>
+    <script>
+	    function loadGoogleTranslate(){
+		    new google.translate.TranslateElement("google_element")
+	    }
+
+    </script>
 
 
     @await RenderSectionAsync("Scripts", required: false)

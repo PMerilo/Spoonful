@@ -24,7 +24,12 @@ namespace Spoonful.Models
         [Required]
         public string? userId { get; set; }
 
-        
+        [Required]
+        public string? Name{ get; set; }
+
+        [Required]
+        public string? Email { get; set; }
+
         public string? orderDetailsId { get; set; }
 
         public Boolean Status { get; set; } = true;

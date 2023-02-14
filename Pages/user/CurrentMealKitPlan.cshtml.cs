@@ -22,14 +22,20 @@ namespace Spoonful.Pages.user
 
         private readonly InvoiceMealKitService _invoiceMealKitService;
 
+        public readonly IEmailService _emailSender;
 
-        public CurrentMealKitPlanModel(AuthDbContext db, MealKitService mealKitService, UserManager<CustomerUser> userManager, OrderService orderService, InvoiceMealKitService invoiceMealKitService)
+        private IWebHostEnvironment _environment;
+
+
+        public CurrentMealKitPlanModel(AuthDbContext db, MealKitService mealKitService, UserManager<CustomerUser> userManager, OrderService orderService, InvoiceMealKitService invoiceMealKitService, IEmailService emailSender, IWebHostEnvironment environment)
         {
             _db = db;
             _mealKitService = mealKitService;
             _userManager = userManager;
             _orderService = orderService;
             _invoiceMealKitService = invoiceMealKitService;
+            _emailSender = emailSender;
+            _environment = environment;
         }
 
         [BindProperty]
@@ -155,7 +161,21 @@ namespace Spoonful.Pages.user
             
             if (mealkit != null)
             {
-
+                var htmlPath = Path.Combine(_environment.ContentRootPath, "Pages/Templates/MealKitUnSubscriptionEmailTemplate.html");
+                var subject = "Spoonful Meal Kit Unsubscription";
+                string htmlBody = "";
+                using (StreamReader streamReader = System.IO.File.OpenText(htmlPath))
+                {
+                    htmlBody = streamReader.ReadToEnd();
+                }
+                string messageBody = string.Format(htmlBody, user.UserName);
+                // Call Email Service and send
+                _emailSender.SendEmail(
+                   user.Email,
+                   subject,
+                   messageBody,
+                   null,
+                   null);
                 Console.WriteLine("Deleting Meal Kit");
                 
                 _mealKitService.DeleteMealKit(mealkit);
@@ -183,8 +203,8 @@ namespace Spoonful.Pages.user
                 TempData["FlashMessage.Type"] = "success";
                 TempData["FlashMessage.Text"] = ("Your Order Details Has Been Saved Successfully.");
             }
-            
-            return Page();
+
+            return Redirect("/user/CurrentMealKitPlan");
         }
     }
 }

@@ -74,7 +74,7 @@ a.btn:hover {text-decoration: none; background-color: #5C85ED;}
 <div class="content-header d-flex justify-content-between">
     <div>
         
-        <p><span style="color:red">UPCOMING</span> Change by @Model.MyOrderDetails.OrderDate</p>
+        <p><span style="color:red">UPCOMING</span> Change by @Model.MyOrderDetails.DeliveryDate</p>
         <h2 class="content-title card-title">In Your Box</h2>
         
         <h3 class="h3">@Model.MyMealKit.noOfRecipesPerWeek, pre-selected Meals</h3>
@@ -107,9 +107,16 @@ a.btn:hover {text-decoration: none; background-color: #5C85ED;}
                                 <a href="#" class="img-wrap"> <img src="@obj.ImageURL" alt="Product" style="height:250px;object-fit:cover" /> </a>
                                 <br />
                                 <div class="info-wrap" style="overflow:auto;padding:3%">
-                                    <small>@obj.Category - @obj.MenuPreference <span class="badge rounded-pill bg-primary text-dark"><small>@obj.Tags </small></span></small>
-
                                     <a href="#" class="title text-truncate">@obj.Name</a>
+                                    <br />
+                                    <small>@obj.Category - @obj.MenuPreference</small>
+                                    <br />
+                                    @foreach (var x in obj.Tags.Split(","))
+                                    {
+                                        <span class="badge rounded-pill bg-primary text-white"><small>@x </small></span>
+                                    }
+                                    <br />
+                                    
                                     <div class="price mb-2 h6"></div>
                                     <!-- price.// -->
 
@@ -130,7 +137,14 @@ a.btn:hover {text-decoration: none; background-color: #5C85ED;}
                                 </div>
                                 <div class="modal-body">
                                     <figure><img alt="" class="img-fluid" src="@obj.ImageURL" style="width:950px; height:450px; object-fit:cover"></figure>
-                                    <small>@obj.Category - @obj.MenuPreference <span class="badge rounded-pill bg-primary text-dark"><small>@obj.Tags </small></span></small>
+                                    <small>
+                                        @obj.Category - @obj.MenuPreference 
+                                        @foreach (var x in obj.Tags.Split(","))
+                                        {
+                                            <span class="badge rounded-pill bg-primary text-white"><small>@x </small></span>
+                                        }
+                                            
+                                    </small>
                                     <br/>
                                     @obj.Description
                                 </div>
