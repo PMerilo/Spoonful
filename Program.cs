@@ -100,6 +100,7 @@ var smsConfig = builder.Configuration
 builder.Services.AddSingleton(smsConfig);
 builder.Services.AddScoped<ISmsSender, SMSSender>();
 
+
 var GoogleAddressAutoCorrect = builder.Configuration
         .GetSection("GoogleAddressAutoCorrect")
         .Get<GoogleAddressAutoCorrectConfiguration>();

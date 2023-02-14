@@ -67,6 +67,15 @@ namespace Spoonful.Pages.Admin.RecipeManagement
                         MyRecipe.instructions = instruction;
                     }
                 }
+                var key1 = form.Keys.ToList();
+                foreach (var key in key1)
+                {
+                    if (key == "ingredients")
+                    {
+                        var ingredient = form[key];
+                        MyRecipe.ingredients = ingredient;
+                    }
+                }
                 _recipeService.AddRecipe(MyRecipe);
                 TempData["FlashMessage.Type"] = "success";
                 TempData["FlashMessage.Text"] = string.Format("Recipe {0} is added", MyRecipe.name);

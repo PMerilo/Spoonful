@@ -14,9 +14,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Spoonful</title>
-    
-    
+
     <link rel="stylesheet" href="~/css/admin.css" />
+    <!--
+        <link rel="stylesheet" href="~/css/NewAdmin.css" />
+    -->
+    
     <link rel="stylesheet" href="~/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/btn.css" />
     <link rel="stylesheet" href="~/css/voucher.css" />
@@ -54,7 +57,19 @@
                         <span class="nav-link-text">Dashboard</span>
                     </a>
                 </li>
-                
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Customer Invoices">
+                    <a class="nav-link" href="/Admin/ViewCustomerInvoices">
+                        <i class="fa fa-fw fa-solid fa-file-invoice"></i>
+                        <span class="nav-link-text">View Customer Invoices</span>
+                    </a>
+                </li>
+
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Customer Meal Kits">
+                    <a class="nav-link" href="/Admin/MealKitManagement">
+                        <i class="fa fa-fw fa-regular fa-box-heart"></i>
+                        <span class="nav-link-text">Meal Kit Management</span>
+                    </a>
+                </li>
                 @if (await UserManager.IsInRoleAsync(user, "Inventory Management") || await UserManager.IsInRoleAsync(user, "RootUser") || !(await RoleManager.RoleExistsAsync("Inventory Management")))
                 {
                     <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add listing + Menu List">

@@ -41,9 +41,9 @@
 				<th>
 					Name
 				</th>
-				<th>
+				@*<th>
 					Description
-				</th>
+				</th>*@
 				<th>
 					Preparation Time
 				</th>
@@ -60,7 +60,7 @@
 				<td>@obj.Id</td>
 				<td>@obj.category</td>
 				<td>@obj.name</td>
-				<td>@obj.description</td>
+				@*<td>@obj.description</td>*@
 				<td>@obj.prepTime</td>
 				<td>@obj.allergens</td>
 				<td width="50%">
@@ -72,7 +72,7 @@
 					<input asp-for="MyRecipe.Id" class="form-control" hidden value="@obj.Id">
 					<input asp-for="MyRecipe.category" class="form-control" hidden value="@obj.category">
 					<input asp-for="MyRecipe.name" class="form-control" hidden value="@obj.name">
-					<input asp-for="MyRecipe.description" class="form-control" hidden value="@obj.description">
+					@*<input asp-for="MyRecipe.description" class="form-control" hidden value="@obj.description">*@
 					<input asp-for="MyRecipe.prepTime" class="form-control" hidden value="@obj.prepTime">
 					<input asp-for="MyRecipe.allergens" class="form-control" hidden value="@obj.allergens">
 

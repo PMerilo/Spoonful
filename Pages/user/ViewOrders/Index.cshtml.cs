@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Spoonful.Models;
 using Spoonful.Services;
+using System.Globalization;
 
 namespace Spoonful.Pages.user.ViewOrders
 {
@@ -53,6 +54,19 @@ namespace Spoonful.Pages.user.ViewOrders
                 return Redirect("/user/CurrentMealKitPlan");
                 
             }
+
+            string currentDate = DateTime.Now.ToString("dddd, dd MMMM yyyy");
+
+            if (DateTime.Parse(orderDetails.DeliveryDate, CultureInfo.InvariantCulture) <= DateTime.Parse(currentDate, CultureInfo.InvariantCulture))
+            {
+                orderDetails.DeliveryDate = DateTime.Now.AddDays(7).ToString("dddd, dd MMMM yyyy");
+                _orderService.UpdateOrderDetails(orderDetails);
+                TempData["FlashMessage.Type"] = "success";
+                TempData["FlashMessage.Text"] = ($"Your previous order has been placed successfully");
+
+                return Redirect("/user/ViewOrders/ManageWeek");
+            }
+
             Invoice? invoice = _invoiceMealKitService.GetInvoiceByMealKitId(mealkit.Id);
 
 
@@ -100,8 +114,31 @@ namespace Spoonful.Pages.user.ViewOrders
                     return Redirect("/user/ViewOrders/ManageWeek");
                 }
 
+                MenuItems = _db.MenuItem;
+                MenuItems = MenuItems.Where(X => X.Archived == false);
+                MenuItems = MenuItems.Where(X => X.MenuPreference == mealkit.MenuPreference);
+
                 
-                    
+
+
+
+            }
+
+            var checkMealsReset = false;
+            foreach (var i in Orders)
+            {
+                if (i.MenuPreference != mealkit.MenuPreference)
+                {
+                    checkMealsReset = true;
+                    _mealOrderService.DeleteOrder(i);
+                }
+
+            }
+            if (checkMealsReset)
+            {
+                TempData["FlashMessage.Type"] = "danger";
+                TempData["FlashMessage.Text"] = ($"Some of your order items has been removed due to changing your meal kit preferences.");
+                return Redirect("/user/ViewOrders/ManageWeek");
             }
 
             return Page();
