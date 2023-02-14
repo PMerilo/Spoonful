@@ -123,6 +123,12 @@
                 }
                 @if (await UserManager.IsInRoleAsync(user, "Customer Service") || await UserManager.IsInRoleAsync(user, "RootUser") || !(await RoleManager.RoleExistsAsync("Customer Service")))
                 {
+                    <li class="nav-item" data-toggle="tooltip" data-plalaycement="right" title="Mail">
+                        <a class="nav-link" asp-page="/Admin/SupportManagement/SendMail">
+                            <i class="fa-regular fa-envelopes-bulk"></i>
+                            <span class="nav-link-text">Send Mail</span>
+                        </a>
+                    </li>
                     <li class="nav-item" data-toggle="tooltip" data-plalaycement="right" title="Feedback">
                         <a class="nav-link" asp-page="/Admin/SupportManagement/Index">
                             <i class="fa fa-eye"></i>
