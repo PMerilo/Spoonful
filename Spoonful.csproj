@@ -59,7 +59,6 @@
 	  <Folder Include="Pages\Community\" />
 	  <Folder Include="Views\" />
 	  <Folder Include="wwwroot\pdfs\" />
-	  <Folder Include="wwwroot\uploads\" />
 	  <Folder Include="wwwroot\uploads\deliveryUpload\" />
 	</ItemGroup>
 

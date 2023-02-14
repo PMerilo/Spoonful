@@ -50,7 +50,7 @@
                                 aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
-                        @*<ul class="navbar-nav">
+                        <ul class="navbar-nav">
                             @{
                                 string[][] navLinks =
                                 {
@@ -102,7 +102,7 @@
                                 }
                             }
 
-                        </ul>*@
+                        </ul>
 
                     </div>
                 </div>
@@ -130,7 +130,7 @@
                                 <button class="nav-link tw-text-black dropdown-toggle" type="button" data-bs-toggle="dropdown">@user.UserName</button>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li>
-                                        <a class="dropdown-item" asp-page="/User/Index" asp-route-username="@user.UserName">Profile</a>
+                                        <a class="dropdown-item" asp-page="/User/ViewOrders/ManageWeek">View Orders</a>
                                     </li>
                                     <li>
                                         <a class="dropdown-item" asp-page="/User/Grocery%20Tracker/Index" asp-route-username="@user.Id">Profile</a>
@@ -149,8 +149,7 @@
                     else
                     {
                                     <div class="d-flex justify-content-between">
-                                        <a class="tw-btn-primary" asp-page="/Account/Login">Login</a>
-                                        <button class="tw-btn-primary">Get your first meal!</button>
+                                        <a class="blue-btn-a" asp-page="/Account/Login">Login</a>
                                     </div>
                     }
                 }
