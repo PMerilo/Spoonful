@@ -186,29 +186,16 @@ h6, .h6 {
 
 
         </div><!-- /.blog-main -->
-
-
-
     </div><!-- /.row -->
 
 </div><!-- /.container -->
 
 
+<h1>Posted on the @Html.DisplayFor(model => model.problem.datetime2)</h1>
 
-
-
-<h1>test</h1>
-<h1>@Html.DisplayFor(model => model.problem.TitleFeedback)</h1>
 
 <div>
-    <p>Issue <strong>#@Html.DisplayFor(model => model.problem.Id)</strong> asked by <a href="#">@Html.DisplayFor(model => model.problem.username)</a> @Html.DisplayFor(model => model.problem.datetime)</p>
-    <hr />
-    <p><strong>Category: </strong> @Html.DisplayFor(model => model.problem.Category)</p>
-    <p>@Html.DisplayFor(model => model.problem.MainFeedback)</p>
-    
-</div>
-<div>
-    <a asp-page="./TicketingManagement">
+    <a asp-page="/HelpThread/Index">
         <button class="blue-btn">Back to List</button>
         
     </a>

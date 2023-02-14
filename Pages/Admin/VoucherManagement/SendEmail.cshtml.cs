@@ -70,6 +70,25 @@ namespace Spoonful.Pages.Admin.VoucherManagement
                     }
                 }
             }
+            else
+            {
+                userList = _db.CustomerDetails.Include(u => u.User).ToList();
+                foreach (var user in userList)
+                {
+                    email = user.User.Email;
+                    var result = _emailSender.SendEmail(
+                        email,
+                        Email.Subject,
+                        Email.HtmlContent,
+                        null,
+                        null);
+                    if (!result)
+                    {
+                        TempData["FlashMessage.Text"] = $"Failed to send email.";
+                        TempData["FlashMessage.Type"] = "danger";
+                    }
+                }
+            }
 
             _voucherEmailService.AddVoucherEmail(Email);
             TempData["FlashMessage.Type"] = "success";

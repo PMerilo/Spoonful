@@ -32,10 +32,14 @@ namespace Spoonful.Pages.MailSubscriptions
                 if (user != null)
                 {
                     mailsubscription = await _context.mailsubsciption.FirstOrDefaultAsync(m => m.email == user.Email);
-                    mailsubscription.Subscriptiontype = "Advanced";
-                    mailsubscription.datetime = DateTime.Now.ToShortDateString();
-                    _context.mailsubsciption.Update(mailsubscription);
-                    await _context.SaveChangesAsync();
+                    if (mailsubscription != null)
+                    {
+                        mailsubscription.Subscriptiontype = "Advanced";
+                        mailsubscription.datetime = DateTime.Now.ToShortDateString();
+                        _context.mailsubsciption.Update(mailsubscription);
+                        await _context.SaveChangesAsync();
+                    }
+                    
                 }
                 else
                 {
