@@ -8,7 +8,7 @@
 		<div class="container">
 		    <div class="row">
 		    	<div class="col-xl-8 col-lg-7 col-md-7 d-none d-md-block">
-		    		<h1>Help Thread</h1>
+		    		<h1>Help Threads - Resolved</h1>
 					</br>
 		    	</div>
 		    	<div class="col-xl-4 col-lg-5 col-md-5">
@@ -28,14 +28,14 @@
 						<div class="col-md-6">
 						<article class="blog">
 							<figure>
-								<a href="blog-post.html">
+									<a asp-page="./IndividualThread" asp-route-id="@item.Id">
 									<img src="/images/IMG_1965.jpg" alt="">
 									<div class="preview"><span>Read more</span></div>
 								</a>
 							</figure>
 							<div class="post_info">
 									<small>@item.Category - @item.datetime2</small>
-								<h2><a href="blog-post.html">@item.TitleFeedback</a></h2>
+									<h2><a asp-page="./IndividualThread" asp-route-id="@item.Id" >@item.TitleFeedback</a></h2>
 								<p>@item.MainFeedback</p>
 								<ul>
 									<li>
