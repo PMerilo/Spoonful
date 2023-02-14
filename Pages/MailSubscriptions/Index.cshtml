@@ -128,15 +128,10 @@
                                 <div class="price-box my-3">
                                     <sup>$</sup><span class="text-dark display-5">0</span>
                                     <h6 class="font-weight-light">MONTHLY</h6>
-                                    @if (success.Subscriptiontype == "Basic")
-                                    {
-                                        <a class="btn green-btn-full-confirmed border-0 font-14 text-white p-3 btn-block mt-3" style="width:100%; opacity: 0.5;">CURRENTLY ACTIVE<i class="bi bi-check2-square"></i></a>
 
-                                    }
-                                    else{
                                         <a class="btn green-btn-full-confirmed border-0 font-14 text-white p-3 btn-block mt-3" style="width:100%" asp-page="/MailSubscriptions/basic">CHOOSE PLAN </a>
 
-                                    }
+                                    
                                 </div>
                             </div>
                             <div class="col-lg-7 align-self-center">
@@ -167,14 +162,9 @@
                                     <sup>$</sup><span class="text-dark display-5">12</span>
                                     <h6 class="font-weight-light">MONTHLY</h6>
                                     <form method="post">
-                                        @if (success.Subscriptiontype == "Advanced"){
-                                            <a class="btn green-btn-full-confirmed border-0 font-14 text-white p-3 btn-block mt-3" style="width:100%; opacity: 0.5;">CURRENTLY ACTIVE<i class="bi bi-check2-square"></i></a>
-
-                                        }
-                                        else{
                                             <button type="submit" class="btn green-btn-full-confirmed border-0 font-14 text-white p-3 btn-block mt-3" style="width:100%" href="#">CHOOSE PLAN </button>
 
-                                        }
+                                        
 
                                     </form>
                                 </div>

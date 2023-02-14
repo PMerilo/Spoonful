@@ -43,10 +43,12 @@
 									<h2><a asp-page="/Reegan/RecipePages" asp-route-id="@obj.Id">@obj.name</a></h2>
 									<p id="recipeDesc">@obj.description</p>
 									<ul>
-										<li><span class="badge rounded-pill bg-primary text-dark">Tags</span></li>
-										<li>
-											<span class="badge rounded-pill bg-info text-dark">@obj.ingredients</span>
-										</li>
+										@foreach(var x in obj.ingredients.Split(","))
+										{
+											<li>
+												<span class="badge rounded-pill bg-info text-dark">@x</span>
+											</li>
+										}
 										<li><i class="icon_comment_alt"></i></li>
 									</ul>
 								</div>
