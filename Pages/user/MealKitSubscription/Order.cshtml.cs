@@ -244,6 +244,7 @@ namespace Spoonful.Pages.user.MealKitSubscription
 
         public async Task<JsonResult> OnPostValidateAddress(string address)
         {
+            Console.WriteLine(address);
             var apiKey = _googleAddressAutoCorrectConfiguration.addValAPI;
             var response = await _httpClient.GetAsync($"https://maps.googleapis.com/maps/api/geocode/json?address={address}&key={apiKey}");
             var responseString = await response.Content.ReadAsStringAsync();
