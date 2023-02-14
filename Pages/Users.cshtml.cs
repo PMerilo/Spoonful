@@ -9,16 +9,16 @@ using Spoonful.Models;
 using Spoonful.Services;
 using Task = System.Threading.Tasks.Task;
 
-namespace Spoonful.Pages.User
+namespace Spoonful.Pages
 {
     [Authorize]
-    public class FindModel : PageModel
+    public class UsersModel : PageModel
     {
         private readonly AuthDbContext _db;
         private readonly NotificationService _notificationService;
         private readonly INotyfService _toastService;
 
-        public FindModel(AuthDbContext db, NotificationService notificationService, INotyfService toastService)
+        public UsersModel(AuthDbContext db, NotificationService notificationService, INotyfService toastService)
         {
             _db = db;
             _notificationService = notificationService;
@@ -26,20 +26,22 @@ namespace Spoonful.Pages.User
         }
         public List<CustomerDetails> CustomerDetails { get; set; }
         public CustomerUser CurrentUser { get; set; }
+        [BindProperty]
+        public string Action { get; set; }
+        [BindProperty]
+        public string TargetUser { get; set; }
 
         public void OnGet()
         {
-			var user = _db.Users.Include(u => u.Followings).Include(u => u.Followers).FirstOrDefault(u => u.UserName == User.Identity.Name);
+            var user = _db.Users.Include(u => u.Followings).Include(u => u.Followers).FirstOrDefault(u => u.UserName == User.Identity.Name);
             CurrentUser = user;
             CustomerDetails = _db.CustomerDetails.Include(d => d.User).ThenInclude(d => d.Followers).Include(d => d.User).ThenInclude(d => d.Followings).Where(u => u.UserId != user.Id).ToList();
-            Console.WriteLine("Followers: "+ user.Followers.Count);
-            Console.WriteLine("Following: " + user.Followings.Count);
 
-		}
+        }
 
-		public async Task<IActionResult> OnPostAddFriend(string username)
+        private async Task<IActionResult> Follow(string username)
         {
-            var user =_db.Users.Include(u => u.Followings).FirstOrDefault(u => u.UserName == User.Identity.Name);
+            var user = _db.Users.Include(u => u.Followings).FirstOrDefault(u => u.UserName == User.Identity.Name);
             var targetuser = _db.Users.FirstOrDefault(u => u.UserName == username);
             var following = new Followers
             {
@@ -64,7 +66,7 @@ namespace Spoonful.Pages.User
             _db.SaveChanges();
             return RedirectToPage();
         }
-        public async Task<IActionResult> OnPostUnfollow(string username)
+        private async Task<IActionResult> Unfollow(string username)
         {
             var user = _db.Users.Include(u => u.Followings).FirstOrDefault(u => u.UserName == User.Identity.Name);
             var targetuser = _db.Users.FirstOrDefault(u => u.UserName == username);
@@ -78,6 +80,19 @@ namespace Spoonful.Pages.User
             _toastService.Success($"You have unfollowed @{targetuser.UserName}");
             _db.SaveChanges();
             return RedirectToPage();
+        }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            var username = TargetUser;
+            if (Action == "Follow")
+            {
+                return await Follow(username);
+            } else
+            {
+                return await Unfollow(username);
+
+            }
         }
     }
 }

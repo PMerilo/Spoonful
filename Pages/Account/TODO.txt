@@ -15,10 +15,9 @@ User Management
 			Different Device
 		Force change password
 
-	2FA
-	Text Service
-	Confirm Email & PhoneNum
-	External Login
+	Error handling for forms
+	Ensure same buttons
+	Alerts for forms
 
 Audit Logs
 

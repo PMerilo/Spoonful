@@ -3,66 +3,51 @@
 @model Spoonful.Pages.Account.LoginModel
 @{
 }
-<div class="col-6 mx-auto">
-    <form method="post">
-        <div class="text-center mb-3">
-            <p>Sign in with:</p>
-            <button type="button" class="btn btn-link btn-floating mx-1">
-                <i class="bi bi-facebook"></i>
-            </button>
+<link rel="stylesheet" href="~/css/Account.css" />
+<div class="signin-wrapper">
+    <div class="sign-panels">
+        <div class="login">
+            <div class="signin-title">
+                <span>Sign In</span>
+                <p>
+                    Welcome back, please login to your account. You can login with Google or by regular
+                    user login.
+                </p>
+            </div>
 
-            <button type="button" class="btn btn-link btn-floating mx-1">
-                <i class="bi bi-google"></i>
-            </button>
+            <div>
+                <form asp-page="./ExternalLogin" method="post">
+                    <button type="submit" class="btn-google" name="provider" value="Google"><i class="fa-brands fa-google"></i> Google</button>
+                </form>
+            </div>
 
-            <button type="button" class="btn btn-link btn-floating mx-1">
-                <i class="bi bi-twitter"></i>
-            </button>
+            <div class="or"><span>OR</span></div>
 
-            <button type="button" class="btn btn-link btn-floating mx-1">
-                <i class="bi bi-github"></i>
-            </button>
-        </div>
-
-        <p class="text-center">or:</p>
-
-        <!-- UserName input -->
-        <div class="form-outline mb-4">
-            <input type="text" id="loginUsername" class="form-control" asp-for="LModel.Username"/>
-            <label class="form-label" asp-for="LModel.Username"></label>
-            <span class="text-danger" asp-validation-for="LModel.Username"></span>
-        </div>
-
-        <!-- Password input -->
-        <div class="form-outline mb-4">
-            <input type="password" id="loginPassword" class="form-control" asp-for="LModel.Password"/>
-            <label class="form-label" asp-for="LModel.Password"></label>
-            <span class="text-danger" asp-validation-for="LModel.Password"></span>
-        </div>
-
-        <!-- 2 column grid layout -->
-        <div class="row mb-4">
-            <div class="col-md-6 d-flex justify-content-start">
-                <!-- Checkbox -->
-                <div class="form-check mb-3 mb-md-0">
-                    <input class="form-check-input" type="checkbox" id="loginCheck" asp-for="LModel.RememberMe"/>
-                    <label class="form-check-label" asp-for="LModel.RememberMe"> Remember me </label>
+            <form method="post">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" asp-for="LModel.Username" id="floatingInput" placeholder="name@example.com" />
+                    <label style="padding-left:30px;" for="floatingInput" asp-for="LModel.Username"></label>
+                    <span class="text-danger" asp-validation-for="LModel.Username"></span>
                 </div>
-            </div>
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password" asp-for="LModel.Password"/>
+                    <label style="padding-left:30px;" for="floatingPassword" asp-for="LModel.Password"></label>
+                    <span class="text-danger" asp-validation-for="LModel.Password"></span>
+                </div>
+                <input type="checkbox" id="signin-checkbox" asp-for="LModel.RememberMe">
+                <label for="signin-checkbox" asp-for="LModel.RememberMe">Keep me signed in</label>
+                <button type="submit" class="btn-signin">Sign In</button>
 
-            <div class="col-md-6 d-flex justify-content-end">
-                <!-- Simple link -->
-                <a asp-page="ForgetPassword">Forgot password?</a>
-            </div>
+                <a asp-page="ForgetPassword" class="btn-reset btn-fade">
+                    Recover your password <i class="fa fa-long-arrow-right"
+                                             aria-hidden="true"></i>
+                </a>
+                <a asp-page="register" class="btn-member btn-fade">
+                    Not a member yet? Sign Up now! <i class="fa fa-long-arrow-right"
+                                                      aria-hidden="true"></i>
+                </a>
+                @Html.ReCaptcha()
+            </form>
         </div>
-        <span class="text-danger">@Html.ValidationSummary(true)</span>
-        <!-- Submit button -->
-        <button type="submit" class="blue-btn-full">Sign in</button>
-        @Html.ReCaptcha()
-        <!-- Register buttons -->
-        <div class="text-center">
-            <p>Not a member? <a asp-page="register">Register</a></p>
-        </div>
-    </form>
-
+    </div>
 </div>

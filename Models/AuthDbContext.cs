@@ -54,6 +54,7 @@ namespace Spoonful.Models
         public DbSet<CustomerDetails> CustomerDetails { get; set; }
         public DbSet<AdminDetails> AdminDetails { get; set; }
         public DbSet<DriverDetails> DriverDetails { get; set; }
+        public DbSet<Messages> Messages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -79,7 +80,21 @@ namespace Spoonful.Models
 				.HasForeignKey(e => e.FollowingId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-		}
+            modelBuilder.Entity<Messages>()
+                .HasKey(e => new { e.Id });
+
+            modelBuilder.Entity<Messages>()
+                .HasOne(e => e.Sender)
+                .WithMany(e => e.Received)
+                .HasForeignKey(e => e.SenderId);
+
+            modelBuilder.Entity<Messages>()
+                .HasOne(e => e.Receiver)
+                .WithMany(e => e.Sent)
+                .HasForeignKey(e => e.ReceiverId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+        }
     }
 }
 
