@@ -78,6 +78,7 @@ builder.Services.AddScoped<InvoiceMealKitService>();
 //Logs Services
 builder.Services.AddScoped<MealKitSubscriptionLogService>();
 builder.Services.AddScoped<NotificationService>();
+builder.Services.AddScoped<MessagingService>();
 builder.Services.AddScoped<VoucherEmailService>();
 builder.Services.AddScoped<DeliveryService>();
 builder.Services.AddScoped<CustomerUserService>();
@@ -186,5 +187,6 @@ app.MapControllers();
 app.UseNotyf();
 app.MapRazorPages();
 app.MapHub<NotificationHub>("/notificationHub");
+app.MapHub<ChatHub>("/chatHub");
 
 app.Run();

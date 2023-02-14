@@ -36,8 +36,6 @@ namespace Spoonful.Pages
             var user = _db.Users.Include(u => u.Followings).Include(u => u.Followers).FirstOrDefault(u => u.UserName == User.Identity.Name);
             CurrentUser = user;
             CustomerDetails = _db.CustomerDetails.Include(d => d.User).ThenInclude(d => d.Followers).Include(d => d.User).ThenInclude(d => d.Followings).Where(u => u.UserId != user.Id).ToList();
-            Console.WriteLine("Followers: " + user.Followers.Count);
-            Console.WriteLine("Following: " + user.Followings.Count);
 
         }
 

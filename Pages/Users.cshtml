@@ -17,6 +17,7 @@
        data-custom-view="customViewFormatter">
     <thead>
         <tr>
+            <th data-field="id">Id</th>
             <th data-field="name">Name</th>
             <th data-field="username">Username</th>
             <th data-field="recipes">Recipes</th>
@@ -29,6 +30,7 @@
         @foreach (var item in Model.CustomerDetails)
         {
             <tr>
+                <td data-field="id">@item.User.Id</td>
                 <td data-field="name">@item.User.FirstName @item.User.LastName</td>
                 <td data-field="username">@item.User.UserName</td>
                 <td data-field="recipes">0</td>
@@ -60,7 +62,7 @@
                             <div class="col-6">
                                 <h3 class="mb-0 fs-2">%FOLLOWERS%</h3>
                                 <small>Followers</small>
-                                <button class="btn btn-outline-info btn-block" title="View Profile"><span class="fa fa-user"></span></button>
+                                <a class="btn btn-outline-info btn-block" title="Chat" href="/User/Chat/%USERID%"><span class="fa fa-user"></span></a>
 
                             </div>
                         </div>
@@ -87,6 +89,7 @@
         $.each(data, function (i, row) {
             if (row.following == "Follow") {
                 view += template.replace('%NAME%', row.name)
+                    .replace('%USERID%', row.id)
                     .replace('%IMAGE%', row.image)
                     .replace('%FOLLOWERS%', row.followers)
                     .replace('%RECIPES%', row.recipes)
@@ -99,6 +102,7 @@
 
             } else {
                 view += template.replace('%NAME%', row.name)
+                    .replace('%USERID%', row.id)
                     .replace('%IMAGE%', row.image)
                     .replace('%FOLLOWERS%', row.followers)
                     .replace('%RECIPES%', row.recipes)
