@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Spoonful.Migrations
 {
     /// <inheritdoc />
-    public partial class start : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -23,6 +23,40 @@ namespace Spoonful.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DOB = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ImageURL = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    isDisabled = table.Column<bool>(type: "bit", nullable: false),
+                    LastLogin = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LastPassChanged = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    RequirePassChange = table.Column<bool>(type: "bit", nullable: false),
+                    DateCreated = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -77,8 +111,11 @@ namespace Spoonful.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Feedbackstatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Customername = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TitleFeedback = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MainFeedback = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    MainFeedback = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    datetime = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -112,6 +149,20 @@ namespace Spoonful.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "mailsubsciption",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Subscriptiontype = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    datetime = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_mailsubsciption", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MealKit",
                 columns: table => new
                 {
@@ -122,6 +173,8 @@ namespace Spoonful.Migrations
                     noOfPeoplePerWeek = table.Column<int>(type: "int", nullable: false),
                     noOfServingsPerPerson = table.Column<int>(type: "int", nullable: false),
                     userId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     orderDetailsId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<bool>(type: "bit", nullable: false),
                     SubscriptionCheck = table.Column<bool>(type: "bit", nullable: false)
@@ -158,7 +211,9 @@ namespace Spoonful.Migrations
                     Tags = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MenuPreference = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageURL = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                    ImageURL = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Archived = table.Column<bool>(type: "bit", nullable: false),
+                    RecipeId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -177,7 +232,8 @@ namespace Spoonful.Migrations
                     MenuPreference = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ImageURL = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    OwnerID = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    OwnerID = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RecipeId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -191,14 +247,35 @@ namespace Spoonful.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OrderDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DeliveryDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OrderTime = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AdditionalInstructions = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AdditionalInstructions = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     userId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SubscriptionCheck = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OrderDetails", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Problem",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TitleFeedback = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MainFeedback = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    datetime = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    datetime2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    answer = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    checker = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Problem", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -248,7 +325,9 @@ namespace Spoonful.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Region = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Town = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Town = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -272,6 +351,46 @@ namespace Spoonful.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ticketingss",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Feedbackstatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TitleFeedback = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MainFeedback = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    datetime = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    notifypreference = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ticketingss", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tired",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Feedbackstatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TitleFeedback = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MainFeedback = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    datetime = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    notifypreference = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    answer = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tired", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -288,86 +407,6 @@ namespace Spoonful.Migrations
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "VoucherEmail",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Subject = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    HtmlContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    vouchersId = table.Column<int>(type: "int", nullable: false),
-                    sendTo = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_VoucherEmail", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_VoucherEmail_Rewards_vouchersId",
-                        column: x => x.vouchersId,
-                        principalTable: "Rewards",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DOB = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ImageURL = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    isDisabled = table.Column<bool>(type: "bit", nullable: false),
-                    LastLogin = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    DateCreated = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    RoutesId = table.Column<int>(type: "int", nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_Route_RoutesId",
-                        column: x => x.RoutesId,
-                        principalTable: "Route",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Stops",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RoutesId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Stops", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Stops_Route_RoutesId",
-                        column: x => x.RoutesId,
-                        principalTable: "Route",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -458,6 +497,81 @@ namespace Spoonful.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AuditLogs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Action = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CustomerUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    DateCreated = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AuditLogs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AuditLogs_AspNetUsers_CustomerUserId",
+                        column: x => x.CustomerUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Followers",
+                columns: table => new
+                {
+                    FollowerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FollowingId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Followers", x => new { x.FollowingId, x.FollowerId });
+                    table.ForeignKey(
+                        name: "FK_Followers_AspNetUsers_FollowerId",
+                        column: x => x.FollowerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Followers_AspNetUsers_FollowingId",
+                        column: x => x.FollowingId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Messages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SenderId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ReceiverId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Messages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Messages_AspNetUsers_ReceiverId",
+                        column: x => x.ReceiverId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Messages_AspNetUsers_SenderId",
+                        column: x => x.SenderId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Notifications",
                 columns: table => new
                 {
@@ -482,6 +596,69 @@ namespace Spoonful.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PreviousPassword",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateCreated = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    CustomerUserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PreviousPassword", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PreviousPassword_AspNetUsers_CustomerUserId",
+                        column: x => x.CustomerUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "VoucherEmail",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Subject = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HtmlContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    vouchersId = table.Column<int>(type: "int", nullable: false),
+                    sendTo = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VoucherEmail", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_VoucherEmail_Rewards_vouchersId",
+                        column: x => x.vouchersId,
+                        principalTable: "Rewards",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Stops",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RoutesId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Stops", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Stops_Route_RoutesId",
+                        column: x => x.RoutesId,
+                        principalTable: "Route",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserDetails",
                 columns: table => new
                 {
@@ -495,7 +672,8 @@ namespace Spoonful.Migrations
                     DietaryRestrictions = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Commision = table.Column<double>(type: "float", nullable: true),
                     Rating = table.Column<double>(type: "float", nullable: true),
-                    HourlyRate = table.Column<double>(type: "float", nullable: true)
+                    HourlyRate = table.Column<double>(type: "float", nullable: true),
+                    RoutesId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -506,6 +684,11 @@ namespace Spoonful.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserDetails_Route_RoutesId",
+                        column: x => x.RoutesId,
+                        principalTable: "Route",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -514,22 +697,23 @@ namespace Spoonful.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    deliveryConfirmation = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    customerConfirmation = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    deliveryDateTime = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    deliveryConfirmation = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    customerConfirmation = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    deliveryDateTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ConfirmationImageURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    OrderDetailsId = table.Column<int>(type: "int", nullable: false),
-                    OrderDetailsId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OrderDetailsId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     stopsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Delivery", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Delivery_OrderDetails_OrderDetailsId1",
-                        column: x => x.OrderDetailsId1,
+                        name: "FK_Delivery_OrderDetails_OrderDetailsId",
+                        column: x => x.OrderDetailsId,
                         principalTable: "OrderDetails",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Delivery_Stops_stopsId",
                         column: x => x.stopsId,
@@ -571,11 +755,6 @@ namespace Spoonful.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_RoutesId",
-                table: "AspNetUsers",
-                column: "RoutesId");
-
-            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
@@ -583,9 +762,14 @@ namespace Spoonful.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Delivery_OrderDetailsId1",
+                name: "IX_AuditLogs_CustomerUserId",
+                table: "AuditLogs",
+                column: "CustomerUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Delivery_OrderDetailsId",
                 table: "Delivery",
-                column: "OrderDetailsId1");
+                column: "OrderDetailsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Delivery_stopsId",
@@ -593,13 +777,38 @@ namespace Spoonful.Migrations
                 column: "stopsId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Followers_FollowerId",
+                table: "Followers",
+                column: "FollowerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_ReceiverId",
+                table: "Messages",
+                column: "ReceiverId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_SenderId",
+                table: "Messages",
+                column: "SenderId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Notifications_UserId",
                 table: "Notifications",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PreviousPassword_CustomerUserId",
+                table: "PreviousPassword",
+                column: "CustomerUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Stops_RoutesId",
                 table: "Stops",
+                column: "RoutesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserDetails_RoutesId",
+                table: "UserDetails",
                 column: "RoutesId");
 
             migrationBuilder.CreateIndex(
@@ -633,6 +842,9 @@ namespace Spoonful.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "AuditLogs");
+
+            migrationBuilder.DropTable(
                 name: "Blog");
 
             migrationBuilder.DropTable(
@@ -648,7 +860,13 @@ namespace Spoonful.Migrations
                 name: "Feedback");
 
             migrationBuilder.DropTable(
+                name: "Followers");
+
+            migrationBuilder.DropTable(
                 name: "Invoice");
+
+            migrationBuilder.DropTable(
+                name: "mailsubsciption");
 
             migrationBuilder.DropTable(
                 name: "MealKit");
@@ -660,16 +878,31 @@ namespace Spoonful.Migrations
                 name: "MenuItem");
 
             migrationBuilder.DropTable(
+                name: "Messages");
+
+            migrationBuilder.DropTable(
                 name: "Notifications");
 
             migrationBuilder.DropTable(
                 name: "Order");
 
             migrationBuilder.DropTable(
+                name: "PreviousPassword");
+
+            migrationBuilder.DropTable(
+                name: "Problem");
+
+            migrationBuilder.DropTable(
                 name: "Recipe");
 
             migrationBuilder.DropTable(
                 name: "Shopping");
+
+            migrationBuilder.DropTable(
+                name: "ticketingss");
+
+            migrationBuilder.DropTable(
+                name: "tired");
 
             migrationBuilder.DropTable(
                 name: "UserDetails");

@@ -56,7 +56,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Migrations\" />
 	  <Folder Include="Pages\Community\" />
 	  <Folder Include="Views\" />
 	  <Folder Include="wwwroot\pdfs\" />
