@@ -78,12 +78,13 @@ namespace Spoonful.Pages.Account
 
                     if (!resultEmail)
                     {
-                        toastService.Success("Failed to send email");
+                        toastService.Error("Failed to send email");
                     }
                     return RedirectToPage("./login");
                 }
                 foreach (var error in result.Errors)
                 {
+                    toastService.Error(error.Description);
                     ModelState.AddModelError("", error.Description);
                 }
             }

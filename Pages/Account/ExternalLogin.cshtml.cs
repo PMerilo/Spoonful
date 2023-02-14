@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.DataProtection;
 using System.Web;
 using Microsoft.AspNetCore.Authorization;
 using AspNetCoreHero.ToastNotification.Abstractions;
+using Spoonful.Services;
 
 namespace Spoonful.Pages.Account
 {
@@ -21,17 +22,19 @@ namespace Spoonful.Pages.Account
 		private IDataProtectionProvider _dataProtectionProvider;
 		private readonly UserManager<CustomerUser> userManager; 
 		private readonly INotyfService toastService;
+		private readonly CustomerUserService customerUserService;
 
         [BindProperty]
         public Register RModel { get; set; }
         public string? ReturnUrl { get; set; }
 
-        public ExternalLoginModel (SignInManager<CustomerUser> signInManager, UserManager<CustomerUser> userManager, IDataProtectionProvider dataProtectionProvider, INotyfService toastService)
+        public ExternalLoginModel (SignInManager<CustomerUser> signInManager, UserManager<CustomerUser> userManager, IDataProtectionProvider dataProtectionProvider, INotyfService toastService, CustomerUserService customerUserService)
 		{
 			this.signInManager = signInManager;
             this.userManager = userManager;
 			_dataProtectionProvider = dataProtectionProvider;
 			this.toastService = toastService;
+            this.customerUserService = customerUserService;
 		}
 		public IActionResult OnPost(string provider, string? returnUrl = null)
 		{
@@ -114,6 +117,7 @@ namespace Spoonful.Pages.Account
                     result = await userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
+                        await customerUserService.SetUserRoleAsync(user.UserName, Roles.Customer);
                         await signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
 						await userManager.UpdateSecurityStampAsync(user);
                         toastService.Success("Successfully logged in!");
