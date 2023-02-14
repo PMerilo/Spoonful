@@ -33,7 +33,7 @@ namespace Spoonful.Pages.Aaron
             {
                 TempData["FlashMessage.Type"] = "danger";
                 TempData["FlashMessage.Text"] = string.Format("Entry ID {0} not found", id);
-                string userUrl = "/User/Grocery%20Tracker/Index?id=" + userIdvar;
+                string userUrl = "/";
                 return Redirect(userUrl);
             }
         }
