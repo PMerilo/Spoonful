@@ -35,7 +35,7 @@ function updateBadge(num = 1) {
     }
 }
 
-function formatter(req) {
+function formatterMSG(req) {
     var sender = $("#sender").val();
     var just = req.sender == sender ? " justify-content-end" : ""
     var side = req.sender == sender ? "right" : "left"
@@ -48,7 +48,7 @@ function formatter(req) {
             `
 }
 
-var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+//var connection = new signalR.HubConnectionBuilder().withUrl("/notificationHub").build();
 
 $("#sendButton").prop('disabled', true);
 
@@ -65,7 +65,7 @@ connection.on("ReceiveMessage", function (user, message) {
 connection.on("RetrieveChat", (req) => {
     var unread = 0
     for (let i = 0; i < req.length; i++) {
-        $("#chat-panel").append(formatter(req[i]));
+        $("#chat-panel").append(formatterMSG(req[i]));
         //if (!req[i].seen) {
         //    unread++
         //}
@@ -82,17 +82,20 @@ connection.on("RetrieveChat", (req) => {
     //});
 });
 
-connection.start().then(function () {
-    $("#sendButton").prop('disabled', false);
-    var sender = $("#sender").val();
-    var user = $("#username").text().replace("@", "");
-    connection.invoke("GetChat", sender, user)
-}).catch(function (err) {
-    return console.error(err.toString());
-});
+//connection.start().then(function () {
+//    $("#sendButton").prop('disabled', false);
+//    var sender = $("#sender").val();
+//    var user = $("#username").text().replace("@", "");
+//    connection.invoke("GetChat", sender, user)
+//}).catch(function (err) {
+//    return console.error(err.toString());
+//});
 
 $("#sendButton").click((event) => {
     var message = $("#messageInput").val();
+    if (!message) {
+        return
+    }
     $("#messageInput").val("");
     var sender = $("#sender").val();
     var user = $("#username").text().replace("@", "");

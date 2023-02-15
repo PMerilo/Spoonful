@@ -72,8 +72,8 @@ namespace Spoonful.Pages.Admin.UserManagement
             var result = await _userManager.AddToRolesAsync(user, RoleInput);
             if (result.Succeeded)
             {
-                TempData["FlashMessage.Text"] = "Added roles successfully";
-                TempData["FlashMessage.Type"] = "success";
+                _toastService.Success("Added roles successfully");
+
             }
             foreach (var error in result.Errors)
             {
@@ -137,7 +137,7 @@ namespace Spoonful.Pages.Admin.UserManagement
             {
                 _toastService.Error("Email failed to send");
             }
-            _toastService.Success("Sent instructions to email");
+            _toastService.Success("Sent instructions to email if email is valid");
             return RedirectToPage();
         }
 

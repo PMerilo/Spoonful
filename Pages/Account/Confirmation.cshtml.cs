@@ -26,7 +26,7 @@ namespace Spoonful.Pages.Account
 
         }
         public IdentityResult Result { get; set; }
-        public async Task OnGetAsync(string username, string code, string purpose = ConfirmationPurpose.ConfirmEmail, string? email = null)
+        public async Task<IActionResult> OnGetAsync(string username, string code, string purpose = ConfirmationPurpose.ConfirmEmail, string? email = null)
         {
             var user = await userManager.FindByNameAsync(username);
 
@@ -55,13 +55,11 @@ namespace Spoonful.Pages.Account
                 {
                     ModelState.AddModelError("", error.Description);
                 }
-                TempData["FlashMessage.Text"] = "Invalid Tokens";
-                TempData["FlashMessage.Type"] = "danger";
+                toastService.Success("Invalid Tokens");
             }
 
-            TempData["FlashMessage.Text"] = "Successfully reset password!";
-            TempData["FlashMessage.Type"] = "success";
-
+            toastService.Success("Successfully verified account");
+            return RedirectToPage("/Account/login");
         }
     }
     public class ConfirmationPurpose

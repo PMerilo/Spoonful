@@ -1,3 +1,4 @@
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,10 +16,13 @@ namespace Spoonful.Pages.Account
     {
         private readonly SignInManager<CustomerUser> signInManager;
         private readonly UserManager<CustomerUser> userManager;
-        public ResetPasswordModel(SignInManager<CustomerUser> signInManager, UserManager<CustomerUser> userManager)
+        private readonly INotyfService toastService;
+
+        public ResetPasswordModel(SignInManager<CustomerUser> signInManager, UserManager<CustomerUser> userManager, INotyfService toastService)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
+            this.toastService = toastService;
 
         }
 
@@ -39,17 +43,15 @@ namespace Spoonful.Pages.Account
         {
             if (!ModelState.IsValid)
             {
-                TempData["FlashMessage.Text"] = "Passwords do not match";
-                TempData["FlashMessage.Type"] = "danger";
+                toastService.Error("Passwords do not match");
                 return Page();
             }
             var user = await userManager.FindByNameAsync(username);
 
             if (user == null)
             {
-                TempData["FlashMessage.Text"] = "Invalid Tokens";
-                TempData["FlashMessage.Type"] = "danger";
-                return Redirect("/");
+                toastService.Error("Invalid Tokens");
+                return RedirectToPage("/Account/Login");
             }
 
             var token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
@@ -61,13 +63,10 @@ namespace Spoonful.Pages.Account
                 {
                     ModelState.AddModelError("", error.Description);
                 }
-                TempData["FlashMessage.Text"] = "Invalid Tokens";
-                TempData["FlashMessage.Type"] = "danger";
+                toastService.Error("Invalid Tokens");
                 return Page();
             }
-
-            TempData["FlashMessage.Text"] = "Successfully reset password!";
-            TempData["FlashMessage.Type"] = "success";
+            toastService.Success("Successfully reset password!");
             return RedirectToPage("/Account/Login");
             
         }

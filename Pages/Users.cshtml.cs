@@ -60,7 +60,7 @@ namespace Spoonful.Pages
             {
                 Title = "New follower",
                 Body = $"@{user.UserName} has started following you.",
-                Url = "/user/find"
+                Url = $"/User/{user.UserName}"
             };
             await _notificationService.SendNotificationAsync(notification, targetuser.UserName);
             _db.SaveChanges();

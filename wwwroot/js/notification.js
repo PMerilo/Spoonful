@@ -78,6 +78,12 @@ connection.on("RetrieveNotifications", (req) => {
 
 connection.start().then(function () {
     connection.invoke("GetNotifications")
+    if (location.pathname.startsWith("/User/Chat")) {
+        $("#sendButton").prop('disabled', false);
+        var sender = $("#sender").val();
+        var user = $("#username").text().replace("@", "");
+        connection.invoke("GetChat", sender, user)
+    }
 }).catch(function (err) {
     return console.error(err.toString());
 });
