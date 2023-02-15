@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Build.Framework;
 using System.Text.Encodings.Web;
 using System.Text;
 using Spoonful.Models;
 using Spoonful.Services;
 using Microsoft.AspNetCore.Authorization;
+using AspNetCoreHero.ToastNotification.Abstractions;
+using System.ComponentModel.DataAnnotations;
 
 namespace Spoonful.Pages.Account
 {
@@ -17,16 +18,20 @@ namespace Spoonful.Pages.Account
     {
         public readonly IEmailService _emailSender;
         public readonly UserManager<CustomerUser> _userManager;
+        private readonly INotyfService toastService;
 
-        public ForgetPasswordModel(IEmailService emailSender, UserManager<CustomerUser> userManager)
+
+        public ForgetPasswordModel(IEmailService emailSender, UserManager<CustomerUser> userManager, INotyfService toastService)
         {
             _emailSender = emailSender;
             _userManager = userManager;
+            this.toastService = toastService;
 
         }
 
         [BindProperty]
         [Required]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
         public void OnGet()
         {
@@ -36,12 +41,11 @@ namespace Spoonful.Pages.Account
         {
             if (!ModelState.IsValid)
             {
+                toastService.Error($"Email Field is required");
                 return Page();
             }
             var user = await _userManager.FindByEmailAsync(Email);
-
-            TempData["FlashMessage.Text"] = $"A reset password email will be sent to {user.Email} if it is valid";
-            TempData["FlashMessage.Type"] = "info";
+            toastService.Information($"A reset password email will be sent to {Email} if it is valid");
 
             if (user == null)
             {
@@ -65,8 +69,8 @@ namespace Spoonful.Pages.Account
             
             if (!result)
             {
-                TempData["FlashMessage.Text"] = $"Failed to send email.";
-                TempData["FlashMessage.Type"] = "danger";
+                toastService.Error($"Failed to send email.");
+
             }
             return Page();
         }

@@ -11,9 +11,12 @@
 	
 
 		<div class="col-6 text-end">
+			<!--
 			<a asp-page="/Admin/RecipeManagement/ViewRecipe" class="blue-btn-a">
 				<i class="bi bi-menu-up"></i> &nbsp; View Recipes
 			</a>
+			-->
+			
 			
 			<a asp-page= "/Admin/RecipeManagement/addRecipe" class="blue-btn-a">
 				<i class="bi-plus-square"></i> &nbsp; Create New Recipe Item
@@ -35,19 +38,18 @@
 				<th>Recipe ID
 
 				</th>
-				<th>
-					Category
-				</th>
+				
 				<th>
 					Name
 				</th>
-				@*<th>
+				<th>
 					Description
-				</th>*@
+				</th>
 				<th>
 					Preparation Time
 				</th>
 				<th>Allergens</th>
+				<th>Action</th>
 			</tr>
 		</thead>
 
@@ -58,9 +60,9 @@
 			<tr>
 				<td><img src="@obj.ImageURL" width="100" height="50"/></td>
 				<td>@obj.Id</td>
-				<td>@obj.category</td>
+				
 				<td>@obj.name</td>
-				@*<td>@obj.description</td>*@
+				<td>@obj.description</td>
 				<td>@obj.prepTime</td>
 				<td>@obj.allergens</td>
 				<td width="50%">

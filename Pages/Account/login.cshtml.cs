@@ -11,6 +11,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
+using Notification = Spoonful.Models.Notification;
 
 namespace Spoonful.Pages.Account
 {
@@ -24,16 +25,20 @@ namespace Spoonful.Pages.Account
         private readonly SignInManager<CustomerUser> signInManager;
         private readonly UserManager<CustomerUser> userManager;
         private readonly CustomerUserService _customerUserService;
+        private readonly NotificationService _notificationService;
         private readonly INotyfService toastService;
         private readonly IEmailService emailService;
+        private readonly VoucherService _voucherService;
 
-        public LoginModel(SignInManager<CustomerUser> signInManager, UserManager<CustomerUser> userManager, CustomerUserService customerUserService, INotyfService toastService, IEmailService emailService)
+        public LoginModel(SignInManager<CustomerUser> signInManager, UserManager<CustomerUser> userManager, CustomerUserService customerUserService, INotyfService toastService, IEmailService emailService, NotificationService notificationService, VoucherService voucherService)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
             _customerUserService = customerUserService;
             this.toastService = toastService;
             this.emailService = emailService;
+            _notificationService = notificationService;
+            _voucherService = voucherService;
         }
         public void OnGet()
         {
@@ -85,8 +90,7 @@ namespace Spoonful.Pages.Account
                     if (user.isDisabled)
                     {
                         await signInManager.SignOutAsync();
-                        TempData["FlashMessage.Text"] = $"You cannot log in right now. Please contact the system administator for assistance.";
-                        TempData["FlashMessage.Type"] = "danger";
+                        toastService.Error("You cannot log in right now. Please contact the system administator for assistance.");
                         return Page();
                     }
                     if (user.RequirePassChange)
@@ -94,9 +98,8 @@ namespace Spoonful.Pages.Account
 						await signInManager.SignOutAsync();
 						var code = await userManager.GeneratePasswordResetTokenAsync(user);
 						code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-						TempData["FlashMessage.Text"] = "Please set your password to continue to login";
-						TempData["FlashMessage.Type"] = "warning";
-						return RedirectToPage("/Account/ResetPassword", new { code = code, username = user.UserName });
+                        toastService.Error("Please set your password to continue to login");
+                        return RedirectToPage("/Account/ResetPassword", new { code = code, username = user.UserName });
 					}
 					if (await userManager.IsInRoleAsync(user, Roles.Admin) && await _customerUserService.ValidateLastPassChangedAsync(user.UserName))
 					{
@@ -107,10 +110,9 @@ namespace Spoonful.Pages.Account
 						TempData["FlashMessage.Type"] = "warning";
 						return RedirectToPage("/Account/ResetPassword", new { code = code, username = user.UserName });
 					}
-					_customerUserService.UpdateLastLogin(user.UserName);
-                    TempData["FlashMessage.Text"] = $"Logged in successfully";
-                    TempData["FlashMessage.Type"] = "success";
-					if (await userManager.IsInRoleAsync(user, Roles.Admin))
+                    _customerUserService.UpdateLastLogin(user.UserName);
+                    toastService.Success("Logged in successfully");
+                    if (await userManager.IsInRoleAsync(user, Roles.Admin))
                     {
 						return Redirect(ReturnUrl ?? "/Admin");
 					}

@@ -50,7 +50,12 @@ namespace Spoonful.Pages.Account
             var user = await signInManager.GetTwoFactorAuthenticationUserAsync();
             var providers = await userManager.GetValidTwoFactorProvidersAsync(user);
             Providers = providers.ToList();
-
+            if (OTP == null)
+            {
+                toastService.Error("Please enter your OTP");
+                SentCode = true;
+                return Page();
+            }
             switch (SelectedProvider)
             {
                 case "Authenticator":
@@ -86,6 +91,7 @@ namespace Spoonful.Pages.Account
             ModelState.AddModelError(string.Empty, "Invalid authenticator code.");
             toastService.Error("Invalid OTP");
             SentCode = true;
+
             return Page();
             //        var user = await signInManager.GetTwoFactorAuthenticationUserAsync();
             //        var providers = await userManager.GetValidTwoFactorProvidersAsync(user);

@@ -8,7 +8,6 @@
 @inject Spoonful.Models.AuthDbContext _context
 @{
 	var user = await UserManager.GetUserAsync(User);
-	MailSubscription? success = _context.mailsubsciption.FirstOrDefault(x => x.email.Equals(user.Email));
 
 }
 <!DOCTYPE html>
@@ -123,8 +122,6 @@
 				<div class="row">
 					<ul class="list-unstyled">
 						<li class="text-black">@user.FirstName @user.LastName</li>
-						<li class="text-muted mt-1"><span class="text-black">Invoice:</span> @success.Id</li>
-						<li class="text-black mt-1">@success.datetime</li>
 					</ul>
 					<hr>
 					<div class="col-xl-10">
