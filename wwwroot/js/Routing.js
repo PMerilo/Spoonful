@@ -65,6 +65,8 @@ function calcRoute(elem) {
                 })
                 .then((response) => {
                     directionsRenderer.setDirections(response);
+                    console.log(response)
+                    console.log(response.routes[0].legs)
                 })
                 .catch((e) => window.alert("Directions request failed due to " + status));
             mappy.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });

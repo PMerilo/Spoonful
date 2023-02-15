@@ -10,7 +10,12 @@
 integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <h1 class="display-4">@ViewData["Title"]</h1>
 
-<div id="map"></div>
+
+<button class="blue-btn" id="show-directionsbtn" style="display:none;">Hide Directions</button>
+<div id="container">
+      <div id="map"></div>
+      <div id="sidebar"></div>
+</div>
 @if(@Model.routeId != -1)
 {
     <input type="hidden" id="region" value="@Model.MyRoute.Region"/>
@@ -33,59 +38,59 @@ integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jI
         </thead>
         <tbody>
             @{
-                            @foreach (var item in Model.deliveries)
+                                                                @foreach (var item in Model.deliveries)
                 {
-                                <tr>
-                                    <td>@item.Id</td>
-                                    <td>@item.OrderDetails.Address</td>
-                                    @if(@item.deliveryDateTime == null)
+                                                                    <tr>
+                                                                        <td>@item.Id</td>
+                                                                        <td>@item.OrderDetails.Address</td>
+                                                                        @if(@item.deliveryDateTime == null)
                         {
-                                        <td>Not delivered yet</td>
+                                                                            <td>Not delivered yet</td>
                         }else
                         {
-                                        <td>@item.deliveryDateTime</td>
+                                                                            <td>@item.deliveryDateTime</td>
                         }
-                                    <td>
-                                        @if(@item.status == "Scheduled")
+                                                                        <td>
+                                                                            @if(@item.status == "Scheduled")
                             {
                                     
-                                            <button type="button" class="blue-btn-full withdrawal-stat-btn" data-bs-toggle="modal"
-                                                data-bs-target="#myModal_@item.Id">
-                                                @item.status
-                                            </button>
+                                                                                <button type="button" class="blue-btn-full withdrawal-stat-btn" data-bs-toggle="modal"
+                                                                                    data-bs-target="#myModal_@item.Id">
+                                                                                    @item.status
+                                                                                </button>
                             }else
                             {
-                                            <button type="button" class="green-btn-full">
-                                                @item.status
-                                            </button>
+                                                                                <button type="button" class="green-btn-full">
+                                                                                    @item.status
+                                                                                </button>
                             }
-                                        <form method="post" enctype="multipart/form-data">
-                                            <div class="modal " id="myModal_@item.Id">
-                                                <div class="modal-dialog modal-lg modal-dialog-centered">
-                                                    <div class="modal-content">
+                                                                            <form method="post" enctype="multipart/form-data">
+                                                                                <div class="modal " id="myModal_@item.Id">
+                                                                                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                                                                                        <div class="modal-content">
 
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title">Delivery Status</h4>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                        </div>
+                                                                                            <div class="modal-header">
+                                                                                                <h4 class="modal-title">Delivery Status</h4>
+                                                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                                                            </div>
 
-                                                        <div class="modal-body">
-                                                            <input type="hidden" value="@item.Id" asp-for="Id"/>
-                                                            <input type="file" accept="image/*" class="form-control" asp-for="Upload" onchange="showImgPreview(this)" />
-                                                            <img id="imgPreview" class="" style="height:300px;width:300px;object-fit:cover" src="/uploads/placeholder.jpg" />
-                                                        </div>
+                                                                                            <div class="modal-body">
+                                                                                                <input type="hidden" value="@item.Id" asp-for="Id"/>
+                                                                                                <input type="file" accept="image/*" class="form-control" asp-for="Upload" onchange="showImgPreview(this)" />
+                                                                                                <img id="imgPreview" class="" style="height:300px;width:300px;object-fit:cover" src="/uploads/placeholder.jpg" />
+                                                                                            </div>
 
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="light-btn" data-bs-dismiss="modal">Back</button>
-                                                            <button type="submit" class="green-btn-25 confirm">Save Changes</button>
-                                                        </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <button type="button" class="light-btn" data-bs-dismiss="modal">Back</button>
+                                                                                                <button type="submit" class="green-btn-25 confirm">Save Changes</button>
+                                                                                            </div>
 
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </td>
-                                </tr>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </form>
+                                                                        </td>
+                                                                    </tr>
                 }
             }
         </tbody>
@@ -104,6 +109,21 @@ integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jI
 @section Scripts
 {
     <script>
+        $("#show-directionsbtn").click(function() { 
+            var directionsmenu = document.getElementById("sidebar");
+            var btn = document.getElementById("show-directionsbtn");
+            directionsmenu.classList.toggle("hide");
+            console.log(btn.innerHTML)
+            if (btn.innerHTML  == "Show Directions") {
+                console.log(btn.innerHTML)
+                btn.innerHTML  = "Hide Directions"
+            } else {
+                console.log(btn.innerHTML)
+                btn.innerHTML  = "Show Directions"
+            }
+        })
+
+
       $(document).ready(function () {
         const r_table = document.getElementById('Myroute-table');
         let routeTable = new simpleDatatables.DataTable(r_table);
@@ -129,13 +149,29 @@ integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jI
                     list.pop();
                     console.log(last)
                     console.log(list)
+                    
+                    const SINGAPORE_BOUNDS = {
+                      north: 1.50,
+                      south: 1.16,
+                      west: 103.39,
+                      east: 104.19,
+                    };
                     const directionsService = new google.maps.DirectionsService();
                     const directionsRenderer = new google.maps.DirectionsRenderer();
                     const map = new google.maps.Map(document.getElementById("map"), {
                         zoom: 11,
                         center: { lat: 1.3742002339365351, lng: 103.81540409330088 },
+                        restriction: {
+                          latLngBounds: SINGAPORE_BOUNDS,
+                          strictBounds: false,
+                        }
                     });
+
+                    const control = document.getElementById("show-directionsbtn");
+                    map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(control);
+                    setTimeout(displayBtn, 1000);
                     directionsRenderer.setMap(map);
+                    directionsRenderer.setPanel(document.getElementById("sidebar"));
 
                     const waypts = [];
 
@@ -167,6 +203,9 @@ integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jI
             }
         })
 
+        function displayBtn(){
+            $("#show-directionsbtn").css("display", "");
+        }
         
         function initMap() {
             const directionsService = new google.maps.DirectionsService();
@@ -220,8 +259,30 @@ integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jI
 </script>
 
 <style>
-    #map {
-        height: 400px; /* The height is 400 pixels */
-        width: 100%; /* The width is the width of the web page */
+    #container {
+      height: 400px;
+      width: 100%;
+      display: flex;
     }
+
+    #sidebar {
+      flex-basis: 15rem;
+      flex-grow: 1;
+      padding: 1rem;
+      max-width: 30rem;
+      height: 100%;
+      box-sizing: border-box;
+      overflow: auto;
+    }
+
+    #map {
+      flex-basis: 0;
+      flex-grow: 4;
+      height: 100%;
+    }
+
+    .hide {
+        display:none;
+    }
+
 </style>
