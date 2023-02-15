@@ -2,7 +2,7 @@
 @model Spoonful.Pages.Account.ResendEmailConfirmationModel
 @{
 }
-<h1>@ViewData["Title"]</h1>
+@*<h1>@ViewData["Title"]</h1>
 <h2>Enter your email.</h2>
 <hr />
 <div class="row">
@@ -16,6 +16,32 @@
             </div>
             <button type="submit" class="w-100 btn btn-lg btn-primary">Resend</button>
         </form>
+    </div>
+</div>*@
+
+<link rel="stylesheet" href="~/css/Account.css" />
+<div class="signin-wrapper">
+    <div class="sign-panels">
+        <div class="recover-password">
+            <div class="signin-title">
+                <span>Enter your email</span>
+                <p>Enter your email to confirm</p>
+            </div>
+
+            <form method="post">
+                <div class="form-floating mb-3">
+                    <input asp-for="Email" class="form-control" aria-required="true" />
+                    <label asp-for="Email" class="form-label"></label>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+
+                </div>
+                <button type="submit" class="btn-signin btn-password">Resend Email</button>
+                <a asp-page="./login" class="btn-login btn-fade">
+                    <i class="fa fa-long-arrow-left" aria-hidden="true"></i> Cancel
+                    and go back to Login page
+                </a>
+            </form>
+        </div>
     </div>
 </div>
 

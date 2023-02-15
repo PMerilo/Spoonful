@@ -37,6 +37,7 @@
                 <input type="checkbox" id="signin-checkbox" asp-for="LModel.RememberMe">
                 <label for="signin-checkbox" asp-for="LModel.RememberMe">Keep me signed in</label>
                 <button type="submit" class="btn-signin">Sign In</button>
+                <div class="text-danger mt-3" asp-validation-summary="All"></div>
 
                 <a asp-page="ForgetPassword" class="btn-reset btn-fade">
                     Recover your password <i class="fa fa-long-arrow-right"
