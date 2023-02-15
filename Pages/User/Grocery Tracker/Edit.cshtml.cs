@@ -47,7 +47,7 @@ namespace Spoonful.Pages.Aaron
                 {
                     //Invalid date
                     //log , show error
-                    ModelState.AddModelError("", "Purchase Date exists in the future.");
+                    ModelState.AddModelError("DiaryEntry.Purchase", "Purchase Date exists in the future.");
                     return Page();
                 }
 
