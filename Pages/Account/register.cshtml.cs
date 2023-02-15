@@ -13,6 +13,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Spoonful.Services;
 using AspNetCoreHero.ToastNotification.Abstractions;
+using Notification = Spoonful.Models.Notification;
 
 namespace Spoonful.Pages.Account
 {
@@ -24,17 +25,21 @@ namespace Spoonful.Pages.Account
         private CustomerUserService _customerUserService { get; }
         private readonly IEmailService emailService;
         private readonly INotyfService toastService;
+        private readonly NotificationService notificationService;
+        private readonly VoucherService voucherService;
 
         [BindProperty]
         public Register RModel { get; set; }
         public RegisterModel(UserManager<CustomerUser> userManager,
-        SignInManager<CustomerUser> signInManager, CustomerUserService customerUserService, IEmailService emailService, INotyfService toastService)
+        SignInManager<CustomerUser> signInManager, CustomerUserService customerUserService, IEmailService emailService, INotyfService toastService, NotificationService notificationService, VoucherService voucherService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             _customerUserService = customerUserService;
             this.emailService = emailService;
             this.toastService = toastService;
+            this.notificationService = notificationService;
+            this.voucherService = voucherService;
         }
         public void OnGet()
         {
@@ -80,6 +85,16 @@ namespace Spoonful.Pages.Account
                     {
                         toastService.Error("Failed to send email");
                     }
+                    Vouchers? voucher = voucherService.GetVoucherById(2);
+                    var notif = new Notification
+                    {
+                        Title = "New user code",
+                        Body = "Use newUser10 to get 10% off",
+                        Url = "",
+                        User = user,
+
+                    };
+                    notificationService.SendNotificationAsync(notif, user.UserName);
                     return RedirectToPage("./login");
                 }
                 foreach (var error in result.Errors)
