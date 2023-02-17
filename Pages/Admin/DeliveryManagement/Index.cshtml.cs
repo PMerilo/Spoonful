@@ -31,13 +31,13 @@ namespace Spoonful.Pages.Admin.DeliveryManagement
         public async Task<JsonResult> OnPostCreateDeliveryRoutes(string route)
         {
             //find postal code in address
-            //string address = "115C Yishun Ring Road, Singapore 763115";
-            //string pattern = @"\b\d{6}\b";
-            //Match match = Regex.Match(address, pattern);
-            //if (match.Success)
-            //{
-            //    Console.WriteLine("Postal code: " + match.Value);
-            //}
+            string address = "115C Yishun Ring Road, #03-803, Singapore 763115";
+            string pattern = @"\b\d{6}\b";
+            Match match = Regex.Match(address, pattern);
+            if (match.Success)
+            {
+                Console.WriteLine("Postal code: " + match.Value);
+            }
 
             //OrderDetails deets = _deliveryService.GetOrderDetailsbyPostalCode("763115");
             //Console.WriteLine(deets.Address);

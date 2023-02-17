@@ -57,7 +57,8 @@ namespace Spoonful.Services
         public List<string>? GetOrderDetailsfortheDay()
         {
             var today = DateTime.Now.ToString("dddd, dd MMMM yyyy");
-            //var today = "2023-02-13";
+            //Console.WriteLine(today);
+            //var today = "Wednesday, 15 February 2023";
             var details = _context.OrderDetails.Where(x => x.DeliveryDate == today)
                 .OrderByDescending(x => x.Address)
                 .ToList();
@@ -99,6 +100,11 @@ namespace Spoonful.Services
         public List<Routes> GetAllRoutes()
         {
             return _context.Route.OrderByDescending(v => v.CreatedTime).ToList();
+        }
+
+        public List<Routes> GetAllRouteWithId(int id)
+        {
+            return _context.Route.OrderByDescending(v => v.CreatedTime).Include(u => u.DriverDetails).Where(u => u.Id == id).ToList();
         }
 
         public List<Routes> GetAllNonCompletedRoutes()

@@ -15,14 +15,16 @@ namespace Spoonful.Pages.Driver
         private readonly UserManager<CustomerUser> _userManager;
         private IWebHostEnvironment _environment;
         private readonly IEmailService emailService;
+        private readonly NotificationService notificationService;
 
-        public MyrouteModel(DeliveryService deliveryService, UserManager<CustomerUser> userManager, AuthDbContext db, IWebHostEnvironment environment, IEmailService emailService)
+        public MyrouteModel(DeliveryService deliveryService, UserManager<CustomerUser> userManager, AuthDbContext db, IWebHostEnvironment environment, IEmailService emailService, NotificationService notificationService)
         {
             _deliveryService = deliveryService;
             _userManager = userManager;
             _db = db;
             _environment = environment;
             this.emailService = emailService;
+            this.notificationService = notificationService;
         }
 
         public Routes MyRoute { get; set; }
@@ -112,6 +114,16 @@ namespace Spoonful.Pages.Driver
 
 
                 _deliveryService.UpdateDelivery(delivery);
+
+                var notif = new Notification
+                {
+                    Title = "Package Delivered",
+                    Body = "Your package has been delivered, click here to confirm delivery",
+                    Url = callbackUrl,
+                    User = user,
+
+                };
+                notificationService.SendNotificationAsync(notif, user.UserName);
                 TempData["FlashMessage.Type"] = "success";
                 /*TempData["FlashMessage.Text"] = string.Format("Vouchers {0} is added", MyEmployee.Name);*/
                 return Redirect("/Driver/Myroute");

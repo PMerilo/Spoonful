@@ -38,9 +38,6 @@ namespace Spoonful.Pages.User.MealKitSubscription
             delivery.customerConfirmation = "true";
             _deliveryService.UpdateDelivery(delivery);
 
-
-            TempData["FlashMessage.Text"] = "Successfully Confirmed Delivery!";
-            TempData["FlashMessage.Type"] = "success";
             Redirect("/");
         }
     }

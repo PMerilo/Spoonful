@@ -13,6 +13,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 function ValidateAddress(elem) {
     var address = elem.value
+    var unchangedAddress = elem.value
+    address = address.replace(/#\d+(?:[- ]\d+)?/, "")
     console.log(address)
     let button = document.querySelector("#submitBtn")
     console.log(button)
@@ -29,6 +31,7 @@ function ValidateAddress(elem) {
             url: "/user/MealKitSubscription/Order?handler=ValidateAddress",
             success: function (res) {
                 console.log(res)
+                
                 if (res.status == "no code") {
                     button.disabled = true;
                     $("#addressval").text(res.msg)
@@ -39,15 +42,23 @@ function ValidateAddress(elem) {
                     $("#addressval").css("display", "")
                 } else if (res.status == "valid") {
                     console.log(address)
-                    var bool = /[0-9]{6,6}$/.test(address)
+                    var bool = /[0-9]{6,6}$/.test(unchangedAddress)
+                    var bool2 = /#\d+(?:[- ]\d+)?/.test(unchangedAddress)
                     console.log(bool)
+                    console.log(bool2)
                     if (bool == false) {
-                        var newAddress = address + ", " + res.code
+                        var newAddress = unchangedAddress + ", " + res.code
                         $("#address").val(newAddress)
                     }
                     button.disabled = false;
                     $("#addressval").text(res.msg)
                     $("#addressval").css("display", "none")
+                    if (bool2 == false) {
+                        button.disabled = true;
+                        console.log("its false")
+                        $("#addressval").text("Unit number not present")
+                        $("#addressval").css("display", "")
+                    }
                 }
             }
         })

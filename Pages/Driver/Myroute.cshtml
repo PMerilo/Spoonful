@@ -36,61 +36,61 @@ integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jI
                 <th>Confirmation</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="tabBody">
             @{
-                                                                @foreach (var item in Model.deliveries)
+                                                                                                                            @foreach (var item in Model.deliveries)
                 {
-                                                                    <tr>
-                                                                        <td>@item.Id</td>
-                                                                        <td>@item.OrderDetails.Address</td>
-                                                                        @if(@item.deliveryDateTime == null)
+                                                                                                                                <tr>
+                                                                                                                                    <td>@item.Id</td>
+                                                                                                                                    <td>@item.OrderDetails.Address</td>
+                                                                                                                                    @if(@item.deliveryDateTime == null)
                         {
-                                                                            <td>Not delivered yet</td>
+                                                                                                                                        <td>Not delivered yet</td>
                         }else
                         {
-                                                                            <td>@item.deliveryDateTime</td>
+                                                                                                                                        <td>@item.deliveryDateTime</td>
                         }
-                                                                        <td>
-                                                                            @if(@item.status == "Scheduled")
+                                                                                                                                    <td>
+                                                                                                                                        @if(@item.status == "Scheduled")
                             {
                                     
-                                                                                <button type="button" class="blue-btn-full withdrawal-stat-btn" data-bs-toggle="modal"
-                                                                                    data-bs-target="#myModal_@item.Id">
-                                                                                    @item.status
-                                                                                </button>
+                                                                                                                                            <button type="button" class="blue-btn-full withdrawal-stat-btn" data-bs-toggle="modal"
+                                                                                                                                                data-bs-target="#myModal_@item.Id">
+                                                                                                                                                @item.status
+                                                                                                                                            </button>
                             }else
                             {
-                                                                                <button type="button" class="green-btn-full">
-                                                                                    @item.status
-                                                                                </button>
+                                                                                                                                            <button type="button" class="green-btn-full">
+                                                                                                                                                @item.status
+                                                                                                                                            </button>
                             }
-                                                                            <form method="post" enctype="multipart/form-data">
-                                                                                <div class="modal " id="myModal_@item.Id">
-                                                                                    <div class="modal-dialog modal-lg modal-dialog-centered">
-                                                                                        <div class="modal-content">
+                                                                                                                                        <form method="post" enctype="multipart/form-data">
+                                                                                                                                            <div class="modal " id="myModal_@item.Id">
+                                                                                                                                                <div class="modal-dialog modal-lg modal-dialog-centered">
+                                                                                                                                                    <div class="modal-content">
 
-                                                                                            <div class="modal-header">
-                                                                                                <h4 class="modal-title">Delivery Status</h4>
-                                                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                                                            </div>
+                                                                                                                                                        <div class="modal-header">
+                                                                                                                                                            <h4 class="modal-title">Delivery Status</h4>
+                                                                                                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                                                                                                                        </div>
 
-                                                                                            <div class="modal-body">
-                                                                                                <input type="hidden" value="@item.Id" asp-for="Id"/>
-                                                                                                <input type="file" accept="image/*" class="form-control" asp-for="Upload" onchange="showImgPreview(this)" />
-                                                                                                <img id="imgPreview" class="" style="height:300px;width:300px;object-fit:cover" src="/uploads/placeholder.jpg" />
-                                                                                            </div>
+                                                                                                                                                        <div class="modal-body">
+                                                                                                                                                            <input type="hidden" value="@item.Id" asp-for="Id"/>
+                                                                                                                                                            <input type="file" accept="image/*" class="form-control" asp-for="Upload" onchange="showImgPreview(this)" />
+                                                                                                                                                            <img id="imgPreview" class="" style="height:300px;width:300px;object-fit:cover" src="/uploads/placeholder.jpg" />
+                                                                                                                                                        </div>
 
-                                                                                            <div class="modal-footer">
-                                                                                                <button type="button" class="light-btn" data-bs-dismiss="modal">Back</button>
-                                                                                                <button type="submit" class="green-btn-25 confirm">Save Changes</button>
-                                                                                            </div>
+                                                                                                                                                        <div class="modal-footer">
+                                                                                                                                                            <button type="button" class="light-btn" data-bs-dismiss="modal">Back</button>
+                                                                                                                                                            <button type="submit" class="green-btn-25 confirm">Save Changes</button>
+                                                                                                                                                        </div>
 
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </form>
-                                                                        </td>
-                                                                    </tr>
+                                                                                                                                                    </div>
+                                                                                                                                                </div>
+                                                                                                                                            </div>
+                                                                                                                                        </form>
+                                                                                                                                    </td>
+                                                                                                                                </tr>
                 }
             }
         </tbody>
@@ -108,6 +108,11 @@ integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jI
 
 @section Scripts
 {
+    
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+    integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+    crossorigin="anonymous"></script>
     <script>
         $("#show-directionsbtn").click(function() { 
             var directionsmenu = document.getElementById("sidebar");
@@ -123,11 +128,12 @@ integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jI
             }
         })
 
+        //mappy.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
 
       $(document).ready(function () {
         const r_table = document.getElementById('Myroute-table');
         let routeTable = new simpleDatatables.DataTable(r_table);
-
+        
         var route = $("#region").val()
         console.log(route)
         var mappy = document.getElementById("map");
@@ -142,19 +148,19 @@ integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jI
             data: { route: route },
             url: "/Driver/Myroute?handler=RetrieveRoute",
             success: function (data) {
-                console.log(data.list)
+                //console.log(data.list)
                 if (data.list != "null") {
                     var list = data.list
                     var last = list[list.length - 1] + ", singapore"
                     list.pop();
-                    console.log(last)
-                    console.log(list)
+                    //console.log(last)
+                    //console.log(list)
                     
                     const SINGAPORE_BOUNDS = {
-                      north: 1.50,
-                      south: 1.16,
-                      west: 103.39,
-                      east: 104.19,
+                      north: 1.70,
+                      south: 1.06,
+                      west: 102.39,
+                      east: 105.19,
                     };
                     const directionsService = new google.maps.DirectionsService();
                     const directionsRenderer = new google.maps.DirectionsRenderer();
@@ -182,8 +188,9 @@ integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jI
                         });
                     }
 
-                    console.log(waypts)
+                    var currentState = []
 
+                    //console.log(waypts)
                     directionsService
                         .route({
                             origin: "768442, singapore",
@@ -194,9 +201,55 @@ integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jI
                         })
                         .then((response) => {
                             directionsRenderer.setDirections(response);
+                            var order = []
+                            var legs = response.routes[0].legs
+                            //console.log(legs)
+                            for (let i = 0; i < legs.length; i++){
+                                order.push({
+                                    start_address: legs[i].start_address,
+                                    end_address: legs[i].end_address
+                                })
+                            }
+                            //console.log(order)
+
+                            var container = document.getElementsByClassName('table')[0]
+                            //console.log(container)
+                            var body = container.getElementsByTagName("tbody")[0].rows;
+                            const data = {
+                                heading: "Route Symbol",
+                                data: [
+                                ]
+                            };
+
+                            const dataArr = []
+
+                            var stri = ""
+                            for(var i=0;i<body.length;i++){
+                                //var sym = body[i].getElementsByTagName("td")[1];
+                                var td = body[i].getElementsByTagName("td")[1];
+                                var str = td.innerHTML.match(/[0-9]{6,6}$/)
+                                //console.log(order.length)
+                                for (var v = 0; v < order.length; v++) {
+                                    var val = order[v].end_address.match(/[0-9]{6,6}$/)
+                                    //console.log(v + "hi")
+                                    if (val[0] == str[0]) {
+                                        //sym.innerText = String.fromCharCode(97 + (v + 1)).toUpperCase()
+                                        dataArr.push(String.fromCharCode(97 + (v + 1)).toUpperCase())
+                                        stri = stri + str[0] + ":"+ String.fromCharCode(97 + (v + 1)).toUpperCase() + " "
+                                        //data.push(String.fromCharCode(97 + (v + 1)).toUpperCase());
+                                    } 
+                                    //console.log(td)
+                                }
+                            }
+                            
+                            console.log(dataArr)
+                            data.data = dataArr
+                            routeTable.columns.add(data)
+                            routeTable.columns.swap([2,4])
+                            routeTable.columns.swap([3,4])
+                            routeTable.columns.sort(2)
                         })
                         .catch((e) => window.alert("Directions request failed due to " + status));
-                    mappy.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
                 } else {
                     console.log("Invalid RouteID/ Route id not present")
                 }
@@ -241,10 +294,6 @@ integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jI
       });
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
-    integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
-    crossorigin="anonymous"></script>
 }
 <script>
     function showImgPreview(input) {
@@ -285,4 +334,7 @@ integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jI
         display:none;
     }
 
+    .sidebar .adp-placemark .adp-text {
+        border-radius:20px;
+    }
 </style>
